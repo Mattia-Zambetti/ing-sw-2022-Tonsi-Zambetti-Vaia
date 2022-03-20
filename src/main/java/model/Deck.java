@@ -1,3 +1,4 @@
+//Tonsi
 package model;
 
 import java.util.ArrayList;
@@ -9,10 +10,11 @@ public class Deck {
     private List<Card> cards;
     private Card currentCard;
     private Wizard wizard;
-    public Deck(List<Card> c, String wizard){
-        cards = new ArrayList<Card>(c);
+
+    public Deck(List<Card> c, Wizard wizard){
+        cards = new ArrayList<>(c);
         currentCard = null;
-        this.wizard=Wizard.valueOf(wizard);
+        this.wizard=wizard;
     }
 
     public void playCard(Card card) throws CardNotFoundException{
