@@ -33,15 +33,32 @@ public class Player{
         this.deck= deck;
     }
 
+    //passo copia in quanto dispongo addProfessor e removeProfessor per aggiungerne uno, e non sono
+    // necessarie altre modifiche
     public Set<Professor> getProfessors() {
         return new HashSet<>(professors);
-    } //passo copia in quanto dispongo addProfessor e removeProfessor per aggiungerne uno, e non sono
-    // necessarie altre modifiche
-
-    public void addProfessor(Professor professor){
-        professors.add(professor);
     }
-    public void removeProfessor(Professor professor){
+
+    //In questo metodo, se è già posseduto, rimuovo il professor dal possessore, metto l'owner in professor pari al nuovo
+    // possessore(questo stesso oggetto) e aggiungo il professor al set
+    public void moveProfessor(Professor professor){
+
+        if(!professor.getIfFree()) {
+            professor.getOwner().removeProfessor(professor);
+            professor.setOwner(this);
+        }
+        else
+            professor.setIsFree(false);
+
+        professors.add(professor);
+
+
+
+    }
+
+    //per ora io penso che non sia possibile che un professore, una volta posseduto da
+    // qualcuno in un match, possa tornare ad essere libero
+    private void removeProfessor(Professor professor){
         professors.remove(professor);
     }
 
