@@ -32,7 +32,19 @@ public class DiningRoom {
         throw new NoMasterException("No master in the selected DiningRoom");
     }
 
+    public void insertMaster ( Master newMaster ) {
+        // possibile check su master non nullo o cose strane
+        this.master = newMaster;
+    }
 
+    public int getStudentsNumber () {
+        return students.size();
+    }
+
+    public void insertStudent ( Student newStudent ) {
+        // possibile check su newStudent != null e su numero di studenti giá contenuti lanciando una nuova eccezione
+        students.add( newStudent );
+    }
 
 
 }
