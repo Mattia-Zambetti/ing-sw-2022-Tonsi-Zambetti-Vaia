@@ -3,6 +3,7 @@ package model;
 
 public enum Color{
     RED, GREEN, BLUE, PINK, YELLOW;
+
     private boolean isColorBlocked=false;
 
     public void lockColor(){
@@ -16,5 +17,9 @@ public enum Color{
 
     public boolean isColorBlocked(){
         return isColorBlocked;
+    }
+
+    public Color valueOf() {
+
     }
 }
