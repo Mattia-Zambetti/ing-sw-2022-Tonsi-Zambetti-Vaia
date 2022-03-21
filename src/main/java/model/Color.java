@@ -19,7 +19,4 @@ public enum Color{
         return isColorBlocked;
     }
 
-    public Color valueOf() {
-
-    }
 }

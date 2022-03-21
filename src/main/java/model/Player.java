@@ -11,7 +11,7 @@ public class Player{
 
     private Player buddy; //assumo che, in caso, gli venga passato valore null dal controller se non c'è
 
-    private Set<Professor> professors; //scelto di implementare set in quanto non ci interessa l'ordine dei professori,
+    private Set<Master> masters; //scelto di implementare set in quanto non ci interessa l'ordine dei professori,
                                         // è possibile scorrerli con un iterator
 
     private int coin; //inizialmente sempre a 1
@@ -26,7 +26,7 @@ public class Player{
         this.nickname=nickname;
         this.playerNumber= playerNumber;
         this.buddy= buddy;
-        professors=new HashSet<>(); //pare essere il tipo di implementazione più efficiente
+        masters=new HashSet<>(); //pare essere il tipo di implementazione più efficiente
         coin=1;
         dashboard= new Dashboard(); //da correggere nel momento dell'effettiva creazione della classe Dashboard
         isknight=false;
@@ -35,22 +35,22 @@ public class Player{
 
     //passo copia in quanto dispongo addProfessor e removeProfessor per aggiungerne uno, e non sono
     // necessarie altre modifiche
-    public Set<Professor> getProfessors() {
-        return new HashSet<>(professors);
+    public Set<Master> getProfessors() {
+        return new HashSet<>(masters);
     }
 
     //In questo metodo, se è già posseduto, rimuovo il professor dal possessore, metto l'owner in professor pari al nuovo
     // possessore(questo stesso oggetto) e aggiungo il professor al set
-    public void moveProfessor(Professor professor){
+    public void moveProfessor(Master master){
 
-        if(!professor.getIfFree()) {
-            professor.getOwner().removeProfessor(professor);
-            professor.setOwner(this);
+        if(!master.getIfFree()) {
+            master.getOwner().removeProfessor(master);
+            master.setOwner(this);
         }
         else
-            professor.setIsFree(false);
+            master.setIsFree(false);
 
-        professors.add(professor);
+        masters.add(master);
 
 
 
@@ -58,8 +58,8 @@ public class Player{
 
     //per ora io penso che non sia possibile che un professore, una volta posseduto da
     // qualcuno in un match, possa tornare ad essere libero
-    private void removeProfessor(Professor professor){
-        professors.remove(professor);
+    private void removeProfessor(Master master){
+        masters.remove(master);
     }
 
     public void addCoin(){

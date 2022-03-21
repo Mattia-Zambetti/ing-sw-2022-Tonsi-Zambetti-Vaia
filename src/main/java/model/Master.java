@@ -1,12 +1,12 @@
 //Tonsi
 package model;
 
-public class Professor {
+public class Master {
     private boolean isFree;
     private Color color;
     private Player owner;
 
-    public Professor(Color color){
+    public Master(Color color){
         isFree= true;
         this.color=color;
         owner=null;
