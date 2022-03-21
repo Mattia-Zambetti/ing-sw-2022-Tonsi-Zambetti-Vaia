@@ -1,5 +1,5 @@
 //Tonsi
-package model;
+package model.FigureCards;
 
 public abstract class FigureCard {
     private int price;
