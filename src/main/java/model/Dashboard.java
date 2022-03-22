@@ -58,4 +58,7 @@ public class Dashboard {
     public Entrance getEntrance() {
         return this.entrance;
     }
+
+
+    //fare getMasters che restituisce una copia della lista dei master presenti
 }
