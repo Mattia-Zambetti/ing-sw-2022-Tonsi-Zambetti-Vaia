@@ -1,4 +1,4 @@
-package model;
+package model.exception;
 
 public class NoMasterException extends Exception{
     public NoMasterException(String errorMessage){

@@ -1,6 +1,9 @@
 // Zambo
 package model;
 
+import model.exception.NegativeNumberOfTowerException;
+import model.exception.WrongColorException;
+
 public class Dashboard {
     private Entrance entrance;
     private DiningRoom redDiningRoom, blueDiningRoom, yellowDiningRoom, pinkDiningRoom, greenDiningRoom;

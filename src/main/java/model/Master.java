@@ -25,10 +25,11 @@ public class Master {
     }
 
     public Player getOwner(){
-        return owner;
+        return (Player)owner.clone();
     }
 
-    public void setOwner(Player owner) {
+    public void setOwner(Player owner)
+    {
         this.owner = owner;
     }
 }

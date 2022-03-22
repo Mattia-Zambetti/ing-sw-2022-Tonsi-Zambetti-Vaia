@@ -1,8 +1,9 @@
 //Zambo
 package model;
 
+import model.exception.NoMasterException;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class DiningRoom {
     private static final int DINING_ROOM_DIM = 10;
@@ -22,7 +23,7 @@ public class DiningRoom {
         return false;
     }
 
-    public Master removeMaster () throws NoMasterException{
+    public Master removeMaster () throws NoMasterException {
         Master masterCopy;
         if ( this.master != null ) {
             masterCopy = this.master;

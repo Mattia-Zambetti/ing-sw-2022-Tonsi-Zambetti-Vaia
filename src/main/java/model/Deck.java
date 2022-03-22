@@ -1,6 +1,8 @@
 //Tonsi
 package model;
 
+import model.exception.CardNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class Deck {
         this.wizard=wizard;
     }
 
-    public void playCard(Card card) throws CardNotFoundException{
+    public void playCard(Card card) throws CardNotFoundException {
         if(cards.contains(card)) {
             currentCard=card;
             cards.remove(card);

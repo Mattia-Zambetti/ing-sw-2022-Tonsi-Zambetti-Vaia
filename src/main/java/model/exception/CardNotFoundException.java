@@ -1,5 +1,5 @@
 //Tonsi
-package model;
+package model.exception;
 
 public class CardNotFoundException extends Exception{
     public CardNotFoundException(String errorMessage){
