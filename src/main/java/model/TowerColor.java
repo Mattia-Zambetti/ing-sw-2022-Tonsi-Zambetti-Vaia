@@ -1,5 +1,6 @@
 package model;
 
 public enum TowerColor {
-    WHITE, GREY, BLACK
+    WHITE, GREY, BLACK;
+
 }

@@ -1,7 +1,7 @@
 //Zambo, Tonsi
 package model;
 
-import model.exception.MaxNumberException;
+import model.exception.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,15 +16,18 @@ public class Entrance {
 
     public void insertStudents(Set<Student> studentsFromCloud) throws MaxNumberException {
         for (Student s: studentsFromCloud){
-            if(students.size()>MAXSTUDENTI)
+            if(students.size()==MAXSTUDENTI)
                 throw new MaxNumberException("numero massimo raggiunto");
             else
                 students.add(s);
         }
     }
 
-    public void removeStudent(Student student){
-        students.remove(student);
+    public void removeStudent(Student student) throws InexistentStudentException{
+        if ( students.size()>0 )
+            students.remove(student);
+        else
+            throw new InexistentStudentException("Chosen student is not available");
     }
 
     public Set<Student> getStudents(){
