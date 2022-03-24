@@ -23,6 +23,7 @@ public class Dashboard {
         this.towerColor = colorOfTower;
         //da sistemare con Davide la questione file json per generare le carte alla cre<ione del deck
         this.deck = new Deck(chosenWizard);
+        this.mastersList = new ArrayList<Master>(5);
     }
 
     public int getTowersNum() {
@@ -91,8 +92,25 @@ public class Dashboard {
         return deckCopy;
     }*/
 
+    public void playChosenCard( Card chosenCard ) throws CardNotFoundException{
+        try{
+            deck.playCard(chosenCard);
+        }
+        catch ( CardNotFoundException e )
+        {
+            System.out.println(e.toString());
+        }
+    }
+
+    public void insertMaster( Master m ) {
+        //valutare se può causare un'eccezione in qualche caso
+        mastersList.add(m.getColor().ordinal(),m);
+    }
+
+    /*public Master removeMaster( )*/
+
     // bisogna controllare che non ci sia un problema di violazione del rep invariant
-    public DiningRoom getDiningRoom( Color diningRoomColor ) throws WrongColorException {
+    /*public DiningRoom getDiningRoom( Color diningRoomColor ) throws WrongColorException {
         switch ( diningRoomColor ) {
             case RED:
                 return redDiningRoom;
@@ -107,7 +125,7 @@ public class Dashboard {
             default:
                 throw new WrongColorException("Wrong color from getDiningRoom method");
         }
-    }
+    }*/
 
     // bisogna controllare che non ci sia un problema di violazione del rep invariant
     public Entrance getEntrance() {
