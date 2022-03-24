@@ -13,4 +13,15 @@ public final class Student {
         return this.color;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        boolean equals = false;
+        if (o instanceof Student) {
+            Student s = (Student)o;
+            if ( ( s.color == this.color ) && ( s.ID == this.ID ) )
+                equals = true;
+        }
+        return equals;
+    }
+
 }

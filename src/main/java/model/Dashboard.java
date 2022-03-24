@@ -85,9 +85,11 @@ public class Dashboard {
         }
     }
 
+    /*
     public Set<Card> showCards() {
-        //da implementare una volta che Davide ha sistemato deck
-    }
+        Set<Card> deckCopy;
+        return deckCopy;
+    }*/
 
     // bisogna controllare che non ci sia un problema di violazione del rep invariant
     public DiningRoom getDiningRoom( Color diningRoomColor ) throws WrongColorException {

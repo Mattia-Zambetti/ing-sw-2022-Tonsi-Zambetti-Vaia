@@ -24,7 +24,7 @@ public class Entrance {
     }
 
     public void removeStudent(Student student) throws InexistentStudentException{
-        if ( students.size()>0 )
+        if ( students.contains(student) )
             students.remove(student);
         else
             throw new InexistentStudentException("Chosen student is not available");
@@ -34,3 +34,4 @@ public class Entrance {
         return new HashSet<>(students);
     }
 }
+
