@@ -1,3 +1,4 @@
+//Tonsi
 package model;
 
 import model.exception.MaxNumberException;
@@ -14,23 +15,12 @@ public class Bag {
 
 
     public Bag instance(){
-        if(bag==null){
-            bag= new Bag();
-            for(Color c: Color.values()){
-                for(int i=0; i<NUMSTUDENTSCOLOR; i++)
-                    students.add(new Student(c));
-            }
-        }
-        return bag;
-    }
-
-    public Bag instanceWithCounterStudents(){
         int numStudent=0;
         if (bag==null){
             bag= new Bag();
             for(Color c: Color.values()){
                 for(int i=0; i<NUMSTUDENTSCOLOR; i++){
-                    students.add(new Student(c,numStudent));
+                    students.add(new Student(numStudent, c));
                     numStudent++;
                 }
             }

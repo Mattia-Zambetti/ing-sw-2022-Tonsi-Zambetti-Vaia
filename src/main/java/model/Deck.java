@@ -1,23 +1,29 @@
 //Tonsi
 package model;
 
-import model.exception.CardNotFoundException;
 
-import java.util.ArrayList;
-import java.util.List;
+import model.exception.CardNotFoundException;
+import java.util.HashSet;
+import java.util.Set;
 
 enum Wizard{WIZARD1,WIZARD2, WIZARD3,WIZARD4}
 
 public class Deck {
-    private List<Card> cards;
+    private Set<Card> cards;
     private Card currentCard;
     private Wizard wizard;
+    private JsonImport jsonImport;
+    private final static int CARDSNUMBER=10;
+    private final static String stringName="Carte.json";
 
-    public Deck(List<Card> c, Wizard wizard){
-        cards = new ArrayList<>(c);
+    public Deck(Wizard wizard){
+
+        jsonImport=new JsonImport(stringName);
+        cards = new HashSet<>(jsonImport.createCards());
         currentCard = null;
         this.wizard=wizard;
     }
+
 
     public void playCard(Card card) throws CardNotFoundException {
         if(cards.contains(card)) {
@@ -27,10 +33,16 @@ public class Deck {
     }
 
     public Card getCurrentCard() {
-        return currentCard;
+        return new Card(currentCard.getValue(), currentCard.getMovementValue(), currentCard.getId());
     }
 
     public String getWizard() {
         return wizard.toString();
     }
+
+    public Set getCards(){
+        return new HashSet(cards);
+    }
+
+
 }
