@@ -92,14 +92,14 @@ public class Island {
     }
 
 
-    private int nextIsland(){ //metodo che ritorna l'indice della posizione della prosiima isola
+    public int nextIsland(){ //metodo che ritorna l'indice della posizione della prosiima isola
         int tmp = islandPositions.indexOf(position);
         if(tmp + 1 == islandPositions.size())
             return 0;
         return tmp++;
     }
 
-    private int previousIsland(){ //metodo che ritorna l'indice della posizione della isola precedente
+    public int previousIsland(){ //metodo che ritorna l'indice della posizione della isola precedente
         int tmp = islandPositions.indexOf(position);
         if(tmp - 1 == - 1)
             return islandPositions.size() - 1;
@@ -110,20 +110,16 @@ public class Island {
         students[student.getColor().ordinal()].add(student);
     }
 
-    public void setForbidden(){
-        isForbidden = true;
+    public void setForbidden(boolean forbidden){
+        isForbidden = forbidden;
     }
 
     public boolean checkForbidden(){
         return isForbidden;
     }
 
-    public void setMotherNature(){
-        isMotherNature = true;
-    }
-
-    public void removeMotherNature(){
-        isMotherNature = false;
+    public void setMotherNature(boolean motherNature){
+        isMotherNature = motherNature;
     }
 
     public boolean checkIsMotherNature(){
