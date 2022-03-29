@@ -51,29 +51,34 @@ public class Dashboard {
         entrance.insertStudents( studentsList );
     }
 
-    public void moveToDR( Set<Student> studentsList ) throws MaxNumberException {
-        for( Student s:studentsList ) {
-            switch ( s.getColor() ) {
-                case RED:
-                    redDiningRoom.insertStudent(s);
-                    break;
-                case BLUE:
-                    blueDiningRoom.insertStudent(s);
-                    break;
-                case YELLOW:
-                    yellowDiningRoom.insertStudent(s);
-                    break;
-                case PINK:
-                    pinkDiningRoom.insertStudent(s);
-                    break;
-                case GREEN:
-                    greenDiningRoom.insertStudent(s);
-                    break;
+    public void moveToDR( Set<Student> studentsList ) {
+        try{
+            for( Student s:studentsList ) {
+                switch ( s.getColor() ) {
+                    case RED:
+                        redDiningRoom.insertStudent(s);
+                        break;
+                    case BLUE:
+                        blueDiningRoom.insertStudent(s);
+                        break;
+                    case YELLOW:
+                        yellowDiningRoom.insertStudent(s);
+                        break;
+                    case PINK:
+                        pinkDiningRoom.insertStudent(s);
+                        break;
+                    case GREEN:
+                        greenDiningRoom.insertStudent(s);
+                        break;
+                }
             }
+        }
+        catch ( MaxNumberException e ) {
+            System.out.println(e.toString());
         }
     }
 
-    public Student removeStudentFromEntrance( Student chosenStudent ) throws InexistentStudentException{
+    public Student removeStudentFromEntrance( Student chosenStudent ){
         try {
             entrance.removeStudent(chosenStudent);
             return chosenStudent;
@@ -88,7 +93,7 @@ public class Dashboard {
         return deck.getCards();
     }
 
-    public void playChosenCard( Card chosenCard ) throws CardNotFoundException{
+    public void playChosenCard( Card chosenCard ){
         try{
             deck.playCard(chosenCard);
         }
@@ -103,10 +108,11 @@ public class Dashboard {
         mastersList.put(m.getColor(),m);
     }
 
-    public Master removeMaster( Color color ) {
+    public Master removeMaster( Color color ) throws NoMasterException{
         Master RemovedMaster;
-        RemovedMaster = mastersList.get(color);
-        mastersList.remove(color);
+        RemovedMaster = mastersList.remove(color);
+        if ( RemovedMaster == null )
+            throw new NoMasterException("Error: "+color.toString()+" master is absent");
         return RemovedMaster;
     }
 

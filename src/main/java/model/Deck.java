@@ -19,7 +19,7 @@ public class Deck {
     public Deck(Wizard wizard){
 
         jsonImport=new JsonImport(stringName);
-        cards = new HashSet<>(jsonImport.createCards());
+        cards = new HashSet<Card>(jsonImport.createCards());
         currentCard = null;
         this.wizard=wizard;
     }
@@ -40,8 +40,8 @@ public class Deck {
         return wizard.toString();
     }
 
-    public Set getCards(){
-        return new HashSet(cards);
+    public Set<Card> getCards(){
+        return new HashSet<Card>(cards);
     }
 
 
