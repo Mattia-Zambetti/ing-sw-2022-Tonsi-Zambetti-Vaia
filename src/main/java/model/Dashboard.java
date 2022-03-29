@@ -10,7 +10,7 @@ public class Dashboard {
     private int towersNumber;
     private final TowerColor towerColor;
     private Deck deck;
-    private ArrayList<Master> mastersList;
+    private HashMap<Color, Master> mastersList;
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
         entrance = new Entrance();
@@ -23,7 +23,7 @@ public class Dashboard {
         this.towerColor = colorOfTower;
         //da sistemare con Davide la questione file json per generare le carte alla cre<ione del deck
         this.deck = new Deck(chosenWizard);
-        this.mastersList = new ArrayList<Master>(5);
+        this.mastersList = new HashMap<Color, Master>(Color.getDim());
     }
 
     public int getTowersNum() {
@@ -32,8 +32,7 @@ public class Dashboard {
 
     public TowerColor getTowerColor() {
         //Provato a fare con la clone ma impossibile da implementare nella classe TowerColor
-        final TowerColor tc = this.towerColor;
-        return tc;
+        return this.towerColor;
     }
 
     public void removeTowers ( int numberOfTower ) throws NegativeNumberOfTowerException {
@@ -45,8 +44,7 @@ public class Dashboard {
     }
 
     public Set<Student> showEntrance () {
-        Set<Student> students = entrance.getStudents();
-        return students;
+        return entrance.getStudents();
     }
 
     public void moveToEntrance( Set<Student> studentsList ) throws MaxNumberException {
@@ -81,16 +79,14 @@ public class Dashboard {
             return chosenStudent;
         }
         catch ( InexistentStudentException e ) {
-            // da ricontrollare
-            throw e;
+            System.out.println(e.toString());
+            return null;
         }
     }
 
-    /*
     public Set<Card> showCards() {
-        Set<Card> deckCopy;
-        return deckCopy;
-    }*/
+        return deck.getCards();
+    }
 
     public void playChosenCard( Card chosenCard ) throws CardNotFoundException{
         try{
@@ -104,34 +100,24 @@ public class Dashboard {
 
     public void insertMaster( Master m ) {
         //valutare se può causare un'eccezione in qualche caso
-        mastersList.add(m.getColor().ordinal(),m);
+        mastersList.put(m.getColor(),m);
     }
 
-    /*public Master removeMaster( )*/
-
-    // bisogna controllare che non ci sia un problema di violazione del rep invariant
-    /*public DiningRoom getDiningRoom( Color diningRoomColor ) throws WrongColorException {
-        switch ( diningRoomColor ) {
-            case RED:
-                return redDiningRoom;
-            case BLUE:
-                return blueDiningRoom;
-            case YELLOW:
-                return yellowDiningRoom;
-            case PINK:
-                return pinkDiningRoom;
-            case GREEN:
-                return greenDiningRoom;
-            default:
-                throw new WrongColorException("Wrong color from getDiningRoom method");
-        }
-    }*/
-
-    // bisogna controllare che non ci sia un problema di violazione del rep invariant
-    public Entrance getEntrance() {
-        return this.entrance;
+    public Master removeMaster( Color color ) {
+        Master RemovedMaster;
+        RemovedMaster = mastersList.get(color);
+        mastersList.remove(color);
+        return RemovedMaster;
     }
 
+    public boolean haveMaster( Color color ) {
+        return mastersList.containsKey(color);
+    }
 
-    //fare getMasters che restituisce una copia della lista dei master presenti
+    public Collection<Master> getMasterList() {
+        HashMap<Color, Master> mastersListCopy;
+        mastersListCopy = (HashMap<Color, Master>) mastersList.clone();
+        return mastersListCopy.values();
+    }
+
 }
