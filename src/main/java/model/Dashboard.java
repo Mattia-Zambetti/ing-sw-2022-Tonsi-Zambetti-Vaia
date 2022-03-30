@@ -120,7 +120,7 @@ public class Dashboard {
         return mastersList.containsKey(color);
     }
 
-    public Collection<Master> getMasterList() {
+    public Collection<Master> getMastersList() {
         HashMap<Color, Master> mastersListCopy;
         mastersListCopy = (HashMap<Color, Master>) mastersList.clone();
         return mastersListCopy.values();
