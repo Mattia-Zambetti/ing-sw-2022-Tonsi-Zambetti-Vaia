@@ -3,7 +3,7 @@ package model;
 
 public class Master {
     private boolean isFree;
-    private Color color;
+    private final Color color;
     private Player owner;
 
     public Master(Color color){

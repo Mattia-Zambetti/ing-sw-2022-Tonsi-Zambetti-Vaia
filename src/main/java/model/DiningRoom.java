@@ -14,7 +14,7 @@ public class DiningRoom {
 
     public DiningRoom ( Color colorOfRoom ) {
         this.roomColor = colorOfRoom;
-        students = new ArrayList<>(DINING_ROOM_DIM);
+        students = new ArrayList<Student>(0);
     }
 
     public int getStudentsNumber () {
@@ -22,7 +22,7 @@ public class DiningRoom {
     }
 
     public void insertStudent ( Student newStudent ) throws MaxNumberException{
-        if ( students.size() < 10 )
+        if ( students.size() < DINING_ROOM_DIM )
             students.add( newStudent );
         throw new MaxNumberException(roomColor.toString()+" Dining Room Full");
     }
