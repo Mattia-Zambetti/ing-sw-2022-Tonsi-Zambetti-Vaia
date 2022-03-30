@@ -123,6 +123,7 @@ public class Dashboard {
     public Collection<Master> getMasterList() {
         HashMap<Color, Master> mastersListCopy;
         mastersListCopy = (HashMap<Color, Master>) mastersList.clone();
+        //Testare che la clone crei effettivamente una copia separata tale per cui le modifiche non si ripercuotono sull'oggetto principale
         return mastersListCopy.values();
     }
 
