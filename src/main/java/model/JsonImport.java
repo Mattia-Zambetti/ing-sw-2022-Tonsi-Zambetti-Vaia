@@ -19,7 +19,7 @@ public class JsonImport {
         this.filename=filename;
     }
 
-    public Set createCards() {
+    public Set<Card> createCards() {
         HashSet<Card> res = new HashSet<>();
         Card tmpCard;
         int value, movementValue, id;
