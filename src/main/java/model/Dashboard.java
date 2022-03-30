@@ -5,12 +5,12 @@ import model.exception.*;
 import java.util.*;
 
 public class Dashboard {
-    private Entrance entrance;
-    private DiningRoom redDiningRoom, blueDiningRoom, yellowDiningRoom, pinkDiningRoom, greenDiningRoom;
+    private final Entrance entrance;
+    private final DiningRoom redDiningRoom, blueDiningRoom, yellowDiningRoom, pinkDiningRoom, greenDiningRoom;
     private int towersNumber;
     private final TowerColor towerColor;
-    private Deck deck;
-    private HashMap<Color, Master> mastersList;
+    private final Deck deck;
+    private final HashMap<Color, Master> mastersList;
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
         entrance = new Entrance();
@@ -26,14 +26,17 @@ public class Dashboard {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
     }
 
+    //Restituisce il numero di torri presenti nella dashboard
     public int getTowersNum() {
         return this.towersNumber;
     }
 
+    //Restituisce il colore delle torri
     public TowerColor getTowerColor() {
         //Provato a fare con la clone ma impossibile da implementare nella classe TowerColor
         return this.towerColor;
     }
+
 
     public void removeTowers ( int numberOfTower ) throws NegativeNumberOfTowerException {
         int newTowersNumber = this.towersNumber - numberOfTower;
@@ -123,6 +126,7 @@ public class Dashboard {
     public Collection<Master> getMastersList() {
         HashMap<Color, Master> mastersListCopy;
         mastersListCopy = (HashMap<Color, Master>) mastersList.clone();
+        //Testare che la clone crei effettivamente una copia separata tale per cui le modifiche non si ripercuotono sull'oggetto principale
         return mastersListCopy.values();
     }
 
