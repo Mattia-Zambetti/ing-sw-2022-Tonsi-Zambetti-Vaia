@@ -47,7 +47,7 @@ public class Island {
 
     public int getInfluenceByDashboard ( Dashboard dashboard ) {
         int influence=0;
-        ArrayList<Master> tmp = dashboard.getMasters();
+        ArrayList<Master> tmp = dashboard.getMastersList();
 
         for ( int i=0; i<tmp.size(); i++) {
             influence += students[tmp.get(i).getColor().ordinal()].size();

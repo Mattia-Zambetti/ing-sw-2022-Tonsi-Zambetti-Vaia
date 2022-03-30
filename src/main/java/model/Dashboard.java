@@ -134,7 +134,5 @@ public class Dashboard {
 
 
     //fare getMasters che restituisce una copia della lista dei master presenti
-    public ArrayList<Master> getMasters(){
-        return mastersList;
-    }
+
 }
