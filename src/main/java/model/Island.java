@@ -96,16 +96,16 @@ public class Island {
 
     public int nextIsland(){ //metodo che ritorna l'indice della posizione della prosiima isola
         int tmp = islandPositions.indexOf(position);
-        if(tmp + 1 == islandPositions.size())
-            return 0;
-        return tmp++;
+        if(tmp == islandPositions.size() - 1)
+            return islandPositions.get(0);
+        return islandPositions.get(tmp + 1);
     }
 
     public int previousIsland(){ //metodo che ritorna l'indice della posizione della isola precedente
         int tmp = islandPositions.indexOf(position);
         if(tmp - 1 == - 1)
-            return islandPositions.size() - 1;
-        return tmp--;
+            return islandPositions.get(islandPositions.size() - 1);
+        return islandPositions.get(tmp - 1);
     }
 
     public void addStudent(Student student){
