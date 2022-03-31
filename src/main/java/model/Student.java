@@ -24,5 +24,9 @@ public final class Student {
         }
         return equals;
     }
+    @Override
+    public String toString(){
+        return color.toString()+" student";
+    }
 
 }

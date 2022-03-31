@@ -3,6 +3,7 @@ package model;
 
 import model.exception.MaxNumberException;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,5 +38,20 @@ public class Bag {
          }
          else
              throw new MaxNumberException("Studenti nel sacchetto finiti");
+    }
+
+    public Set<Student> removeStudents(int numStudents) throws MaxNumberException {
+        Set<Student> studentstmp= new HashSet<>();
+        Optional<Student> studentTmp;
+        for(int i=0; i<numStudents; i++){
+            studentTmp=students.stream().findAny();
+            if(studentTmp.isPresent()){
+                students.remove(studentTmp.get());
+                studentstmp.add(studentTmp.get());
+            }
+            else
+                throw new MaxNumberException("Studenti nel sacchetto finiti");
+        }
+        return studentstmp;
     }
 }
