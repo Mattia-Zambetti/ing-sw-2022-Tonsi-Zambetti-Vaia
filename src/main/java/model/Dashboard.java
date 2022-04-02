@@ -11,6 +11,8 @@ public class Dashboard {
     private final TowerColor towerColor;
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
+    private int coin; //inizialmente sempre a 1
+    private boolean isKnight; //per effetto carta personaggio
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
         entrance = new Entrance();

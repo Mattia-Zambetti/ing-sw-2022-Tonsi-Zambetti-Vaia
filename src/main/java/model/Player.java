@@ -10,9 +10,7 @@ public class Player implements Cloneable{
 
     private Player buddy; //assumo che, in caso, gli venga passato valore null dal controller se non c'è
 
-    //private int coin; //inizialmente sempre a 1
 
-    //private boolean isknight; //per effetto carta personaggio
 
     public Player(String nickname, Player buddy){
         totplayersnumber++;
