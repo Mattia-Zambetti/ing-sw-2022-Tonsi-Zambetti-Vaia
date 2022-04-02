@@ -20,12 +20,18 @@ public class Cloud {
         return StudentsNumOnCloud;
     }
 
-    public Set<Student> takeAndPutStudents(Set<Student> newStudents){
-        Set<Student> tmpstudents=new HashSet<Student>();
-        tmpstudents.removeAll(studentsOnCloud);
-        studentsOnCloud.addAll(newStudents);
+    public Set<Student> takeStudents(){
+        Set<Student> tmpstudents=new HashSet<Student>(studentsOnCloud);
+        studentsOnCloud.clear();
         return tmpstudents;
     }
+
+    public void refillCloud(Set<Student> students){
+        studentsOnCloud.addAll(students);
+    }
+
+
+
     @Override
     public String toString(){
         String res = "";
