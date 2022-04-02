@@ -130,6 +130,8 @@ public class Island {
         return isMotherNature;
     }
 
-
-
+    public static List<Integer> getIslandPositions() {
+        List<Integer> tmp = new ArrayList<>(islandPositions);
+        return tmp;
     }
+}
