@@ -129,7 +129,9 @@ public class Island {
     public boolean checkIsMotherNature(){
         return isMotherNature;
     }
-//prova
 
-
+    public static List<Integer> getIslandPositions() {
+        List<Integer> tmp = new ArrayList<>(islandPositions);
+        return tmp;
     }
+}
