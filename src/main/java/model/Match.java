@@ -102,7 +102,7 @@ public class Match {
 
     private void moveFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) {
         Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
-        chosenIsland
+        //chosenIsland
 
     }
 
