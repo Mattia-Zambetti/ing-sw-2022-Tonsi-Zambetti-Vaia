@@ -58,30 +58,49 @@ public class Dashboard {
         entrance.insertStudents( studentsList );
     }
 
-    public void moveToDR( Set<Student> studentsList ) {
+    public void moveToDR( Set<Student> studentsSet ) {
         try{
-            for( Student s:studentsList ) {
-                switch ( s.getColor() ) {
-                    case RED:
-                        redDiningRoom.insertStudent(s);
-                        break;
-                    case BLUE:
-                        blueDiningRoom.insertStudent(s);
-                        break;
-                    case YELLOW:
-                        yellowDiningRoom.insertStudent(s);
-                        break;
-                    case PINK:
-                        pinkDiningRoom.insertStudent(s);
-                        break;
-                    case GREEN:
-                        greenDiningRoom.insertStudent(s);
-                        break;
-                }
+            for( Student s:studentsSet ) {
+                choseDRfromStudentColor(s);
             }
         }
         catch ( MaxNumberException e ) {
             System.out.println(e.toString());
+        }
+        catch ( NullPointerException e ) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public void moveToDR( Student student ) {
+        try {
+            choseDRfromStudentColor(student);
+        }
+        catch ( MaxNumberException e ) {
+            System.out.println(e.toString());
+        }
+        catch ( NullPointerException e ) {
+            System.out.println(e.toString());
+        }
+    }
+
+    private void choseDRfromStudentColor(Student student) throws MaxNumberException {
+        switch ( student.getColor() ) {
+            case RED:
+                redDiningRoom.insertStudent(student);
+                break;
+            case BLUE:
+                blueDiningRoom.insertStudent(student);
+                break;
+            case YELLOW:
+                yellowDiningRoom.insertStudent(student);
+                break;
+            case PINK:
+                pinkDiningRoom.insertStudent(student);
+                break;
+            case GREEN:
+                greenDiningRoom.insertStudent(student);
+                break;
         }
     }
 

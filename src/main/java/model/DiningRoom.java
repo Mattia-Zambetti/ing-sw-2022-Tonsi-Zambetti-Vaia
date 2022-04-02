@@ -21,7 +21,9 @@ public class DiningRoom {
         return students.size();
     }
 
-    public void insertStudent ( Student newStudent ) throws MaxNumberException{
+    public void insertStudent ( Student newStudent ) throws MaxNumberException, NullPointerException{
+        if ( newStudent == null)
+            throw new NullPointerException("Passed a null reference for newStudent in DR insertStudent()");
         if ( students.size() < DINING_ROOM_DIM )
             students.add( newStudent );
         throw new MaxNumberException(roomColor.toString()+" Dining Room Full");
