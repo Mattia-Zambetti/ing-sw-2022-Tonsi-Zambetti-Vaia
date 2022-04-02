@@ -83,25 +83,23 @@ public class Match extends Observable{
     }
 
 
-    public void chooseCloud(int chosenCloud) throws MaxNumberException {
+    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws MaxNumberException {
         if(chosenCloud<=playersNum && chosenCloud>0 )
-            currentPlayer.moveToEntrance(pullStudentsFromCloud(chosenCloud));
+            currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
         else
             throw new MaxNumberException("Numero scelto errato");
         notifyObservers(); //non so cosa potrebbe notificare per ora, vedremo
     }
 
-    private void toStringStudentsOnClass(){
-        String res="";
-        for(Cloud c: clouds){
-            res+=c.toString();
+    private void toStringStudentsOnClass() {
+        String res = "";
+        for (Cloud c : clouds) {
+            res += c.toString();
         }
         notifyObservers(res);
+    }
 
     //ZAMBO
-    //aspetto metodo di davide per rimuovere da nuvola
-    private void moveStudentsFromCloudToEntrance( Cloud chosenCloud ) {
-    }
 
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
     private void moveStudentFromEntranceToDR( Student studentToBeMoved ) {
