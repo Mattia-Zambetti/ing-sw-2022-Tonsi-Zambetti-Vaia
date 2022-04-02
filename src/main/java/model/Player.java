@@ -40,13 +40,6 @@ public class Player implements Cloneable{
         return null;
     }
 
-    /*public void addCoin(){
-        coin++;
-    }
-    public int getCoins() {
-        return coin;
-    }*/
-
     public String getNickname() {
         return nickname;
     }
@@ -55,15 +48,8 @@ public class Player implements Cloneable{
         return playerNumber;
     }
 
-    /*public void setKnight(boolean setValue){
-        isknight=setValue;
-    }
-    public boolean isknight() {
-        return isknight;
-    }*/
-
     public Player getBuddy(){
-            return new Player(buddy);
+        return new Player(buddy);
     }
 }
 

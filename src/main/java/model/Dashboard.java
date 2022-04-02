@@ -11,7 +11,7 @@ public class Dashboard {
     private final TowerColor towerColor;
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
-    private int coin; //inizialmente sempre a 1
+    private int coin;
     private boolean isKnight; //per effetto carta personaggio
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
@@ -26,6 +26,8 @@ public class Dashboard {
         //da sistemare con Davide la questione file json per generare le carte alla cre<ione del deck
         this.deck = new Deck(chosenWizard);
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
+        this.coin = 1; //Inizialmente sempre a 1
+        this.isKnight = false; //Settato a false per la modalità esperto
     }
 
     //Restituisce il numero di torri presenti nella dashboard
@@ -131,5 +133,30 @@ public class Dashboard {
         //Testare che la clone crei effettivamente una copia separata tale per cui le modifiche non si ripercuotono sull'oggetto principale
         return mastersListCopy.values();
     }
+
+    public void addCoin() {
+        this.coin++;
+    }
+
+    public int getCoinsNumber() {
+        return this.coin;
+    }
+
+    public void removeCoin ( int coinToBeRemoved ) throws InsufficientCoinException {
+        if ( this.coin > coinToBeRemoved )
+            this.coin = coinToBeRemoved;
+        else
+            throw new InsufficientCoinException("You tried to remove too much coin, number of coin is: "+this.coin+", you tried to remove "+coinToBeRemoved+" coins");
+    }
+
+    public boolean hasKnightPrivilege() {
+        return isKnight;
+    }
+
+    public void setKnight( boolean setValue ) {
+        //TODO controllare possibile eccezione in caso non venga cambiato il valore
+        isKnight = setValue;
+    }
+
 
 }
