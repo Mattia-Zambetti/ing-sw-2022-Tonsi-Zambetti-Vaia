@@ -6,7 +6,7 @@ import model.exception.MaxNumberException;
 import java.util.*;
 
 public class Match {
-    private List<Island> islands;
+    private List<Island> islandsList;
     private List<Cloud> clouds;
     private Bag bag;
     private Collection<Dashboard> dashboardsCollection;
@@ -20,14 +20,16 @@ public class Match {
     private static final int STUDENTSONCLOUD2PLAYERS= 3;
     private static final int STUDENTSONCLOUD3PLAYERS= 4;
     private static final int STUDENTSONCLOUD4PLAYERS= 3;
+    private static final int INITIALNUMOFISLANDS= 12;
 
     public Match(int playersNum, boolean isExpertMode) throws MaxNumberException {
         if(playersNum<=4 && playersNum>1) {
             this.playersNum = playersNum;
             this.isExpertMode=isExpertMode;
 
-            islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
-                                                // la prossima/precedente, dovrebbe essere più efficiente
+            //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più efficiente
+            islandsList = new ArrayList<Island>();
+
             initializeIslands();
 
             Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
@@ -63,7 +65,7 @@ public class Match {
     private void initializeIslands() {
         boolean motherNature=true;
         for (int i=0; i< ISLANDSNUM; i++){
-            islands.add(new Island(motherNature, i+1));
+            islandsList.add(new Island(motherNature, i+1));
             motherNature=false;
         }
     }
@@ -87,8 +89,8 @@ public class Match {
     }
 
     //ZAMBO
+    //aspetto metodo di davide per rimuovere da nuvola
     private void moveStudentsFromCloudToEntrance( Cloud chosenCloud ) {
-        //aspetto metodo di davide per rimuovere da nuvola
     }
 
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
@@ -96,6 +98,16 @@ public class Match {
         Student tmpStudent;
         tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
         this.currentPlayerDashboard.moveToDR( tmpStudent );
+    }
+
+    private void moveFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) {
+        Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
+        chosenIsland
+
+    }
+
+    private void setNextCurrDashboard() {
+
     }
 
     //END ZAMBO

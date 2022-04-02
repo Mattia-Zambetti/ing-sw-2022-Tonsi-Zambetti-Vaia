@@ -78,7 +78,6 @@ public class Island {
         isTower = true;
     }
 
-
     private void mergeIsland(Island island){
         for (int i = 0; i< 5;i++)
         {
@@ -95,7 +94,8 @@ public class Island {
     }
 
     //Da sistemare
-    public int nextIsland(){ //metodo che ritorna l'indice della posizione della prosiima isola
+    //metodo che ritorna l'indice della posizione della prossima isola
+    public int nextIsland(){
         int tmp = islandPositions.indexOf(position);
         if(tmp + 1 == islandPositions.size())
             return islandPositions.get(0);
@@ -103,7 +103,8 @@ public class Island {
     }
 
     //Da sistemare
-    public int previousIsland(){ //metodo che ritorna l'indice della posizione della isola precedente
+    //metodo che ritorna l'indice della posizione della isola precedente
+    public int previousIsland(){
         int tmp = islandPositions.indexOf(position);
         if(tmp - 1 == - 1)
             return islandPositions.get(islandPositions.size() - 1);

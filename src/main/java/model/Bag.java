@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Bag {
-    private final static int NUMSTUDENTSCOLOR=26;
-    private Set<Student> students;
+    private static final int NUMSTUDENTSCOLOR=26;
+    private static Set<Student> students;
     private static Bag bag;
 
     private Bag(){}
