@@ -9,13 +9,12 @@ import java.util.Set;
 
 public class Bag {
     private final static int NUMSTUDENTSCOLOR=26;
-    private Set<Student> students;
+    private static Set<Student> students;
     private static Bag bag;
 
     private Bag(){}
 
-
-    public Bag instance(){
+    public static Bag instance(){
         int numStudent=0;
         if (bag==null){
             bag= new Bag();
@@ -29,7 +28,7 @@ public class Bag {
         return bag;
     }
 
-    public Student removeStudent() throws MaxNumberException {
+    public static Student removeStudent() throws MaxNumberException {
          Optional<Student> student=students.stream().findAny();
 
          if(student.isPresent()){
@@ -40,7 +39,7 @@ public class Bag {
              throw new MaxNumberException("Studenti nel sacchetto finiti");
     }
 
-    public Set<Student> removeStudents(int numStudents) throws MaxNumberException {
+    public static Set<Student> removeStudents(int numStudents) throws MaxNumberException {
         Set<Student> studentstmp= new HashSet<>();
         Optional<Student> studentTmp;
         for(int i=0; i<numStudents; i++){

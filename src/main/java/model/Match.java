@@ -4,8 +4,8 @@ import model.FigureCards.FigureCard;
 import model.exception.MaxNumberException;
 
 import java.util.*;
-//prova
-public class Match {
+
+public class Match extends Observable{
     private List<Island> islands;
     private List<Cloud> clouds;
     private Bag bag;
@@ -68,21 +68,32 @@ public class Match {
         }
     }
 
-    private Set<Student> pullAndPushStudentsOnCloud(int cloudNum) throws MaxNumberException {
-        return clouds.get(cloudNum).takeAndPutStudents(bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+    private Set<Student> pullStudentsFromCloud(int cloudNum) throws MaxNumberException {
+        if(cloudNum<=playersNum && cloudNum>0 && clouds.get(cloudNum).toString()!="") {
+            return clouds.get(cloudNum).takeStudents();
+        }else throw new MaxNumberException("Numero di nuvola sbagliato");
     }
 
-    public void chooseCloud() throws MaxNumberException {
-        int number=1;
-        int chosenCloud=0;
-        for (Cloud c:clouds) {
-            System.out.println("Cloud"+ number+":\n"+c.toString());
-            number++;
+    private void refillClouds() throws MaxNumberException {
+        for(Cloud c:clouds){
+            c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
         }
-        //non mi ricordo come si legge da tastiera, domani guardo
+    }
+
+
+    public void chooseCloud(int chosenCloud) throws MaxNumberException {
         if(chosenCloud<=playersNum && chosenCloud>0 )
-            pullAndPushStudentsOnCloud(chosenCloud);
+            currentPlayer.moveToEntrance(pullStudentsFromCloud(chosenCloud));
         else
             throw new MaxNumberException("Numero scelto errato");
+        notifyObservers(); //non so cosa potrebbe notificare per ora, vedremo
+    }
+
+    private void toStringStudentsOnClass(){
+        String res="";
+        for(Cloud c: clouds){
+            res+=c.toString();
+        }
+        notifyObservers(res);
     }
 }
