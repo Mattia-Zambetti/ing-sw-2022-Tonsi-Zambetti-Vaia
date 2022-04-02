@@ -131,7 +131,9 @@ public class Island {
     }
 
     public static List<Integer> getIslandPositions() {
+        //
         List<Integer> tmp = new ArrayList<>(islandPositions);
+        //
         return tmp;
     }
 }
