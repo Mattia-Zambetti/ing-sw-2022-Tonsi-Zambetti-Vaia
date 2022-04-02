@@ -16,14 +16,15 @@ public final class Student {
 
     @Override
     public boolean equals(Object o) {
-        boolean equals = false;
+        boolean equalsResult = false;
         if (o instanceof Student) {
             Student s = (Student)o;
             if ( ( s.color == this.color ) && ( s.ID == this.ID ) )
-                equals = true;
+                equalsResult = true;
         }
-        return equals;
+        return equalsResult;
     }
+
     @Override
     public String toString(){
         return color.toString()+" student";

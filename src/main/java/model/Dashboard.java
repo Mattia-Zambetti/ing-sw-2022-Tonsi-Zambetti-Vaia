@@ -11,6 +11,8 @@ public class Dashboard {
     private final TowerColor towerColor;
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
+    private int coin;
+    private boolean isKnight; //per effetto carta personaggio
 
     //prova per vedere se funziona il rebase
 
@@ -26,6 +28,8 @@ public class Dashboard {
         //da sistemare con Davide la questione file json per generare le carte alla cre<ione del deck
         this.deck = new Deck(chosenWizard);
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
+        this.coin = 1; //Inizialmente sempre a 1
+        this.isKnight = false; //Settato a false per la modalità esperto
     }
 
     //Restituisce il numero di torri presenti nella dashboard
@@ -56,30 +60,49 @@ public class Dashboard {
         entrance.insertStudents( studentsList );
     }
 
-    public void moveToDR( Set<Student> studentsList ) {
+    public void moveToDR( Set<Student> studentsSet ) {
         try{
-            for( Student s:studentsList ) {
-                switch ( s.getColor() ) {
-                    case RED:
-                        redDiningRoom.insertStudent(s);
-                        break;
-                    case BLUE:
-                        blueDiningRoom.insertStudent(s);
-                        break;
-                    case YELLOW:
-                        yellowDiningRoom.insertStudent(s);
-                        break;
-                    case PINK:
-                        pinkDiningRoom.insertStudent(s);
-                        break;
-                    case GREEN:
-                        greenDiningRoom.insertStudent(s);
-                        break;
-                }
+            for( Student s:studentsSet ) {
+                choseDRfromStudentColor(s);
             }
         }
         catch ( MaxNumberException e ) {
             System.out.println(e.toString());
+        }
+        catch ( NullPointerException e ) {
+            System.out.println(e.toString());
+        }
+    }
+
+    public void moveToDR( Student student ) {
+        try {
+            choseDRfromStudentColor(student);
+        }
+        catch ( MaxNumberException e ) {
+            System.out.println(e.toString());
+        }
+        catch ( NullPointerException e ) {
+            System.out.println(e.toString());
+        }
+    }
+
+    private void choseDRfromStudentColor(Student student) throws MaxNumberException {
+        switch ( student.getColor() ) {
+            case RED:
+                redDiningRoom.insertStudent(student);
+                break;
+            case BLUE:
+                blueDiningRoom.insertStudent(student);
+                break;
+            case YELLOW:
+                yellowDiningRoom.insertStudent(student);
+                break;
+            case PINK:
+                pinkDiningRoom.insertStudent(student);
+                break;
+            case GREEN:
+                greenDiningRoom.insertStudent(student);
+                break;
         }
     }
 
@@ -131,5 +154,30 @@ public class Dashboard {
         //Testare che la clone crei effettivamente una copia separata tale per cui le modifiche non si ripercuotono sull'oggetto principale
         return mastersListCopy.values();
     }
+
+    public void addCoin() {
+        this.coin++;
+    }
+
+    public int getCoinsNumber() {
+        return this.coin;
+    }
+
+    public void removeCoin ( int coinToBeRemoved ) throws InsufficientCoinException {
+        if ( this.coin > coinToBeRemoved )
+            this.coin = coinToBeRemoved;
+        else
+            throw new InsufficientCoinException("You tried to remove too much coin, number of coin is: "+this.coin+", you tried to remove "+coinToBeRemoved+" coins");
+    }
+
+    public boolean hasKnightPrivilege() {
+        return isKnight;
+    }
+
+    public void setKnight( boolean setValue ) {
+        //TODO controllare possibile eccezione in caso non venga cambiato il valore
+        isKnight = setValue;
+    }
+
 
 }
