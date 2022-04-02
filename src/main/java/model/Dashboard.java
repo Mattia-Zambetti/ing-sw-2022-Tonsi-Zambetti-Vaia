@@ -12,6 +12,8 @@ public class Dashboard {
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
 
+    //prova per vedere se funziona il rebase
+
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
         entrance = new Entrance();
         redDiningRoom = new DiningRoom(Color.RED);
