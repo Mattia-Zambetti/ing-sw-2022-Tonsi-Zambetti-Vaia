@@ -4,7 +4,6 @@ import model.FigureCards.FigureCard;
 import model.exception.MaxNumberException;
 
 import java.util.*;
-//prova
 public class Match extends Observable{
     private List<Island> islandsList;
     private List<Cloud> clouds;
@@ -33,7 +32,7 @@ public class Match extends Observable{
             initializeIslands();
 
             Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
-            bag.instance();
+            Bag.instance();
 
 
             clouds = new ArrayList<Cloud>();
@@ -48,6 +47,7 @@ public class Match extends Observable{
         else throw new MaxNumberException("un match può avere dai 2 ai 4 giocatori");
     }
 
+    //TONSI
     private int chooseStudentsNumOnCLoud() {
         if(playersNum ==2){
             return STUDENTSONCLOUD2PLAYERS;
@@ -73,7 +73,7 @@ public class Match extends Observable{
     private Set<Student> pullStudentsFromCloud(int cloudNum) throws MaxNumberException {
         if(cloudNum<=playersNum && cloudNum>0 && clouds.get(cloudNum).toString()!="") {
             return clouds.get(cloudNum).takeStudents();
-        }else throw new MaxNumberException("Numero di nuvola sbagliato");
+        }else throw new MaxNumberException("wrong cloud's number");
     }
 
     private void refillClouds() throws MaxNumberException {
@@ -84,10 +84,10 @@ public class Match extends Observable{
 
 
     public void moveStudentsFromCloudToEntrance(int chosenCloud) throws MaxNumberException {
-        if(chosenCloud<=playersNum && chosenCloud>0 )
+        if(chosenCloud<=playersNum && chosenCloud>0 && clouds.get(chosenCloud).toString().equals(""))
             currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
         else
-            throw new MaxNumberException("Numero scelto errato");
+            throw new MaxNumberException("Wrong cloud's number");
         notifyObservers(); //non so cosa potrebbe notificare per ora, vedremo
     }
 
@@ -98,6 +98,16 @@ public class Match extends Observable{
         }
         notifyObservers(res);
     }
+
+    public void showCards(){
+        notifyObservers(new ArrayList<>(currentPlayerDashboard.showCards()));
+    }
+
+    public void chooseCard(Card chosenCard){
+        currentPlayerDashboard.playChosenCard(chosenCard);
+    }
+
+    //END TONSI
 
     //ZAMBO
 
@@ -118,5 +128,6 @@ public class Match extends Observable{
 
     }
     //END ZAMBO
+
 
 }
