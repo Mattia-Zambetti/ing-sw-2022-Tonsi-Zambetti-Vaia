@@ -116,7 +116,7 @@ public class Match {
         islands.get(currentIsland).setStudents(studentsTmp);
         islandPositions.remove(islandToBeMerged);
         totalNumIslands--;
-        islands.get(islandPositions.get(currentIsland)).addTowerNumber();
+        islands.get(currentIsland).addTowerNumber();
     }
 
     private void checkNearbyIslands() throws NoTowerException, NoIslandException {
