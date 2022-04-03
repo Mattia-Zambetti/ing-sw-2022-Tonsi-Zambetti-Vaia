@@ -9,9 +9,15 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+//Classe di test in quanto estende TestCase, i test possono essere eseguiti in blocco grazie al
+// play verde in parte alla classe(schiacciando col destro sui test è possibile far partire tutti i test
+// di tutte le classi), oppure far partire singolarmente ogni test sempre nello stesso modo
 class CloudTest extends TestCase {
+    //si possono definire variabili che poi verranno utilizzate nei test
     Cloud cloudTest;
 
+
+    //Questo metodo viene eseguito prima di ogni test, usato per inizializzare solitamente gli oggetti
     @BeforeEach
     void init(){
         Set<Student> students=new HashSet<>();
@@ -24,8 +30,10 @@ class CloudTest extends TestCase {
         Cloud.setStudentsNumOnCloud(students.size());
     }
 
+    //Da mettere sempre prima di un test
     @Test
     void createToStringCloud(){
+        //Indica se il test è fallito(false) oppure è riuscito all'esecuzione
         assertTrue(cloudTest.toString().equals("YELLOW student\nYELLOW student\nRED student\n") ||
                     cloudTest.toString().equals("YELLOW student\nRED student\nYELLOW student\n") ||
                     cloudTest.toString().equals("RED student\nYELLOW student\nYELLOW student\n"));
@@ -35,6 +43,7 @@ class CloudTest extends TestCase {
     void checkIsEmptyAfterTakeStudents() throws MaxNumberException {
         Set<Student> tmp=new HashSet<>();
         cloudTest.takeStudents();
+        //test riuscito sse i due oggetti sono uguali
         assertEquals(tmp,cloudTest.takeStudents());
         assertEquals("",cloudTest.toString());
     }
@@ -46,6 +55,7 @@ class CloudTest extends TestCase {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
         }catch (MaxNumberException e){
+            //probabilmente esiste una assert per le exception, consiglio di cercare
             System.out.println(e.getMessage());
         }finally{
             assertEquals("",cloudTest.toString());
@@ -93,6 +103,7 @@ class CloudTest extends TestCase {
             assertEquals("",cloudTest.toString());
         }
     }
+
 
 
 
