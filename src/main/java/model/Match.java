@@ -2,6 +2,8 @@ package model;
 
 import model.FigureCards.FigureCard;
 import model.exception.MaxNumberException;
+import model.exception.NoIslandException;
+import model.exception.NoTowerException;
 
 import java.util.*;
 
@@ -15,6 +17,8 @@ public class Match {
     private Collection<FigureCard> figureCards;
     private int playersNum;
     private boolean isExpertMode;
+    private int currentIsland, totalNumIslands;
+    private static List<Integer> islandPositions = new ArrayList<>();
 
     private static final int ISLANDSNUM=12; //utile definire tanti attributi così per avere codice facilmente modificabile
     private static final int STUDENTSONCLOUD2PLAYERS= 3;
@@ -62,9 +66,13 @@ public class Match {
 
     private void initializeIslands() {
         boolean motherNature=true;
+        currentIsland = 0;
+        totalNumIslands = 0;
         for (int i=0; i< ISLANDSNUM; i++){
-            islands.add(new Island(motherNature, i+1));
+            islands.add(new Island(motherNature, i));
             motherNature=false;
+            islandPositions.add(i);
+            totalNumIslands++;
         }
     }
 
@@ -84,5 +92,58 @@ public class Match {
             pullAndPushStudentsOnCloud(chosenCloud);
         else
             throw new MaxNumberException("Numero scelto errato");
+    }
+
+    private void moveMotherNature(int posizioni) throws NoIslandException {
+        int positionTmp = currentIsland;
+        islands.get(positionTmp).setMotherNature(false);
+        for (int i = 0; i < posizioni; i++){
+            positionTmp = nextIsland(positionTmp);
+        }
+        currentIsland = positionTmp;
+        islands.get(currentIsland).setMotherNature(true);
+    }
+
+    private void mergeIsland(int island){
+        ArrayList<Student>[] studentsToBeMergedTmp;
+        ArrayList<Student>[] studentsTmp;
+        studentsToBeMergedTmp = islands.get(islandPositions.get(island)).getStudents();
+        studentsTmp = islands.get(islandPositions.get(currentIsland)).getStudents();
+        for (int i = 0; i< 5;i++)
+        {
+            studentsTmp[i].addAll(studentsToBeMergedTmp[i]);
+        }
+        islands.get(islandPositions.get(currentIsland)).setStudents(studentsTmp);
+        islandPositions.remove(island);
+        totalNumIslands--;
+        islands.get(islandPositions.get(currentIsland)).addTowerNumber();
+    }
+
+    private void checkNearbyIslands() throws NoTowerException, NoIslandException {
+        int nextIslandTmp, previousIslandTmp;
+        nextIslandTmp = nextIsland(currentIsland);
+        previousIslandTmp = previousIsland(currentIsland);
+        if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+            mergeIsland(nextIslandTmp);
+        if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+            mergeIsland(previousIslandTmp);
+    }
+
+    private int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
+        int tmp = islandPositions.indexOf(position);
+        if(tmp > -1){
+        if(tmp + 1 == islandPositions.size())
+            return islandPositions.get(0);
+        return islandPositions.get(tmp + 1);}
+        else throw new NoIslandException("Isola non trovata");
+    }
+
+    private int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
+        int tmp = islandPositions.indexOf(position);
+        if(tmp > -1){
+        if(tmp - 1 == - 1)
+            return islandPositions.get(islandPositions.size() - 1);
+        return islandPositions.get(tmp - 1);}
+        else throw new NoIslandException("Isola non trovata");
     }
 }

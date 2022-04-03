@@ -10,12 +10,11 @@ import java.util.List;
 public class Island {
     private boolean isTower, isMotherNature, isForbidden, vaiaEffect;
     private int numberOfTowers, position;
-    private static int totalNumIslands = 12;
     private TowerColor towerColor;
     private ArrayList<Student>[] students;
-    private static List<Integer> islandPositions = new ArrayList<>();
 
     public Island ( boolean motherNature, int islandPosition ) {
+        students = new ArrayList[5];
         this.isTower = false;
         this.isMotherNature = motherNature;
         this.isForbidden = false;
@@ -23,8 +22,8 @@ public class Island {
         this.numberOfTowers = 0;
         this.position = islandPosition;
         this.towerColor = null;
-        students[5] = new ArrayList<Student>(0);
-        islandPositions.add(islandPosition);
+        for (int i = 0; i < students.length; i++)
+            students[i] = new ArrayList<Student>(0);
     }
 
     public TowerColor getTowerColor() throws NoTowerException {
@@ -78,36 +77,17 @@ public class Island {
         isTower = true;
     }
 
-
-    private void mergeIsland(Island island){
-        for (int i = 0; i< 5;i++)
-        {
-                this.students[i].addAll(island.students[i]);
-        }
-        islandPositions.remove(island.position);
-        totalNumIslands--;
-        this.numberOfTowers++;
+    public ArrayList<Student>[] getStudents() {
+        ArrayList<Student>[] tmp = students.clone();
+        return tmp;
     }
 
-    public void checkNearbyIslands(Island island){ //metodo che chiama il merge se la isola in parametro ha lo stesso colore della torre di this, match chiamerà questo metodo in base a "nextisland"e "previousIsland"
-        if(island.towerColor == this.towerColor)
-            mergeIsland(island);
+    public void setStudents(ArrayList<Student>[] students) {
+        this.students = students;
     }
 
-    //Da sistemare
-    public int nextIsland(){ //metodo che ritorna l'indice della posizione della prosiima isola
-        int tmp = islandPositions.indexOf(position);
-        if(tmp + 1 == islandPositions.size())
-            return islandPositions.get(0);
-        return islandPositions.get(tmp + 1);
-    }
-
-    //Da sistemare
-    public int previousIsland(){ //metodo che ritorna l'indice della posizione della isola precedente
-        int tmp = islandPositions.indexOf(position);
-        if(tmp - 1 == - 1)
-            return islandPositions.get(islandPositions.size() - 1);
-        return islandPositions.get(tmp - 1);
+    public int getPosition() {
+        return position;
     }
 
     public void addStudent(Student student){
@@ -116,6 +96,14 @@ public class Island {
 
     public void setForbidden(boolean forbidden){
         isForbidden = forbidden;
+    }
+
+    public void addTowerNumber() {
+        this.numberOfTowers++;
+    }
+
+    public int getNumberOfTowers() {
+        return numberOfTowers;
     }
 
     public boolean checkForbidden(){
@@ -128,12 +116,5 @@ public class Island {
 
     public boolean checkIsMotherNature(){
         return isMotherNature;
-    }
-
-    public static List<Integer> getIslandPositions() {
-        //
-        List<Integer> tmp = new ArrayList<>(islandPositions);
-        //
-        return tmp;
     }
 }
