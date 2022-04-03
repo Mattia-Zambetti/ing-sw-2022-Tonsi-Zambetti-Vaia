@@ -21,30 +21,33 @@ public class Match extends Observable{
     private static final int STUDENTSONCLOUD4PLAYERS= 3;
     private static final int INITIALNUMOFISLANDS= 12;
 
-    public Match(int playersNum, boolean isExpertMode) throws MaxNumberException {
-        if(playersNum<=4 && playersNum>1) {
-            this.playersNum = playersNum;
-            this.isExpertMode=isExpertMode;
+    public Match(int playersNum, boolean isExpertMode) {
+        try {
+            if (playersNum <= 4 && playersNum > 1) {
+                this.playersNum = playersNum;
+                this.isExpertMode = isExpertMode;
 
-            //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più efficiente
-            islandsList = new ArrayList<Island>();
+                //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più efficiente
+                islandsList = new ArrayList<Island>();
 
-            initializeIslands();
+                initializeIslands();
 
-            Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
-            Bag.instance();
+                Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
+                Bag.instance();
 
 
-            clouds = new ArrayList<Cloud>();
-            initializeClouds();
+                clouds = new ArrayList<Cloud>();
+                initializeClouds();
 
-            dashboardsCollection = new ArrayList<Dashboard>();
-            currentPlayerDashboard = null;
-            for (Color c : Color.values()) {
-                mastersMap.put(c, new Master(c));
-            }
+                dashboardsCollection = new ArrayList<Dashboard>();
+                currentPlayerDashboard = null;
+                for (Color c : Color.values()) {
+                    mastersMap.put(c, new Master(c));
+                }
+            } else throw new MaxNumberException("un match può avere dai 2 ai 4 giocatori");
+        }catch (MaxNumberException e){
+            System.out.println(e.toString());
         }
-        else throw new MaxNumberException("un match può avere dai 2 ai 4 giocatori");
     }
 
     //TONSI
@@ -56,9 +59,13 @@ public class Match extends Observable{
         else return STUDENTSONCLOUD4PLAYERS;
     }
 
-    private void initializeClouds() throws MaxNumberException {
-        for (int i=0; i< playersNum; i++){
-            clouds.add(new Cloud(bag.removeStudents(Cloud.getStudentsNumOnCloud())));
+    private void initializeClouds() {
+        try {
+            for (int i = 0; i < playersNum; i++) {
+                clouds.add(new Cloud(bag.removeStudents(Cloud.getStudentsNumOnCloud())));
+            }
+        }catch(MaxNumberException e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -70,10 +77,15 @@ public class Match extends Observable{
         }
     }
 
-    private Set<Student> pullStudentsFromCloud(int cloudNum) throws MaxNumberException {
-        if(cloudNum<=playersNum && cloudNum>0 && clouds.get(cloudNum).toString()!="") {
-            return clouds.get(cloudNum).takeStudents();
-        }else throw new MaxNumberException("wrong cloud's number");
+    private Set<Student> pullStudentsFromCloud(int cloudNum) {
+        try {
+            if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum).toString() != "") {
+                return clouds.get(cloudNum).takeStudents();
+            } else throw new MaxNumberException("wrong cloud's number");
+        }catch (MaxNumberException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     private void refillClouds() throws MaxNumberException {
@@ -83,12 +95,16 @@ public class Match extends Observable{
     }
 
 
-    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws MaxNumberException {
-        if(chosenCloud<=playersNum && chosenCloud>0 && clouds.get(chosenCloud).toString().equals(""))
-            currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
-        else
-            throw new MaxNumberException("Wrong cloud's number");
-        notifyObservers(); //non so cosa potrebbe notificare per ora, vedremo
+    public void moveStudentsFromCloudToEntrance(int chosenCloud) {
+        try {
+            if (chosenCloud <= playersNum && chosenCloud > 0 && clouds.get(chosenCloud).toString().equals(""))
+                currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
+            else
+                throw new MaxNumberException("Wrong cloud's number");
+            notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
+        }catch (MaxNumberException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void toStringStudentsOnClass() {

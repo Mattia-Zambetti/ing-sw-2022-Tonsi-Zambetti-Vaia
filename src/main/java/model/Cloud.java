@@ -31,7 +31,12 @@ public class Cloud {
     }
 
     public void refillCloud(Set<Student> students) throws MaxNumberException {
-        if(studentsOnCloud.size()==getStudentsNumOnCloud())
+        for(Student s: students){
+            if(s.getColor()==null){
+                throw new MaxNumberException("error in the enter parameter");
+            }
+        }
+        if(students.size()==getStudentsNumOnCloud() )
             studentsOnCloud.addAll(students);
         else throw new MaxNumberException("error in the enter parameter");
     }
