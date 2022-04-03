@@ -104,17 +104,17 @@ public class Match {
         islands.get(currentIsland).setMotherNature(true);
     }
 
-    private void mergeIsland(int island){
+    private void mergeIsland(int islandToBeMerged){
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
-        studentsToBeMergedTmp = islands.get(islandPositions.get(island)).getStudents();
-        studentsTmp = islands.get(islandPositions.get(currentIsland)).getStudents();
+        studentsToBeMergedTmp = islands.get(islandToBeMerged).getStudents();
+        studentsTmp = islands.get(currentIsland).getStudents();
         for (int i = 0; i< 5;i++)
         {
             studentsTmp[i].addAll(studentsToBeMergedTmp[i]);
         }
-        islands.get(islandPositions.get(currentIsland)).setStudents(studentsTmp);
-        islandPositions.remove(island);
+        islands.get(currentIsland).setStudents(studentsTmp);
+        islandPositions.remove(islandToBeMerged);
         totalNumIslands--;
         islands.get(islandPositions.get(currentIsland)).addTowerNumber();
     }
