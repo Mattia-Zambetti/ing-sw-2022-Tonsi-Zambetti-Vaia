@@ -35,9 +35,6 @@ public class Cloud {
             studentsOnCloud.addAll(students);
         else throw new MaxNumberException("error in the enter parameter");
     }
-
-
-
     @Override
     public String toString(){
         String res = "";
