@@ -52,7 +52,7 @@ public class Dashboard {
             this.towersNumber = newTowersNumber;
     }
 
-    public Set<Student> showEntrance () {
+    public ArrayList<Student> showEntrance () {
         return entrance.getStudents();
     }
 

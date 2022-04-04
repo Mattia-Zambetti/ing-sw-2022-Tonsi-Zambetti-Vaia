@@ -48,7 +48,15 @@ public class EntranceTest extends TestCase {
 
         entrance.insertStudents(studentsTest);
         assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-2);
-        assertEquals(entrance.getStudents(), studentsTest);
+
+        boolean AllStudentsArePresent = true;
+        for ( Student s : studentsTest ) {
+            if ( !entrance.getStudents().contains(s) ) {
+                AllStudentsArePresent = false;
+                break;
+            }
+        }
+        assertTrue(AllStudentsArePresent);
 
         //entrance.insertStudents(studentsSet);
         //assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
