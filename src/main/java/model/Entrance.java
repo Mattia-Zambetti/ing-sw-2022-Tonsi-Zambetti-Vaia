@@ -7,22 +7,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Entrance {
-    private final static int MAXSTUDENTI=9;
+    private final static int MAXSTUDENTS =9;
     private Set<Student> students;
 
     public Entrance(){
         students=new HashSet<>();
     }
 
+    public static int getMAXSTUDENTS() {
+        return MAXSTUDENTS;
+    }
+
     public void insertStudents(Set<Student> studentsFromCloud) throws MaxNumberException {
+        int initialSize=students.size();
         for (Student s: studentsFromCloud){
-            if(students.size()==MAXSTUDENTI)
-                throw new MaxNumberException("numero massimo raggiunto");
+            if(students.size()== MAXSTUDENTS)
+                throw new MaxNumberException("You can't add students to the entrance. " +
+                        "Students inserted in this round:"+ (students.size()-initialSize) );
             else
                 students.add(s);
         }
     }
 
+    //This method verify that an object is exactly the same, and not a clone, pay attention.
+    //It's perfect for us because we can pass students, they are immutable object, but
+    //if we use a clone of the Student, it doesn't work(watch
+    // the insertStudentsWithoutException() test)
     public void removeStudent(Student student) throws InexistentStudentException{
         if ( students.contains(student) )
             students.remove(student);

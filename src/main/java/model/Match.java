@@ -1,3 +1,4 @@
+//Tonsi, Zambo, Vaia
 package model;
 
 import model.FigureCards.FigureCard;
@@ -15,19 +16,27 @@ public class Match extends Observable{
     private int playersNum;
     private boolean isExpertMode;
 
-    private static final int ISLANDSNUM=12; //utile definire tanti attributi così per avere codice facilmente modificabile
+    //utile definire tanti attributi così per avere codice facilmente modificabile
+    private static final int ISLANDSNUM=12;
+
     private static final int STUDENTSONCLOUD2PLAYERS= 3;
     private static final int STUDENTSONCLOUD3PLAYERS= 4;
     private static final int STUDENTSONCLOUD4PLAYERS= 3;
-    private static final int INITIALNUMOFISLANDS= 12;
+
+    private static final int INITIALNUMOFISLANDS= 12;//ma c'è già sopra
+
+    private static final int MAXPLAYERSNUM=4;
+    private static final int MINPLAYERSNUM=2;
 
     public Match(int playersNum, boolean isExpertMode) {
         try {
-            if (playersNum <= 4 && playersNum > 1) {
-                this.playersNum = playersNum;
+            this.playersNum = playersNum;
+            if (this.playersNum <= MAXPLAYERSNUM && this.playersNum >= MINPLAYERSNUM) {
+
                 this.isExpertMode = isExpertMode;
 
-                //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più efficiente
+                //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più
+                // efficiente la linked
                 islandsList = new ArrayList<Island>();
 
                 initializeIslands();
@@ -41,16 +50,31 @@ public class Match extends Observable{
 
                 dashboardsCollection = new ArrayList<Dashboard>();
                 currentPlayerDashboard = null;
+                mastersMap=new HashMap<>();
                 for (Color c : Color.values()) {
                     mastersMap.put(c, new Master(c));
                 }
-            } else throw new MaxNumberException("un match può avere dai 2 ai 4 giocatori");
+            } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException e){
-            System.out.println(e.toString());
+            System.out.println(e.getMessage());
         }
     }
 
     //TONSI
+
+
+    public static int getMAXPLAYERSNUM() {
+        return MAXPLAYERSNUM;
+    }
+
+    public static int getMINPLAYERSNUM() {
+        return MINPLAYERSNUM;
+    }
+
+    public int getPlayersNum() {
+        return playersNum;
+    }
+
     private int chooseStudentsNumOnCLoud() {
         if(playersNum ==2){
             return STUDENTSONCLOUD2PLAYERS;
@@ -97,10 +121,10 @@ public class Match extends Observable{
 
     public void moveStudentsFromCloudToEntrance(int chosenCloud) {
         try {
-            if (chosenCloud <= playersNum && chosenCloud > 0 && clouds.get(chosenCloud).toString().equals(""))
-                currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
+            if (chosenCloud <= playersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
+                currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud-1));
             else
-                throw new MaxNumberException("Wrong cloud's number");
+                throw new MaxNumberException("This cloud doesn't exist");
             notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
         }catch (MaxNumberException e){
             System.out.println(e.getMessage());

@@ -1,10 +1,8 @@
 package model;
 
-import model.exception.*;
+import model.exception.NoTowerException;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 public class Island {
@@ -23,7 +21,7 @@ public class Island {
         this.numberOfTowers = 0;
         this.position = islandPosition;
         this.towerColor = null;
-        students[5] = new ArrayList<Student>(0);
+        students[5] = new ArrayList<Student>();
         islandPositions.add(islandPosition);
     }
 
