@@ -1,6 +1,5 @@
 model\exception\InexistentStudentException.class
 model\Wizard.class
-model\FigureCards\Cavaliere.class
 model\FigureCards\Sciura.class
 model\FigureCards\Postino.class
 model\Bag.class
@@ -16,6 +15,7 @@ model\Entrance.class
 model\exception\CardNotFoundException.class
 model\Student.class
 model\TowerColor.class
+model\exception\InsufficientCoinException.class
 model\exception\NoMasterException.class
 model\DiningRoom.class
 model\Color.class
@@ -29,4 +29,5 @@ model\Card.class
 model\FigureCards\Giullare.class
 model\exception\MaxNumberException.class
 model\Player.class
+model\Match.class
 model\FigureCards\Principessa.class

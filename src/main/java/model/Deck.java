@@ -17,7 +17,6 @@ public class Deck {
     private final static String stringName="Carte.json";
 
     public Deck(Wizard wizard){
-
         jsonImport=new JsonImport(stringName);
         cards = new HashSet<Card>(jsonImport.createCards());
         currentCard = null;
