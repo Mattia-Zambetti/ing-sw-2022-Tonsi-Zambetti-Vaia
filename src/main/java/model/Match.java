@@ -215,7 +215,7 @@ public class Match extends Observable{
         if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
             mergeIsland(previousIslandTmp);
     }
-
+//
     private int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
