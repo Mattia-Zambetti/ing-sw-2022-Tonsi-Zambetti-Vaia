@@ -2,11 +2,13 @@ package model;
 
 import model.FigureCards.FigureCard;
 import model.exception.MaxNumberException;
+import model.exception.NoIslandException;
+import model.exception.NoTowerException;
 
 import java.util.*;
 //prova
 public class Match extends Observable{
-    private List<Island> islandsList;
+    private List<Island> islands;
     private List<Cloud> clouds;
     private Bag bag;
     private Collection<Dashboard> dashboardsCollection;
@@ -15,21 +17,21 @@ public class Match extends Observable{
     private Collection<FigureCard> figureCards;
     private int playersNum;
     private boolean isExpertMode;
+    private int currentIsland, totalNumIslands;
+    private static List<Integer> islandPositions = new ArrayList<>();
 
     private static final int ISLANDSNUM=12; //utile definire tanti attributi così per avere codice facilmente modificabile
     private static final int STUDENTSONCLOUD2PLAYERS= 3;
     private static final int STUDENTSONCLOUD3PLAYERS= 4;
     private static final int STUDENTSONCLOUD4PLAYERS= 3;
-    private static final int INITIALNUMOFISLANDS= 12;
 
     public Match(int playersNum, boolean isExpertMode) throws MaxNumberException {
         if(playersNum<=4 && playersNum>1) {
             this.playersNum = playersNum;
             this.isExpertMode=isExpertMode;
 
-            //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più efficiente
-            islandsList = new ArrayList<Island>();
-
+            islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
+                                                // la prossima/precedente, dovrebbe essere più efficiente
             initializeIslands();
 
             Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
@@ -64,8 +66,11 @@ public class Match extends Observable{
 
     private void initializeIslands() {
         boolean motherNature=true;
+        currentIsland = 0;
+        totalNumIslands = 0;
         for (int i=0; i< ISLANDSNUM; i++){
-            islandsList.add(new Island(motherNature, i+1));
+            islands.add(new Island(motherNature, i));
+            //islands.add(new Island(motherNature, i+1));
             motherNature=false;
         }
     }
@@ -119,4 +124,57 @@ public class Match extends Observable{
     }
     //END ZAMBO
 
+
+    private void moveMotherNature(int posizioni) throws NoIslandException {
+        int positionTmp = currentIsland;
+        islands.get(positionTmp).setMotherNature(false);
+        for (int i = 0; i < posizioni; i++){
+            positionTmp = nextIsland(positionTmp);
+        }
+        currentIsland = positionTmp;
+        islands.get(currentIsland).setMotherNature(true);
+    }
+
+    private void mergeIsland(int islandToBeMerged){
+        ArrayList<Student>[] studentsToBeMergedTmp;
+        ArrayList<Student>[] studentsTmp;
+        studentsToBeMergedTmp = islands.get(islandToBeMerged).getStudents();
+        studentsTmp = islands.get(currentIsland).getStudents();
+        for (int i = 0; i< 5;i++)
+        {
+            studentsTmp[i].addAll(studentsToBeMergedTmp[i]);
+        }
+        islands.get(currentIsland).setStudents(studentsTmp);
+        islandPositions.remove(islandToBeMerged);
+        totalNumIslands--;
+        islands.get(currentIsland).addTowerNumber();
+    }
+
+    private void checkNearbyIslands() throws NoTowerException, NoIslandException {
+        int nextIslandTmp, previousIslandTmp;
+        nextIslandTmp = nextIsland(currentIsland);
+        previousIslandTmp = previousIsland(currentIsland);
+        if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+            mergeIsland(nextIslandTmp);
+        if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+            mergeIsland(previousIslandTmp);
+    }
+
+    private int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
+        int tmp = islandPositions.indexOf(position);
+        if(tmp > -1){
+        if(tmp + 1 == islandPositions.size())
+            return islandPositions.get(0);
+        return islandPositions.get(tmp + 1);}
+        else throw new NoIslandException("Isola non trovata");
+    }
+
+    private int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
+        int tmp = islandPositions.indexOf(position);
+        if(tmp > -1){
+        if(tmp - 1 == - 1)
+            return islandPositions.get(islandPositions.size() - 1);
+        return islandPositions.get(tmp - 1);}
+        else throw new NoIslandException("Isola non trovata");
+    }
 }
