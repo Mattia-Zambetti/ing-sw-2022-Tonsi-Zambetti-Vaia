@@ -29,6 +29,13 @@ public class Entrance {
         }
     }
 
+    public void insertStudent(Student studentToBeAdded) throws MaxNumberException {
+        if( this.students.size() == MAXSTUDENTS)
+            throw new MaxNumberException("Entrance full, you can't add students to the entrance.");
+        else
+            this.students.add(studentToBeAdded);
+    }
+
     //This method verify that an object is exactly the same, and not a clone, pay attention.
     //It's perfect for us because we can pass students, they are immutable object, but
     //if we use a clone of the Student, it doesn't work(watch
@@ -43,5 +50,13 @@ public class Entrance {
     public Set<Student> getStudents(){
         return new HashSet<>(students);
     }
+
+    /*private boolean containsStudent( Student student ) {
+        for ( Student s : students ) {
+            if ( s.equals(student) )
+                return true;
+        }
+        return false;
+    }*/
 }
 

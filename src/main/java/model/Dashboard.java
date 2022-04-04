@@ -109,7 +109,7 @@ public class Dashboard {
     public Student removeStudentFromEntrance( Student chosenStudent ){
         try {
             entrance.removeStudent(chosenStudent);
-            return chosenStudent;
+            return new Student(chosenStudent);
         }
         catch ( InexistentStudentException e ) {
             System.out.println(e.toString());
