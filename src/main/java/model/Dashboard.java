@@ -37,6 +37,21 @@ public class Dashboard {
         this.isKnight = false; //Settato a false per la modalità esperto
     }
 
+    public Dashboard ( Dashboard dashboardToCopy ) {
+        this.entrance = new Entrance(dashboardToCopy.entrance);
+        this.redDiningRoom = new DiningRoom(dashboardToCopy.redDiningRoom);
+        this.blueDiningRoom = new DiningRoom(dashboardToCopy.blueDiningRoom);
+        this.greenDiningRoom = new DiningRoom(dashboardToCopy.greenDiningRoom);
+        this.yellowDiningRoom = new DiningRoom(dashboardToCopy.yellowDiningRoom);
+        this.pinkDiningRoom = new DiningRoom(dashboardToCopy.pinkDiningRoom);
+        this.towersCollection = new ArrayList<>(dashboardToCopy.towersCollection);
+        this.towerColor = dashboardToCopy.towerColor;
+        this.deck = new Deck(dashboardToCopy.deck);
+        this.mastersList = new HashMap<>(dashboardToCopy.mastersList);
+        this.coin = dashboardToCopy.coin;
+        this.isKnight = dashboardToCopy.isKnight;
+    }
+
     //Restituisce il numero di torri presenti nella dashboard
     public int getTowersNum() {
         return this.towersCollection.size();
