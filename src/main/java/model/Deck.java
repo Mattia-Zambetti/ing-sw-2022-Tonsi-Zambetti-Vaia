@@ -23,6 +23,14 @@ public class Deck {
         this.wizard=wizard;
     }
 
+    //Useful for a clone
+    public Deck(Deck deck){
+        this.cards=deck.getCards();
+        this.wizard=deck.wizard;
+        this.currentCard= deck.getCurrentCard();
+        this.jsonImport=new JsonImport(stringName);
+    }
+
 
     public void playCard(Card card) throws CardNotFoundException {
         if(cards.contains(card)) {

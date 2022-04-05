@@ -14,6 +14,10 @@ public class Bag {
 
     private Bag(){}
 
+    public static int size(){
+        return students.size();
+    }
+
     public static Bag instance(){
         students=new HashSet<>();
         if (bag==null){
@@ -60,7 +64,7 @@ public class Bag {
         return students.size();
     }
 
-    //it recreate the bag from the start. Used for the tests and to create new matches
+    //it recreate the bag from the start. Used for tests and to create new matches
     public static void restoreBag(){
         bag=null;
         Bag.instance();
