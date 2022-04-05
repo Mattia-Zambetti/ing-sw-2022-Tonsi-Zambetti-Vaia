@@ -8,6 +8,7 @@ model\Dashboard.class
 model\Island.class
 model\Cloud.class
 model\Deck.class
+model\exception\NoIslandException.class
 model\exception\WrongColorException.class
 model\FigureCards\Vaia.class
 model\Master.class

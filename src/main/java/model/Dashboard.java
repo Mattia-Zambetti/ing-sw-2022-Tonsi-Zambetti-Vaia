@@ -52,6 +52,8 @@ public class Dashboard {
             this.towersNumber = newTowersNumber;
     }
 
+    //TODO aggiungere metodo addTowers(int numberOfTowers)
+
     public ArrayList<Student> showEntrance () {
         return entrance.getStudents();
     }
@@ -64,6 +66,7 @@ public class Dashboard {
         try{
             for( Student s:studentsSet ) {
                 choseDRfromStudentColor(s);
+                this.entrance.removeStudent(s);
             }
         }
         catch ( MaxNumberException e ) {
@@ -72,11 +75,18 @@ public class Dashboard {
         catch ( NullPointerException e ) {
             System.out.println(e.toString());
         }
+        catch ( WrongColorException e ) {
+            System.out.println(e.toString());
+        }
+        catch (InexistentStudentException e) {
+            System.out.println(e.toString());
+        }
     }
 
     public void moveToDR( Student student ) {
         try {
             choseDRfromStudentColor(student);
+            this.entrance.removeStudent(student);
         }
         catch ( MaxNumberException e ) {
             System.out.println(e.toString());
@@ -84,9 +94,15 @@ public class Dashboard {
         catch ( NullPointerException e ) {
             System.out.println(e.toString());
         }
+        catch ( WrongColorException e ) {
+            System.out.println(e.toString());
+        }
+        catch (InexistentStudentException e) {
+            System.out.println(e.toString());
+        }
     }
 
-    private void choseDRfromStudentColor(Student student) throws MaxNumberException {
+    private void choseDRfromStudentColor(Student student) throws MaxNumberException, WrongColorException {
         switch ( student.getColor() ) {
             case RED:
                 redDiningRoom.insertStudent(student);
