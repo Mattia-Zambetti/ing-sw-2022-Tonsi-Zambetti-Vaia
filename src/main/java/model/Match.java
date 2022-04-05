@@ -45,11 +45,7 @@ public class Match extends Observable{
                 //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più
                 // efficiente la linked
                 islands = new ArrayList<Island>();
-
                 initializeIslands();
-           // islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
-                                                // la prossima/precedente, dovrebbe essere più efficiente
-            initializeIslands();
 
                 Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
                 Bag.instance();
@@ -99,7 +95,7 @@ public class Match extends Observable{
     private void initializeClouds() {
         try {
             for (int i = 0; i < playersNum; i++) {
-                clouds.add(new Cloud(bag.removeStudents(Cloud.getStudentsNumOnCloud())));
+                clouds.add(new Cloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud())));
             }
         }catch(MaxNumberException e){
             System.out.println(e.getMessage());
@@ -119,8 +115,8 @@ public class Match extends Observable{
 
     private Set<Student> pullStudentsFromCloud(int cloudNum) {
         try {
-            if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum).toString() != "") {
-                return clouds.get(cloudNum).takeStudents();
+            if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum-1).toString() != "") {
+                return clouds.get(cloudNum-1).takeStudents();
             } else throw new MaxNumberException("wrong cloud's number");
         }catch (MaxNumberException e){
             System.out.println(e.getMessage());
@@ -128,17 +124,18 @@ public class Match extends Observable{
         return null;
     }
 
-    private void refillClouds() throws MaxNumberException {
+    //public for the tests(for now)
+    public void refillClouds() throws MaxNumberException {
         for(Cloud c:clouds){
-            c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+            c.refillCloud(bag.removeStudents(Cloud.getStudentsNumOnCloud()));
         }
     }
 
-
+    //the param chosenCLoud require to contains the choice staring from 1(NOT 0)
     public void moveStudentsFromCloudToEntrance(int chosenCloud) {
         try {
             if (chosenCloud <= playersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
-                currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud-1));
+                currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new MaxNumberException("This cloud doesn't exist");
             notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
@@ -147,12 +144,13 @@ public class Match extends Observable{
         }
     }
 
-    private void toStringStudentsOnClass() {
+    public String toStringStudentsOnCloud() {
         String res = "";
         for (Cloud c : clouds) {
             res += c.toString();
         }
         notifyObservers(res);
+        return res;
     }
 
     public void showCards(){

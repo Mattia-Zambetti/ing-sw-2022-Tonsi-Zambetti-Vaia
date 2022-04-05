@@ -15,14 +15,12 @@ public class Bag {
     private Bag(){}
 
     public static Bag instance(){
-        int numStudent=0;
         students=new HashSet<>();
         if (bag==null){
             bag= new Bag();
             for(Color c: Color.values()){
                 for(int i = 0; i< STUDENTSNUMCOLOR; i++){
-                    students.add(new Student(numStudent, c));
-                    numStudent++;
+                    students.add(new Student(i, c));
                 }
             }
         }
