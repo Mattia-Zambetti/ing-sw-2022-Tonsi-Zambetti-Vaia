@@ -20,7 +20,7 @@ public class EntranceTest extends TestCase {
         entrance=new Entrance();
         studentsTest=new HashSet<>();
         for(int i = 0; i<Entrance.getMAXSTUDENTS()-2; i++){
-            studentsTest.add(new Student(1,Color.PINK));
+            studentsTest.add(new Student(i+1, Color.PINK));
         }
     }
 
@@ -41,21 +41,44 @@ public class EntranceTest extends TestCase {
     //or the original
     @Test
     void insertAndDeleteStudentsWithoutMaxNumberException() throws MaxNumberException, InexistentStudentException {
-        Student studentTmp=new Student(1, Color.RED);
-        Set<Student> studentsSet=new HashSet<Student>();
-        studentsSet.add(studentTmp);
+        Student studentTmp= new Student( Entrance.getMAXSTUDENTS(), Color.RED);
+        Student pinkStudent1 = new Student( 1, Color.PINK);
+        //Set<Student> studentsSet=new HashSet<Student>();
+        //studentsSet.add(studentTmp);
 
         entrance.insertStudents(studentsTest);
         assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-2);
-        assertEquals(entrance.getStudents(), studentsTest);
 
-        entrance.insertStudents(studentsSet);
+        boolean AllStudentsArePresent = true;
+        for ( Student s : studentsTest ) {
+            if ( !entrance.getStudents().contains(s) ) {
+                AllStudentsArePresent = false;
+                break;
+            }
+        }
+        assertTrue(AllStudentsArePresent);
+
+        //entrance.insertStudents(studentsSet);
+        //assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
+
+        entrance.insertStudent(studentTmp);
         assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
 
-        assertThrows(InexistentStudentException.class,()->entrance.removeStudent(new Student(1, Color.RED)));
-        assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
+        //assertThrows( InexistentStudentException.class,()->entrance.removeStudent(pinkStudent1) );
+        //assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
 
-        entrance.removeStudent(studentTmp);
+        entrance.removeStudent(pinkStudent1);
         assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-2);
+
+        boolean studentAbsent = true;
+
+        for ( Student s : entrance.getStudents() ) {
+            if ( s.equals(pinkStudent1) ) {
+                studentAbsent = false;
+                break;
+            }
+        }
+
+        assertTrue(studentAbsent);
     }
 }

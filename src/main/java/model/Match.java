@@ -11,14 +11,16 @@ public class Match extends Observable{
     private List<Island> islands;
     private List<Cloud> clouds;
     private Bag bag;
-    private Collection<Dashboard> dashboardsCollection;
+    private Collection<Dashboard> dashboardsCollection; //Ipotizzo che l'ordine delle Dashboard nella collection sia lo stesso dei turni dei giocatori nella partita
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
     private Collection<FigureCard> figureCards;
     private int playersNum;
     private boolean isExpertMode;
     private int currentIsland, totalNumIslands;
+    private int currentPlayersNum;
     private static List<Integer> islandPositions = new ArrayList<>();
+    private int towersNum;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
     private static final int ISLANDSNUM=12;
@@ -27,7 +29,7 @@ public class Match extends Observable{
     private static final int STUDENTSONCLOUD3PLAYERS= 4;
     private static final int STUDENTSONCLOUD4PLAYERS= 3;
 
-    private static final int INITIALNUMOFISLANDS= 12;//ma c'è già sopra
+    //Da Zambo, ho rimosso una costante che avevo scritto io ma che c'era già e che non veniva usata, spero non dia problemi durante il merge
 
     private static final int MAXPLAYERSNUM=4;
     private static final int MINPLAYERSNUM=2;
@@ -36,7 +38,7 @@ public class Match extends Observable{
         try {
             this.playersNum = playersNum;
             if (this.playersNum <= MAXPLAYERSNUM && this.playersNum >= MINPLAYERSNUM) {
-
+                currentPlayersNum=0;
                 this.isExpertMode = isExpertMode;
 
                 //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più
@@ -54,6 +56,8 @@ public class Match extends Observable{
 
                 clouds = new ArrayList<Cloud>();
                 initializeClouds();
+
+                setTowersNum();
 
                 dashboardsCollection = new ArrayList<Dashboard>();
                 currentPlayerDashboard = null;
@@ -158,6 +162,33 @@ public class Match extends Observable{
         currentPlayerDashboard.playChosenCard(chosenCard);
     }
 
+    //missing nickname, this method has to be fixed
+    public void addPlayer(String nickname, String towerColor, String wizard){
+        if(dashboardsCollection.size()<playersNum && playersNum<=3){
+            dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
+        }
+        if(dashboardsCollection.size()<playersNum && playersNum>3 && (dashboardsCollection.size()==1 || dashboardsCollection.size()==3)  ){
+            dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
+        }
+        if(dashboardsCollection.size()<playersNum && playersNum>3 && (dashboardsCollection.size()==2 || dashboardsCollection.size()==4)  ){
+            dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
+        }
+        if(dashboardsCollection.size()==1){
+            currentPlayerDashboard=(Dashboard) ((ArrayList)dashboardsCollection).get(0);
+        }
+    }
+
+    private void setTowersNum(){
+        if(playersNum==2){
+            towersNum=8;
+        }
+        else if(playersNum==3){
+            towersNum=6;
+        }
+        else if(playersNum==4)
+            towersNum=8;
+
+    }
     //END TONSI
 
     //ZAMBO
@@ -169,15 +200,45 @@ public class Match extends Observable{
         this.currentPlayerDashboard.moveToDR( tmpStudent );
     }
 
-    private void moveFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) {
+    private void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
         Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
         //chosenIsland
-
+        for ( Island isl : islands) {
+            if (isl.equals(chosenIsland)) {
+                isl.addStudent(tmpStudent);
+                return;
+            }
+        }
+        throw new NoIslandException("Island not found, moveStudentFromEntranceToIsland failed");
     }
 
+    private void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
+        Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
+        //chosenIsland
+        if ( chosenIslandPosition<0 || chosenIslandPosition>(this.totalNumIslands-1) )
+            throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
+        //TODO possibile check sul fatto che l'isola non sia giá stata unificata ad un'altra
+        if ( this.islands.get(chosenIslandPosition) == null )
+            throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
+        else
+            this.islands.get(chosenIslandPosition).addStudent(tmpStudent);
+    }
+
+    //TODO MERGE quando faremo il merge meglio cambiare il tipo statico di dashboardCollection in ArrayList e togliere dashboardsCollectionArrayListRef
     private void setNextCurrDashboard() {
-
+        ArrayList<Dashboard> dashboardsCollectionArrayListRef;
+        if ( ! (dashboardsCollection instanceof ArrayList<Dashboard>) )
+            return;
+        dashboardsCollectionArrayListRef = (ArrayList<Dashboard>) this.dashboardsCollection;
+        int currentPlayerPosition = dashboardsCollectionArrayListRef.indexOf(this.currentPlayerDashboard);
+        if ( currentPlayerPosition < (this.dashboardsCollection.size()-1) )
+            currentPlayerPosition++;
+        else
+            currentPlayerPosition = 0;
+        this.currentPlayerDashboard = dashboardsCollectionArrayListRef.get(currentPlayerPosition);
     }
+
+
     //END ZAMBO
 
 

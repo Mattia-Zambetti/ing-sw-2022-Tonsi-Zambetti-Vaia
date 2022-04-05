@@ -2,8 +2,6 @@ package model;
 
 import junit.framework.TestCase;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 public class MatchTest extends TestCase {
     Match match;
     static final int PLAYERSNUM=2;
@@ -11,33 +9,34 @@ public class MatchTest extends TestCase {
     @BeforeEach void init() {
         match=new Match(PLAYERSNUM, false);
         assertEquals(PLAYERSNUM, match.getPlayersNum());
+        match.addPlayer("Vaia", "BLACK", "WIZARD1");
     }
 
     //It tests if it's possible to create a Match with the wrong number of players
-    @Test
+    /*@Test
     void TooManyPlayersException(){
         Match tmp;
         tmp=new Match(Match.getMAXPLAYERSNUM()+1,false);
         assertFalse(tmp.hasChanged());
         tmp=new Match(Match.getMINPLAYERSNUM()-1,false);
         assertFalse(tmp.hasChanged());
-    }
+    }*/
 
     //it tests the presence of a wrong choice into
     // the parameters of the moveStudentsFromCloudToEntrance's method
-    @Test
+    /*@Test
     void moveStudentsFromCloudWrongNumber(){
-        
-        int chosenCloud=PLAYERSNUM+1;
+        Match tmp=new Match(PLAYERSNUM, false);
+        tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
+
+        final int chosenCloud=PLAYERSNUM+1;
+        assertThrows(MaxNumberException.class,()->match.moveStudentsFromCloudToEntrance(chosenCloud));
+
+
         match.moveStudentsFromCloudToEntrance(chosenCloud);
-        assertFalse(match.hasChanged());
-        chosenCloud=0;
         match.moveStudentsFromCloudToEntrance(chosenCloud);
-        assertFalse(match.hasChanged());
-        chosenCloud=PLAYERSNUM;
-        match.moveStudentsFromCloudToEntrance(chosenCloud);
-        assertTrue(match.hasChanged());
-    }
+        assertNotSame(match, tmp);
+    }*/
 
 
 }

@@ -1,8 +1,7 @@
 //Zambo
 package model;
 
-import model.exception.MaxNumberException;
-import model.exception.NoMasterException;
+import model.exception.*;
 
 import java.util.ArrayList;
 
@@ -21,13 +20,18 @@ public class DiningRoom {
         return students.size();
     }
 
-    public void insertStudent ( Student newStudent ) throws MaxNumberException, NullPointerException{
+    public void insertStudent ( Student newStudent ) throws MaxNumberException, NullPointerException, WrongColorException{
         if ( newStudent == null)
             throw new NullPointerException("Passed a null reference for newStudent in DR insertStudent()");
-        if ( students.size() < DINING_ROOM_DIM )
-            students.add( newStudent );
-        throw new MaxNumberException(roomColor.toString()+" Dining Room Full");
+        if ( newStudent.getColor().ordinal()!=this.roomColor.ordinal() )
+            throw new WrongColorException("Trying to insert newStudent in the wrong DR");
+        if ( students.size() >= DINING_ROOM_DIM )
+            throw new MaxNumberException(roomColor.toString()+" Dining Room Full");
+
+        students.add( newStudent );
     }
 
-
+    public static int getDiningRoomDim() {
+        return DINING_ROOM_DIM;
+    }
 }
