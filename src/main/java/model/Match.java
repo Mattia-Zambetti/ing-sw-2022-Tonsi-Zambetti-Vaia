@@ -18,7 +18,9 @@ public class Match extends Observable{
     private int playersNum;
     private boolean isExpertMode;
     private int currentIsland, totalNumIslands;
+    private int currentPlayersNum;
     private static List<Integer> islandPositions = new ArrayList<>();
+    private int towersNum;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
     private static final int ISLANDSNUM=12;
@@ -36,7 +38,7 @@ public class Match extends Observable{
         try {
             this.playersNum = playersNum;
             if (this.playersNum <= MAXPLAYERSNUM && this.playersNum >= MINPLAYERSNUM) {
-
+                currentPlayersNum=0;
                 this.isExpertMode = isExpertMode;
 
                 //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più
@@ -54,6 +56,8 @@ public class Match extends Observable{
 
                 clouds = new ArrayList<Cloud>();
                 initializeClouds();
+
+                setTowersNum();
 
                 dashboardsCollection = new ArrayList<Dashboard>();
                 currentPlayerDashboard = null;
@@ -158,6 +162,33 @@ public class Match extends Observable{
         currentPlayerDashboard.playChosenCard(chosenCard);
     }
 
+    //missing nickname, this method has to be fixed
+    public void addPlayer(String nickname, String towerColor, String wizard){
+        if(dashboardsCollection.size()<playersNum && playersNum<=3){
+            dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
+        }
+        if(dashboardsCollection.size()<playersNum && playersNum>3 && (dashboardsCollection.size()==1 || dashboardsCollection.size()==3)  ){
+            dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
+        }
+        if(dashboardsCollection.size()<playersNum && playersNum>3 && (dashboardsCollection.size()==2 || dashboardsCollection.size()==4)  ){
+            dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
+        }
+        if(dashboardsCollection.size()==1){
+            currentPlayerDashboard=(Dashboard) ((ArrayList)dashboardsCollection).get(0);
+        }
+    }
+
+    private void setTowersNum(){
+        if(playersNum==2){
+            towersNum=8;
+        }
+        else if(playersNum==3){
+            towersNum=6;
+        }
+        else if(playersNum==4)
+            towersNum=8;
+
+    }
     //END TONSI
 
     //ZAMBO
