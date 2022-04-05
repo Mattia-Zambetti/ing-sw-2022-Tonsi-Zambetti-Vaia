@@ -1,6 +1,7 @@
 //Tonsi
 package model;
 
+import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
 
 import java.util.HashSet;
@@ -30,15 +31,18 @@ public class Cloud {
         }else throw new MaxNumberException("Cloud already chosen");
     }
 
-    public void refillCloud(Set<Student> students) throws MaxNumberException {
-        for(Student s: students){
-            if(s.getColor()==null){
-                throw new MaxNumberException("error in the enter parameter");
+
+    public void refillCloud(Set<Student> students) throws MaxNumberException, AlreadyFilledCloudException {
+        if(studentsOnCloud.size()==0) {
+            for (Student s : students) {
+                if (s.getColor() == null) {
+                    throw new MaxNumberException("error in the enter parameter");
+                }
             }
-        }
-        if(students.size()==getStudentsNumOnCloud() )
-            studentsOnCloud.addAll(students);
-        else throw new MaxNumberException("error in the enter parameter");
+            if (students.size() == getStudentsNumOnCloud())
+                studentsOnCloud.addAll(students);
+            else throw new MaxNumberException("error in the enter parameter");
+        }else throw new AlreadyFilledCloudException("there's a cloud that is already filled");
     }
     @Override
     public String toString(){
