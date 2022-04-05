@@ -7,12 +7,14 @@ import java.util.*;
 public class Dashboard {
     private final Entrance entrance;
     private final DiningRoom redDiningRoom, blueDiningRoom, yellowDiningRoom, pinkDiningRoom, greenDiningRoom;
-    private int towersNumber;
+    private final ArrayList<Tower> towersCollection;  //TODO possibile cambiamento a HashSet quando riguarderemo la funzione di hash
+    //private int towersNumber;
     private final TowerColor towerColor;
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
     private int coin;
     private boolean isKnight; //per effetto carta personaggio
+    private static final int MAX_NUM_OF_TOWER = 8;
 
     //prova per vedere se funziona il rebase
 
@@ -23,7 +25,10 @@ public class Dashboard {
         yellowDiningRoom = new DiningRoom(Color.YELLOW);
         pinkDiningRoom = new DiningRoom(Color.PINK);
         greenDiningRoom = new DiningRoom(Color.GREEN);
-        this.towersNumber = numberOfTowers;
+        this.towersCollection = new ArrayList<>(0);
+        for ( int i=0; i<numberOfTowers; i++ ) {
+            this.towersCollection.add(new Tower(colorOfTower, i));
+        }
         this.towerColor = colorOfTower;
         //da sistemare con Davide la questione file json per generare le carte alla cre<ione del deck
         this.deck = new Deck(chosenWizard);
@@ -34,7 +39,7 @@ public class Dashboard {
 
     //Restituisce il numero di torri presenti nella dashboard
     public int getTowersNum() {
-        return this.towersNumber;
+        return this.towersCollection.size();
     }
 
     //Restituisce il colore delle torri
@@ -44,15 +49,27 @@ public class Dashboard {
     }
 
 
-    public void removeTowers ( int numberOfTower ) throws NegativeNumberOfTowerException {
-        int newTowersNumber = this.towersNumber - numberOfTower;
+    public ArrayList<Tower> removeTowers ( int numberOfTower ) throws NegativeNumberOfTowerException {
+        int newTowersNumber = this.towersCollection.size() - numberOfTower;
         if ( newTowersNumber < 0 )
             throw new NegativeNumberOfTowerException("Insufficient number of tower");
-        else
-            this.towersNumber = newTowersNumber;
+
+        ArrayList<Tower> tmp = new ArrayList<>(0);
+        for ( int i=0; i<numberOfTower; i++) {
+            tmp.add(this.towersCollection.get(this.towersCollection.size()-1));
+            this.towersCollection.remove(this.towersCollection.size()-1);
+        }
+
+        return tmp;
     }
 
-    //TODO aggiungere metodo addTowers(int numberOfTowers)
+    public void addTowers ( ArrayList<Tower> towersToBeAdded ) throws MaxNumberOfTowerPassedException{
+        int newTowersNumber = this.towersCollection.size() + towersToBeAdded.size();
+        if ( newTowersNumber > MAX_NUM_OF_TOWER )
+            throw new MaxNumberOfTowerPassedException("Too much tower on the Dashboard");
+
+        this.towersCollection.addAll(towersToBeAdded);
+    }
 
     public ArrayList<Student> showEntrance () {
         return entrance.getStudents();

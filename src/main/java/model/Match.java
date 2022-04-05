@@ -1,8 +1,9 @@
-//Tonsi, Zambo, Vaia
+//Tonsi, Zambo,Vaia
 package model;
 
 import model.FigureCards.FigureCard;
 import model.exception.MaxNumberException;
+import model.exception.NegativeNumberOfTowerException;
 import model.exception.NoIslandException;
 import model.exception.NoTowerException;
 
@@ -46,7 +47,7 @@ public class Match extends Observable{
                 islands = new ArrayList<Island>();
 
                 initializeIslands();
-            islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
+           // islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
                                                 // la prossima/precedente, dovrebbe essere più efficiente
             initializeIslands();
 
@@ -252,7 +253,7 @@ public class Match extends Observable{
         islands.get(currentIsland).setMotherNature(true);
     }
 
-    private void mergeIsland(int islandToBeMerged){
+    private void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
         studentsToBeMergedTmp = islands.get(islandToBeMerged).getStudents();
@@ -264,16 +265,16 @@ public class Match extends Observable{
         islands.get(currentIsland).setStudents(studentsTmp);
         islandPositions.remove(islandToBeMerged);
         totalNumIslands--;
-        islands.get(currentIsland).addTowerNumber();
+        islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
 
-    private void checkNearbyIslands() throws NoTowerException, NoIslandException {
+    private void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
         previousIslandTmp = previousIsland(currentIsland);
-        if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+        if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor() && islands.get(nextIslandTmp).getTowerColor() != null)
             mergeIsland(nextIslandTmp);
-        if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+        if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor() && islands.get(previousIslandTmp).getTowerColor() != null)
             mergeIsland(previousIslandTmp);
     }
 //
