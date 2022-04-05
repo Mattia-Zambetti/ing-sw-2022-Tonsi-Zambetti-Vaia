@@ -265,7 +265,7 @@ public class Match extends Observable{
         islands.get(currentIsland).setStudents(studentsTmp);
         islandPositions.remove(islandToBeMerged);
         totalNumIslands--;
-        islands.get(currentIsland).addTowers(currentPlayerDashboard.removeTowers(1));
+        islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
 
     private void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException {
