@@ -227,5 +227,20 @@ public class Dashboard {
         isKnight = setValue;
     }
 
-
+   public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {
+       switch ( drColor ) {
+           case RED:
+               return redDiningRoom.getStudentsNumber();
+           case BLUE:
+               return blueDiningRoom.getStudentsNumber();
+           case YELLOW:
+               return yellowDiningRoom.getStudentsNumber();
+           case PINK:
+               return pinkDiningRoom.getStudentsNumber();
+           case GREEN:
+               return greenDiningRoom.getStudentsNumber();
+           default:
+               throw new WrongColorException("Color not found during the search of students in DR");
+       }
+   }
 }
