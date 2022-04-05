@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="1" name="model.CloudTest" time="0" errors="0" skipped="0">
+<testsuite tests="1" failures="1" name="model.DRTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.3.3"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -61,7 +61,7 @@
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
   <testcase classname="junit.framework.TestSuite$1" name="warning" time="0">
-    <failure message="Class model.CloudTest has no public constructor TestCase(String name) or TestCase()" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Class model.CloudTest has no public constructor TestCase(String name) or TestCase()
+    <failure message="No tests found in model.DRTest" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: No tests found in model.DRTest
 	at junit.framework.Assert.fail(Assert.java:47)
 	at junit.framework.TestSuite$1.runTest(TestSuite.java:90)
 	at junit.framework.TestCase.runBare(TestCase.java:130)
