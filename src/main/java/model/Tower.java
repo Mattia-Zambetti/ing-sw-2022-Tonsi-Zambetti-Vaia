@@ -14,6 +14,10 @@ public class Tower {
         this.id = t.id;
     }
 
+    public TowerColor getColor() {
+        return color;
+    }
+
     @Override
     public boolean equals(Object o) {
         boolean equalsResult = false;
