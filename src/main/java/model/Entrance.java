@@ -7,10 +7,14 @@ import java.util.*;
 
 public class Entrance {
     private final static int MAXSTUDENTS =9;
-    private ArrayList<Student> students;
+    private ArrayList<Student> students; //TODO set instead of List
 
     public Entrance(){
         students=new ArrayList<>();
+    }
+
+    public Entrance(Entrance entrance){
+        this.students=new ArrayList<>(entrance.getStudents());
     }
 
     public static int getMAXSTUDENTS() {
