@@ -227,5 +227,8 @@ public class Dashboard {
         isKnight = setValue;
     }
 
+    public Card getCurrentCard() {
+        return this.deck.getCurrentCard();
+    }
 
 }
