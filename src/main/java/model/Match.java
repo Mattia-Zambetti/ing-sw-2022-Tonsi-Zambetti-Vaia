@@ -44,7 +44,7 @@ public class Match extends Observable{
                 islands = new ArrayList<Island>();
 
                 initializeIslands();
-            islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
+           // islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
                                                 // la prossima/precedente, dovrebbe essere più efficiente
             initializeIslands();
 

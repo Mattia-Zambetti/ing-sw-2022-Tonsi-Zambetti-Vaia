@@ -12,6 +12,7 @@ public class Island {
     private int numberOfTowers, position;
     private TowerColor towerColor;
     private ArrayList<Student>[] students;
+    private ArrayList<Tower> towerList;
 
     public Island ( boolean motherNature, int islandPosition ) {
         students = new ArrayList[5];
@@ -22,6 +23,7 @@ public class Island {
         this.numberOfTowers = 0;
         this.position = islandPosition;
         this.towerColor = null;
+        this.towerList = new ArrayList<>(0);
         for (int i = 0; i < students.length; i++)
             students[i] = new ArrayList<Student>(0);
     }
