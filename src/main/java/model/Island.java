@@ -6,13 +6,14 @@ import java.util.*;
 
 public class Island {
     private boolean isMotherNature, isForbidden, vaiaEffect;
-    private int position;
+    private int position, numOfTowers;
     private TowerColor towerColor;
     private ArrayList<Student>[] students;
     private ArrayList<Tower> towerList;
 
     public Island ( boolean motherNature, int islandPosition ) {
         students = new ArrayList[5];
+        this.numOfTowers = 0;
         this.isMotherNature = motherNature;
         this.isForbidden = false;
         this.vaiaEffect = false;
@@ -26,7 +27,7 @@ public class Island {
     public ArrayList<Tower> getTower() throws NoTowerException {
         if ( towerList.size() == 0 )
             throw new NoTowerException("No tower in this island");
-        return this.towerList;
+        return new ArrayList<Tower>(towerList);
     }
 
     private int getTotalStudentsNum() {
@@ -39,13 +40,13 @@ public class Island {
         return studentsCount;
     }
 
-    private int getStudentsNumByColor( Color color ) {
+    public int getStudentsNumByColor( Color color ) {
         return students[color.ordinal()].size();
     }
 
     public int getInfluenceByDashboard ( Dashboard dashboard ) {
         int influence=0;
-        ArrayList<Master> tmp = (ArrayList<Master>)dashboard.getMastersList();
+        List<Master> tmp = (List<Master>) dashboard.getMastersList();
 
         for ( int i=0; i<tmp.size(); i++) {
             influence += students[tmp.get(i).getColor().ordinal()].size();
@@ -54,18 +55,30 @@ public class Island {
         //Bisognerà aggiungere il controllo su modalità esperto e su VaiaEffect, o forse fare due metodi diversi, uno in modalità esperto e un oin modalità normale
         if (towerList.size() != 0)
             if(towerList.get(0).getColor() == dashboard.getTowerColor())
-                influence++;
+                influence = influence + towerList.size();
         return influence;
     }
 
-    public ArrayList<Tower> removeTowers(){
-        ArrayList<Tower> tmpTowers = new ArrayList<Tower>(towerList);
-        towerList.clear();
-        return tmpTowers;
+    public ArrayList<Tower> removeTowers() throws InvalidNumberOfTowers{
+        if(towerList.size() != 0){
+            ArrayList<Tower> tmpTowers = new ArrayList<Tower>(towerList);
+            numOfTowers = towerList.size();
+            towerList.clear();
+            return tmpTowers;
+        }
+        else throw new InvalidNumberOfTowers("Prima bisogna inserire delle torri");
     }
 
-    public void addTowers(ArrayList<Tower> towers){
-        towerList.addAll(towers);
+    public void addTowers (ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers{
+        if(numOfTowers == towers.size() || numOfTowers == 0){
+            TowerColor tmpColor = towers.get(0).getColor();
+            if (towers.stream().allMatch(tower -> tower.getColor().equals(tmpColor))){
+            towerList.addAll(towers);
+            numOfTowers = towers.size();
+            }
+            else throw new NoListOfSameColoredTowers("Towers with different color, expected same color");
+        }
+        else throw new InvalidNumberOfTowers("Wrong number of towers, expected: " + numOfTowers + " towers");
     }
 
     public ArrayList<Student>[] getStudents() {
@@ -74,7 +87,10 @@ public class Island {
     }
 
     public void setStudents(ArrayList<Student>[] students) {
-        this.students = students;
+        //this.students = new ArrayList[5];
+        for (int i = 0; i < 5; i++){
+            this.students[i] = new ArrayList<>(students[i]);
+        }
     }
 
     public int getTowerNum(){ return towerList.size(); }

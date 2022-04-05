@@ -185,7 +185,7 @@ public class Dashboard {
         HashMap<Color, Master> mastersListCopy;
         mastersListCopy = (HashMap<Color, Master>) mastersList.clone();
         //Testare che la clone crei effettivamente una copia separata tale per cui le modifiche non si ripercuotono sull'oggetto principale
-        return mastersListCopy.values();
+        return mastersListCopy.values().stream().toList();
     }
 
     public void addCoin() {
