@@ -84,6 +84,7 @@ public class Dashboard {
             throw new MaxNumberOfTowerPassedException("Too much tower on the Dashboard");
 
         this.towersCollection.addAll(towersToBeAdded);
+        //TODO possibile Exception sull'inserimento di una torre uguale ad una già presente
     }
 
     public ArrayList<Student> showEntrance () {
