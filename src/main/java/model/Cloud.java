@@ -31,7 +31,6 @@ public class Cloud {
         }else throw new MaxNumberException("Cloud already chosen");
     }
 
-
     public void refillCloud(Set<Student> students) throws MaxNumberException, AlreadyFilledCloudException {
         if(studentsOnCloud.size()==0) {
             for (Student s : students) {

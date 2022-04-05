@@ -1,9 +1,12 @@
 package model;
 
 import junit.framework.TestCase;
+import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MatchTest extends TestCase {
     Match match;
@@ -13,6 +16,8 @@ public class MatchTest extends TestCase {
         match=new Match(PLAYERSNUM, false);
         assertEquals(PLAYERSNUM, match.getPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
+
+
     }
 
     //It tests if it's possible to create a Match with the wrong number of players
@@ -30,6 +35,8 @@ public class MatchTest extends TestCase {
     void moveStudentsFromCloudParamWrongAndCorrect(){
         Match tmp=new Match(PLAYERSNUM, false);
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
+        Bag.restoreBag();
+        System.out.println(Bag.size());
 
         int chosenCloud=PLAYERSNUM+1;
         match.moveStudentsFromCloudToEntrance(chosenCloud);
@@ -40,11 +47,11 @@ public class MatchTest extends TestCase {
         //TODO missing assert
     }
 
-    //It tests if the method refillClouds() correctly by refilling without students(and with, possible error) on the clouds
+    //It tests if the method refillClouds() correctly by refilling without students
+    // (and with,that is a possible error) on the clouds
     @Test
-    void refillCloudsTest() throws MaxNumberException {
+    void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException {
         System.out.println(match.toStringStudentsOnCloud());
-
         for(int i=0; i<PLAYERSNUM; i++){
             match.moveStudentsFromCloudToEntrance(i+1);
             System.out.println(match.toStringStudentsOnCloud());
@@ -52,6 +59,10 @@ public class MatchTest extends TestCase {
         assertEquals("",match.toStringStudentsOnCloud());
         match.refillClouds();
         System.out.println(match.toStringStudentsOnCloud());
+
+        AlreadyFilledCloudException e=assertThrows(AlreadyFilledCloudException.class,()->match.refillClouds());
+        System.out.println(match.toStringStudentsOnCloud());
+        assertEquals("there's a cloud that is already filled",e.getMessage());
 
     }
 
