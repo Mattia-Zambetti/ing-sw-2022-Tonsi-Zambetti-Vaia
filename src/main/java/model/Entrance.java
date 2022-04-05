@@ -3,30 +3,36 @@ package model;
 
 import model.exception.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Entrance {
     private final static int MAXSTUDENTS =9;
-    private Set<Student> students;
+    private ArrayList<Student> students;
 
     public Entrance(){
-        students=new HashSet<>();
+        students=new ArrayList<>();
     }
 
     public static int getMAXSTUDENTS() {
         return MAXSTUDENTS;
     }
 
-    public void insertStudents(Set<Student> studentsFromCloud) throws MaxNumberException {
+    public void insertStudents(Set<Student> studentsToBeAdded) throws MaxNumberException {
         int initialSize=students.size();
-        for (Student s: studentsFromCloud){
+        for (Student s: studentsToBeAdded){
             if(students.size()== MAXSTUDENTS)
                 throw new MaxNumberException("You can't add students to the entrance. " +
                         "Students inserted in this round:"+ (students.size()-initialSize) );
             else
                 students.add(s);
         }
+    }
+
+    public void insertStudent(Student studentToBeAdded) throws MaxNumberException {
+        if( this.students.size() == MAXSTUDENTS)
+            throw new MaxNumberException("Entrance full, you can't add students to the entrance.");
+        else
+            this.students.add(studentToBeAdded);
     }
 
     //This method verify that an object is exactly the same, and not a clone, pay attention.
@@ -40,8 +46,17 @@ public class Entrance {
             throw new InexistentStudentException("Chosen student is not available");
     }
 
-    public Set<Student> getStudents(){
-        return new HashSet<>(students);
+    public ArrayList<Student> getStudents(){
+        return new ArrayList<>(students);
     }
+
+    //METODO CREATO CAUSA PROBLEMI CON HASHSET
+    /*private boolean containsStudent( Student student ) {
+        for ( Student s : students ) {
+            if ( s.equals(student) )
+                return true;
+        }
+        return false;
+    }*/
 }
 

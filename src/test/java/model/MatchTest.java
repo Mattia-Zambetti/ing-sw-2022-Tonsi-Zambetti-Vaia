@@ -25,7 +25,7 @@ public class MatchTest extends TestCase {
 
     //it tests the presence of a wrong choice into
     // the parameters of the moveStudentsFromCloudToEntrance's method
-    @Test
+    /*@Test
     void moveStudentsFromCloudWrongNumber(){
         
         int chosenCloud=PLAYERSNUM+1;
@@ -37,7 +37,7 @@ public class MatchTest extends TestCase {
         chosenCloud=PLAYERSNUM;
         match.moveStudentsFromCloudToEntrance(chosenCloud);
         assertTrue(match.hasChanged());
-    }
+    }*/
 
 
 }

@@ -11,7 +11,7 @@ public class Match extends Observable{
     private List<Island> islands;
     private List<Cloud> clouds;
     private Bag bag;
-    private Collection<Dashboard> dashboardsCollection;
+    private Collection<Dashboard> dashboardsCollection; //Ipotizzo che l'ordine delle Dashboard nella collection sia lo stesso dei turni dei giocatori nella partita
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
     private Collection<FigureCard> figureCards;
@@ -27,7 +27,7 @@ public class Match extends Observable{
     private static final int STUDENTSONCLOUD3PLAYERS= 4;
     private static final int STUDENTSONCLOUD4PLAYERS= 3;
 
-    private static final int INITIALNUMOFISLANDS= 12;//ma c'è già sopra
+    //Da Zambo, ho rimosso una costante che avevo scritto io ma che c'era già e che non veniva usata, spero non dia problemi durante il merge
 
     private static final int MAXPLAYERSNUM=4;
     private static final int MINPLAYERSNUM=2;
@@ -169,15 +169,45 @@ public class Match extends Observable{
         this.currentPlayerDashboard.moveToDR( tmpStudent );
     }
 
-    private void moveFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) {
+    private void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
         Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
         //chosenIsland
-
+        for ( Island isl : islands) {
+            if (isl.equals(chosenIsland)) {
+                isl.addStudent(tmpStudent);
+                return;
+            }
+        }
+        throw new NoIslandException("Island not found, moveStudentFromEntranceToIsland failed");
     }
 
+    private void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
+        Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
+        //chosenIsland
+        if ( chosenIslandPosition<0 || chosenIslandPosition>(this.totalNumIslands-1) )
+            throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
+        //TODO possibile check sul fatto che l'isola non sia giá stata unificata ad un'altra
+        if ( this.islands.get(chosenIslandPosition) == null )
+            throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
+        else
+            this.islands.get(chosenIslandPosition).addStudent(tmpStudent);
+    }
+
+    //TODO MERGE quando faremo il merge meglio cambiare il tipo statico di dashboardCollection in ArrayList e togliere dashboardsCollectionArrayListRef
     private void setNextCurrDashboard() {
-
+        ArrayList<Dashboard> dashboardsCollectionArrayListRef;
+        if ( ! (dashboardsCollection instanceof ArrayList<Dashboard>) )
+            return;
+        dashboardsCollectionArrayListRef = (ArrayList<Dashboard>) this.dashboardsCollection;
+        int currentPlayerPosition = dashboardsCollectionArrayListRef.indexOf(this.currentPlayerDashboard);
+        if ( currentPlayerPosition < (this.dashboardsCollection.size()-1) )
+            currentPlayerPosition++;
+        else
+            currentPlayerPosition = 0;
+        this.currentPlayerDashboard = dashboardsCollectionArrayListRef.get(currentPlayerPosition);
     }
+
+
     //END ZAMBO
 
 

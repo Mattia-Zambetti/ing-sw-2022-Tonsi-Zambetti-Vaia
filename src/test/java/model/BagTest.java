@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class BagTest extends TestCase {
     Bag bag;
 
+
     @BeforeEach
     void init(){
         Bag.instance();
