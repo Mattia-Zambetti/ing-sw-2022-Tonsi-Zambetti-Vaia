@@ -224,11 +224,11 @@ public class Dashboard {
 
     public void setKnight( boolean setValue ) {
         //TODO controllare possibile eccezione in caso non venga cambiato il valore
-        isKnight = setValue;
+        isKnight = setValue;public Card getCurrentCard() {
+            return this.deck.getCurrentCard();
+        }
     }
 
-    public Card getCurrentCard() {
-        return this.deck.getCurrentCard();
-    }
+
 
 }
