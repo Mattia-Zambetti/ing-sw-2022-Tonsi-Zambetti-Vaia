@@ -2,15 +2,20 @@ package model;
 
 import junit.framework.TestCase;
 import model.exception.AlreadyFilledCloudException;
+import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MatchTest extends TestCase {
     Match match;
-    static final int PLAYERSNUM=2;
+    static final int PLAYERSNUM = 2;
+
+
 
     @BeforeEach void init() {
         match=new Match(PLAYERSNUM, false);
@@ -42,9 +47,11 @@ public class MatchTest extends TestCase {
         match.moveStudentsFromCloudToEntrance(chosenCloud);
         chosenCloud=0;
         match.moveStudentsFromCloudToEntrance(chosenCloud);
+
         chosenCloud=PLAYERSNUM;
+        ArrayList entranceTest= (ArrayList) match.showCurrentPlayerDashboard().showEntrance().clone();
         match.moveStudentsFromCloudToEntrance(chosenCloud);
-        //TODO missing assert
+        assertNotSame(match.showCurrentPlayerDashboard().showEntrance(),entranceTest);
     }
 
     //It tests if the method refillClouds() correctly by refilling without students
@@ -66,7 +73,29 @@ public class MatchTest extends TestCase {
 
     }
 
+    //It tests if the cards are returned and shown correctly(method used by the view)
+    @Test
+    void showCardsMethodDisplay(){
+        for (Card c:match.showCards()) {
+            System.out.println(c.toString());
+        }
+    }
 
+    @Test
+    void chooseCardMethod() throws CardNotFoundException {
+        Card tmp=new Card(2,2,1);
 
+        assertTrue(match.showCards().contains(tmp));
+        match.chooseCard(tmp);
+
+        assertEquals(tmp, match.showCurrentPlayerDashboard().getCurrentCard());
+        System.out.println(match.showCurrentPlayerDashboard().getCurrentCard().toString());
+
+        assertFalse(match.showCards().contains(match.showCurrentPlayerDashboard().getCurrentCard()));
+
+        Card card=new Card(1,3,2);
+        match.chooseCard(card);
+
+    }
 
 }

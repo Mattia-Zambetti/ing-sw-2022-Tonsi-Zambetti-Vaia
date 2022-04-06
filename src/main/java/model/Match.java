@@ -103,6 +103,7 @@ public class Match extends Observable{
         }
     }
 
+    //TESTED
     //It's used in the constructor, it creates the islands
     private void initializeIslands() {
         boolean motherNature=true;
@@ -115,6 +116,7 @@ public class Match extends Observable{
         }
     }
 
+    //TESTED
     //it's used to take the students from the bag and
     //put them into the cloud number "cloudNum"
     private Set<Student> pullStudentsFromCloud(int cloudNum) {
@@ -128,6 +130,7 @@ public class Match extends Observable{
         return null;
     }
 
+    //TESTED
     //public for the tests(for now), it is used at the start of a round to refill every cloud
     //with new students from the bag
     public void refillClouds() throws MaxNumberException, AlreadyFilledCloudException {
@@ -136,6 +139,7 @@ public class Match extends Observable{
         }
     }
 
+    //TESTED
     //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
     //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
     //the current player's entrance
@@ -151,6 +155,7 @@ public class Match extends Observable{
         }
     }
 
+    //SEMI TESTED
     //it returnes the string version of the clouds content
     public String toStringStudentsOnCloud() {
         String res = "";
@@ -162,11 +167,13 @@ public class Match extends Observable{
     }
 
 
-    public void showCards(){
-        notifyObservers(new ArrayList<>(currentPlayerDashboard.showCards()));
+    public Set<Card> showCards(){
+        notifyObservers(new HashSet<>(currentPlayerDashboard.showCards()));
+        return new HashSet<Card>(currentPlayerDashboard.showCards());
     }
 
-    public void chooseCard(Card chosenCard){
+    public void chooseCard(Card chosenCard) throws CardNotFoundException {
+
         currentPlayerDashboard.playChosenCard(chosenCard);
     }
 
@@ -196,6 +203,15 @@ public class Match extends Observable{
         else if(playersNum==4)
             towersNum=8;
 
+    }
+
+    public Dashboard showCurrentPlayerDashboard(){
+        try {
+            return new Dashboard(currentPlayerDashboard);
+        } catch (CardNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
     //END TONSI
 
