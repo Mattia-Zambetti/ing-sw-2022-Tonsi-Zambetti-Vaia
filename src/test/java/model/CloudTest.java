@@ -24,8 +24,8 @@ class CloudTest extends TestCase {
         Set<Student> students=new HashSet<>();
 
         students.add(new Student(1,Color.YELLOW));
-        students.add(new Student(1,Color.RED));
-        students.add(new Student(1,Color.YELLOW));
+        students.add(new Student(2,Color.RED));
+        students.add(new Student(3,Color.YELLOW));
 
         cloudTest=new Cloud(students);
         Cloud.setStudentsNumOnCloud(students.size());

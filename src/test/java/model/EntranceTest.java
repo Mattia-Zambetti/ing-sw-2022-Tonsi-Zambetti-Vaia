@@ -13,27 +13,46 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class EntranceTest extends TestCase {
     Entrance entrance;
-    Set<Student> studentsTest;
+    Set<Student> studentsStartingSet;
 
     @BeforeEach
     void init(){
         entrance=new Entrance();
-        studentsTest=new HashSet<>();
+        studentsStartingSet =new HashSet<>();
         for(int i = 0; i<Entrance.getMAXSTUDENTS()-2; i++){
-            studentsTest.add(new Student(i+1, Color.PINK));
+            studentsStartingSet.add(new Student(i+1, Color.PINK));
         }
     }
 
-    //It's a test on the exception, regarding the Students limit in the entrance
+    //It's a test on the exception regarding the Students limit in the entrance
     @Test
-    void insertStudentsWithException(){
-        Set<Student> studentsTestTmp=new HashSet<>();
-        for(int i = 0; i<Entrance.getMAXSTUDENTS()+1; i++){
-            studentsTestTmp.add(new Student(1,Color.PINK));
+    void insertStudentsWithException() throws MaxNumberException {
+        Set<Student> studentsTestTmp = new HashSet<>();
+
+        for (int i = 0; i < Entrance.getMAXSTUDENTS() + 1; i++) {
+            studentsTestTmp.add(new Student(i + 1, Color.PINK));
         }
-        Exception eTest=assertThrows(MaxNumberException.class,()->entrance.insertStudents(studentsTestTmp));
+        Exception eTest = assertThrows(MaxNumberException.class, () -> entrance.insertStudents(studentsTestTmp));
         assertEquals("You can't add students to the entrance. " +
-                "Students inserted in this round:"+ Entrance.getMAXSTUDENTS(),eTest.getMessage());
+                "Students inserted in this round:" + Entrance.getMAXSTUDENTS(), eTest.getMessage());
+
+        Student studentAlreadyInserted = new Student(1, Color.PINK);
+        Set<Student> setAlreadyInserted = new HashSet<>();
+        setAlreadyInserted.add(studentAlreadyInserted);
+
+
+    }
+
+    //It tests if it's possible to insert the same student 2 times
+    @Test
+    void insertAStudent2Times() throws MaxNumberException {
+        entrance.insertStudents(studentsStartingSet);
+
+        Student studentAlreadyInserted = new Student(1, Color.PINK);
+        Set<Student> setAlreadyInserted = new HashSet<>();
+        setAlreadyInserted.add(studentAlreadyInserted);
+
+        assertEquals(studentsStartingSet.size(),entrance.getStudents().size());
     }
 
     //It tests if the students have been inserted correctly without throw the
@@ -42,15 +61,16 @@ public class EntranceTest extends TestCase {
     @Test
     void insertAndDeleteStudentsWithoutMaxNumberException() throws MaxNumberException, InexistentStudentException {
         Student studentTmp= new Student( Entrance.getMAXSTUDENTS(), Color.RED);
-        Student pinkStudent1 = new Student( 1, Color.PINK);
-        //Set<Student> studentsSet=new HashSet<Student>();
-        //studentsSet.add(studentTmp);
+        Student pinkStudent = new Student( 1, Color.PINK);
 
-        entrance.insertStudents(studentsTest);
+        Set<Student> studentsSet=new HashSet<Student>();
+        studentsSet.add(studentTmp);
+
+        entrance.insertStudents(studentsStartingSet);
         assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-2);
 
         boolean AllStudentsArePresent = true;
-        for ( Student s : studentsTest ) {
+        for ( Student s : studentsStartingSet) {
             if ( !entrance.getStudents().contains(s) ) {
                 AllStudentsArePresent = false;
                 break;
@@ -58,22 +78,17 @@ public class EntranceTest extends TestCase {
         }
         assertTrue(AllStudentsArePresent);
 
-        //entrance.insertStudents(studentsSet);
-        //assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
-
         entrance.insertStudent(studentTmp);
         assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
 
-        //assertThrows( InexistentStudentException.class,()->entrance.removeStudent(pinkStudent1) );
-        //assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-1);
 
-        entrance.removeStudent(pinkStudent1);
+        entrance.removeStudent(pinkStudent);
         assertEquals(entrance.getStudents().size(),Entrance.getMAXSTUDENTS()-2);
 
         boolean studentAbsent = true;
 
         for ( Student s : entrance.getStudents() ) {
-            if ( s.equals(pinkStudent1) ) {
+            if ( s.equals(pinkStudent) ) {
                 studentAbsent = false;
                 break;
             }

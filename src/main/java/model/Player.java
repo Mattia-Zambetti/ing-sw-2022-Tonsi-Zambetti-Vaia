@@ -1,7 +1,7 @@
 //Tonsi
 package model;
 
-public class Player implements Cloneable{
+public class Player{
     private String nickname;
 
     private static int totplayersnumber= 0;
@@ -17,27 +17,16 @@ public class Player implements Cloneable{
         this.nickname=nickname;
         this.playerNumber= totplayersnumber;
         this.buddy= new Player(buddy);
-        //coin=1;
-        //isknight=false;
     }
 
+    //TODO
     public Player (Player p){
-        this.buddy.nickname=p.nickname;
-        this.buddy.playerNumber=p.playerNumber;
+        this.nickname=p.nickname;
+        this.playerNumber=p.playerNumber;
     }
 
     public void setBuddy(Player buddy){
         this.buddy= new Player(buddy);
-    }
-
-    public Object clone(){
-        try{
-            return (Player)super.clone();
-        }
-        catch (CloneNotSupportedException e){
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public String getNickname() {

@@ -6,14 +6,14 @@ public class Card {
     private int movementValue;
     private int id;
 
-    public Card(){
-
-    }
     public Card(int value, int movementValue, int id) {
         this.value = value;
         this.movementValue = movementValue;
         this.id = id;
     }
+
+    //TESTED
+    //Used to obtain a copy of the card
     public Card(Card card){
         this.value = card.value;
         this.movementValue = card.movementValue;
@@ -32,19 +32,20 @@ public class Card {
         return id;
     }
 
-    @Override
+    //TESTED
+    //Useful to obtain a representation of a card in string format
     public String toString() {
         return "Card "+id+":\n" +
-                "value=" + value +"\n"+
-                "movementValue=" + movementValue +"\n";
+                "value: " + value +"\n"+
+                "movementValue: " + movementValue +"\n";
     }
 
-    @Override
+    //
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Card)) return false;
         Card card = (Card) o;
-        return id == card.id ||(o==null && this==null);
+        return id == card.id;
     }
 
     @Override

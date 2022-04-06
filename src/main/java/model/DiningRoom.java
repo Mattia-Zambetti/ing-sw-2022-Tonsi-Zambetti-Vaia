@@ -1,24 +1,26 @@
 //Zambo
 package model;
 
-import model.exception.*;
+import model.exception.MaxNumberException;
+import model.exception.WrongColorException;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DiningRoom {
     private static final int DINING_ROOM_DIM = 10;
-    private ArrayList<Student> students;
+    private Set<Student> students;
     private final Color roomColor;
 
 
     public DiningRoom ( Color colorOfRoom ) {
         this.roomColor = colorOfRoom;
-        students = new ArrayList<Student>(0);
+        students = new HashSet<>(0);
     }
 
     public DiningRoom(DiningRoom dr){
         this.roomColor=dr.roomColor;
-        this.students=new ArrayList<>(dr.students);
+        this.students=new HashSet<>(dr.students);
     }
 
     public int getStudentsNumber () {
