@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Entrance {
     private final static int MAXSTUDENTS =9;
-    private Set<Student> students; //TODO set instead of List
+    private Set<Student> students;
 
     public Entrance(){
         students=new HashSet<>();
@@ -50,8 +50,8 @@ public class Entrance {
             throw new InexistentStudentException("Chosen student is not available");
     }
 
-    public ArrayList<Student> getStudents(){
-        return new ArrayList<>(students);
+    public Set<Student> getStudents(){
+        return new HashSet<Student>(students);
     }
 
     //METODO CREATO CAUSA PROBLEMI CON HASHSET

@@ -85,7 +85,7 @@ public class Dashboard {
         this.towersCollection.addAll(towersToBeAdded);
     }
 
-    public ArrayList<Student> showEntrance () {
+    public Set<Student> showEntrance () {
         return entrance.getStudents();
     }
 

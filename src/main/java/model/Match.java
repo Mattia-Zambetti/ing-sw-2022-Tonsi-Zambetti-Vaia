@@ -16,7 +16,7 @@ public class Match extends Observable{
     private Collection<FigureCard> figureCards;
     private int playersNum;
     private boolean isExpertMode;
-    private int currentIsland, totalNumIslands;
+    private int currentIsland,totalNumIslands;
     private int currentPlayersNum;
     private static List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
@@ -43,6 +43,7 @@ public class Match extends Observable{
                 // efficiente la linked
                 islands = new ArrayList<Island>();
                 initializeIslands();
+                this.totalNumIslands=ISLANDSNUM;
 
                 Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
                 Bag.restoreBag();
@@ -108,7 +109,6 @@ public class Match extends Observable{
     private void initializeIslands() {
         boolean motherNature=true;
         currentIsland = 0;
-        totalNumIslands = 0;
         for (int i=0; i< ISLANDSNUM; i++){
             islands.add(new Island(motherNature, i));
             //islands.add(new Island(motherNature, i+1));
@@ -177,7 +177,7 @@ public class Match extends Observable{
         currentPlayerDashboard.playChosenCard(chosenCard);
     }
 
-    //missing nickname, this method has to be fixed
+    //missing nickname, this method must be fixed
     public void addPlayer(String nickname, String towerColor, String wizard){
         if(dashboardsCollection.size()<playersNum && playersNum<=3){
             dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
@@ -239,7 +239,7 @@ public class Match extends Observable{
     private void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
         Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
         //chosenIsland
-        if ( chosenIslandPosition<0 || chosenIslandPosition>(this.totalNumIslands-1) )
+        if ( chosenIslandPosition<0 || chosenIslandPosition>(ISLANDSNUM-1) )
             throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
         //TODO possibile check sul fatto che l'isola non sia giá stata unificata ad un'altra
         if ( this.islands.get(chosenIslandPosition) == null )

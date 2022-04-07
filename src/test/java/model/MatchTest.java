@@ -7,7 +7,8 @@ import model.exception.MaxNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -41,7 +42,7 @@ public class MatchTest extends TestCase {
         Match tmp=new Match(PLAYERSNUM, false);
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
         Bag.restoreBag();
-        System.out.println(Bag.size());
+        System.out.println(Bag.getStudentsNum());
 
         int chosenCloud=PLAYERSNUM+1;
         match.moveStudentsFromCloudToEntrance(chosenCloud);
@@ -49,7 +50,7 @@ public class MatchTest extends TestCase {
         match.moveStudentsFromCloudToEntrance(chosenCloud);
 
         chosenCloud=PLAYERSNUM;
-        ArrayList entranceTest= (ArrayList) match.showCurrentPlayerDashboard().showEntrance().clone();
+        Set<Student> entranceTest=  new HashSet<>(match.showCurrentPlayerDashboard().showEntrance());
         match.moveStudentsFromCloudToEntrance(chosenCloud);
         assertNotSame(match.showCurrentPlayerDashboard().showEntrance(),entranceTest);
     }

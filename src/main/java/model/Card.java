@@ -1,4 +1,4 @@
-//Tonsi
+//Tonsi, TESTED
 package model;
 
 public class Card {
@@ -12,7 +12,6 @@ public class Card {
         this.id = id;
     }
 
-    //TESTED
     //Used to obtain a copy of the card
     public Card(Card card){
         this.value = card.value;
@@ -32,7 +31,6 @@ public class Card {
         return id;
     }
 
-    //TESTED
     //Useful to obtain a representation of a card in string format
     public String toString() {
         return "Card "+id+":\n" +
@@ -40,7 +38,7 @@ public class Card {
                 "movementValue: " + movementValue +"\n";
     }
 
-    //
+    //It returns true if two cards have the same id
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Card)) return false;
@@ -48,6 +46,7 @@ public class Card {
         return id == card.id;
     }
 
+    //Every card is identified by the id with this method in a collection like the HashSet
     @Override
     public int hashCode() {
         return id;
