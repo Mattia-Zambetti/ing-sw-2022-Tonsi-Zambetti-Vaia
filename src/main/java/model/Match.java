@@ -260,7 +260,7 @@ public class Match extends Observable{
         islands.get(currentIsland).setMotherNature(true);
     }
 
-    private void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException {
+    private void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
         studentsToBeMergedTmp = islands.get(islandToBeMerged).getStudents();
@@ -275,7 +275,7 @@ public class Match extends Observable{
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
 
-    private void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException {
+    private void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
         previousIslandTmp = previousIsland(currentIsland);
