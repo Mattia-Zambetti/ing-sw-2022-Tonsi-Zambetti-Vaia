@@ -2,6 +2,7 @@ package model;
 
 
 import junit.framework.TestCase;
+import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,9 @@ class CloudTest extends TestCase {
         }catch (MaxNumberException e){
             //probabilmente esiste una assert per le exception, consiglio di cercare
             System.out.println(e.getMessage());
-        }finally{
+        } catch (AlreadyFilledCloudException e) {
+            e.printStackTrace();
+        } finally{
             assertEquals("",cloudTest.toString());
         }
     }
@@ -75,6 +78,8 @@ class CloudTest extends TestCase {
 
         } catch (MaxNumberException e) {
             System.out.println(e.getMessage());
+        } catch (AlreadyFilledCloudException e) {
+            e.printStackTrace();
         }
 
 
@@ -97,7 +102,7 @@ class CloudTest extends TestCase {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
 
-        } catch (MaxNumberException e) {
+        } catch (MaxNumberException | AlreadyFilledCloudException e) {
             System.out.println(e.getMessage());
         }finally {
             assertEquals("",cloudTest.toString());

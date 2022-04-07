@@ -16,6 +16,11 @@ public class DiningRoom {
         students = new ArrayList<Student>(0);
     }
 
+    public DiningRoom(DiningRoom dr){
+        this.roomColor=dr.roomColor;
+        this.students=new ArrayList<>(dr.students);
+    }
+
     public int getStudentsNumber () {
         return students.size();
     }

@@ -9,7 +9,8 @@ public class Match extends Observable{
     private List<Island> islands;
     private List<Cloud> clouds;
     private Bag bag;
-    private Collection<Dashboard> dashboardsCollection; //Ipotizzo che l'ordine delle Dashboard nella collection sia lo stesso dei turni dei giocatori nella partita
+    private Collection<Dashboard> dashboardsCollection; //Ipotizzo che l'ordine delle
+    // Dashboard nella collection sia lo stesso dei turni dei giocatori nella partita
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
     private Collection<FigureCard> figureCards;
@@ -27,11 +28,10 @@ public class Match extends Observable{
     private static final int STUDENTSONCLOUD3PLAYERS= 4;
     private static final int STUDENTSONCLOUD4PLAYERS= 3;
 
-    //Da Zambo, ho rimosso una costante che avevo scritto io ma che c'era già e che non veniva usata, spero non dia problemi durante il merge
-
     private static final int MAXPLAYERSNUM=4;
     private static final int MINPLAYERSNUM=2;
 
+    //TESTED
     public Match(int playersNum, boolean isExpertMode) {
         try {
             this.playersNum = playersNum;
@@ -42,14 +42,10 @@ public class Match extends Observable{
                 //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più
                 // efficiente la linked
                 islands = new ArrayList<Island>();
-
                 initializeIslands();
-           // islands = new LinkedList<Island>(); //per essere più precisi, a noi non serve sapere l'ordine totale ma solo
-                                                // la prossima/precedente, dovrebbe essere più efficiente
-            initializeIslands();
 
                 Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
-                Bag.instance();
+                Bag.restoreBag();
 
 
                 clouds = new ArrayList<Cloud>();
@@ -72,19 +68,22 @@ public class Match extends Observable{
 
     //TONSI
 
-
+    //it returns the max number of players in a match
     public static int getMAXPLAYERSNUM() {
         return MAXPLAYERSNUM;
     }
 
+    //it returns the minimum number of players in a match
     public static int getMINPLAYERSNUM() {
         return MINPLAYERSNUM;
     }
 
+    //It's the player's number in this match
     public int getPlayersNum() {
         return playersNum;
     }
 
+    //It returns the students number on the clouds, used in the constructor
     private int chooseStudentsNumOnCLoud() {
         if(playersNum ==2){
             return STUDENTSONCLOUD2PLAYERS;
@@ -93,16 +92,18 @@ public class Match extends Observable{
         else return STUDENTSONCLOUD4PLAYERS;
     }
 
+    //It's used in the constructor, it creates the clouds by using the player's number
     private void initializeClouds() {
         try {
             for (int i = 0; i < playersNum; i++) {
-                clouds.add(new Cloud(bag.removeStudents(Cloud.getStudentsNumOnCloud())));
+                clouds.add(new Cloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud())));
             }
         }catch(MaxNumberException e){
             System.out.println(e.getMessage());
         }
     }
 
+    //It's used in the constructor, it creates the islands
     private void initializeIslands() {
         boolean motherNature=true;
         currentIsland = 0;
@@ -114,10 +115,12 @@ public class Match extends Observable{
         }
     }
 
+    //it's used to take the students from the bag and
+    //put them into the cloud number "cloudNum"
     private Set<Student> pullStudentsFromCloud(int cloudNum) {
         try {
-            if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum).toString() != "") {
-                return clouds.get(cloudNum).takeStudents();
+            if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum-1).toString() != "") {
+                return clouds.get(cloudNum-1).takeStudents();
             } else throw new MaxNumberException("wrong cloud's number");
         }catch (MaxNumberException e){
             System.out.println(e.getMessage());
@@ -125,17 +128,21 @@ public class Match extends Observable{
         return null;
     }
 
-    private void refillClouds() throws MaxNumberException {
+    //public for the tests(for now), it is used at the start of a round to refill every cloud
+    //with new students from the bag
+    public void refillClouds() throws MaxNumberException, AlreadyFilledCloudException {
         for(Cloud c:clouds){
-            c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+            c.refillCloud(bag.removeStudents(Cloud.getStudentsNumOnCloud()));
         }
     }
 
-
+    //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
+    //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
+    //the current player's entrance
     public void moveStudentsFromCloudToEntrance(int chosenCloud) {
         try {
             if (chosenCloud <= playersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
-                currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud-1));
+                currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new MaxNumberException("This cloud doesn't exist");
             notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
@@ -144,13 +151,16 @@ public class Match extends Observable{
         }
     }
 
-    private void toStringStudentsOnClass() {
+    //it returnes the string version of the clouds content
+    public String toStringStudentsOnCloud() {
         String res = "";
         for (Cloud c : clouds) {
             res += c.toString();
         }
         notifyObservers(res);
+        return res;
     }
+
 
     public void showCards(){
         notifyObservers(new ArrayList<>(currentPlayerDashboard.showCards()));

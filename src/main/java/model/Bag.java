@@ -14,15 +14,17 @@ public class Bag {
 
     private Bag(){}
 
+    public static int size(){
+        return students.size();
+    }
+
     public static Bag instance(){
-        int numStudent=0;
         students=new HashSet<>();
         if (bag==null){
             bag= new Bag();
             for(Color c: Color.values()){
                 for(int i = 0; i< STUDENTSNUMCOLOR; i++){
-                    students.add(new Student(numStudent, c));
-                    numStudent++;
+                    students.add(new Student(i, c));
                 }
             }
         }
@@ -62,7 +64,7 @@ public class Bag {
         return students.size();
     }
 
-    //it recreate the bag from the start. Used for the tests and to create new matches
+    //it recreate the bag from the start. Used for tests and to create new matches
     public static void restoreBag(){
         bag=null;
         Bag.instance();
