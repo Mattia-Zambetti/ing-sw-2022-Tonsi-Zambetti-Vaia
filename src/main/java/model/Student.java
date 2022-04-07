@@ -19,15 +19,18 @@ public final class Student{
         return this.color;
     }
 
+    //UPDATE:you can't insert students with same id in the same set
     @Override
     public boolean equals(Object o) {
-        boolean equalsResult = false;
-        if (o instanceof Student) {
-            Student s = (Student)o;
-            if ( ( s.color.ordinal() == this.color.ordinal() ) && ( s.ID == this.ID ) )
-                equalsResult = true;
-        }
-        return equalsResult;
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student s = (Student)o;
+        return s.color.ordinal() == this.color.ordinal() && ( s.ID == this.ID );
+    }
+
+    @Override
+    public int hashCode() {
+        return ID;
     }
 
     @Override

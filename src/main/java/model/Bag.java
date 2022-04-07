@@ -1,4 +1,4 @@
-//Tonsi
+//Tonsi, TESTED
 package model;
 
 import model.exception.MaxNumberException;
@@ -14,10 +14,8 @@ public class Bag {
 
     private Bag(){}
 
-    public static int size(){
-        return students.size();
-    }
-
+    //it creates the unique object bag, and when it's created, it returns the Bag object
+    //to the caller
     public static Bag instance(){
         students=new HashSet<>();
         if (bag==null){
@@ -31,6 +29,8 @@ public class Bag {
         return bag;
     }
 
+    //it allows to remove only a student from the bag, it's not so important,
+    //but I leave it because it's confortable
     public static Student removeStudent() throws MaxNumberException {
          Optional<Student> student=students.stream().findAny();
          if(student.isPresent()){
@@ -41,6 +41,7 @@ public class Bag {
              throw new MaxNumberException("Bag limit reached, no more students in the bag...");
     }
 
+    //it allows to remove "numStudents" students from the bag
     public static Set<Student> removeStudents(int numStudents) throws MaxNumberException {
         Set<Student> studentstmp= new HashSet<>();
         Optional<Student> studentTmp;
@@ -56,15 +57,18 @@ public class Bag {
         return studentstmp;
     }
 
+    //it is the getter for the static final variable that contain the students number
+    //of every color at the start of a match
     public static int getSTUDENTSNUMCOLOR() {
         return STUDENTSNUMCOLOR;
     }
 
+    //it returns the students number in the bag
     public static int getStudentsNum(){
         return students.size();
     }
 
-    //it recreate the bag from the start. Used for tests and to create new matches
+    //it recreates the bag from the start. Used for tests and to create new matches
     public static void restoreBag(){
         bag=null;
         Bag.instance();

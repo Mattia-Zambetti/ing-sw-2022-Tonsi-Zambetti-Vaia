@@ -30,14 +30,13 @@ public class Dashboard {
             this.towersCollection.add(new Tower(colorOfTower, i));
         }
         this.towerColor = colorOfTower;
-        //da sistemare con Davide la questione file json per generare le carte alla cre<ione del deck
         this.deck = new Deck(chosenWizard);
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //Inizialmente sempre a 1
         this.isKnight = false; //Settato a false per la modalità esperto
     }
 
-    public Dashboard ( Dashboard dashboardToCopy ) {
+    public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException {
         this.entrance = new Entrance(dashboardToCopy.entrance);
         this.redDiningRoom = new DiningRoom(dashboardToCopy.redDiningRoom);
         this.blueDiningRoom = new DiningRoom(dashboardToCopy.blueDiningRoom);
@@ -86,7 +85,7 @@ public class Dashboard {
         this.towersCollection.addAll(towersToBeAdded);
     }
 
-    public ArrayList<Student> showEntrance () {
+    public Set<Student> showEntrance () {
         return entrance.getStudents();
     }
 
@@ -169,14 +168,8 @@ public class Dashboard {
         return deck.getCards();
     }
 
-    public void playChosenCard( Card chosenCard ){
-        try{
+    public void playChosenCard( Card chosenCard ) throws CardNotFoundException {
             deck.playCard(chosenCard);
-        }
-        catch ( CardNotFoundException e )
-        {
-            System.out.println(e.toString());
-        }
     }
 
     public void insertMaster( Master m ) {
@@ -229,6 +222,9 @@ public class Dashboard {
         }
     }
 
+    public Card getCurrentCard() {
+            return new Card(this.deck.getCurrentCard());
+    }
 
 
 }

@@ -2,15 +2,21 @@ package model;
 
 import junit.framework.TestCase;
 import model.exception.AlreadyFilledCloudException;
+import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MatchTest extends TestCase {
     Match match;
-    static final int PLAYERSNUM=2;
+    static final int PLAYERSNUM = 2;
+
+
 
     @BeforeEach void init() {
         match=new Match(PLAYERSNUM, false);
@@ -36,15 +42,17 @@ public class MatchTest extends TestCase {
         Match tmp=new Match(PLAYERSNUM, false);
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
         Bag.restoreBag();
-        System.out.println(Bag.size());
+        System.out.println(Bag.getStudentsNum());
 
         int chosenCloud=PLAYERSNUM+1;
         match.moveStudentsFromCloudToEntrance(chosenCloud);
         chosenCloud=0;
         match.moveStudentsFromCloudToEntrance(chosenCloud);
+
         chosenCloud=PLAYERSNUM;
+        Set<Student> entranceTest=  new HashSet<>(match.showCurrentPlayerDashboard().showEntrance());
         match.moveStudentsFromCloudToEntrance(chosenCloud);
-        //TODO missing assert
+        assertNotSame(match.showCurrentPlayerDashboard().showEntrance(),entranceTest);
     }
 
     //It tests if the method refillClouds() correctly by refilling without students
@@ -66,7 +74,29 @@ public class MatchTest extends TestCase {
 
     }
 
+    //It tests if the cards are returned and shown correctly(method used by the view)
+    @Test
+    void showCardsMethodDisplay(){
+        for (Card c:match.showCards()) {
+            System.out.println(c.toString());
+        }
+    }
 
+    @Test
+    void chooseCardMethod() throws CardNotFoundException {
+        Card tmp=new Card(2,2,1);
 
+        assertTrue(match.showCards().contains(tmp));
+        match.chooseCard(tmp);
+
+        assertEquals(tmp, match.showCurrentPlayerDashboard().getCurrentCard());
+        System.out.println(match.showCurrentPlayerDashboard().getCurrentCard().toString());
+
+        assertFalse(match.showCards().contains(match.showCurrentPlayerDashboard().getCurrentCard()));
+
+        Card card=new Card(1,3,2);
+        match.chooseCard(card);
+
+    }
 
 }

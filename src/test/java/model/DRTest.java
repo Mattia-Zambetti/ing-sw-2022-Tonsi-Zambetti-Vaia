@@ -40,7 +40,7 @@ public class DRTest extends TestCase {
         assertEquals( diningRoomTest.getStudentsNumber(), 0);
 
         for(int i = 0; i<DiningRoom.getDiningRoomDim(); i++){
-            diningRoomTest.insertStudent(new Student(1,Color.RED));
+            diningRoomTest.insertStudent(new Student(i+1,Color.RED));
         }
         Exception eTest=assertThrows(MaxNumberException.class,()->diningRoomTest.insertStudent(new Student(1,Color.RED)));
 

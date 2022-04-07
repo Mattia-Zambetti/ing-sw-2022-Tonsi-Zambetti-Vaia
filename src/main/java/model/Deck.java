@@ -4,6 +4,7 @@ package model;
 
 import model.exception.CardNotFoundException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 enum Wizard{WIZARD1,WIZARD2, WIZARD3,WIZARD4}
@@ -19,37 +20,73 @@ public class Deck {
     public Deck(Wizard wizard){
         jsonImport=new JsonImport(stringName);
         cards = new HashSet<Card>(jsonImport.createCards());
-        currentCard = null;
         this.wizard=wizard;
+        currentCard=new Card(0,0,0);
     }
 
+    //TESTED
     //Useful for a clone
-    public Deck(Deck deck){
-        this.cards=deck.getCards();
+    public Deck(Deck deck) throws CardNotFoundException {
+        this.cards=new HashSet<>(deck.getCards());
         this.wizard=deck.wizard;
-        this.currentCard= deck.getCurrentCard();
+        this.currentCard = new Card(deck.getCurrentCard());
+
         this.jsonImport=new JsonImport(stringName);
     }
 
-
+    //TESTED
+    //It allows to set the card played from the current player, it returns an exception
+    //with the absence of the card in the deck. You can give a cloned card as the param
     public void playCard(Card card) throws CardNotFoundException {
         if(cards.contains(card)) {
-            currentCard=card;
+            currentCard=new Card(card);
             cards.remove(card);
-        }else throw new CardNotFoundException("carta non trovata");
+        }else throw new CardNotFoundException("Card not found in the deck");
     }
 
+    //TESTED
+    //it returns the current card copy to the caller
     public Card getCurrentCard() {
-        return new Card(currentCard.getValue(), currentCard.getMovementValue(), currentCard.getId());
+            return new Card(currentCard);
     }
 
+    //It returns the string version of the wizard (from the enum Wizard) of the deck
     public String getWizard() {
         return wizard.toString();
     }
 
+    //It returns a copy of the cards in the deck to show them in the view
     public Set<Card> getCards(){
         return new HashSet<Card>(cards);
     }
 
+    //TESTED
+    //it returns a string with a short description for every card in the deck
+    @Override
+    public String toString(){
+        String res="";
+        for (Card c: cards) {
+            res+=c.toString();
+        }
+        return res;
+    }
 
+    //TESTED
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Deck)) return false;
+        Deck deck = (Deck) o;
+
+        return deck.getCards().containsAll(((Deck)o).getCards()) &&
+                ((Deck)o).getCards().containsAll(deck.getCards())
+                && wizard == deck.wizard &&
+                ((this.currentCard==null && ((Deck)o).currentCard==null)
+                || Objects.equals(currentCard, deck.currentCard));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cards, currentCard, wizard);
+    }
 }
