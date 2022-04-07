@@ -111,6 +111,7 @@ public class Match extends Observable{
         currentIsland = 0;
         for (int i=0; i< ISLANDSNUM; i++){
             islands.add(new Island(motherNature, i));
+            islandPositions.add(i);
             //islands.add(new Island(motherNature, i+1));
             motherNature=false;
         }
@@ -265,8 +266,8 @@ public class Match extends Observable{
 
     //END ZAMBO
 
-
-    private void moveMotherNature(int posizioni) throws NoIslandException {
+    //Start Vaia
+    public void moveMotherNature(int posizioni) throws NoIslandException {
         int positionTmp = currentIsland;
         islands.get(positionTmp).setMotherNature(false);
         for (int i = 0; i < posizioni; i++){
@@ -276,7 +277,7 @@ public class Match extends Observable{
         islands.get(currentIsland).setMotherNature(true);
     }
 
-    private void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
         studentsToBeMergedTmp = islands.get(islandToBeMerged).getStudents();
@@ -286,12 +287,16 @@ public class Match extends Observable{
             studentsTmp[i].addAll(studentsToBeMergedTmp[i]);
         }
         islands.get(currentIsland).setStudents(studentsTmp);
-        islandPositions.remove(islandToBeMerged);
+        islandPositions.remove((Integer) islandToBeMerged);
         totalNumIslands--;
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
+    //solo per testare
+    public List<Island> getIslandsForTesting(){
+        return islands;
+    }
 
-    private void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
         previousIslandTmp = previousIsland(currentIsland);
@@ -301,21 +306,22 @@ public class Match extends Observable{
             mergeIsland(previousIslandTmp);
     }
 //
-    private int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
+    public int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp + 1 == islandPositions.size())
             return islandPositions.get(0);
         return islandPositions.get(tmp + 1);}
-        else throw new NoIslandException("Isola non trovata");
+        else throw new NoIslandException("Island not found");
     }
 
-    private int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
+    public int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp - 1 == - 1)
             return islandPositions.get(islandPositions.size() - 1);
         return islandPositions.get(tmp - 1);}
-        else throw new NoIslandException("Isola non trovata");
+        else throw new NoIslandException("Island not found");
     }
+    // END VAIA
 }

@@ -1,12 +1,11 @@
 package model;
 
 import junit.framework.TestCase;
-import model.exception.AlreadyFilledCloudException;
-import model.exception.CardNotFoundException;
-import model.exception.MaxNumberException;
+import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,7 +70,6 @@ public class MatchTest extends TestCase {
         AlreadyFilledCloudException e=assertThrows(AlreadyFilledCloudException.class,()->match.refillClouds());
         System.out.println(match.toStringStudentsOnCloud());
         assertEquals("there's a cloud that is already filled",e.getMessage());
-
     }
 
     //It tests if the cards are returned and shown correctly(method used by the view)
@@ -97,6 +95,38 @@ public class MatchTest extends TestCase {
         Card card=new Card(1,3,2);
         match.chooseCard(card);
 
+    }
+
+    //Start Vaia
+    //Testing if the returned Island is the correct one under every circumstances
+    @Test
+    void PreviousAndNextIslandTest() throws NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+        int tmp = 0;
+        Tower tower = new Tower(TowerColor.BLACK,0);
+        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
+        tmpTowers.add(tower);
+        assertEquals(1, match.nextIsland(tmp));
+        tmp= 11;
+        assertEquals(0, match.nextIsland(tmp));
+        assertThrows(NoIslandException.class, ()->match.nextIsland(12));
+        tmp = 0;
+        assertEquals(11, match.previousIsland(tmp));
+        tmp= 11;
+        assertEquals(10, match.previousIsland(tmp));
+        assertThrows(NoIslandException.class, ()->match.previousIsland(12));
+        match.getIslandsForTesting().get(1).addTowers(tmpTowers);
+        match.mergeIsland(1);
+        tmp = 0;
+        assertEquals(2, match.nextIsland(tmp));
+        assertEquals(0, match.previousIsland(2));
+        assertThrows(NoIslandException.class, ()->match.previousIsland(-1));
+        assertThrows(NoIslandException.class, ()->match.nextIsland(-2));
+        match.getIslandsForTesting().get(11).addTowers(tmpTowers);
+        match.mergeIsland(11);
+        tmp = 10;
+        assertEquals(0, match.nextIsland(tmp));
+        tmp = 0;
+        assertEquals(10, match.previousIsland(tmp));
     }
 
 }
