@@ -83,6 +83,7 @@ public class Dashboard {
             throw new MaxNumberOfTowerPassedException("Too much tower on the Dashboard");
 
         this.towersCollection.addAll(towersToBeAdded);
+        //TODO possibile Exception sull'inserimento di una torre uguale ad una già presente
     }
 
     public Set<Student> showEntrance () {
@@ -225,4 +226,20 @@ public class Dashboard {
     }
 
 
+   public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {
+       switch ( drColor ) {
+           case RED:
+               return redDiningRoom.getStudentsNumber();
+           case BLUE:
+               return blueDiningRoom.getStudentsNumber();
+           case YELLOW:
+               return yellowDiningRoom.getStudentsNumber();
+           case PINK:
+               return pinkDiningRoom.getStudentsNumber();
+           case GREEN:
+               return greenDiningRoom.getStudentsNumber();
+           default:
+               throw new WrongColorException("Color not found during the search of students in DR");
+       }
+   }
 }

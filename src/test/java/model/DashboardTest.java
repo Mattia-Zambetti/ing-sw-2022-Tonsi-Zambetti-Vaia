@@ -1,18 +1,19 @@
 package model;
 
 import junit.framework.TestCase;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 
 import model.exception.*;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class DashboardTest extends TestCase{
 
     private Dashboard dashboard;
     private Set<Student> students;
-    private final int INITIAL_NUM_OF_TOWER = 6;
+    private final int INITIAL_NUM_OF_TOWER = 8;
     boolean checkVariable=true;
 
     @BeforeEach
@@ -27,17 +28,43 @@ public class DashboardTest extends TestCase{
     }
 
     @Test
-    void BasicTowersMethodTest () throws NegativeNumberOfTowerException {
+    void BasicTowersMethodTest () throws NegativeNumberOfTowerException, MaxNumberOfTowerPassedException {
+
+        ArrayList<Tower> tmp, tmp2;
 
         assertEquals(dashboard.getTowersNum(),INITIAL_NUM_OF_TOWER);
         assertEquals(dashboard.getTowerColor(), TowerColor.BLACK);
-        dashboard.removeTowers(1);
-        assertEquals(dashboard.getTowersNum(),INITIAL_NUM_OF_TOWER-1);
+        tmp = dashboard.removeTowers(2);
+        assertEquals(dashboard.getTowersNum(),INITIAL_NUM_OF_TOWER-2);
+        assertEquals(tmp.size(), 2);
+        tmp2 = new ArrayList<>();
+        tmp2.add(new Tower(TowerColor.BLACK,1));
+        tmp2.add(new Tower(TowerColor.BLACK,1));
+        dashboard.addTowers(tmp2);
+        assertEquals( dashboard.getTowersNum(), INITIAL_NUM_OF_TOWER);
 
     }
 
     @Test
-    void InsertAndRemoveFromEntranceTest() throws MaxNumberException {
+    void TowersMethodExceptionsTest () {
+
+        ArrayList<Tower> tmp2;
+
+        assertEquals(dashboard.getTowersNum(),INITIAL_NUM_OF_TOWER);
+        assertEquals(dashboard.getTowerColor(), TowerColor.BLACK);
+        tmp2 = new ArrayList<>();
+        tmp2.add(new Tower(TowerColor.BLACK,1));
+        tmp2.add(new Tower(TowerColor.BLACK,1));
+        assertEquals( 2, tmp2.size() );
+        assertThrows(MaxNumberOfTowerPassedException.class,()->dashboard.addTowers(tmp2));
+
+        assertThrows(NegativeNumberOfTowerException.class,()->dashboard.removeTowers(10));
+
+
+    }
+
+    @Test
+    void InsertAndRemoveFromEntranceTest() throws MaxNumberException, WrongColorException {
 
         dashboard.moveToEntrance(students);
 
@@ -58,9 +85,14 @@ public class DashboardTest extends TestCase{
 
         assertEquals( 0, dashboard.showEntrance().size() );
 
+        assertEquals( 1, dashboard.getStudentsNumInDR(Color.RED));
+        assertEquals( 2, dashboard.getStudentsNumInDR(Color.YELLOW));
+        assertEquals( 1, dashboard.getStudentsNumInDR(Color.BLUE));
+
     }
 
-    //TODO test che ho spostato effettivamente in DR copiando parte del test precedente
+
+
 
 
 
