@@ -1,18 +1,19 @@
 package model;
 
 import junit.framework.TestCase;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 
 import model.exception.*;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class DashboardTest extends TestCase{
 
     private Dashboard dashboard;
     private Set<Student> students;
-    private final int INITIAL_NUM_OF_TOWER = 6;
+    private final int INITIAL_NUM_OF_TOWER = 8;
     boolean checkVariable=true;
 
     @BeforeEach
@@ -41,6 +42,24 @@ public class DashboardTest extends TestCase{
         tmp2.add(new Tower(TowerColor.BLACK,1));
         dashboard.addTowers(tmp2);
         assertEquals( dashboard.getTowersNum(), INITIAL_NUM_OF_TOWER);
+
+    }
+
+    @Test
+    void TowersMethodExceptionsTest () {
+
+        ArrayList<Tower> tmp2;
+
+        assertEquals(dashboard.getTowersNum(),INITIAL_NUM_OF_TOWER);
+        assertEquals(dashboard.getTowerColor(), TowerColor.BLACK);
+        tmp2 = new ArrayList<>();
+        tmp2.add(new Tower(TowerColor.BLACK,1));
+        tmp2.add(new Tower(TowerColor.BLACK,1));
+        assertEquals( 2, tmp2.size() );
+        assertThrows(MaxNumberOfTowerPassedException.class,()->dashboard.addTowers(tmp2));
+
+        assertThrows(NegativeNumberOfTowerException.class,()->dashboard.removeTowers(10));
+
 
     }
 
