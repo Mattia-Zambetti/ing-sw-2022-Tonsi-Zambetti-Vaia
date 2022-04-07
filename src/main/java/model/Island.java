@@ -30,12 +30,10 @@ public class Island {
         return new ArrayList<Tower>(towerList);
     }
 
-    private int getTotalStudentsNum() {
+    public int getTotalStudentsNum() {
         int studentsCount=0;
         for ( int i=0; i<5; i++) {
-            for ( int j=0; j<students[i].size(); j++) {
-                studentsCount++;
-            }
+                studentsCount+= students[i].size();
         }
         return studentsCount;
     }
@@ -95,10 +93,10 @@ public class Island {
 
     public int getTowerNum(){ return towerList.size(); }
 
-    public TowerColor getTowerColor(){
+    public TowerColor getTowerColor() throws NoTowerException{
         if(towerList.size() != 0)
             return towerList.get(0).getColor();
-        return null;
+        else throw new NoTowerException("No towers on this Island");
     }
 
     public int getPosition() {

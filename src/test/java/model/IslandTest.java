@@ -117,4 +117,56 @@ public class IslandTest extends TestCase {
         tmp1 = island.getStudents();
         assertEquals(students[4].size() + 1 , tmp1[4].size());
     }
+
+    @Test
+    void TestGetTowerNum() throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
+        Tower tower = new Tower(TowerColor.GREY,0);
+        Tower tower1 = new Tower(TowerColor.GREY,0);
+        Tower tower2 = new Tower(TowerColor.GREY,0);
+        ArrayList<Tower> tmp = new ArrayList<Tower>(0);
+        tmp.add(tower);
+        tmp.add(tower1);
+        tmp.add(tower2);
+        island.addTowers(tmp);
+        assertEquals(3, island.getTowerNum());
+        island.removeTowers();
+        assertEquals(0, island.getTowerNum());
+    }
+
+    @Test
+    void TestGetPosition(){
+        assertEquals(0,island.getPosition());
+    }
+
+    @Test
+    void TestGetSetForbidden(){
+        assertEquals(false,island.checkForbidden());
+        island.setForbidden(false);
+        assertEquals(false,island.checkForbidden());
+        island.setForbidden(true);
+        assertEquals(true,island.checkForbidden());
+    }
+
+    @Test
+    void TestGetSetMotherNature(){
+        assertEquals(false,island.checkIsMotherNature());
+        island.setMotherNature(false);
+        assertEquals(false,island.checkIsMotherNature());
+        island.setMotherNature(true);
+        assertEquals(true,island.checkIsMotherNature());
+    }
+
+    @Test
+    void TestGetTotalStudentsNum(){
+        assertEquals(0,island.getTotalStudentsNum());
+        island.setStudents(students);
+        assertEquals(4,island.getTotalStudentsNum());
+        Student student = new Student(6,Color.RED);
+        island.addStudent(student);
+        assertEquals(5,island.getTotalStudentsNum());
+        island.setStudents(students);
+        assertEquals(4,island.getTotalStudentsNum());
+    }
+
+
 }
