@@ -66,13 +66,5 @@ public class Entrance {
         return false;
     }
 
-    //METODO CREATO CAUSA PROBLEMI CON HASHSET
-    /*private boolean containsStudent( Student student ) {
-        for ( Student s : students ) {
-            if ( s.equals(student) )
-                return true;
-        }
-        return false;
-    }*/
 }
 

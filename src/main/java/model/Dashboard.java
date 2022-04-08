@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Dashboard {
     private final Entrance entrance;
-    private final DiningRoom redDiningRoom, blueDiningRoom, yellowDiningRoom, pinkDiningRoom, greenDiningRoom;
+    private final HashMap<Color, DiningRoom> DiningRoomsList;
     private final ArrayList<Tower> towersCollection;  //TODO possibile cambiamento a HashSet quando riguarderemo la funzione di hash
     //private int towersNumber;
     private final TowerColor towerColor;
@@ -20,11 +20,10 @@ public class Dashboard {
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
         entrance = new Entrance();
-        redDiningRoom = new DiningRoom(Color.RED);
-        blueDiningRoom = new DiningRoom(Color.BLUE);
-        yellowDiningRoom = new DiningRoom(Color.YELLOW);
-        pinkDiningRoom = new DiningRoom(Color.PINK);
-        greenDiningRoom = new DiningRoom(Color.GREEN);
+        DiningRoomsList = new HashMap<>(Color.getDim());
+        for ( Color c : Color.values() ) {
+            DiningRoomsList.put( c, new DiningRoom(c) );
+        }
         this.towersCollection = new ArrayList<>(0);
         for ( int i=0; i<numberOfTowers; i++ ) {
             this.towersCollection.add(new Tower(colorOfTower, i));
@@ -38,11 +37,7 @@ public class Dashboard {
 
     public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException {
         this.entrance = new Entrance(dashboardToCopy.entrance);
-        this.redDiningRoom = new DiningRoom(dashboardToCopy.redDiningRoom);
-        this.blueDiningRoom = new DiningRoom(dashboardToCopy.blueDiningRoom);
-        this.greenDiningRoom = new DiningRoom(dashboardToCopy.greenDiningRoom);
-        this.yellowDiningRoom = new DiningRoom(dashboardToCopy.yellowDiningRoom);
-        this.pinkDiningRoom = new DiningRoom(dashboardToCopy.pinkDiningRoom);
+        this.DiningRoomsList = new HashMap<>(dashboardToCopy.DiningRoomsList);
         this.towersCollection = new ArrayList<>(dashboardToCopy.towersCollection);
         this.towerColor = dashboardToCopy.towerColor;
         this.deck = new Deck(dashboardToCopy.deck);
@@ -94,38 +89,6 @@ public class Dashboard {
         entrance.insertStudents( studentsList );
     }
 
-    public void moveToDR( Set<Student> studentsSet ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
-        for( Student s:studentsSet ) {
-            choseDRfromStudentColor(s);
-            this.entrance.removeStudent(s);
-        }
-    }
-
-    public void moveToDR( Student student ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
-            choseDRfromStudentColor(student);
-            this.entrance.removeStudent(student);
-    }
-
-    private void choseDRfromStudentColor(Student student) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException {
-        switch ( student.getColor() ) {
-            case RED:
-                redDiningRoom.insertStudent(student);
-                break;
-            case BLUE:
-                blueDiningRoom.insertStudent(student);
-                break;
-            case YELLOW:
-                yellowDiningRoom.insertStudent(student);
-                break;
-            case PINK:
-                pinkDiningRoom.insertStudent(student);
-                break;
-            case GREEN:
-                greenDiningRoom.insertStudent(student);
-                break;
-        }
-    }
-
     public Student removeStudentFromEntrance( Student chosenStudent ){
         try {
             entrance.removeStudent(chosenStudent);
@@ -137,12 +100,42 @@ public class Dashboard {
         }
     }
 
+    public void moveToDR( Set<Student> studentsSet ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+        for( Student s:studentsSet ) {
+            insertInDRbyStudentColor(s);
+            this.entrance.removeStudent(s);
+        }
+    }
+
+    public void moveToDR( Student student ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+        insertInDRbyStudentColor(student);
+            this.entrance.removeStudent(student);
+    }
+
+    private void insertInDRbyStudentColor(Student student) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
+        if ( this.DiningRoomsList.containsKey(student.getColor()) )
+            this.DiningRoomsList.get(student.getColor()).insertStudent(student);
+        else
+            throw new WrongColorException("Color not found during the insertion of student in DR");
+    }
+
+    public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {
+        if ( this.DiningRoomsList.containsKey(drColor) )
+            return this.DiningRoomsList.get(drColor).getStudentsNumber();
+        else
+            throw new WrongColorException("Color not found during the search of students in DR");
+    }
+
     public Set<Card> showCards() {
         return deck.getCards();
     }
 
     public void playChosenCard( Card chosenCard ) throws CardNotFoundException {
             deck.playCard(chosenCard);
+    }
+
+    public Card getCurrentCard() {
+        return new Card(this.deck.getCurrentCard());
     }
 
     public void insertMaster( Master m ) {
@@ -193,25 +186,4 @@ public class Dashboard {
         isKnight = setValue;
     }
 
-    public Card getCurrentCard() {
-            return new Card(this.deck.getCurrentCard());
-    }
-
-
-   public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {
-       switch ( drColor ) {
-           case RED:
-               return redDiningRoom.getStudentsNumber();
-           case BLUE:
-               return blueDiningRoom.getStudentsNumber();
-           case YELLOW:
-               return yellowDiningRoom.getStudentsNumber();
-           case PINK:
-               return pinkDiningRoom.getStudentsNumber();
-           case GREEN:
-               return greenDiningRoom.getStudentsNumber();
-           default:
-               throw new WrongColorException("Color not found during the search of students in DR");
-       }
-   }
 }
