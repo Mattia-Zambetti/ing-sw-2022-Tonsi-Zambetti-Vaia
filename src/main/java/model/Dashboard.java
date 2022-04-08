@@ -90,51 +90,23 @@ public class Dashboard {
         return entrance.getStudents();
     }
 
-    public void moveToEntrance( Set<Student> studentsList ) throws MaxNumberException {
+    public void moveToEntrance( Set<Student> studentsList ) throws MaxNumberException, StudentIDAlreadyExistingException {
         entrance.insertStudents( studentsList );
     }
 
-    public void moveToDR( Set<Student> studentsSet ) {
-        try{
-            for( Student s:studentsSet ) {
-                choseDRfromStudentColor(s);
-                this.entrance.removeStudent(s);
-            }
-        }
-        catch ( MaxNumberException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( NullPointerException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( WrongColorException e ) {
-            System.out.println(e.toString());
-        }
-        catch (InexistentStudentException e) {
-            System.out.println(e.toString());
+    public void moveToDR( Set<Student> studentsSet ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+        for( Student s:studentsSet ) {
+            choseDRfromStudentColor(s);
+            this.entrance.removeStudent(s);
         }
     }
 
-    public void moveToDR( Student student ) {
-        try {
+    public void moveToDR( Student student ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
             choseDRfromStudentColor(student);
             this.entrance.removeStudent(student);
-        }
-        catch ( MaxNumberException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( NullPointerException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( WrongColorException e ) {
-            System.out.println(e.toString());
-        }
-        catch (InexistentStudentException e) {
-            System.out.println(e.toString());
-        }
     }
 
-    private void choseDRfromStudentColor(Student student) throws MaxNumberException, WrongColorException {
+    private void choseDRfromStudentColor(Student student) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException {
         switch ( student.getColor() ) {
             case RED:
                 redDiningRoom.insertStudent(student);

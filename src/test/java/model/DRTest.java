@@ -1,8 +1,7 @@
 package model;
 
 import junit.framework.TestCase;
-import model.exception.MaxNumberException;
-import model.exception.WrongColorException;
+import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,7 @@ public class DRTest extends TestCase {
     }
 
     @Test
-    void noExceptionDRTest() throws MaxNumberException, WrongColorException {
+    void noExceptionDRTest() throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException {
 
         assertEquals( diningRoomTest.getStudentsNumber(), 0);
 
@@ -35,7 +34,7 @@ public class DRTest extends TestCase {
     }
 
     @Test
-    void MaxNumberExceptionDRTest() throws WrongColorException, MaxNumberException {
+    void MaxNumberExceptionDRTest() throws WrongColorException, MaxNumberException, StudentIDAlreadyExistingException {
 
         assertEquals( diningRoomTest.getStudentsNumber(), 0);
 

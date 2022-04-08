@@ -64,7 +64,7 @@ public class DashboardTest extends TestCase{
     }
 
     @Test
-    void InsertAndRemoveFromEntranceTest() throws MaxNumberException, WrongColorException {
+    void InsertAndRemoveFromEntranceTest() throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
 
         dashboard.moveToEntrance(students);
 

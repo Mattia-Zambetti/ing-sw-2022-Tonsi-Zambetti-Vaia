@@ -1,13 +1,11 @@
 package model;
 
 import junit.framework.TestCase;
-import model.exception.InexistentStudentException;
-import model.exception.MaxNumberException;
+import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -26,7 +24,7 @@ public class EntranceTest extends TestCase {
 
     //It's a test on the exception regarding the Students limit in the entrance
     @Test
-    void insertStudentsWithException() throws MaxNumberException {
+    void insertStudentsWithMaxNumberException() throws MaxNumberException {
         Set<Student> studentsTestTmp = new HashSet<>();
 
         for (int i = 0; i < Entrance.getMAXSTUDENTS() + 1; i++) {
@@ -36,30 +34,16 @@ public class EntranceTest extends TestCase {
         assertEquals("You can't add students to the entrance. " +
                 "Students inserted in this round:" + Entrance.getMAXSTUDENTS(), eTest.getMessage());
 
-        Student studentAlreadyInserted = new Student(1, Color.PINK);
-        Set<Student> setAlreadyInserted = new HashSet<>();
-        setAlreadyInserted.add(studentAlreadyInserted);
+        Student studentAlreadyInserted = new Student(Entrance.getMAXSTUDENTS() + 1, Color.PINK);
+        Exception eTest1 = assertThrows(MaxNumberException.class, () -> entrance.insertStudent(studentAlreadyInserted));
 
-
-    }
-
-    //It tests if it's possible to insert the same student 2 times
-    @Test
-    void insertAStudent2Times() throws MaxNumberException {
-        entrance.insertStudents(studentsStartingSet);
-
-        Student studentAlreadyInserted = new Student(1, Color.PINK);
-        Set<Student> setAlreadyInserted = new HashSet<>();
-        setAlreadyInserted.add(studentAlreadyInserted);
-
-        assertEquals(studentsStartingSet.size(),entrance.getStudents().size());
     }
 
     //It tests if the students have been inserted correctly without throw the
     //MaxNumberException. It tests also if it can remove a student by using a copy
     //or the original
     @Test
-    void insertAndDeleteStudentsWithoutMaxNumberException() throws MaxNumberException, InexistentStudentException {
+    void insertAndDeleteStudentsWithoutException() throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException {
         Student studentTmp= new Student( Entrance.getMAXSTUDENTS(), Color.RED);
         Student pinkStudent = new Student( 1, Color.PINK);
 
@@ -95,5 +79,53 @@ public class EntranceTest extends TestCase {
         }
 
         assertTrue(studentAbsent);
+    }
+
+    //Test that checks if NullPointeerException is thrown when a null student is passed
+    //FAILED: hashSet permits the null element
+    /*@Test
+    void NullStudentException_Method_insertStudent () throws MaxNumberException {
+      Student s = null;
+
+        Exception eTest = assertThrows( NullPointerException.class, ()->entrance.insertStudent(s) );
+
+
+    }*/
+
+    //Test that checks if IllegalArgumentException is thrown when a student with the same ID (and Hash) of another tudent already present is passed
+    //FAILED: there is no problem adding a Student with the same ID of another to an HashSet
+    //UPDATE: StudentIDAlreadyExistingException added
+    /*@Test
+    void IllegalArgumentException_Method_insertSingleStudent () throws MaxNumberException {
+        Student s = new Student(11, Color.RED);
+        Student s1 = new Student(11, Color.RED);
+        Student s2 = new Student(s);
+
+        entrance.insertStudent(s);
+        Exception eTest1 = assertThrows( IllegalArgumentException.class, ()->entrance.insertStudent(s1) );
+        Exception eTest2 = assertThrows( IllegalArgumentException.class, ()->entrance.insertStudent(s2) );
+    }*/
+
+    //Test that checks if StudentIDAlreadyExistingException is thrown
+    @Test
+    void StudentIDAlreadyExistingException_Method_insertSingleStudent () throws MaxNumberException, StudentIDAlreadyExistingException {
+        Student s = new Student(11, Color.RED);
+        Student s1 = new Student(11, Color.RED);
+        Student s2 = new Student(s);
+
+        entrance.insertStudent(s);
+        Exception eTest1 = assertThrows( StudentIDAlreadyExistingException.class, ()->entrance.insertStudent(s1) );
+        Exception eTest2 = assertThrows( StudentIDAlreadyExistingException.class, ()->entrance.insertStudent(s2) );
+    }
+
+    //It tests if it's possible to insert the same student's set 2 times
+    @Test
+    void StudentIDAlreadyExistingException_Method_insertMultipleStudent () throws MaxNumberException, StudentIDAlreadyExistingException {
+        Set<Student> setAlreadyInserted = new HashSet<>(studentsStartingSet);
+
+        entrance.insertStudents(studentsStartingSet);
+
+        Exception eTest1 = assertThrows( StudentIDAlreadyExistingException.class, ()->entrance.insertStudents(setAlreadyInserted) );
+        assertEquals(studentsStartingSet.size(),entrance.getStudents().size());
     }
 }

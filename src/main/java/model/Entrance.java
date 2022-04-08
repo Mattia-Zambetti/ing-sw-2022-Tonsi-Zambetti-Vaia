@@ -21,22 +21,26 @@ public class Entrance {
         return MAXSTUDENTS;
     }
 
-    public void insertStudents(Set<Student> studentsToBeAdded) throws MaxNumberException {
+    public void insertStudents(Set<Student> studentsToBeAdded) throws MaxNumberException, StudentIDAlreadyExistingException {
         int initialSize=students.size();
         for (Student s: studentsToBeAdded){
-            if(students.size()== MAXSTUDENTS)
+            if (students.size()== MAXSTUDENTS)
                 throw new MaxNumberException("You can't add students to the entrance. " +
                         "Students inserted in this round:"+ (students.size()-initialSize) );
-            else
-                students.add(s);
+            if ( this.CheckForIDPresence(s.getID())  )
+                throw new StudentIDAlreadyExistingException("A Student with the same ID is already present."+
+                        "\nThe ID is: "+s.getID());
+            students.add(s);
         }
     }
 
-    public void insertStudent(Student studentToBeAdded) throws MaxNumberException {
+    public void insertStudent(Student studentToBeAdded) throws MaxNumberException, StudentIDAlreadyExistingException {
         if( this.students.size() == MAXSTUDENTS)
             throw new MaxNumberException("Entrance full, you can't add students to the entrance.");
-        else
-            this.students.add(studentToBeAdded);
+        if ( this.CheckForIDPresence(studentToBeAdded.getID())  )
+            throw new StudentIDAlreadyExistingException("A Student with the same ID is already present."+
+                    "\nThe ID is: "+studentToBeAdded.getID());
+        this.students.add(studentToBeAdded);
     }
 
     //This method verify that an object is exactly the same, and not a clone, pay attention.
@@ -52,6 +56,14 @@ public class Entrance {
 
     public Set<Student> getStudents(){
         return new HashSet<Student>(students);
+    }
+
+    private boolean CheckForIDPresence( int ID ) {
+        for ( Student s: this.students ) {
+            if ( s.getID() == ID )
+                return true;
+        }
+        return false;
     }
 
     //METODO CREATO CAUSA PROBLEMI CON HASHSET

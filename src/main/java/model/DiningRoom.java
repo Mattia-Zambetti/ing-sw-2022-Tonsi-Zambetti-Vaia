@@ -2,6 +2,7 @@
 package model;
 
 import model.exception.MaxNumberException;
+import model.exception.StudentIDAlreadyExistingException;
 import model.exception.WrongColorException;
 
 import java.util.HashSet;
@@ -27,18 +28,29 @@ public class DiningRoom {
         return students.size();
     }
 
-    public void insertStudent ( Student newStudent ) throws MaxNumberException, NullPointerException, WrongColorException{
+    public void insertStudent ( Student newStudent ) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
         if ( newStudent == null)
             throw new NullPointerException("Passed a null reference for newStudent in DR insertStudent()");
         if ( newStudent.getColor().ordinal()!=this.roomColor.ordinal() )
             throw new WrongColorException("Trying to insert newStudent in the wrong DR");
         if ( students.size() >= DINING_ROOM_DIM )
             throw new MaxNumberException(roomColor.toString()+" Dining Room Full");
+        if ( this.CheckForIDPresence(newStudent.getID())  )
+            throw new StudentIDAlreadyExistingException("A Student with the same ID is already present."+
+                    "\nThe ID is: "+newStudent.getID());
 
         students.add( newStudent );
     }
 
     public static int getDiningRoomDim() {
         return DINING_ROOM_DIM;
+    }
+
+    private boolean CheckForIDPresence( int ID ) {
+        for ( Student s: this.students ) {
+            if ( s.getID() == ID )
+                return true;
+        }
+        return false;
     }
 }

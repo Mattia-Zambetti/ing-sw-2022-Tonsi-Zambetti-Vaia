@@ -150,7 +150,7 @@ public class Match extends Observable{
             else
                 throw new MaxNumberException("This cloud doesn't exist");
             notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
-        }catch (MaxNumberException e){
+        }catch (MaxNumberException | StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
         }
     }
@@ -221,7 +221,12 @@ public class Match extends Observable{
     private void moveStudentFromEntranceToDR( Student studentToBeMoved ) {
         Student tmpStudent;
         tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
-        this.currentPlayerDashboard.moveToDR( tmpStudent );
+        try {
+            this.currentPlayerDashboard.moveToDR(tmpStudent);
+        }
+        catch ( MaxNumberException | WrongColorException | StudentIDAlreadyExistingException | InexistentStudentException e ) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
