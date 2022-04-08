@@ -14,14 +14,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MatchTest extends TestCase {
     Match match;
     static final int PLAYERSNUM = 2;
-
+    ArrayList<Student>[] students;
 
 
     @BeforeEach void init() {
         match=new Match(PLAYERSNUM, false);
         assertEquals(PLAYERSNUM, match.getPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
-
+        students = new ArrayList[5];
+        for (int i = 0; i < students.length; i++){
+            students[i] = new ArrayList<Student>(0);
+        }
+        Student student = new Student(0,Color.RED);
+        students[0].add(student);
+        student = new Student(0,Color.YELLOW);
+        students[4].add(student);
+        student = new Student(1,Color.BLUE);
+        students[2].add(student);
+        student = new Student(2,Color.YELLOW);
+        students[4].add(student);
 
     }
 
@@ -114,14 +125,14 @@ public class MatchTest extends TestCase {
         tmp= 11;
         assertEquals(10, match.previousIsland(tmp));
         assertThrows(NoIslandException.class, ()->match.previousIsland(12));
-        match.getIslandsForTesting().get(1).addTowers(tmpTowers);
+        match.setIslandsTowers(1, tmpTowers);
         match.mergeIsland(1);
         tmp = 0;
         assertEquals(2, match.nextIsland(tmp));
         assertEquals(0, match.previousIsland(2));
         assertThrows(NoIslandException.class, ()->match.previousIsland(-1));
         assertThrows(NoIslandException.class, ()->match.nextIsland(-2));
-        match.getIslandsForTesting().get(11).addTowers(tmpTowers);
+        match.setIslandsTowers(11, tmpTowers);
         match.mergeIsland(11);
         tmp = 10;
         assertEquals(0, match.nextIsland(tmp));
@@ -129,4 +140,50 @@ public class MatchTest extends TestCase {
         assertEquals(10, match.previousIsland(tmp));
     }
 
+    //check if it calls the merging method when actually is needed (i could have spared some time by testiing just this method ans not the previous one)
+    @Test
+    void TestCheckNearbyIsland() throws InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoTowerException, NoIslandException {
+        Tower tower = new Tower(TowerColor.BLACK,0);
+        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
+        tmpTowers.add(tower);
+        match.setIslandsTowers(0,tmpTowers);
+        match.setIslandsTowers(1,tmpTowers);
+        match.checkNearbyIslands();
+        assertEquals(2,match.nextIsland(0));
+        assertEquals(11,match.previousIsland(0));
+        match.setIslandsTowers(11,new ArrayList<Tower>(tmpTowers));
+        match.checkNearbyIslands();
+        assertEquals(10,match.previousIsland(0));
+    }
+
+    @Test
+    void TestMergeIslands() throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+        Tower tower = new Tower(TowerColor.BLACK,0);
+        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
+        tmpTowers.add(tower);
+        match.setIslandsTowers(1,tmpTowers);
+        match.setIslandsStudents(0,students);
+        match.setIslandsStudents(1,students);
+        match.mergeIsland(1);
+        for (int i = 0; i < 5; i++)
+            students[i].addAll(students[i]);
+        for (int i = 0; i < 5; i++)
+            assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
+        assertEquals(1, match.getTowersNumOnIsland(0));
+        match.setIslandsTowers(2,tmpTowers);
+        match.mergeIsland(2);
+        for (int i = 0; i < 5; i++)
+            assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
+        assertEquals(2, match.getTowersNumOnIsland(0));
+    }
+
+    @Test
+    void TestMoveMotherNature() throws NoIslandException {
+        assertEquals(true, match.checkMotherNatureOnIsland(0));
+        match.moveMotherNature(3);
+        assertEquals(true, match.checkMotherNatureOnIsland(3));
+        assertEquals(false, match.checkMotherNatureOnIsland(0));
+        match.moveMotherNature(9);
+        assertEquals(true, match.checkMotherNatureOnIsland(0));
+    }
 }

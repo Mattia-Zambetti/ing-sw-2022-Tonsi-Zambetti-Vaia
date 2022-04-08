@@ -18,7 +18,7 @@ public class Match extends Observable{
     private boolean isExpertMode;
     private int currentIsland,totalNumIslands;
     private int currentPlayersNum;
-    private static List<Integer> islandPositions = new ArrayList<>();
+    private List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
@@ -292,18 +292,41 @@ public class Match extends Observable{
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
     //solo per testare
-    public List<Island> getIslandsForTesting(){
-        return islands;
+    public void setIslandsTowers(int islandToSet, ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
+        islands.get(islandToSet).addTowers(towers);
+    }
+
+    public void setIslandsStudents(int islandToSet, ArrayList<Student>[] students) {
+        islands.get(islandToSet).setStudents(students);
+    }
+
+    public ArrayList<Student>[] getStudentsOnIsland(int island){
+        return islands.get(island).getStudents();
+    }
+
+    public int getTowersNumOnIsland(int island){
+        return islands.get(island).getTowerNum();
+    }
+
+    public boolean checkMotherNatureOnIsland(int island){
+        return islands.get(island).checkIsMotherNature();
+    }
+
+    public List<Integer> getIslandPositions() {
+        List<Integer> tmp = new ArrayList<>(islandPositions);
+        return tmp;
     }
 
     public void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
         previousIslandTmp = previousIsland(currentIsland);
-        if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor() && islands.get(nextIslandTmp).getTowerColor() != null)
-            mergeIsland(nextIslandTmp);
-        if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor() && islands.get(previousIslandTmp).getTowerColor() != null)
-            mergeIsland(previousIslandTmp);
+        try{if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+            mergeIsland(nextIslandTmp);}
+        catch (NoTowerException e){}
+        try{if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+                mergeIsland(previousIslandTmp);}
+        catch (NoTowerException e){}
     }
 //
     public int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
