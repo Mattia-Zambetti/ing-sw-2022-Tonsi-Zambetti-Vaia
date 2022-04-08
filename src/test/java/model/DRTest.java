@@ -9,11 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class DRTest extends TestCase {
-    DiningRoom diningRoomTest;
+    DiningRoom diningRoomTest, diningRoomTest2;
 
     @BeforeEach
     void init(){
         diningRoomTest = new DiningRoom(Color.RED);
+        diningRoomTest2 = new DiningRoom(diningRoomTest);
     }
 
     @Test
@@ -30,6 +31,11 @@ public class DRTest extends TestCase {
         assertEquals( diningRoomTest.getStudentsNumber(), 3);
         diningRoomTest.insertStudent(new Student(4,Color.RED));
         assertEquals( diningRoomTest.getStudentsNumber(), 4);
+        diningRoomTest.insertStudent(new Student(5,Color.RED));
+        assertEquals( diningRoomTest.getStudentsNumber(), 5);
+
+        assertEquals( DiningRoom.getDiningRoomDim(), 10);
+
 
     }
 
@@ -41,9 +47,40 @@ public class DRTest extends TestCase {
         for(int i = 0; i<DiningRoom.getDiningRoomDim(); i++){
             diningRoomTest.insertStudent(new Student(i+1,Color.RED));
         }
-        Exception eTest=assertThrows(MaxNumberException.class,()->diningRoomTest.insertStudent(new Student(1,Color.RED)));
+        assertThrows(MaxNumberException.class,()->diningRoomTest.insertStudent(new Student(1,Color.RED)));
 
     }
 
+    @Test
+    void NullPointerExceptionDRTest () {
+        Student s = null;
+
+        assertThrows(NullPointerException.class, ()->diningRoomTest.insertStudent(s));
+    }
+
+    @Test
+    void WrongColorExceptionDRTest () {
+
+        assertThrows(WrongColorException.class, ()->diningRoomTest.insertStudent(new Student(1, Color.GREEN)));
+        assertThrows(WrongColorException.class, ()->diningRoomTest.insertStudent(new Student(1, Color.PINK)));
+        assertThrows(WrongColorException.class, ()->diningRoomTest.insertStudent(new Student(1, Color.YELLOW)));
+        assertThrows(WrongColorException.class, ()->diningRoomTest.insertStudent(new Student(1, Color.BLUE)));
+    }
+
+    @Test
+    void StudentIDAlreadyExistingExceptionDRTest () throws MaxNumberException, StudentIDAlreadyExistingException, WrongColorException {
+
+        diningRoomTest.insertStudent(new Student(1,Color.RED));
+        diningRoomTest.insertStudent(new Student(2,Color.RED));
+        diningRoomTest.insertStudent(new Student(15,Color.RED));
+
+        assertThrows(StudentIDAlreadyExistingException.class, ()->diningRoomTest.insertStudent(new Student(1, Color.RED)));
+        assertThrows(StudentIDAlreadyExistingException.class, ()->diningRoomTest.insertStudent(new Student(2, Color.RED)));
+
+        diningRoomTest.insertStudent(new Student(11,Color.RED));
+
+        assertThrows(StudentIDAlreadyExistingException.class, ()->diningRoomTest.insertStudent(new Student(15, Color.RED)));
+
+    }
 
 }

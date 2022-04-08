@@ -19,6 +19,10 @@ public class Dashboard {
     //prova per vedere se funziona il rebase
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
+
+        if ( numberOfTowers > MAX_NUM_OF_TOWER )
+            throw new IllegalArgumentException("Tried to create a Dashboard with a number of Towers higher than MAX_NUM_OF_TOWER ( =" + MAX_NUM_OF_TOWER + " )");
+
         entrance = new Entrance();
         DiningRoomsList = new HashMap<>(Color.getDim());
         for ( Color c : Color.values() ) {
@@ -72,13 +76,21 @@ public class Dashboard {
         return tmp;
     }
 
-    public void addTowers ( ArrayList<Tower> towersToBeAdded ) throws MaxNumberOfTowerPassedException{
+    public void addTowers ( ArrayList<Tower> towersToBeAdded ) throws MaxNumberOfTowerPassedException, TowerIDAlreadyExistingException, NullPointerException {
+        if ( towersToBeAdded == null )
+            throw new NullPointerException("Tried to add null List instead of a List of towers in your Dashboard");
         int newTowersNumber = this.towersCollection.size() + towersToBeAdded.size();
         if ( newTowersNumber > MAX_NUM_OF_TOWER )
             throw new MaxNumberOfTowerPassedException("Too much tower on the Dashboard");
+        for ( Tower tToAdd : towersToBeAdded ) {
+            if ( tToAdd == null )
+                throw new NullPointerException("Tried to add null instead of a tower in your Dashboard");
+            for ( Tower t : this.towersCollection )
+                if ( t.getId() == tToAdd.getId() )
+                    throw new TowerIDAlreadyExistingException("Tried to add a tower with the same ID of another one already present in your Dashboard");
+        }
 
         this.towersCollection.addAll(towersToBeAdded);
-        //TODO possibile Exception sull'inserimento di una torre uguale ad una già presente
     }
 
     public Set<Student> showEntrance () {

@@ -23,6 +23,10 @@ public class Entrance {
 
     public void insertStudents(Set<Student> studentsToBeAdded) throws MaxNumberException, StudentIDAlreadyExistingException {
         int initialSize=students.size();
+
+        //TODO valutare sia qui che in DR se è il caso di lanciare eccezioni (null) quando viene passato un set nullo o studenti null
+        //if ( studentsToBeAdded == null )
+        //    throw new NullPointerException("Tried to add null Set instead of a Set of students in your Entrance");
         for (Student s: studentsToBeAdded){
             if (students.size()== MAXSTUDENTS)
                 throw new MaxNumberException("You can't add students to the entrance. " +

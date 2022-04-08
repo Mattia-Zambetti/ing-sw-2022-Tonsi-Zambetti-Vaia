@@ -128,4 +128,17 @@ public class EntranceTest extends TestCase {
         Exception eTest1 = assertThrows( StudentIDAlreadyExistingException.class, ()->entrance.insertStudents(setAlreadyInserted) );
         assertEquals(studentsStartingSet.size(),entrance.getStudents().size());
     }
+
+    @Test
+    void removeInexistentStudentTest () throws MaxNumberException, StudentIDAlreadyExistingException, InexistentStudentException {
+        entrance.insertStudents(studentsStartingSet);
+
+        entrance.removeStudent( new Student(1, Color.PINK));
+        assertThrows( InexistentStudentException.class, ()->entrance.removeStudent( new Student(Entrance.getMAXSTUDENTS(), Color.PINK) ) );
+        assertThrows( InexistentStudentException.class, ()->entrance.removeStudent( new Student(1, Color.RED) ) );
+
+    }
+
+
+
 }
