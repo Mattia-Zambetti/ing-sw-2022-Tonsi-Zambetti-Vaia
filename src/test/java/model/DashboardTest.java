@@ -11,15 +11,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DashboardTest extends TestCase{
 
-    private Dashboard dashboard;
+    private Dashboard dashboard, dashboard2;
     private Set<Student> students;
     private final int INITIAL_NUM_OF_TOWER = 8;
     boolean checkVariable=true;
 
     @BeforeEach
-    void init() {
+    void init() throws CardNotFoundException {
 
         dashboard = new Dashboard(INITIAL_NUM_OF_TOWER,TowerColor.BLACK,Wizard.WIZARD1);
+        dashboard2 = new Dashboard( dashboard );
         students=new HashSet<>();
 
         students.add(new Student(1,Color.YELLOW));
@@ -27,6 +28,15 @@ public class DashboardTest extends TestCase{
         students.add(new Student(3,Color.BLUE));
         students.add(new Student(4,Color.GREEN));
         students.add(new Student(5,Color.PINK));
+    }
+
+    @Test
+    void ConstructorExceptionsTest () {
+        Dashboard wrongDashboard2 = null;
+
+        assertThrows( IllegalArgumentException.class, ()->new Dashboard(10, TowerColor.GREY, Wizard.WIZARD1));
+        assertThrows( NullPointerException.class, ()->new Dashboard(wrongDashboard2));
+
     }
 
     @Test
@@ -48,20 +58,40 @@ public class DashboardTest extends TestCase{
     }
 
     @Test
-    void TowersMethodExceptionsTest () {
+    void AddTowersMethodExceptionsTest () throws TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NegativeNumberOfTowerException {
 
-        ArrayList<Tower> tmp2;
+        ArrayList<Tower> towerList;
 
-        assertEquals(dashboard.getTowersNum(),INITIAL_NUM_OF_TOWER);
-        assertEquals(dashboard.getTowerColor(), TowerColor.BLACK);
-        tmp2 = new ArrayList<>();
-        tmp2.add(new Tower(TowerColor.BLACK,1));
-        tmp2.add(new Tower(TowerColor.BLACK,1));
-        assertEquals( 2, tmp2.size() );
-        assertThrows(MaxNumberOfTowerPassedException.class,()->dashboard.addTowers(tmp2));
+        towerList = new ArrayList<>();
+        towerList.add(new Tower(TowerColor.BLACK,9));
+        towerList.add(new Tower(TowerColor.BLACK,10));
+        assertEquals( 2, towerList.size() );
+
+        ArrayList<Tower> finalTowerList = towerList;
+        assertThrows(MaxNumberOfTowerPassedException.class,()->dashboard.addTowers(finalTowerList));
+
+        ArrayList<Tower> removeTowerList = dashboard.removeTowers(6);
+        assertEquals( 2, dashboard.getTowersNum() );
+
+        towerList = new ArrayList<>();
+        towerList.add(new Tower(TowerColor.BLACK, 1));
+        ArrayList<Tower> finalTowerList1 = towerList;
+        assertThrows(TowerIDAlreadyExistingException.class,()->dashboard.addTowers(finalTowerList1) );
+
+        towerList = null;
+        ArrayList<Tower> finalTowerList2 = towerList;
+        assertThrows(NullPointerException.class,()->dashboard.addTowers(finalTowerList2) );
+        towerList = new ArrayList<>();
+        towerList.add(null);
+        ArrayList<Tower> finalTowerList3 = towerList;
+        assertThrows(NullPointerException.class,()->dashboard.addTowers(finalTowerList3) );
+
+    }
+
+    @Test
+    void RemoveTowersMethodExceptionsTest () {
 
         assertThrows(NegativeNumberOfTowerException.class,()->dashboard.removeTowers(10));
-
 
     }
 
@@ -74,8 +104,10 @@ public class DashboardTest extends TestCase{
 
         checkVariable=true;
         for ( Student s : students ) {
-            if ( !studentsInTheEntrance.contains(s) )
-                checkVariable=false;
+            if (!studentsInTheEntrance.contains(s)) {
+                checkVariable = false;
+                break;
+            }
         }
         assertTrue(checkVariable);
 

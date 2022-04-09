@@ -220,37 +220,47 @@ public class Match extends Observable{
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
     private void moveStudentFromEntranceToDR( Student studentToBeMoved ) {
         Student tmpStudent;
-        tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
         try {
+            tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
             this.currentPlayerDashboard.moveToDR(tmpStudent);
         }
-        catch ( MaxNumberException | WrongColorException | StudentIDAlreadyExistingException | InexistentStudentException e ) {
+        catch ( MaxNumberException | WrongColorException | StudentIDAlreadyExistingException | InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
+
     }
 
     private void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
-        Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
-        //chosenIsland
-        for ( Island isl : islands) {
-            if (isl.equals(chosenIsland)) {
-                isl.addStudent(tmpStudent);
-                return;
+        try {
+            Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
+            for ( Island isl : islands) {
+                if (isl.equals(chosenIsland)) {
+                    isl.addStudent(tmpStudent);
+                    return;
+                }
             }
+            throw new NoIslandException("Island not found, moveStudentFromEntranceToIsland failed");
         }
-        throw new NoIslandException("Island not found, moveStudentFromEntranceToIsland failed");
+        catch ( InexistentStudentException | NullPointerException e ) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
-        Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
-        //chosenIsland
-        if ( chosenIslandPosition<0 || chosenIslandPosition>(ISLANDSNUM-1) )
-            throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
-        //TODO possibile check sul fatto che l'isola non sia giá stata unificata ad un'altra
-        if ( this.islands.get(chosenIslandPosition) == null )
-            throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
-        else
-            this.islands.get(chosenIslandPosition).addStudent(tmpStudent);
+        try {
+            Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
+            if ( chosenIslandPosition<0 || chosenIslandPosition>(ISLANDSNUM-1) )
+                throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
+            //TODO possibile check sul fatto che l'isola non sia giá stata unificata ad un'altra
+            if ( this.islands.get(chosenIslandPosition) == null )
+                throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
+            else
+                this.islands.get(chosenIslandPosition).addStudent(tmpStudent);
+        }
+        catch (InexistentStudentException | NullPointerException e ) {
+            System.out.println(e.getMessage());
+        }
     }
 
     //TODO MERGE quando faremo il merge meglio cambiare il tipo statico di dashboardCollection in ArrayList e togliere dashboardsCollectionArrayListRef

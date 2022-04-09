@@ -39,7 +39,9 @@ public class Dashboard {
         this.isKnight = false; //Settato a false per la modalità esperto
     }
 
-    public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException {
+    public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException, NullPointerException {
+        if ( dashboardToCopy == null )
+            throw new NullPointerException("Tried to create a new Dashboard from a null Dashboard");
         this.entrance = new Entrance(dashboardToCopy.entrance);
         this.DiningRoomsList = new HashMap<>(dashboardToCopy.DiningRoomsList);
         this.towersCollection = new ArrayList<>(dashboardToCopy.towersCollection);
@@ -101,15 +103,9 @@ public class Dashboard {
         entrance.insertStudents( studentsList );
     }
 
-    public Student removeStudentFromEntrance( Student chosenStudent ){
-        try {
+    public Student removeStudentFromEntrance( Student chosenStudent ) throws InexistentStudentException, NullPointerException {
             entrance.removeStudent(chosenStudent);
             return new Student(chosenStudent);
-        }
-        catch ( InexistentStudentException e ) {
-            System.out.println(e.toString());
-            return null;
-        }
     }
 
     public void moveToDR( Set<Student> studentsSet ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
