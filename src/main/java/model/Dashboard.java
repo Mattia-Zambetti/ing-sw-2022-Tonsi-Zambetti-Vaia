@@ -104,20 +104,17 @@ public class Dashboard {
     }
 
     public Student removeStudentFromEntrance( Student chosenStudent ) throws InexistentStudentException, NullPointerException {
-            entrance.removeStudent(chosenStudent);
-            return new Student(chosenStudent);
+            return entrance.removeStudent(chosenStudent);
     }
 
-    public void moveToDR( Set<Student> studentsSet ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+    public void moveToDR(Set<Student> studentsSet ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
         for( Student s:studentsSet ) {
             insertInDRbyStudentColor(s);
-            this.entrance.removeStudent(s);
         }
     }
 
-    public void moveToDR( Student student ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+    public void moveToDR(Student student ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
         insertInDRbyStudentColor(student);
-            this.entrance.removeStudent(student);
     }
 
     private void insertInDRbyStudentColor(Student student) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
@@ -143,7 +140,7 @@ public class Dashboard {
     }
 
     public Card getCurrentCard() {
-        return new Card(this.deck.getCurrentCard());
+        return this.deck.getCurrentCard();
     }
 
     public void insertMaster( Master m ) {

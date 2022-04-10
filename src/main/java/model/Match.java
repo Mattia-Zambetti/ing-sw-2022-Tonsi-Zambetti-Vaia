@@ -56,10 +56,9 @@ public class Match extends Observable{
 
                 dashboardsCollection = new ArrayList<Dashboard>();
                 currentPlayerDashboard = null;
-                mastersMap=new HashMap<>();
-                for (Color c : Color.values()) {
-                    mastersMap.put(c, new Master(c));
-                }
+
+                initializeMasters();
+
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException e){
             System.out.println(e.getMessage());
@@ -216,6 +215,13 @@ public class Match extends Observable{
     //END TONSI
 
     //ZAMBO
+
+    private void initializeMasters() {
+        mastersMap=new HashMap<>();
+        for (Color c : Color.values()) {
+            mastersMap.put(c, new Master(c));
+        }
+    }
 
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
     private void moveStudentFromEntranceToDR( Student studentToBeMoved ) {

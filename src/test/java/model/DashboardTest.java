@@ -96,11 +96,11 @@ public class DashboardTest extends TestCase{
     }
 
     @Test
-    void InsertAndRemoveFromEntranceTest() throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+    void InsertAndRemoveFromEntranceTest() throws MaxNumberException, StudentIDAlreadyExistingException, InexistentStudentException {
 
         dashboard.moveToEntrance(students);
 
-        ArrayList<Student> studentsInTheEntrance = new ArrayList<>(dashboard.showEntrance());
+        HashSet<Student> studentsInTheEntrance = new HashSet<>(dashboard.showEntrance());
 
         checkVariable=true;
         for ( Student s : students ) {
@@ -111,20 +111,112 @@ public class DashboardTest extends TestCase{
         }
         assertTrue(checkVariable);
 
-        HashSet<Student> oneStudent = new HashSet<>();
-        oneStudent.add(new Student(8,Color.BLUE));
-        dashboard.moveToEntrance(oneStudent);
-        dashboard.moveToDR(new Student(8,Color.BLUE));
-        dashboard.moveToDR(students);
+        ArrayList<Student> studentsRemoved = new ArrayList<>();
+        for ( Student s : studentsInTheEntrance ) {
+            if ( s.getID()%2==0 ) {
+                studentsRemoved.add(dashboard.removeStudentFromEntrance(s));
+            }
+        }
+        studentsInTheEntrance = (HashSet<Student>) dashboard.showEntrance();
 
-        assertEquals( 0, dashboard.showEntrance().size() );
-
-        assertEquals( 1, dashboard.getStudentsNumInDR(Color.RED));
-        assertEquals( 1, dashboard.getStudentsNumInDR(Color.YELLOW));
-        assertEquals( 2, dashboard.getStudentsNumInDR(Color.BLUE));
+        assertTrue(studentsInTheEntrance.contains(new Student(1,Color.YELLOW)));
+        assertTrue(studentsRemoved.contains(new Student(2,Color.RED)));
+        assertTrue(studentsInTheEntrance.contains(new Student(3,Color.BLUE)));
+        assertTrue(studentsRemoved.contains(new Student(4,Color.GREEN)));
+        assertTrue(studentsInTheEntrance.contains(new Student(5,Color.PINK)));
 
     }
 
+    @Test
+    void MoveFromEntranceTODRTest () throws MaxNumberException, StudentIDAlreadyExistingException, WrongColorException, InexistentStudentException {
+
+        dashboard.moveToEntrance(students);
+        assertEquals(5, dashboard.showEntrance().size());
+
+        for ( Student s : students ) {
+            dashboard.moveToDR(dashboard.removeStudentFromEntrance(s));
+        }
+        assertEquals(0, dashboard.showEntrance().size());
+
+        HashSet<Student> students2 = new HashSet();
+
+        students2.add(new Student(11,Color.YELLOW));
+        students2.add(new Student(12,Color.RED));
+        students2.add(new Student(13,Color.BLUE));
+        students2.add(new Student(14,Color.GREEN));
+        students2.add(new Student(15,Color.PINK));
+        dashboard.moveToEntrance(students2);
+        assertEquals(5, dashboard.showEntrance().size());
+        dashboard.moveToDR(students2);
+
+
+        assertEquals(2,dashboard.getStudentsNumInDR(Color.RED));
+        assertEquals(2,dashboard.getStudentsNumInDR(Color.BLUE));
+        assertEquals(2,dashboard.getStudentsNumInDR(Color.YELLOW));
+        assertEquals(2,dashboard.getStudentsNumInDR(Color.GREEN));
+        assertEquals(2,dashboard.getStudentsNumInDR(Color.PINK));
+
+
+    }
+
+    @Test
+    void CardTest () throws CardNotFoundException {
+        HashSet<Card> cards;
+        Card chosenCard = null;
+
+        cards = (HashSet) dashboard.showCards();
+
+        for ( Card c: cards) {
+            System.out.println(c.toString());
+        }
+
+        int cardID = 1;
+
+        for ( Card c: cards ) {
+            if ( c.getId() == cardID ) {
+                chosenCard = c;
+                break;
+            }
+        }
+
+        dashboard.playChosenCard(chosenCard);
+        assertEquals(chosenCard, dashboard.getCurrentCard());
+    }
+
+    @Test
+    void MasterTest () throws NoMasterException {
+        boolean check = true;
+        HashMap<Color, Master> mastersMap = new HashMap<>();
+        for (Color c : Color.values()) {
+            mastersMap.put(c, new Master(c));
+        }
+
+        for ( Color c: Color.values() ) {
+            if ( dashboard.haveMaster(c) )
+                check = false;
+        }
+        assertTrue(check);
+
+        Color obtainedColor = Color.BLUE;
+        dashboard.insertMaster(mastersMap.remove(obtainedColor));
+
+        assertTrue(dashboard.haveMaster(obtainedColor));
+
+        mastersMap.put(obtainedColor, dashboard.removeMaster(obtainedColor));
+        assertFalse(dashboard.haveMaster(obtainedColor));
+
+        for (Color c : Color.values()) {
+            dashboard.insertMaster(new Master(c));
+        }
+
+        List<Master> masters = (List<Master>) dashboard.getMastersList();
+        assertEquals(5,masters.size());
+    }
+
+    @Test
+    void masterTestException () {
+        assertThrows(NoMasterException.class, ()->dashboard.removeMaster(Color.BLUE));
+    }
 
 
 

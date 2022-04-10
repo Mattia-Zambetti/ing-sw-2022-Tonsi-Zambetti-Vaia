@@ -55,11 +55,13 @@ public class Entrance {
     //It's perfect for us because we can pass students, they are immutable object, but
     //if we use a clone of the Student, it doesn't work(watch
     // the insertStudentsWithoutException() test)
-    public void removeStudent(Student student) throws InexistentStudentException, NullPointerException{
+    public Student removeStudent(Student student) throws InexistentStudentException, NullPointerException{
         if ( student == null )
             throw new NullPointerException("Tried to remove null Student from your Entrance");
-        if ( students.contains(student) )
+        if ( students.contains(student) ) {
             students.remove(student);
+            return student;
+        }
         else
             throw new InexistentStudentException("Chosen student is not available");
     }
