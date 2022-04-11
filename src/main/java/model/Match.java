@@ -16,8 +16,7 @@ public class Match extends Observable{
     private Collection<FigureCard> figureCards;
     private int playersNum;
     private boolean isExpertMode;
-    private int currentIsland,totalNumIslands;
-    private int currentPlayersNum;
+    private int currentIsland,totalNumIslands; //serve?
     private static List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
@@ -36,8 +35,10 @@ public class Match extends Observable{
         try {
             this.playersNum = playersNum;
             if (this.playersNum <= MAXPLAYERSNUM && this.playersNum >= MINPLAYERSNUM) {
-                currentPlayersNum=0;
+
                 this.isExpertMode = isExpertMode;
+
+                Bag.restoreBag();
 
                 //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più
                 // efficiente la linked
@@ -45,8 +46,9 @@ public class Match extends Observable{
                 initializeIslands();
                 this.totalNumIslands=ISLANDSNUM;
 
+                Bag.createAllStudents();
                 Cloud.setStudentsNumOnCloud(chooseStudentsNumOnCLoud());
-                Bag.restoreBag();
+
 
 
                 clouds = new ArrayList<Cloud>();
@@ -61,13 +63,17 @@ public class Match extends Observable{
                     mastersMap.put(c, new Master(c));
                 }
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
-        }catch (MaxNumberException e){
+        }catch (MaxNumberException | NoMoreStudentsException e){
             System.out.println(e.getMessage());
         }
-        //else throw new MaxNumberException("un match può avere dai 2 ai 4 giocatori");
     }
 
     //TONSI
+
+
+    public int getCurrentPlayersNum() {
+        return dashboardsCollection.size();
+    }
 
     //it returns the max number of players in a match
     public static int getMAXPLAYERSNUM() {
@@ -95,23 +101,20 @@ public class Match extends Observable{
 
     //It's used in the constructor, it creates the clouds by using the player's number
     private void initializeClouds() {
-        try {
             for (int i = 0; i < playersNum; i++) {
-                clouds.add(new Cloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud())));
+                clouds.add(new Cloud());
             }
-        }catch(MaxNumberException e){
-            System.out.println(e.getMessage());
-        }
     }
 
     //TESTED
     //It's used in the constructor, it creates the islands
-    private void initializeIslands() {
+    private void initializeIslands() throws NoMoreStudentsException {
         boolean motherNature=true;
         currentIsland = 0;
         for (int i=0; i< ISLANDSNUM; i++){
             islands.add(new Island(motherNature, i));
-            //islands.add(new Island(motherNature, i+1));
+            if(i!=0 && i!=ISLANDSNUM-1)
+                islands.get(i).addStudent(Bag.removeStudent());
             motherNature=false;
         }
     }
@@ -119,23 +122,22 @@ public class Match extends Observable{
     //TESTED
     //it's used to take the students from the bag and
     //put them into the cloud number "cloudNum"
-    private Set<Student> pullStudentsFromCloud(int cloudNum) {
-        try {
-            if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum-1).toString() != "") {
-                return clouds.get(cloudNum-1).takeStudents();
-            } else throw new MaxNumberException("wrong cloud's number");
-        }catch (MaxNumberException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
+    private Set<Student> pullStudentsFromCloud(int cloudNum) throws WrongCloudNumberException {
+        if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum - 1).toString() != "") {
+            return clouds.get(cloudNum - 1).takeStudents();
+        } else throw new WrongCloudNumberException("wrong cloud's number");
     }
 
     //TESTED
-    //public for the tests(for now), it is used at the start of a round to refill every cloud
+    //it is used at the start of a round to refill every cloud
     //with new students from the bag
-    public void refillClouds() throws MaxNumberException, AlreadyFilledCloudException {
-        for(Cloud c:clouds){
-            c.refillCloud(bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+    public void refillClouds() {
+        try {
+            for (Cloud c : clouds) {
+                c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+            }
+        }catch (AlreadyFilledCloudException | MaxNumberException | NoMoreStudentsException e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -148,10 +150,14 @@ public class Match extends Observable{
             if (chosenCloud <= playersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
-                throw new MaxNumberException("This cloud doesn't exist");
+                throw new WrongCloudNumberException("This cloud doesn't exist");
             notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
         }catch (MaxNumberException e){
             System.out.println(e.getMessage());
+        }catch (WrongCloudNumberException e){
+            System.out.println(e.getMessage());
+            notifyObservers(currentPlayerDashboard); //TODO qui bisogna capire cosa notifichiamo,
+                                                    // per dire di ripetere la scelta
         }
     }
 
@@ -172,39 +178,68 @@ public class Match extends Observable{
         return new HashSet<Card>(currentPlayerDashboard.showCards());
     }
 
-    public void chooseCard(Card chosenCard) throws CardNotFoundException {
+    public void chooseCard(Card chosenCard) {
 
-        currentPlayerDashboard.playChosenCard(chosenCard);
+        try {
+            currentPlayerDashboard.playChosenCard(chosenCard);
+
+            //qui si passa al prossimo giocatore, di modo che se la carta è corretta ci entra
+            //e passa al prossimo, se non lo è viene direttamente catchato. Nel momento in
+            //cui ci troviamo all'ultima carta, lancia l'exception e prosegue col normale corso
+            //del programma
+
+            if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(((ArrayList)dashboardsCollection).get(0))){
+                throw new NoMoreCardException("It's the last turn");
+            }
+        } catch (CardNotFoundException | NoMoreCardException e) {
+            System.out.println(e.getMessage());
+        }finally {
+            notifyObservers(currentPlayerDashboard);//TODO decidere cosa restituire più correttamente
+        }
     }
 
     //missing nickname, this method must be fixed
     public void addPlayer(String nickname, String towerColor, String wizard){
-        if(dashboardsCollection.size()<playersNum && playersNum<=3){
-            dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
-        }
-        if(dashboardsCollection.size()<playersNum && playersNum>3 && (dashboardsCollection.size()==1 || dashboardsCollection.size()==3)  ){
-            dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
-        }
-        if(dashboardsCollection.size()<playersNum && playersNum>3 && (dashboardsCollection.size()==2 || dashboardsCollection.size()==4)  ){
-            dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard) ));
-        }
-        if(dashboardsCollection.size()==1){
-            currentPlayerDashboard=(Dashboard) ((ArrayList)dashboardsCollection).get(0);
+        try {
+
+            if (dashboardsCollection.size() < playersNum) {
+                for(Dashboard player: dashboardsCollection ){
+                    if(player.getTowerColor().toString().equals(towerColor))
+                        throw new WrongDataplayerException("This tower color has been already chosen");
+                    if(player.getPlayer().getNickname().equals(nickname))
+                        throw new WrongDataplayerException("This nickname has been already chosen");
+                    if(player.getWizard().equals(wizard))
+                        throw new WrongDataplayerException("This wizard has already chosen");
+                }
+
+                if (playersNum <= 3) {
+                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname));
+                } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
+                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname));
+                } else if (dashboardsCollection.size() == 2 || dashboardsCollection.size() == 4) {
+                    dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname));
+                }
+                if (dashboardsCollection.size() == 1) {
+                    currentPlayerDashboard = (Dashboard) ((ArrayList) dashboardsCollection).get(0);
+                }
+            } else throw new MaxNumberException("Max players number reached...");
+        }catch(MaxNumberException | WrongDataplayerException e){
+            System.out.println(e.getMessage());
         }
     }
 
-    private void setTowersNum(){
-        if(playersNum==2){
-            towersNum=8;
-        }
-        else if(playersNum==3){
-            towersNum=6;
-        }
-        else if(playersNum==4)
-            towersNum=8;
+    private void setTowersNum() {
+        if (playersNum == 2) {
+            towersNum = 8;
+        } else if (playersNum == 3) {
+            towersNum = 6;
+        } else if (playersNum == 4)
+            towersNum = 8;
 
     }
 
+
+    //USED ONLY IN MATCHTEST
     public Dashboard showCurrentPlayerDashboard(){
         try {
             return new Dashboard(currentPlayerDashboard);
@@ -213,6 +248,7 @@ public class Match extends Observable{
         }
         return null;
     }
+
     //END TONSI
 
     //ZAMBO

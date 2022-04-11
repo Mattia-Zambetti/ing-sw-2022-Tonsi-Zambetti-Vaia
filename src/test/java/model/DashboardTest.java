@@ -18,7 +18,7 @@ public class DashboardTest extends TestCase{
 
     @BeforeEach
     void init() {
-        dashboard = new Dashboard(INITIAL_NUM_OF_TOWER,TowerColor.BLACK,Wizard.WIZARD1);
+        dashboard = new Dashboard(INITIAL_NUM_OF_TOWER,TowerColor.BLACK,Wizard.WIZARD1, "Zambo");
 
         students=new HashSet<>();
 

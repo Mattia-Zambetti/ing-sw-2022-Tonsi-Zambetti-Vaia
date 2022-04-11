@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 public class MatchTest extends TestCase {
     Match match;
     static final int PLAYERSNUM = 2;
@@ -22,7 +20,23 @@ public class MatchTest extends TestCase {
         match=new Match(PLAYERSNUM, false);
         assertEquals(PLAYERSNUM, match.getPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
+        assertEquals(1, match.getCurrentPlayersNum());
 
+    }
+
+    @Test
+    void maxPlayersTryCatchException(){
+        match.addPlayer("Island", "WHITE", "WIZARD2");
+        match.addPlayer("Tonsi","GREEN", "WIZARD3");
+        assertEquals(PLAYERSNUM, match.getCurrentPlayersNum());
+    }
+
+    @Test
+    void sameDataExceptionAddPlayers(){
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+        match.addPlayer("Vaia", "WHITE", "WIZARD2");
+        match.addPlayer("Tonsi", "WHITE", "WIZARD1");
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
 
     }
 
@@ -68,9 +82,8 @@ public class MatchTest extends TestCase {
         match.refillClouds();
         System.out.println(match.toStringStudentsOnCloud());
 
-        AlreadyFilledCloudException e=assertThrows(AlreadyFilledCloudException.class,()->match.refillClouds());
+        match.refillClouds();
         System.out.println(match.toStringStudentsOnCloud());
-        assertEquals("there's a cloud that is already filled",e.getMessage());
 
     }
 

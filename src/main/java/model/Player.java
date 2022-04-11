@@ -12,11 +12,10 @@ public class Player{
 
 
 
-    public Player(String nickname, Player buddy){
+    public Player(String nickname){
         totplayersnumber++;
         this.nickname=nickname;
         this.playerNumber= totplayersnumber;
-        this.buddy= new Player(buddy);
     }
 
     //TODO

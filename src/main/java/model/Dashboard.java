@@ -15,10 +15,10 @@ public class Dashboard {
     private int coin;
     private boolean isKnight; //per effetto carta personaggio
     private static final int MAX_NUM_OF_TOWER = 8;
-
+    private Player player; //TODO TOGLIERLO PRIMA DI MERGE
     //prova per vedere se funziona il rebase
 
-    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
+    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String nickname ) {
         entrance = new Entrance();
         redDiningRoom = new DiningRoom(Color.RED);
         blueDiningRoom = new DiningRoom(Color.BLUE);
@@ -34,6 +34,7 @@ public class Dashboard {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //Inizialmente sempre a 1
         this.isKnight = false; //Settato a false per la modalità esperto
+        this.player= new Player(nickname);
     }
 
     public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException {
@@ -49,6 +50,16 @@ public class Dashboard {
         this.mastersList = new HashMap<>(dashboardToCopy.mastersList);
         this.coin = dashboardToCopy.coin;
         this.isKnight = dashboardToCopy.isKnight;
+    }
+
+    //TODO TOGLIERLO
+    public Player getPlayer() {
+        return player;
+    }
+
+    //TODO TOGLIERLO
+    public String getWizard(){
+        return deck.getWizard();
     }
 
     //Restituisce il numero di torri presenti nella dashboard

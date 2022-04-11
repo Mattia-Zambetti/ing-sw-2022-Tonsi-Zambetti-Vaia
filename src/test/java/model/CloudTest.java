@@ -4,6 +4,7 @@ package model;
 import junit.framework.TestCase;
 import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
+import model.exception.WrongCloudNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ class CloudTest extends TestCase {
 
     //Questo metodo viene eseguito prima di ogni test, usato per inizializzare solitamente gli oggetti
     @BeforeEach
-    void init() throws MaxNumberException {
+    void init() throws MaxNumberException, AlreadyFilledCloudException {
         Set<Student> students=new HashSet<>();
 
         students.add(new Student(1,Color.YELLOW));
@@ -28,8 +29,9 @@ class CloudTest extends TestCase {
         students.add(new Student(3,Color.YELLOW));
 
         Cloud.setStudentsNumOnCloud(3);
-        cloudTest=new Cloud(students);
-        Cloud.setStudentsNumOnCloud(students.size());
+        cloudTest=new Cloud();
+        cloudTest.refillCloud(students);
+
     }
 
     //Da mettere sempre prima di un test
@@ -42,7 +44,7 @@ class CloudTest extends TestCase {
     }
 
     @Test
-    void checkIsEmptyAfterTakeStudents() throws MaxNumberException {
+    void checkIsEmptyAfterTakeStudents() throws WrongCloudNumberException {
         Set<Student> tmp=new HashSet<>();
         cloudTest.takeStudents();
         //test riuscito sse i due oggetti sono uguali
@@ -56,7 +58,7 @@ class CloudTest extends TestCase {
         try {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
-        }catch (MaxNumberException e){
+        }catch (WrongCloudNumberException | MaxNumberException e){
             //probabilmente esiste una assert per le exception, consiglio di cercare
             System.out.println(e.getMessage());
         } catch (AlreadyFilledCloudException e) {
@@ -77,7 +79,7 @@ class CloudTest extends TestCase {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
 
-        } catch (MaxNumberException e) {
+        } catch (MaxNumberException|WrongCloudNumberException e) {
             System.out.println(e.getMessage());
         } catch (AlreadyFilledCloudException e) {
             e.printStackTrace();
@@ -103,7 +105,7 @@ class CloudTest extends TestCase {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
 
-        } catch (MaxNumberException | AlreadyFilledCloudException e) {
+        } catch (MaxNumberException | AlreadyFilledCloudException | WrongCloudNumberException e) {
             System.out.println(e.getMessage());
         }finally {
             assertEquals("",cloudTest.toString());

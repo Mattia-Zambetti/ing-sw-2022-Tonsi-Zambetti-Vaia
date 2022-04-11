@@ -6,9 +6,10 @@ import model.exception.NoListOfSameColoredTowers;
 import model.exception.NoTowerException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class IslandTest extends TestCase {
     Island island;
@@ -29,7 +30,7 @@ public class IslandTest extends TestCase {
         students[2].add(student);
         student = new Student(2,Color.YELLOW);
         students[4].add(student);
-        dashboard = new Dashboard(12,TowerColor.GREY,Wizard.WIZARD1);
+        dashboard = new Dashboard(12,TowerColor.GREY,Wizard.WIZARD1, "Island");
         master = new Master(Color.YELLOW);
         dashboard.insertMaster(master);
         master = new Master(Color.RED);
