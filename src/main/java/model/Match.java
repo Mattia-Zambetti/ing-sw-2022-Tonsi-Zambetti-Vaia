@@ -346,5 +346,45 @@ public class Match extends Observable{
         return islandPositions.get(tmp - 1);}
         else throw new NoIslandException("Island not found");
     }
+
+    public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException{
+        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
+        Dashboard dasboardInfluencer = dashboardListTmp.get(0);
+        Boolean exception = false;
+        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dasboardInfluencer);
+        for (int i = 1; i < dashboardsCollection.size(); i++){
+            if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i))){
+                dasboardInfluencer = dashboardListTmp.get(i);
+                exception = false;
+            }
+            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+                exception = true;
+        }
+        if (exception == true)
+            throw new SameInfluenceException("No change needed in current island");
+        return dasboardInfluencer;
+    }
+
+    public void changeTowerColorOnIsland() throws SameInfluenceException {
+        try{
+        Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
+        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
+        int towersNum;
+        if(islands.get(currentIsland).getTowerNum() == 0)
+            islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(1));
+        else if(!dashboardTmp.getTowerColor().equals(islands.get(currentIsland).getTowerColor())){
+            for (int i = 0; i< dashboardsCollection.size(); i++)
+            {
+                if(dashboardListTmp.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
+                    dashboardListTmp.get(i).addTowers(islands.get(currentIsland).removeTowers());
+                    towersNum = islands.get(currentIsland).getTowerNum();
+                    islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
+                }
+            }
+        }
+
+        }
+        catch (Exception e){}
+    }
     // END VAIA
 }
