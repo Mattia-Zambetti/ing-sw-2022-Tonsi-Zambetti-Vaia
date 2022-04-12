@@ -19,7 +19,7 @@ public class DashboardTest extends TestCase{
     @BeforeEach
     void init() throws CardNotFoundException {
 
-        dashboard = new Dashboard(INITIAL_NUM_OF_TOWER,TowerColor.BLACK,Wizard.WIZARD1, "Zambo", null);
+        dashboard = new Dashboard(INITIAL_NUM_OF_TOWER,TowerColor.BLACK,Wizard.WIZARD1, "Zambo");
         dashboard2 = new Dashboard( dashboard );
         students=new HashSet<>();
 
@@ -34,7 +34,7 @@ public class DashboardTest extends TestCase{
     void ConstructorExceptionsTest () {
         Dashboard wrongDashboard2 = null;
 
-        assertThrows( IllegalArgumentException.class, ()->new Dashboard(10, TowerColor.GREY, Wizard.WIZARD1, "Zambo", null));
+        assertThrows( IllegalArgumentException.class, ()->new Dashboard(10, TowerColor.GREY, Wizard.WIZARD1, "Zambo"));
         assertThrows( NullPointerException.class, ()->new Dashboard(wrongDashboard2));
 
     }
@@ -160,7 +160,7 @@ public class DashboardTest extends TestCase{
     }
 
     @Test
-    void CardTest () throws CardNotFoundException, ZeroCardsRemainingException {
+    void CardTest () throws CardNotFoundException {
         HashSet<Card> cards;
         Card chosenCard = null;
 

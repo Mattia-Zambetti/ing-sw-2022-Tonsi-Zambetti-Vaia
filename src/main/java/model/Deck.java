@@ -51,8 +51,8 @@ public class Deck {
     }
 
     //It returns the string version of the wizard (from the enum Wizard) of the deck
-    public String getWizard() {
-        return wizard.toString();
+    public Wizard getWizard() {
+        return wizard;
     }
 
     //It returns a copy of the cards in the deck to show them in the view

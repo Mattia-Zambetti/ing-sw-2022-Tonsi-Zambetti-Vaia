@@ -30,7 +30,7 @@ public class IslandTest extends TestCase {
         students[2].add(student);
         student = new Student(2,Color.YELLOW);
         students[4].add(student);
-        dashboard = new Dashboard(12,TowerColor.GREY,Wizard.WIZARD1, "Island");
+        dashboard = new Dashboard(8,TowerColor.GREY,Wizard.WIZARD1, "Island");
         master = new Master(Color.YELLOW);
         dashboard.insertMaster(master);
         master = new Master(Color.RED);

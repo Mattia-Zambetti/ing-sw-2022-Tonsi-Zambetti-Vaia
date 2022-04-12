@@ -9,7 +9,7 @@ public class Match extends Observable{
     private List<Island> islands;
     private List<Cloud> clouds;
     private Bag bag;
-    private Collection<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
+    private List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
     private Collection<FigureCard> figureCards;
@@ -99,12 +99,8 @@ public class Match extends Observable{
 
     //It's used in the constructor, it creates the clouds by using the player's number
     private void initializeClouds() {
-        try {
-            for (int i = 0; i < playersNum; i++) {
-                clouds.add(new Cloud());
-            }
-        }catch(MaxNumberException e){
-            System.out.println(e.getMessage());
+        for (int i = 0; i < playersNum; i++) {
+            clouds.add(new Cloud());
         }
     }
 
@@ -216,6 +212,7 @@ public class Match extends Observable{
                         throw new WrongDataplayerException("This wizard has already chosen");
                 }
 
+                //TODO gestire i team in qualche modo
                 if (playersNum <= 3) {
                     dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname));
                 } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
@@ -353,7 +350,7 @@ public class Match extends Observable{
                     d.moveToEntrance(Bag.removeStudents(7));
             }
         }
-        catch (MaxNumberException | StudentIDAlreadyExistingException e ) {
+        catch (MaxNumberException | StudentIDAlreadyExistingException | NoMoreStudentsException e ) {
             System.out.println(e.getMessage());
         }
     }
