@@ -101,9 +101,13 @@ public class Match extends Observable{
 
     //It's used in the constructor, it creates the clouds by using the player's number
     private void initializeClouds() {
+        try {
             for (int i = 0; i < playersNum; i++) {
                 clouds.add(new Cloud());
             }
+        }catch(MaxNumberException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     //TESTED
@@ -113,6 +117,8 @@ public class Match extends Observable{
         currentIsland = 0;
         for (int i=0; i< ISLANDSNUM; i++){
             islands.add(new Island(motherNature, i));
+            islandPositions.add(i);
+            //islands.add(new Island(motherNature, i+1));
             if(i!=0 && i!=ISLANDSNUM-1)
                 islands.get(i).addStudent(Bag.removeStudent());
             motherNature=false;
@@ -301,8 +307,8 @@ public class Match extends Observable{
 
     //END ZAMBO
 
-
-    private void moveMotherNature(int posizioni) throws NoIslandException {
+    //Start Vaia
+    public void moveMotherNature(int posizioni) throws NoIslandException {
         int positionTmp = currentIsland;
         islands.get(positionTmp).setMotherNature(false);
         for (int i = 0; i < posizioni; i++){
@@ -312,7 +318,7 @@ public class Match extends Observable{
         islands.get(currentIsland).setMotherNature(true);
     }
 
-    private void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
         studentsToBeMergedTmp = islands.get(islandToBeMerged).getStudents();
@@ -322,36 +328,104 @@ public class Match extends Observable{
             studentsTmp[i].addAll(studentsToBeMergedTmp[i]);
         }
         islands.get(currentIsland).setStudents(studentsTmp);
-        islandPositions.remove(islandToBeMerged);
+        islandPositions.remove((Integer) islandToBeMerged);
         totalNumIslands--;
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
+    //solo per testare
+    public void setIslandsTowers(int islandToSet, ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
+        islands.get(islandToSet).addTowers(towers);
+    }
 
-    private void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void setIslandsStudents(int islandToSet, ArrayList<Student>[] students) {
+        islands.get(islandToSet).setStudents(students);
+    }
+
+    public ArrayList<Student>[] getStudentsOnIsland(int island){
+        return islands.get(island).getStudents();
+    }
+
+    public int getTowersNumOnIsland(int island){
+        return islands.get(island).getTowerNum();
+    }
+
+    public boolean checkMotherNatureOnIsland(int island){
+        return islands.get(island).checkIsMotherNature();
+    }
+
+    public List<Integer> getIslandPositions() {
+        List<Integer> tmp = new ArrayList<>(islandPositions);
+        return tmp;
+    }
+
+    public void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
         previousIslandTmp = previousIsland(currentIsland);
-        if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor() && islands.get(nextIslandTmp).getTowerColor() != null)
-            mergeIsland(nextIslandTmp);
-        if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor() && islands.get(previousIslandTmp).getTowerColor() != null)
-            mergeIsland(previousIslandTmp);
+        try{if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+            mergeIsland(nextIslandTmp);}
+        catch (NoTowerException e){}
+        try{if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+                mergeIsland(previousIslandTmp);}
+        catch (NoTowerException e){}
     }
 //
-    private int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
+    public int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp + 1 == islandPositions.size())
             return islandPositions.get(0);
         return islandPositions.get(tmp + 1);}
-        else throw new NoIslandException("Isola non trovata");
+        else throw new NoIslandException("Island not found");
     }
 
-    private int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
+    public int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp - 1 == - 1)
             return islandPositions.get(islandPositions.size() - 1);
         return islandPositions.get(tmp - 1);}
-        else throw new NoIslandException("Isola non trovata");
+        else throw new NoIslandException("Island not found");
     }
+
+    public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException{
+        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
+        Dashboard dasboardInfluencer = dashboardListTmp.get(0);
+        Boolean exception = false;
+        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dasboardInfluencer);
+        for (int i = 1; i < dashboardsCollection.size(); i++){
+            if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i))){
+                dasboardInfluencer = dashboardListTmp.get(i);
+                exception = false;
+            }
+            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+                exception = true;
+        }
+        if (exception == true)
+            throw new SameInfluenceException("No change needed in current island");
+        return dasboardInfluencer;
+    }
+
+    public void changeTowerColorOnIsland() throws SameInfluenceException {
+        try{
+        Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
+        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
+        int towersNum;
+        if(islands.get(currentIsland).getTowerNum() == 0)
+            islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(1));
+        else if(!dashboardTmp.getTowerColor().equals(islands.get(currentIsland).getTowerColor())){
+            for (int i = 0; i< dashboardsCollection.size(); i++)
+            {
+                if(dashboardListTmp.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
+                    dashboardListTmp.get(i).addTowers(islands.get(currentIsland).removeTowers());
+                    towersNum = islands.get(currentIsland).getTowerNum();
+                    islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
+                }
+            }
+        }
+
+        }
+        catch (Exception e){}
+    }
+    // END VAIA
 }
