@@ -15,10 +15,11 @@ public class Dashboard {
     private int coin;
     private boolean isKnight; //per effetto carta personaggio
     private static final int MAX_NUM_OF_TOWER = 8;
+    private Player player;
 
     //prova per vedere se funziona il rebase
 
-    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard ) {
+    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String playerNickname, Player buddy ) {
 
         if ( numberOfTowers > MAX_NUM_OF_TOWER )
             throw new IllegalArgumentException("Tried to create a Dashboard with a number of Towers higher than MAX_NUM_OF_TOWER ( =" + MAX_NUM_OF_TOWER + " )");
@@ -37,6 +38,7 @@ public class Dashboard {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //Inizialmente sempre a 1
         this.isKnight = false; //Settato a false per la modalità esperto
+        this.player = new Player( playerNickname, buddy );
     }
 
     public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException, NullPointerException {
@@ -50,6 +52,7 @@ public class Dashboard {
         this.mastersList = new HashMap<>(dashboardToCopy.mastersList);
         this.coin = dashboardToCopy.coin;
         this.isKnight = dashboardToCopy.isKnight;
+        this.player = dashboardToCopy.player;
     }
 
     //Restituisce il numero di torri presenti nella dashboard
@@ -135,8 +138,10 @@ public class Dashboard {
         return deck.getCards();
     }
 
-    public void playChosenCard( Card chosenCard ) throws CardNotFoundException {
+    public void playChosenCard( Card chosenCard ) throws CardNotFoundException ,ZeroCardsRemainingException {
             deck.playCard(chosenCard);
+            if ( showCards().size()==0 )
+                throw new ZeroCardsRemainingException("Zero cards remaining in the deck");
     }
 
     public Card getCurrentCard() {
@@ -189,6 +194,14 @@ public class Dashboard {
     public void setKnight( boolean setValue ) {
         //TODO controllare possibile eccezione in caso non venga cambiato il valore
         isKnight = setValue;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Wizard getWizard() {
+        return deck.getWizard();
     }
 
 }

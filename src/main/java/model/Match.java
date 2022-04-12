@@ -9,8 +9,7 @@ public class Match extends Observable{
     private List<Island> islands;
     private List<Cloud> clouds;
     private Bag bag;
-    private Collection<Dashboard> dashboardsCollection; //Ipotizzo che l'ordine delle
-    // Dashboard nella collection sia lo stesso dei turni dei giocatori nella partita
+    private Collection<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
     private Collection<FigureCard> figureCards;
@@ -155,7 +154,7 @@ public class Match extends Observable{
     }
 
     //SEMI TESTED
-    //it returnes the string version of the clouds content
+    //it returns the string version of the clouds content
     public String toStringStudentsOnCloud() {
         String res = "";
         for (Cloud c : clouds) {
@@ -172,7 +171,7 @@ public class Match extends Observable{
     }
 
     public void chooseCard(Card chosenCard) throws CardNotFoundException {
-
+        //TODO controllare che la carta non sia già stata giocata guardando le dashboard che precedono quella corrente
         currentPlayerDashboard.playChosenCard(chosenCard);
     }
 
@@ -269,20 +268,79 @@ public class Match extends Observable{
         }
     }
 
-    //TODO MERGE quando faremo il merge meglio cambiare il tipo statico di dashboardCollection in ArrayList e togliere dashboardsCollectionArrayListRef
-    private void setNextCurrDashboard() {
-        ArrayList<Dashboard> dashboardsCollectionArrayListRef;
+    //This method set the next dashboard (and so the player) that has to play, if there is a next player it notifies the player and after return true, if there are no more player
+    //it returns false without notifying any player, in the planning phase if it's returned false the controller has to call the setDashboardOrder method
+    private boolean setNextCurrDashboard() {
         if ( ! (dashboardsCollection instanceof ArrayList<Dashboard>) )
-            return;
-        dashboardsCollectionArrayListRef = (ArrayList<Dashboard>) this.dashboardsCollection;
-        int currentPlayerPosition = dashboardsCollectionArrayListRef.indexOf(this.currentPlayerDashboard);
-        if ( currentPlayerPosition < (this.dashboardsCollection.size()-1) )
+            throw new IllegalArgumentException("DashboardCollection is not an ArrayList");
+        int currentPlayerPosition = dashboardsCollection.indexOf(this.currentPlayerDashboard);
+        if ( currentPlayerPosition < (this.dashboardsCollection.size()-1) ) {
             currentPlayerPosition++;
-        else
+            this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
+            notifyObservers(currentPlayerDashboard.getPlayer());
+            return true;
+            //Views are notified only if another Player has to play the turn
+        }
+        else {
             currentPlayerPosition = 0;
-        this.currentPlayerDashboard = dashboardsCollectionArrayListRef.get(currentPlayerPosition);
+            this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
+            return false;
+        }
     }
 
+    public void setDashboardOrder() {
+        Dashboard tmp;
+        for ( int i=0; i<playersNum-1; i++ ) {
+            for ( int j=0; j<playersNum-i-1; j++ ) {
+                if ( dashboardsCollection.get(j).getCurrentCard().getValue() > dashboardsCollection.get(j+1).getCurrentCard().getValue() ) {
+                    tmp = dashboardsCollection.get(j);
+                    dashboardsCollection.set(j, dashboardsCollection.get(j+1));
+                    dashboardsCollection.set(j+1, tmp);
+                }
+            }
+        }
+        this.currentPlayerDashboard = dashboardsCollection.get(0);
+    }
+
+    public void initializeAllEntrance(){
+        try {
+            for (Dashboard d : dashboardsCollection) {
+                if (playersNum == 3)
+                    d.moveToEntrance(Bag.removeStudents(9));
+                else
+                    d.moveToEntrance(Bag.removeStudents(7));
+            }
+        }
+        catch (MaxNumberException | StudentIDAlreadyExistingException e ) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
+        Dashboard maxStudentDashboard = null;
+        Dashboard dashboardWithMaster = null;
+        int maxStudents;
+        for ( Color c: Color.values() ) {
+            maxStudents = 0;
+            maxStudentDashboard = null;
+            dashboardWithMaster = null;
+            for ( Dashboard d: dashboardsCollection ) {
+                if ( d.getStudentsNumInDR(c)>maxStudents ) {
+                    maxStudents = d.getStudentsNumInDR(c);
+                    maxStudentDashboard = d;
+                }
+                if ( d.haveMaster(c) )
+                    dashboardWithMaster = d;
+            }
+            if ( maxStudentDashboard!=null && dashboardWithMaster==null ) {
+                maxStudentDashboard.insertMaster(mastersMap.remove(c));
+            }
+            else if ( maxStudentDashboard!=null && dashboardWithMaster!=maxStudentDashboard ) {
+                maxStudentDashboard.insertMaster(dashboardWithMaster.removeMaster(c));
+            }
+        }
+    }
+    //TODO se volessimo aggiornare la view quando il master viene spostato bisogna aggiungere un notify in questo metodo
 
     //END ZAMBO
 
