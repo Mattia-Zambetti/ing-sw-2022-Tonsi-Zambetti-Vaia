@@ -2,30 +2,21 @@
 package model;
 
 public class Player{
-    private String nickname;
 
-    private static int totplayersnumber= 0;
+    private String nickname;
 
     private int playerNumber;
 
-    private Player buddy; //assumo che, in caso, gli venga passato valore null dal controller se non c'è
+    private Player buddy;
 
-
-
-    public Player(String nickname){
-        totplayersnumber++;
-        this.nickname=nickname;
-        this.playerNumber= totplayersnumber;
+    public Player(String nickname, int playerNumber) {
+        this.nickname = nickname;
+        this.playerNumber = playerNumber;
     }
 
-    //TODO
-    public Player (Player p){
-        this.nickname=p.nickname;
-        this.playerNumber=p.playerNumber;
-    }
 
     public void setBuddy(Player buddy){
-        this.buddy= new Player(buddy);
+        this.buddy= buddy;
     }
 
     public String getNickname() {
@@ -36,8 +27,12 @@ public class Player{
         return playerNumber;
     }
 
-    public Player getBuddy(){
-        return new Player(buddy);
+    public String getNicknameBuddy(){
+        return buddy.getNickname();
+    }
+
+    public int getPlayerNumberBuddy() {
+        return buddy.getPlayerNumber();
     }
 }
 

@@ -84,9 +84,4 @@ public class Deck {
                 ((this.currentCard==null && ((Deck)o).currentCard==null)
                 || Objects.equals(currentCard, deck.currentCard));
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cards, currentCard, wizard);
-    }
 }

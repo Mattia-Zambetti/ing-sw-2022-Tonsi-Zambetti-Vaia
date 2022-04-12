@@ -214,11 +214,11 @@ public class Match extends Observable{
 
                 //TODO gestire i team in qualche modo
                 if (playersNum <= 3) {
-                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname));
+                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
-                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname));
+                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 } else if (dashboardsCollection.size() == 2 || dashboardsCollection.size() == 4) {
-                    dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname));
+                    dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 }
                 if (dashboardsCollection.size() == 1) {
                     currentPlayerDashboard = (Dashboard) ((ArrayList) dashboardsCollection).get(0);

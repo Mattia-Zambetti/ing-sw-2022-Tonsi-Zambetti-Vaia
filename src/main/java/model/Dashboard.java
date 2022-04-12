@@ -19,7 +19,7 @@ public class Dashboard {
 
     //prova per vedere se funziona il rebase
 
-    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String playerNickname ) {
+    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String playerNickname, int playerNumber ) {
 
         if ( numberOfTowers > MAX_NUM_OF_TOWER )
             throw new IllegalArgumentException("Tried to create a Dashboard with a number of Towers higher than MAX_NUM_OF_TOWER ( =" + MAX_NUM_OF_TOWER + " )");
@@ -38,7 +38,7 @@ public class Dashboard {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //Inizialmente sempre a 1
         this.isKnight = false; //Settato a false per la modalità esperto
-        this.player = new Player( playerNickname );
+        this.player = new Player( playerNickname, playerNumber );
     }
 
     public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException, NullPointerException {

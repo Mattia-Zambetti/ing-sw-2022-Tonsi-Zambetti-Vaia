@@ -10,14 +10,6 @@ public class Master {
         this.color=color;
     }
 
-    public boolean getIfFree() {
-        return isFree;
-    }
-
-    public void setIsFree(boolean isFree){
-        this.isFree=isFree;
-    }
-
     public Color getColor(){
         return color;
     }
