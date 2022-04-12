@@ -22,7 +22,20 @@ public class MatchTest extends TestCase {
         assertEquals(PLAYERSNUM, match.getPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
         assertEquals(1, match.getCurrentPlayersNum());
+        this.students = new ArrayList[5];
 
+        for(int i = 0; i < this.students.length; ++i) {
+            this.students[i] = new ArrayList(0);
+        }
+
+        Student student = new Student(0, Color.RED);
+        this.students[0].add(student);
+        student = new Student(0, Color.YELLOW);
+        this.students[4].add(student);
+        student = new Student(1, Color.BLUE);
+        this.students[2].add(student);
+        student = new Student(2, Color.YELLOW);
+        this.students[4].add(student);
     }
 
     @Test
@@ -169,7 +182,7 @@ public class MatchTest extends TestCase {
         match.checkNearbyIslands();
         assertEquals(2,match.nextIsland(0));
         assertEquals(11,match.previousIsland(0));
-        match.setIslandsTowers(11,new ArrayList<Tower>(tmpTowers));
+        match.setIslandsTowers(11,tmpTowers);
         match.checkNearbyIslands();
         assertEquals(10,match.previousIsland(0));
     }
@@ -188,8 +201,8 @@ public class MatchTest extends TestCase {
         for (int i = 0; i < 5; i++)
             assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
         assertEquals(1, match.getTowersNumOnIsland(0));
-        match.setIslandsTowers(2,tmpTowers);
-        match.mergeIsland(2);
+        match.setIslandsTowers(5,tmpTowers);
+        match.mergeIsland(5);
         for (int i = 0; i < 5; i++)
             assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
         assertEquals(2, match.getTowersNumOnIsland(0));

@@ -16,7 +16,7 @@ public class Match extends Observable{
     private int playersNum;
     private boolean isExpertMode;
     private int currentIsland,totalNumIslands; //serve?
-    private static List<Integer> islandPositions = new ArrayList<>();
+    private List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
@@ -113,7 +113,7 @@ public class Match extends Observable{
             islands.add(new Island(motherNature, i));
             islandPositions.add(i);
             //islands.add(new Island(motherNature, i+1));
-            if(i!=0 && i!=ISLANDSNUM-1)
+            if(i!=0 && i!=5)
                 islands.get(i).addStudent(Bag.removeStudent());
             motherNature=false;
         }
