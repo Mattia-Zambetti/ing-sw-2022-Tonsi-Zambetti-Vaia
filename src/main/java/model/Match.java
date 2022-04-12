@@ -8,15 +8,17 @@ import java.util.*;
 public class Match extends Observable{
     private List<Island> islands;
     private List<Cloud> clouds;
-    private Bag bag;
     private List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
     private Collection<FigureCard> figureCards;
     private int playersNum;
-    private boolean isExpertMode;
-    private int currentIsland,totalNumIslands; //serve?
-    private List<Integer> islandPositions = new ArrayList<>();
+    //private boolean isExpertMode;
+    private int currentIsland;
+
+    private int totalNumIslands; //TODO questo attributo non modifica nulla, penso debba essere
+                                //TODO usato per capire se la partita è finita
+    private final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
@@ -35,13 +37,13 @@ public class Match extends Observable{
             this.playersNum = playersNum;
             if (this.playersNum <= MAXPLAYERSNUM && this.playersNum >= MINPLAYERSNUM) {
 
-                this.isExpertMode = isExpertMode;
+                this.totalNumIslands=ISLANDSNUM; //TODO
 
                 Bag.restoreBag();
 
                 //per essere più precisi, a noi non serve sapere l'ordine totale ma solo la prossima/precedente, dovrebbe essere più
                 // efficiente la linked
-                islands = new ArrayList<Island>();
+                islands = new ArrayList<>();
                 initializeIslands();
                 this.totalNumIslands=ISLANDSNUM;
 
@@ -50,12 +52,12 @@ public class Match extends Observable{
 
 
 
-                clouds = new ArrayList<Cloud>();
+                clouds = new ArrayList<>();
                 initializeClouds();
 
                 setTowersNum();
 
-                dashboardsCollection = new ArrayList<Dashboard>();
+                dashboardsCollection = new ArrayList<>();
                 currentPlayerDashboard = null;
 
                 initializeMasters();
@@ -123,7 +125,7 @@ public class Match extends Observable{
     //it's used to take the students from the bag and
     //put them into the cloud number "cloudNum"
     private Set<Student> pullStudentsFromCloud(int cloudNum) throws WrongCloudNumberException {
-        if (cloudNum <= playersNum && cloudNum > 0 && clouds.get(cloudNum - 1).toString() != "") {
+        if (cloudNum <= playersNum && cloudNum > 0 && !(clouds.get(cloudNum - 1).toString().equals(""))) {
             return clouds.get(cloudNum - 1).takeStudents();
         } else throw new WrongCloudNumberException("wrong cloud's number");
     }
@@ -164,18 +166,18 @@ public class Match extends Observable{
     //SEMI TESTED
     //it returns the string version of the clouds content
     public String toStringStudentsOnCloud() {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (Cloud c : clouds) {
-            res += c.toString();
+            res.append(c.toString());
         }
-        notifyObservers(res);
-        return res;
+        notifyObservers(res.toString());
+        return res.toString();
     }
 
 
     public Set<Card> showCards(){
         notifyObservers(new HashSet<>(currentPlayerDashboard.showCards()));
-        return new HashSet<Card>(currentPlayerDashboard.showCards());
+        return new HashSet<>(currentPlayerDashboard.showCards());
     }
 
     public void chooseCard(Card chosenCard) {
@@ -188,7 +190,7 @@ public class Match extends Observable{
             //cui ci troviamo all'ultima carta, lancia l'exception e prosegue col normale corso
             //del programma
 
-            if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(((ArrayList)dashboardsCollection).get(0))){
+            if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
                 throw new NoMoreCardException("It's the last turn");
             }
         } catch (CardNotFoundException | NoMoreCardException e) {
@@ -208,7 +210,7 @@ public class Match extends Observable{
                         throw new WrongDataplayerException("This tower color has been already chosen");
                     if(player.getPlayer().getNickname().equals(nickname))
                         throw new WrongDataplayerException("This nickname has been already chosen");
-                    if(player.getWizard().equals(wizard))
+                    if(player.getWizard().toString().equals(wizard))
                         throw new WrongDataplayerException("This wizard has already chosen");
                 }
 
@@ -221,7 +223,7 @@ public class Match extends Observable{
                     dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 }
                 if (dashboardsCollection.size() == 1) {
-                    currentPlayerDashboard = (Dashboard) ((ArrayList) dashboardsCollection).get(0);
+                    currentPlayerDashboard =dashboardsCollection.get(0);
                 }
             } else throw new MaxNumberException("Max players number reached...");
         }catch(MaxNumberException | WrongDataplayerException e){
@@ -262,7 +264,7 @@ public class Match extends Observable{
     }
 
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
-    private void moveStudentFromEntranceToDR( Student studentToBeMoved ) {
+    public void moveStudentFromEntranceToDR( Student studentToBeMoved ) {
         Student tmpStudent;
         try {
             tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
@@ -274,7 +276,7 @@ public class Match extends Observable{
 
     }
 
-    private void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
+    public void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
         try {
             Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
             for ( Island isl : islands) {
@@ -291,7 +293,7 @@ public class Match extends Observable{
 
     }
 
-    private void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
+    public void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
         try {
             Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
             if ( chosenIslandPosition<0 || chosenIslandPosition>(ISLANDSNUM-1) )
@@ -309,7 +311,7 @@ public class Match extends Observable{
 
     //This method set the next dashboard (and so the player) that has to play, if there is a next player it notifies the player and after return true, if there are no more player
     //it returns false without notifying any player, in the planning phase if it's returned false the controller has to call the setDashboardOrder method
-    private boolean setNextCurrDashboard() {
+    public boolean setNextCurrDashboard() {
         if ( ! (dashboardsCollection instanceof ArrayList<Dashboard>) )
             throw new IllegalArgumentException("DashboardCollection is not an ArrayList");
         int currentPlayerPosition = dashboardsCollection.indexOf(this.currentPlayerDashboard);
@@ -356,7 +358,7 @@ public class Match extends Observable{
     }
 
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
-        Dashboard maxStudentDashboard = null;
+        Dashboard maxStudentDashboard = null; //TODO NULL NONONONONONO
         Dashboard dashboardWithMaster = null;
         int maxStudents;
         for ( Color c: Color.values() ) {
@@ -394,6 +396,8 @@ public class Match extends Observable{
         islands.get(currentIsland).setMotherNature(true);
     }
 
+    //TODO la NegativeNumberException non viene mai lanciata(te lo indica il colore grigio)
+    //TODO c'è qualcosa che non quadra
     public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
@@ -405,7 +409,7 @@ public class Match extends Observable{
         }
         islands.get(currentIsland).setStudents(studentsTmp);
         islandPositions.remove((Integer) islandToBeMerged);
-        totalNumIslands--;
+        totalNumIslands--; //TODO
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
     //solo per testare
@@ -434,19 +438,27 @@ public class Match extends Observable{
         return tmp;
     }
 
+    //TODO NoTowerException mai sollevata
     public void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
         previousIslandTmp = previousIsland(currentIsland);
         try{if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
             mergeIsland(nextIslandTmp);}
-        catch (NoTowerException e){}
-        try{if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
-                mergeIsland(previousIslandTmp);}
-        catch (NoTowerException e){}
+        catch (NoTowerException e){
+            e.printStackTrace();
+        }
+        try{
+            if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
+                mergeIsland(previousIslandTmp);
+        }
+        catch (NoTowerException e){
+            e.printStackTrace();
+        }
     }
-//
-    public int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
+
+    //metodo che ritorna l'indice della posizione della prossima isola
+    public int nextIsland(int position) throws NoIslandException {
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp + 1 == islandPositions.size())
@@ -455,7 +467,8 @@ public class Match extends Observable{
         else throw new NoIslandException("Island not found");
     }
 
-    public int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
+    //metodo che ritorna l'indice della posizione della isola precedente
+    public int previousIsland(int position) throws NoIslandException{
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp - 1 == - 1)
@@ -467,7 +480,7 @@ public class Match extends Observable{
     public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException{
         ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
         Dashboard dasboardInfluencer = dashboardListTmp.get(0);
-        Boolean exception = false;
+        boolean exception = false;
         int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dasboardInfluencer);
         for (int i = 1; i < dashboardsCollection.size(); i++){
             if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i))){
@@ -477,11 +490,12 @@ public class Match extends Observable{
             else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
                 exception = true;
         }
-        if (exception == true)
+        if (exception)
             throw new SameInfluenceException("No change needed in current island");
         return dasboardInfluencer;
     }
 
+    //TODO SameInfluenceException mai sollevata
     public void changeTowerColorOnIsland() throws SameInfluenceException {
         try{
         Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
@@ -501,7 +515,9 @@ public class Match extends Observable{
         }
 
         }
-        catch (Exception e){}
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
     // END VAIA
 }
