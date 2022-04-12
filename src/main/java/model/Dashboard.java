@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Dashboard {
     private final Entrance entrance;
-    private final DiningRoom redDiningRoom, blueDiningRoom, yellowDiningRoom, pinkDiningRoom, greenDiningRoom;
+    private final HashMap<Color, DiningRoom> DiningRoomsList;
     private final ArrayList<Tower> towersCollection;  //TODO possibile cambiamento a HashSet quando riguarderemo la funzione di hash
     //private int towersNumber;
     private final TowerColor towerColor;
@@ -15,16 +15,20 @@ public class Dashboard {
     private int coin;
     private boolean isKnight; //per effetto carta personaggio
     private static final int MAX_NUM_OF_TOWER = 8;
-    private Player player; //TODO TOGLIERLO PRIMA DI MERGE
+    private Player player;
+
     //prova per vedere se funziona il rebase
 
-    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String nickname ) {
+    public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String playerNickname, Player buddy ) {
+
+        if ( numberOfTowers > MAX_NUM_OF_TOWER )
+            throw new IllegalArgumentException("Tried to create a Dashboard with a number of Towers higher than MAX_NUM_OF_TOWER ( =" + MAX_NUM_OF_TOWER + " )");
+
         entrance = new Entrance();
-        redDiningRoom = new DiningRoom(Color.RED);
-        blueDiningRoom = new DiningRoom(Color.BLUE);
-        yellowDiningRoom = new DiningRoom(Color.YELLOW);
-        pinkDiningRoom = new DiningRoom(Color.PINK);
-        greenDiningRoom = new DiningRoom(Color.GREEN);
+        DiningRoomsList = new HashMap<>(Color.getDim());
+        for ( Color c : Color.values() ) {
+            DiningRoomsList.put( c, new DiningRoom(c) );
+        }
         this.towersCollection = new ArrayList<>(0);
         for ( int i=0; i<numberOfTowers; i++ ) {
             this.towersCollection.add(new Tower(colorOfTower, i));
@@ -34,32 +38,21 @@ public class Dashboard {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //Inizialmente sempre a 1
         this.isKnight = false; //Settato a false per la modalità esperto
-        this.player= new Player(nickname);
+        this.player = new Player( playerNickname, buddy );
     }
 
-    public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException {
+    public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException, NullPointerException {
+        if ( dashboardToCopy == null )
+            throw new NullPointerException("Tried to create a new Dashboard from a null Dashboard");
         this.entrance = new Entrance(dashboardToCopy.entrance);
-        this.redDiningRoom = new DiningRoom(dashboardToCopy.redDiningRoom);
-        this.blueDiningRoom = new DiningRoom(dashboardToCopy.blueDiningRoom);
-        this.greenDiningRoom = new DiningRoom(dashboardToCopy.greenDiningRoom);
-        this.yellowDiningRoom = new DiningRoom(dashboardToCopy.yellowDiningRoom);
-        this.pinkDiningRoom = new DiningRoom(dashboardToCopy.pinkDiningRoom);
+        this.DiningRoomsList = new HashMap<>(dashboardToCopy.DiningRoomsList);
         this.towersCollection = new ArrayList<>(dashboardToCopy.towersCollection);
         this.towerColor = dashboardToCopy.towerColor;
         this.deck = new Deck(dashboardToCopy.deck);
         this.mastersList = new HashMap<>(dashboardToCopy.mastersList);
         this.coin = dashboardToCopy.coin;
         this.isKnight = dashboardToCopy.isKnight;
-    }
-
-    //TODO TOGLIERLO
-    public Player getPlayer() {
-        return player;
-    }
-
-    //TODO TOGLIERLO
-    public String getWizard(){
-        return deck.getWizard();
+        this.player = dashboardToCopy.player;
     }
 
     //Restituisce il numero di torri presenti nella dashboard
@@ -88,100 +81,71 @@ public class Dashboard {
         return tmp;
     }
 
-    public void addTowers ( ArrayList<Tower> towersToBeAdded ) throws MaxNumberOfTowerPassedException{
+    public void addTowers ( ArrayList<Tower> towersToBeAdded ) throws MaxNumberOfTowerPassedException, TowerIDAlreadyExistingException, NullPointerException {
+        if ( towersToBeAdded == null )
+            throw new NullPointerException("Tried to add null List instead of a List of towers in your Dashboard");
         int newTowersNumber = this.towersCollection.size() + towersToBeAdded.size();
         if ( newTowersNumber > MAX_NUM_OF_TOWER )
             throw new MaxNumberOfTowerPassedException("Too much tower on the Dashboard");
+        for ( Tower tToAdd : towersToBeAdded ) {
+            if ( tToAdd == null )
+                throw new NullPointerException("Tried to add null instead of a tower in your Dashboard");
+            for ( Tower t : this.towersCollection )
+                if ( t.getId() == tToAdd.getId() )
+                    throw new TowerIDAlreadyExistingException("Tried to add a tower with the same ID of another one already present in your Dashboard");
+        }
 
         this.towersCollection.addAll(towersToBeAdded);
-        //TODO possibile Exception sull'inserimento di una torre uguale ad una già presente
     }
 
     public Set<Student> showEntrance () {
         return entrance.getStudents();
     }
 
-    public void moveToEntrance( Set<Student> studentsList ) throws MaxNumberException {
+    public void moveToEntrance( Set<Student> studentsList ) throws MaxNumberException, StudentIDAlreadyExistingException {
         entrance.insertStudents( studentsList );
     }
 
-    public void moveToDR( Set<Student> studentsSet ) {
-        try{
-            for( Student s:studentsSet ) {
-                choseDRfromStudentColor(s);
-                this.entrance.removeStudent(s);
-            }
-        }
-        catch ( MaxNumberException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( NullPointerException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( WrongColorException e ) {
-            System.out.println(e.toString());
-        }
-        catch (InexistentStudentException e) {
-            System.out.println(e.toString());
+    public Student removeStudentFromEntrance( Student chosenStudent ) throws InexistentStudentException, NullPointerException {
+            return entrance.removeStudent(chosenStudent);
+    }
+
+    public void moveToDR(Set<Student> studentsSet ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+        for( Student s:studentsSet ) {
+            insertInDRbyStudentColor(s);
         }
     }
 
-    public void moveToDR( Student student ) {
-        try {
-            choseDRfromStudentColor(student);
-            this.entrance.removeStudent(student);
-        }
-        catch ( MaxNumberException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( NullPointerException e ) {
-            System.out.println(e.toString());
-        }
-        catch ( WrongColorException e ) {
-            System.out.println(e.toString());
-        }
-        catch (InexistentStudentException e) {
-            System.out.println(e.toString());
-        }
+    public void moveToDR(Student student ) throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException, InexistentStudentException {
+        insertInDRbyStudentColor(student);
     }
 
-    private void choseDRfromStudentColor(Student student) throws MaxNumberException, WrongColorException {
-        switch ( student.getColor() ) {
-            case RED:
-                redDiningRoom.insertStudent(student);
-                break;
-            case BLUE:
-                blueDiningRoom.insertStudent(student);
-                break;
-            case YELLOW:
-                yellowDiningRoom.insertStudent(student);
-                break;
-            case PINK:
-                pinkDiningRoom.insertStudent(student);
-                break;
-            case GREEN:
-                greenDiningRoom.insertStudent(student);
-                break;
-        }
+    private void insertInDRbyStudentColor(Student student) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
+        if ( this.DiningRoomsList.containsKey(student.getColor()) )
+            this.DiningRoomsList.get(student.getColor()).insertStudent(student);
+        else
+            throw new WrongColorException("Color not found during the insertion of student in DR");
     }
 
-    public Student removeStudentFromEntrance( Student chosenStudent ){
-        try {
-            entrance.removeStudent(chosenStudent);
-            return new Student(chosenStudent);
-        }
-        catch ( InexistentStudentException e ) {
-            System.out.println(e.toString());
-            return null;
-        }
+    public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {
+        if ( this.DiningRoomsList.containsKey(drColor) )
+            return this.DiningRoomsList.get(drColor).getStudentsNumber();
+        else
+            throw new WrongColorException("Color not found during the search of students in DR");
     }
 
     public Set<Card> showCards() {
         return deck.getCards();
     }
 
-    public void playChosenCard( Card chosenCard ) throws CardNotFoundException {
+    public void playChosenCard( Card chosenCard ) throws CardNotFoundException ,ZeroCardsRemainingException {
             deck.playCard(chosenCard);
+            if ( showCards().size()==0 )
+                throw new ZeroCardsRemainingException("Zero cards remaining in the deck");
+    }
+
+    public Card getCurrentCard() {
+        return this.deck.getCurrentCard();
     }
 
     public void insertMaster( Master m ) {
@@ -232,25 +196,12 @@ public class Dashboard {
         isKnight = setValue;
     }
 
-    public Card getCurrentCard() {
-            return new Card(this.deck.getCurrentCard());
+    public Player getPlayer() {
+        return player;
     }
 
+    public Wizard getWizard() {
+        return deck.getWizard();
+    }
 
-   public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {
-       switch ( drColor ) {
-           case RED:
-               return redDiningRoom.getStudentsNumber();
-           case BLUE:
-               return blueDiningRoom.getStudentsNumber();
-           case YELLOW:
-               return yellowDiningRoom.getStudentsNumber();
-           case PINK:
-               return pinkDiningRoom.getStudentsNumber();
-           case GREEN:
-               return greenDiningRoom.getStudentsNumber();
-           default:
-               throw new WrongColorException("Color not found during the search of students in DR");
-       }
-   }
 }

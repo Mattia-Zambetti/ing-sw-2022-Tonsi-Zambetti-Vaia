@@ -18,6 +18,10 @@ public class Tower {
         return color;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         boolean equalsResult = false;
