@@ -17,7 +17,7 @@ public class MatchTest extends TestCase {
     ArrayList<Student>[] students;
 
 
-    @BeforeEach void init() {
+    @BeforeEach void init() throws MaxNumberException, WrongDataplayerException, WrongColorException {
         match=new Match(PLAYERSNUM, false);
         assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
@@ -39,31 +39,37 @@ public class MatchTest extends TestCase {
     }
 
     @Test
-    void maxPlayersTryCatchException(){
+    void showBag() throws NoMoreStudentsException {
+        System.out.println(Bag.removeStudents(Bag.getSTUDENTSNUMCOLOR()*5));
+    }
+
+
+    @Test
+    void maxPlayersThrowsException() throws MaxNumberException, WrongDataplayerException, WrongColorException {
         match.addPlayer("Island", "WHITE", "WIZARD2");
-        match.addPlayer("Tonsi","GREEN", "WIZARD3");
+        assertThrows(MaxNumberException.class,()->match.addPlayer("Tonsi","GREEN", "WIZARD3"));
         assertEquals(PLAYERSNUM, match.getCurrentPlayersNum());
     }
 
     @Test
-    void sameDataExceptionAddPlayers(){
+    void addPlayersMatchFourPlayersTest() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+        match=new Match(4, false);
+        assertThrows(WrongColorException.class, ()->match.addPlayer("Vaia", "GREY", "WIZARD1"));
         match.addPlayer("Tonsi", "BLACK", "WIZARD2");
-        match.addPlayer("Vaia", "WHITE", "WIZARD2");
-        match.addPlayer("Tonsi", "WHITE", "WIZARD1");
-        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
-        students = new ArrayList[5];
-        for (int i = 0; i < students.length; i++){
-            students[i] = new ArrayList<Student>(0);
-        }
-        Student student = new Student(0,Color.RED);
-        students[0].add(student);
-        student = new Student(0,Color.YELLOW);
-        students[4].add(student);
-        student = new Student(1,Color.BLUE);
-        students[2].add(student);
-        student = new Student(2,Color.YELLOW);
-        students[4].add(student);
+        match.addPlayer("Island", "BLACK", "WIZARD3");
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Zambo", "BLACK", "WIZARD1"));
+        match.addPlayer("Vaia", "WHITE", "WIZARD1");
+        match.addPlayer("Zambo", "WHITE", "WIZARD4");
 
+        assertThrows(MaxNumberException.class,()->match.addPlayer("Cugola", "WHITE", "WIZARD5"));
+    }
+
+    @Test
+    void sameDataExceptionAddPlayers() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Tonsi", "BLACK", "WIZARD2"));
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Vaia", "WHITE", "WIZARD2"));
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Tonsi", "WHITE", "WIZARD1"));
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
     }
 
     //It tests if it's possible to create a Match with the wrong number of players
@@ -78,7 +84,7 @@ public class MatchTest extends TestCase {
     //it tests the presence of a wrong choice (or not) into
     // the parameters of the moveStudentsFromCloudToEntrance's method
     @Test
-    void moveStudentsFromCloudParamWrongAndCorrect(){
+    void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException {
         Match tmp=new Match(PLAYERSNUM, false);
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
         Bag.restoreBag();

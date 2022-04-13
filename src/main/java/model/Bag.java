@@ -6,6 +6,7 @@ import model.exception.NoMoreStudentsException;
 
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 public class Bag {
@@ -52,7 +53,7 @@ public class Bag {
     //it allows to remove only a student from the bag, it's not so important,
     //but I leave it because it's confortable
     public static Student removeStudent() throws NoMoreStudentsException {
-         Optional<Student> student=studentsInBag.stream().findAny();
+         Optional<Student> student=studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
          if(student.isPresent()){
              studentsInBag.remove(student.get());
              return student.get();
@@ -66,7 +67,7 @@ public class Bag {
         Set<Student> studentstmp= new HashSet<>();
         Optional<Student> studentTmp;
         for(int i=0; i<numStudents; i++){
-            studentTmp=studentsInBag.stream().findAny();
+            studentTmp=studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
             if(studentTmp.isPresent()){
                 studentsInBag.remove(studentTmp.get());
                 studentstmp.add(studentTmp.get());

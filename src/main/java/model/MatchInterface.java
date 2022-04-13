@@ -8,5 +8,4 @@ public interface MatchInterface {
 
     void setIslandsStudents(int islandToSet, ArrayList<Student>[] students);
 
-
 }

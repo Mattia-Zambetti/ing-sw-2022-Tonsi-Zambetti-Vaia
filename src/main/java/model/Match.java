@@ -201,34 +201,51 @@ public class Match extends Observable implements MatchInterface {
     }
 
     //missing nickname, this method must be fixed
-    public void addPlayer(String nickname, String towerColor, String wizard){
-        try {
+    public void addPlayer(String nickname, String towerColor, String wizard) throws WrongDataplayerException, WrongColorException, MaxNumberException {
+        if (dashboardsCollection.size() < totalPlayersNum) {
 
-            if (dashboardsCollection.size() < totalPlayersNum) {
-                for(Dashboard player: dashboardsCollection ){
-                    if(player.getTowerColor().toString().equals(towerColor))
+            if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {
+                throw new WrongColorException("You can't choose this color...");
+            }
+
+
+            for (Dashboard player : dashboardsCollection) {
+                if (player.getPlayer().getNickname().equals(nickname))
+                    throw new WrongDataplayerException("This nickname has been already chosen");
+                if (player.getWizard().toString().equals(wizard))
+                    throw new WrongDataplayerException("This wizard has already chosen");
+            }
+
+            if (totalPlayersNum < MAXPLAYERSNUM) {
+                for (Dashboard player : dashboardsCollection) {
+                    if (player.getTowerColor().toString().equals(towerColor))
                         throw new WrongDataplayerException("This tower color has been already chosen");
-                    if(player.getPlayer().getNickname().equals(nickname))
-                        throw new WrongDataplayerException("This nickname has been already chosen");
-                    if(player.getWizard().toString().equals(wizard))
-                        throw new WrongDataplayerException("This wizard has already chosen");
                 }
+            } else{
+                for (Dashboard player : dashboardsCollection) {
+                    if (player.getTowerColor().toString().equals(towerColor) && TowerColor.valueOf(towerColor).getCounter()==2)
+                        throw new WrongDataplayerException("This tower color has been already chosen");
+                }
+            }
 
-                //TODO gestire i team in qualche modo
-                if (totalPlayersNum <= 3) {
-                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
-                } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
-                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
-                } else if (dashboardsCollection.size() == 2 || dashboardsCollection.size() == 4) {
-                    dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
-                }
-                if (dashboardsCollection.size() == 1) {
-                    currentPlayerDashboard =dashboardsCollection.get(0);
-                }
-            } else throw new MaxNumberException("Max players number reached...");
-        }catch(MaxNumberException | WrongDataplayerException e){
-            System.out.println(e.getMessage());
-        }
+
+            if (totalPlayersNum < MAXPLAYERSNUM) {
+                dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+            } else if (dashboardsCollection.size() == 0 || dashboardsCollection.size() == 2) {
+                dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+                TowerColor.valueOf(towerColor).counterplus();
+            } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
+                dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+                TowerColor.valueOf(towerColor).counterplus();
+            }
+
+
+
+
+            if (dashboardsCollection.size() == 1) {
+                currentPlayerDashboard = dashboardsCollection.get(0);
+            }
+        }else throw new MaxNumberException("Max players number reached...");
     }
 
     private void setTowersNum() {
