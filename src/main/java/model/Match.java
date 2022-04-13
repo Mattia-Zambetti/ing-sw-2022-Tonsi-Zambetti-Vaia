@@ -115,7 +115,7 @@ public class Match extends Observable{
             islands.add(new Island(motherNature, i));
             islandPositions.add(i);
             //islands.add(new Island(motherNature, i+1));
-            if(i!=0 && i!=5)
+            if( i!=0 && i!=(Match.getISLANDSNUM()/2) )
                 islands.get(i).addStudent(Bag.removeStudent());
             motherNature=false;
         }
@@ -250,6 +250,10 @@ public class Match extends Observable{
 
     //ZAMBO
 
+    public static int getISLANDSNUM() {
+        return ISLANDSNUM;
+    }
+
     private void initializeMasters() {
         mastersMap=new HashMap<>();
         for (Color c : Color.values()) {
@@ -271,7 +275,7 @@ public class Match extends Observable{
     }
 
     //Useless, we use only indexes to chose Island
-    public void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
+    /*public void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
         try {
             Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
             for ( Island isl : islands) {
@@ -285,7 +289,7 @@ public class Match extends Observable{
         catch ( InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 
     public void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
         try {
