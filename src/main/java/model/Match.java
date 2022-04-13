@@ -401,10 +401,10 @@ public abstract class Match extends Observable {
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int position) throws NoIslandException {
+    public void moveMotherNature(int posizioni) throws NoIslandException {
         int positionTmp = currentIsland;
         islands.get(positionTmp).setMotherNature(false);
-        for (int i = 0; i < position; i++){
+        for (int i = 0; i < posizioni; i++){
             positionTmp = nextIsland(positionTmp);
         }
         currentIsland = positionTmp;

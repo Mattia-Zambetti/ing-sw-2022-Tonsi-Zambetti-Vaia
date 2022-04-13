@@ -1,6 +1,5 @@
 package model.FigureCards;
 
-import model.Color;
 import model.ExpertMatchInterface;
 
 public class Fungaiolo extends FigureCard {
@@ -8,7 +7,5 @@ public class Fungaiolo extends FigureCard {
 
     }
 
-    public void chooseColor(Color color){
 
-    }
 }

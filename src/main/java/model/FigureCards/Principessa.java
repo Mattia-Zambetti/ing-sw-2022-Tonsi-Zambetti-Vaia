@@ -2,10 +2,7 @@ package model.FigureCards;
 import model.ExpertMatchInterface;
 import model.Student;
 
-import java.util.*;
-
-public class Principessa extends FigureCard {
-    List<Student> studenti;
+public class Principessa extends FigureCardWithStudents {
     public  void playCard(ExpertMatchInterface expertMatchInterface){
 
     }
