@@ -242,14 +242,8 @@ public class Match extends Observable{
     }
 
 
-    //USED ONLY IN MATCHTEST
-    public Dashboard showCurrentPlayerDashboard(){
-        try {
-            return new Dashboard(currentPlayerDashboard);
-        } catch (CardNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+    public Dashboard showCurrentPlayerDashboard() throws NullPointerException {
+        return new Dashboard(currentPlayerDashboard);
     }
 
     //END TONSI
@@ -276,6 +270,7 @@ public class Match extends Observable{
 
     }
 
+    //Useless, we use only indexes to chose Island
     public void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
         try {
             Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
@@ -290,19 +285,16 @@ public class Match extends Observable{
         catch ( InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
-
     }
 
     public void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
         try {
-            Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
-            if ( chosenIslandPosition<0 || chosenIslandPosition>(ISLANDSNUM-1) )
+            if ( !islandPositions.contains(chosenIslandPosition) )
                 throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
-            //TODO possibile check sul fatto che l'isola non sia giá stata unificata ad un'altra
             if ( this.islands.get(chosenIslandPosition) == null )
                 throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
             else
-                this.islands.get(chosenIslandPosition).addStudent(tmpStudent);
+                this.islands.get(chosenIslandPosition).addStudent(currentPlayerDashboard.removeStudentFromEntrance(chosenStudent));
         }
         catch (InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
@@ -382,6 +374,13 @@ public class Match extends Observable{
         }
     }
     //TODO se volessimo aggiornare la view quando il master viene spostato bisogna aggiungere un notify in questo metodo
+
+
+
+    //Only for test
+    public HashMap<Color, Master> getMasters () {
+        return new HashMap<Color, Master>(mastersMap);
+    }
 
     //END ZAMBO
 

@@ -40,7 +40,7 @@ public class Dashboard {
         this.player = new Player( playerNickname, playerNumber );
     }
 
-    public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException, NullPointerException {
+    public Dashboard ( Dashboard dashboardToCopy ) throws NullPointerException {
         if ( dashboardToCopy == null )
             throw new NullPointerException("Tried to create a new Dashboard from a null Dashboard");
         this.entrance = new Entrance(dashboardToCopy.entrance);

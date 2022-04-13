@@ -221,6 +221,12 @@ public class DashboardTest extends TestCase{
 
         List<Master> masters = (List<Master>) dashboard.getMastersList();
         assertEquals(5,masters.size());
+        check = true;
+        for ( Master m: masters ) {
+            if ( !dashboard.haveMaster(m.getColor()) )
+                check = false;
+        }
+        assertTrue(check);
     }
 
     //This test checks that NoMasterException is thrown when trying to remove a master that is not present in the dashboard

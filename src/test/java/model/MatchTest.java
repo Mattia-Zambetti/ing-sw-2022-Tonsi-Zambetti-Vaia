@@ -220,4 +220,55 @@ public class MatchTest extends TestCase {
 
     //Test Zambo
 
+    //This test checks that masters are correctly created when a Match Object is created
+    @Test
+    void initialMasterTest () {
+
+        for ( Color c: Color.values() ) {
+            assertTrue ( match.getMasters().containsKey(c) );
+            assertEquals( match.getMasters().get(c).getColor(), c);
+        }
+    }
+
+    //this test checks that students are correctly moved from Entrance to DR for the currentPlayerDashboard
+    @Test
+    void moveStudentFromEntranceToDRTest () throws WrongColorException {
+        int redStudents=0, blueStudents=0, greenStudents=0, yellowStudents=0, pinkStudents=0;
+
+        match.initializeAllEntrance();
+        if ( PLAYERSNUM == 2 || PLAYERSNUM == 4 )
+            assertEquals(7, match.showCurrentPlayerDashboard().showEntrance().size());
+        else
+            assertEquals(9, match.showCurrentPlayerDashboard().showEntrance().size());
+
+        for ( Student s: match.showCurrentPlayerDashboard().showEntrance()) {
+            switch (s.getColor()) {
+                case RED -> redStudents++;
+                case BLUE -> blueStudents++;
+                case GREEN -> greenStudents++;
+                case YELLOW -> yellowStudents++;
+                case PINK -> pinkStudents++;
+            }
+            System.out.println(s.toString());
+        }
+        for ( Student s: match.showCurrentPlayerDashboard().showEntrance()) {
+            match.moveStudentFromEntranceToDR( s );
+        }
+        assertEquals(0, match.showCurrentPlayerDashboard().showEntrance().size());
+        assertEquals(redStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.RED));
+        assertEquals(blueStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.BLUE));
+        assertEquals(greenStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.GREEN));
+        assertEquals(yellowStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.YELLOW));
+        assertEquals(pinkStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.PINK));
+
+    }
+
+    //This test checks that moveStudentFromEntranceToIsland works
+    @Test
+    void moveStudentFromEntranceToIslandTest() {
+
+    }
+
+    //End Test Zambo
+
 }
