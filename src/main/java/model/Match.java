@@ -409,7 +409,7 @@ public class Match extends Observable{
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
     //solo per testare
-    public void setIslandsTowers(int islandToSet, ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void addIslandsTowers(int islandToSet, ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
         islands.get(islandToSet).addTowers(towers);
     }
 
@@ -464,14 +464,29 @@ public class Match extends Observable{
         else throw new NoIslandException("Island not found");
     }
 
-    public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException{
+    public void setDashboardMaster(int dashboardToSet, Master master)
+    {
+        dashboardsCollection.get(dashboardToSet).insertMaster(master);
+    }
+
+    public TowerColor getTowerColorFromIsland(int island) throws NoTowerException {
+        return islands.get(island).getTowerColor();
+    }
+
+    public void initializeDashboardsForTesting(Dashboard dashboard){
+        dashboardsCollection.add(dashboard);
+    }
+
+    public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException, CardNotFoundException {
         ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
-        Dashboard dasboardInfluencer = dashboardListTmp.get(0);
+        int dasboardInfluencer;
+        dasboardInfluencer = 0;
         Boolean exception = false;
-        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dasboardInfluencer);
+        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer));
         for (int i = 1; i < dashboardsCollection.size(); i++){
             if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i))){
-                dasboardInfluencer = dashboardListTmp.get(i);
+                dasboardInfluencer = i;
+                influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
                 exception = false;
             }
             else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
@@ -479,21 +494,24 @@ public class Match extends Observable{
         }
         if (exception == true)
             throw new SameInfluenceException("No change needed in current island");
-        return dasboardInfluencer;
+        return dashboardsCollection.get(dasboardInfluencer);
+    }
+
+    public void removeTowersFromDashboard(int dashboard, int towersToRemove) throws NegativeNumberOfTowerException {
+        dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
     }
 
     public void changeTowerColorOnIsland() throws SameInfluenceException {
         try{
         Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
-        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
-        int towersNum;
+        int towersNum = 0;
         if(islands.get(currentIsland).getTowerNum() == 0)
             islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(1));
         else if(!dashboardTmp.getTowerColor().equals(islands.get(currentIsland).getTowerColor())){
-            for (int i = 0; i< dashboardsCollection.size(); i++)
+            for (int i = 0; i< this.dashboardsCollection.size(); i++)
             {
-                if(dashboardListTmp.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
-                    dashboardListTmp.get(i).addTowers(islands.get(currentIsland).removeTowers());
+                if(dashboardsCollection.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
+                    dashboardsCollection.get(i).addTowers(islands.get(currentIsland).removeTowers());
                     towersNum = islands.get(currentIsland).getTowerNum();
                     islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
                 }
@@ -501,7 +519,7 @@ public class Match extends Observable{
         }
 
         }
-        catch (Exception e){}
+        catch (Exception e){System.out.println(e.getMessage());}
     }
     // END VAIA
 }
