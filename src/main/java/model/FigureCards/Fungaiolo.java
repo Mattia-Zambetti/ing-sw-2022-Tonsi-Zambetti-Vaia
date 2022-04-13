@@ -1,9 +1,10 @@
 package model.FigureCards;
 
 import model.Color;
+import model.MatchInterface;
 
 public class Fungaiolo extends FigureCard {
-    public void playCard(){
+    public void playCard(MatchInterface matchInterface){
 
     }
 
