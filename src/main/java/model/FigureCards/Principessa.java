@@ -1,12 +1,17 @@
 package model.FigureCards;
+import model.Bag;
 import model.ExpertMatchInterface;
-import model.Student;
 
 public class Principessa extends FigureCardWithStudents {
-    public  void playCard(ExpertMatchInterface expertMatchInterface){
+    private static final int PRICECARD=2;
 
+    public Principessa() throws Exception {
+        setPrice(PRICECARD);
+        studentsNumOnCard =4;
+        setStudentsOnCard(Bag.removeStudents(studentsNumOnCard));
     }
-    public void add4Students(Student s){
+
+    public  void playCard(ExpertMatchInterface expertMatchInterface){
 
     }
 }
