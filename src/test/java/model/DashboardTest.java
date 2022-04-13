@@ -16,10 +16,11 @@ public class DashboardTest extends TestCase{
     private final int INITIAL_NUM_OF_TOWER = 8;
     boolean checkVariable=true;
 
+    //Before each test a dashboard is created, a second dashboard is created as a copy of the first, and a set of students is created
     @BeforeEach
     void init() throws CardNotFoundException {
 
-        dashboard = new Dashboard(INITIAL_NUM_OF_TOWER,TowerColor.BLACK,Wizard.WIZARD1, "Zambo",0);
+        dashboard = new Dashboard(INITIAL_NUM_OF_TOWER,TowerColor.BLACK,Wizard.WIZARD1, "Zambo",1);
         dashboard2 = new Dashboard( dashboard );
         students=new HashSet<>();
 
@@ -30,6 +31,7 @@ public class DashboardTest extends TestCase{
         students.add(new Student(5,Color.PINK));
     }
 
+    //Test the exceptions thrown by the constructor of dashboard
     @Test
     void ConstructorExceptionsTest () {
         Dashboard wrongDashboard2 = null;
@@ -39,6 +41,7 @@ public class DashboardTest extends TestCase{
 
     }
 
+    //This test checks all methods used to add, remove and get information about towers in the dashboard without exception
     @Test
     void BasicTowersMethodTest () throws NegativeNumberOfTowerException, MaxNumberOfTowerPassedException, TowerIDAlreadyExistingException {
 
@@ -57,8 +60,9 @@ public class DashboardTest extends TestCase{
 
     }
 
+    //This test checks that exceptions are thrown by addTowers method in dashboard
     @Test
-    void AddTowersMethodExceptionsTest () throws TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NegativeNumberOfTowerException {
+    void AddTowersMethodExceptionsTest () throws NegativeNumberOfTowerException {
 
         ArrayList<Tower> towerList;
 
@@ -88,6 +92,7 @@ public class DashboardTest extends TestCase{
 
     }
 
+    //This test checks that exceptions are thrown by removeTowers method in dashboard
     @Test
     void RemoveTowersMethodExceptionsTest () {
 
@@ -95,6 +100,7 @@ public class DashboardTest extends TestCase{
 
     }
 
+    //This test checks that moveToEntrance(..), showEntrance() and removeStudentFromEntrance(..) methods work
     @Test
     void InsertAndRemoveFromEntranceTest() throws MaxNumberException, StudentIDAlreadyExistingException, InexistentStudentException {
 
@@ -127,6 +133,7 @@ public class DashboardTest extends TestCase{
 
     }
 
+    //This test is used to check that students can be correctly moved from entrance to DR using methods of dashboard
     @Test
     void MoveFromEntranceTODRTest () throws MaxNumberException, StudentIDAlreadyExistingException, WrongColorException, InexistentStudentException {
 
@@ -159,6 +166,7 @@ public class DashboardTest extends TestCase{
 
     }
 
+    //This test checks that card can be correctly played using methods of dashboard
     @Test
     void CardTest () throws CardNotFoundException {
         HashSet<Card> cards;
@@ -183,6 +191,8 @@ public class DashboardTest extends TestCase{
         assertEquals(chosenCard, dashboard.getCurrentCard());
     }
 
+    //This test is used to check that Masters are correctly managed by dashboard, and check that all operation about them
+    // can be done using insertMaster(..), haveMaster(..) and removeMaster(..) methods.
     @Test
     void MasterTest () throws NoMasterException {
         boolean check = true;
@@ -197,13 +207,13 @@ public class DashboardTest extends TestCase{
         }
         assertTrue(check);
 
-        Color obtainedColor = Color.BLUE;
-        dashboard.insertMaster(mastersMap.remove(obtainedColor));
+        Color masterColor = Color.BLUE;
+        dashboard.insertMaster(mastersMap.remove(masterColor));
 
-        assertTrue(dashboard.haveMaster(obtainedColor));
+        assertTrue(dashboard.haveMaster(masterColor));
 
-        mastersMap.put(obtainedColor, dashboard.removeMaster(obtainedColor));
-        assertFalse(dashboard.haveMaster(obtainedColor));
+        mastersMap.put(masterColor, dashboard.removeMaster(masterColor));
+        assertFalse(dashboard.haveMaster(masterColor));
 
         for (Color c : Color.values()) {
             dashboard.insertMaster(new Master(c));
@@ -213,12 +223,31 @@ public class DashboardTest extends TestCase{
         assertEquals(5,masters.size());
     }
 
+    //This test checks that NoMasterException is thrown when trying to remove a master that is not present in the dashboard
     @Test
     void masterTestException () {
         assertThrows(NoMasterException.class, ()->dashboard.removeMaster(Color.BLUE));
     }
 
+    //This test checks that coin management works correctly
+    @Test
+    void coinTest () throws InsufficientCoinException {
 
+        assertEquals(1, dashboard.getCoinsNumber());
+        dashboard.addCoin();
+        assertEquals(2, dashboard.getCoinsNumber());
+        dashboard.removeCoin(2);
+        assertEquals(0, dashboard.getCoinsNumber());
+        assertThrows(InsufficientCoinException.class, ()->dashboard.removeCoin(1));
+    }
+
+    //This test check that knightPrivilege can be applied to the dashboard
+    @Test
+    void knightTest () {
+        assertFalse(dashboard.hasKnightPrivilege());
+        dashboard.setKnight(true);
+        assertTrue(dashboard.hasKnightPrivilege());
+    }
 
 
 

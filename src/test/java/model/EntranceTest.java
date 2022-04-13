@@ -13,6 +13,7 @@ public class EntranceTest extends TestCase {
     Entrance entrance;
     Set<Student> studentsStartingSet;
 
+    //Before each test a new Entrance is initialized and a set of Students is created
     @BeforeEach
     void init(){
         entrance=new Entrance();
@@ -92,7 +93,7 @@ public class EntranceTest extends TestCase {
 
     }*/
 
-    //Test that checks if IllegalArgumentException is thrown when a student with the same ID (and Hash) of another tudent already present is passed
+    //Test that checks if IllegalArgumentException is thrown when a student with the same ID (and Hash) of another student already present is passed
     //FAILED: there is no problem adding a Student with the same ID of another to an HashSet
     //UPDATE: StudentIDAlreadyExistingException added
     /*@Test
@@ -106,7 +107,7 @@ public class EntranceTest extends TestCase {
         Exception eTest2 = assertThrows( IllegalArgumentException.class, ()->entrance.insertStudent(s2) );
     }*/
 
-    //Test that checks if StudentIDAlreadyExistingException is thrown
+    //Test that checks if StudentIDAlreadyExistingException is thrown and tests if the constructor of Student that creates a copy works
     @Test
     void StudentIDAlreadyExistingException_Method_insertSingleStudent () throws MaxNumberException, StudentIDAlreadyExistingException {
         Student s = new Student(11, Color.RED);
@@ -129,6 +130,7 @@ public class EntranceTest extends TestCase {
         assertEquals(studentsStartingSet.size(),entrance.getStudents().size());
     }
 
+    //Test that checks if InexistentStudentException works
     @Test
     void removeInexistentStudentTest () throws MaxNumberException, StudentIDAlreadyExistingException, InexistentStudentException {
         entrance.insertStudents(studentsStartingSet);
@@ -139,6 +141,7 @@ public class EntranceTest extends TestCase {
 
     }
 
+    //Test that checks if NullPointerException is thrown when a null Student is added
     @Test
     void NullPointerExceptionTest () {
         Set<Student> studentsToBeAddedSet = null;
@@ -152,10 +155,5 @@ public class EntranceTest extends TestCase {
 
     }
 
-    @Test
-    void ModifyStudentsAlreadyAddedExternally () {
-
-
-    }
 
 }

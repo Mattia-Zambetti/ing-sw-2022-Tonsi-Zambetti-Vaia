@@ -495,6 +495,7 @@ public class Match extends Observable{
         return dasboardInfluencer;
     }
 
+    //TODO NegativeNumberOfTowerException non bisogna fare printStackTrace ma va ritornata al controller che segnala che la partita è finita e ha vinto il giocatore che ha finito le torri
     //TODO SameInfluenceException mai sollevata
     public void changeTowerColorOnIsland() throws SameInfluenceException {
         try{

@@ -11,12 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DRTest extends TestCase {
     DiningRoom diningRoomTest, diningRoomTest2;
 
+    //Before each test 2 dining rooms are created, the second one is a copy of the first one
     @BeforeEach
     void init(){
         diningRoomTest = new DiningRoom(Color.RED);
         diningRoomTest2 = new DiningRoom(diningRoomTest);
     }
 
+    //This test checks if the insertStudent method works
     @Test
     void noExceptionDRTest() throws MaxNumberException, WrongColorException, StudentIDAlreadyExistingException {
 
@@ -39,6 +41,7 @@ public class DRTest extends TestCase {
 
     }
 
+    //This test checks that the MaxNumberException is thrown when the dining room is full and another student is added
     @Test
     void MaxNumberExceptionDRTest() throws WrongColorException, MaxNumberException, StudentIDAlreadyExistingException {
 
@@ -51,6 +54,7 @@ public class DRTest extends TestCase {
 
     }
 
+    //Checks that NullPointerException is thrown when a null Student is added
     @Test
     void NullPointerExceptionDRTest () {
         Student s = null;
@@ -58,6 +62,7 @@ public class DRTest extends TestCase {
         assertThrows(NullPointerException.class, ()->diningRoomTest.insertStudent(s));
     }
 
+    //Checks that a WrongColorException is thrown when trying to add a student with a color in a dining room with another color
     @Test
     void WrongColorExceptionDRTest () {
 
@@ -67,6 +72,7 @@ public class DRTest extends TestCase {
         assertThrows(WrongColorException.class, ()->diningRoomTest.insertStudent(new Student(1, Color.BLUE)));
     }
 
+    //Checks that two identical students can't be added in the same dining room (used to avoid two insertions when we want only one)
     @Test
     void StudentIDAlreadyExistingExceptionDRTest () throws MaxNumberException, StudentIDAlreadyExistingException, WrongColorException {
 

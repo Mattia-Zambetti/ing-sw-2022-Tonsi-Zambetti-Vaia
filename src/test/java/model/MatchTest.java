@@ -217,4 +217,7 @@ public class MatchTest extends TestCase {
         match.moveMotherNature(9);
         assertEquals(true, match.checkMotherNatureOnIsland(0));
     }
+
+    //Test Zambo
+
 }
