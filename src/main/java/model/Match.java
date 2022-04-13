@@ -1,17 +1,16 @@
 //Tonsi, Zambo,Vaia
 package model;
 
-import model.FigureCards.FigureCard;
 import model.exception.*;
 
 import java.util.*;
-public class Match extends Observable implements MatchInterface {
+public abstract class Match extends Observable {
     private List<Island> islands;
     private List<Cloud> clouds;
     private List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
-    private Collection<FigureCard> figureCards;
+
     private int totalPlayersNum;
     //private boolean isExpertMode;
     private int currentIsland;
@@ -114,7 +113,6 @@ public class Match extends Observable implements MatchInterface {
         for (int i=0; i< ISLANDSNUM; i++){
             islands.add(new Island(motherNature, i));
             islandPositions.add(i);
-            //islands.add(new Island(motherNature, i+1));
             if(i!=0 && i!=5)
                 islands.get(i).addStudent(Bag.removeStudent());
             motherNature=false;
@@ -403,10 +401,10 @@ public class Match extends Observable implements MatchInterface {
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int posizioni) throws NoIslandException {
+    public void moveMotherNature(int position) throws NoIslandException {
         int positionTmp = currentIsland;
         islands.get(positionTmp).setMotherNature(false);
-        for (int i = 0; i < posizioni; i++){
+        for (int i = 0; i < position; i++){
             positionTmp = nextIsland(positionTmp);
         }
         currentIsland = positionTmp;

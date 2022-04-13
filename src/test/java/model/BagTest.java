@@ -49,7 +49,7 @@ public class BagTest extends TestCase {
     void removeStudentWithException() throws NoMoreStudentsException {
         Bag.restoreBag();
         Bag.removeStudents(Bag.getINITIALSTUDENTS()*5);
-        Exception eTest= assertThrows(NoMoreStudentsException.class, ()->Bag.removeStudent());
+        Exception eTest= assertThrows(NoMoreStudentsException.class, Bag::removeStudent);
         assertEquals("Bag limit reached, no more students in the bag...",
                 eTest.getMessage());
     }

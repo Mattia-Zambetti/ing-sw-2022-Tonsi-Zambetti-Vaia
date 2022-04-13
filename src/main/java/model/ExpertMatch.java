@@ -3,29 +3,20 @@ package model;
 import model.FigureCards.FigureCard;
 import model.exception.CardNotFoundException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ExpertMatch implements MatchInterface{
-    Match match;
+public class ExpertMatch extends Match implements ExpertMatchInterface{
     private Set<FigureCard> figureCards;
 
     public ExpertMatch(int totalPlayersNum){
-        match= new Match(totalPlayersNum, true);
+        super(totalPlayersNum, true);
         figureCards=new HashSet<>();
         //TODO capire come randomizzare la creazione
     }
 
-    @Override
-    public Dashboard showCurrentPlayerDashboard() {
-        return match.showCurrentPlayerDashboard();
-    }
 
-    @Override
-    public void setIslandsStudents(int islandToSet, ArrayList<Student>[] students) {
-        match.setIslandsStudents(islandToSet,students);
-    }
+
 
     //....
 
@@ -33,5 +24,22 @@ public class ExpertMatch implements MatchInterface{
         if(figureCards.contains(card)){
             card.playCard(this);
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
+    }
+
+
+    //TODO
+    @Override
+    public boolean getIsColorBlocked(Color colorBlocked) {
+        return false;
+    }
+
+    @Override
+    public Set<Student> moveFromBagToFigureCard(int studentsNum) {
+        return null;
+    }
+
+    @Override
+    public void setIslandBlocked(int islandPosition) {
+
     }
 }

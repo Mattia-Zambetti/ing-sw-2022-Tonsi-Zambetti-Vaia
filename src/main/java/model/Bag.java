@@ -53,21 +53,26 @@ public class Bag {
     //it allows to remove only a student from the bag, it's not so important,
     //but I leave it because it's confortable
     public static Student removeStudent() throws NoMoreStudentsException {
-         Optional<Student> student=studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
+        Optional<Student> student;
+        if(studentsInBag.size()!=0)
+            student = studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
+        else student=studentsInBag.stream().skip(new Random().nextInt(1)).findAny();
 
-         if(student.isPresent()){
+        if(student.isPresent()){
              studentsInBag.remove(student.get());
              return student.get();
          }
-         else
-             throw new NoMoreStudentsException("Bag limit reached, no more students in the bag...");
+         else throw new NoMoreStudentsException("Bag limit reached, no more students in the bag...");
     }
 
     //it allows to remove "numStudents" students from the bag
     public static Set<Student> removeStudents(int numStudents) throws NoMoreStudentsException {
         Set<Student> studentstmp= new HashSet<>();
         for(int i=0; i<numStudents; i++){
-            Optional<Student> studentTmp = studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
+            Optional<Student> studentTmp;
+            if(studentsInBag.size()!=0)
+                studentTmp = studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
+            else studentTmp=studentsInBag.stream().skip(new Random().nextInt(1)).findAny();
 
             if(studentTmp.isPresent()){
                 studentsInBag.remove(studentTmp.get());

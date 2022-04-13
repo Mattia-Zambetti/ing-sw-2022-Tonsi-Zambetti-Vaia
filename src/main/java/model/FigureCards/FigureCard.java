@@ -1,10 +1,10 @@
 //Tonsi
 package model.FigureCards;
 
-import model.MatchInterface;
+import model.ExpertMatchInterface;
 
 public abstract class FigureCard {
     private int price;
 
-    public abstract void playCard(MatchInterface matchInterface);
+    public abstract void playCard(ExpertMatchInterface expertMatchInterface);
 }

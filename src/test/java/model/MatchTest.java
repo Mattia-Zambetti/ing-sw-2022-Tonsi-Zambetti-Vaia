@@ -18,7 +18,7 @@ public class MatchTest extends TestCase {
 
 
     @BeforeEach void init() throws MaxNumberException, WrongDataplayerException, WrongColorException {
-        match=new Match(PLAYERSNUM, false);
+        match=new NormalMatch(PLAYERSNUM, false);
         assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
         assertEquals(1, match.getCurrentPlayersNum());
@@ -64,7 +64,7 @@ public class MatchTest extends TestCase {
 
     @Test
     void addPlayersMatchFourPlayersTest() throws MaxNumberException, WrongDataplayerException, WrongColorException {
-        match=new Match(4, false);
+        match=new NormalMatch(4, false);
         assertThrows(WrongColorException.class, ()->match.addPlayer("Vaia", "GREY", "WIZARD1"));
         match.addPlayer("Tonsi", "BLACK", "WIZARD2");
         match.addPlayer("Island", "BLACK", "WIZARD3");
@@ -87,8 +87,8 @@ public class MatchTest extends TestCase {
     @Test
     void TooManyPlayersException() {
         Match tmp1;
-        tmp1 = new Match(Match.getMAXPLAYERSNUM() + 1, false);
-        tmp1=new Match(Match.getMINPLAYERSNUM() - 1, false);
+        tmp1 = new NormalMatch(Match.getMAXPLAYERSNUM() + 1, false);
+        tmp1=new NormalMatch(Match.getMINPLAYERSNUM() - 1, false);
     }
 
 
@@ -96,7 +96,7 @@ public class MatchTest extends TestCase {
     // the parameters of the moveStudentsFromCloudToEntrance's method
     @Test
     void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException {
-        Match tmp=new Match(PLAYERSNUM, false);
+        Match tmp=new NormalMatch(PLAYERSNUM, false);
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
         Bag.restoreBag();
         System.out.println(Bag.getStudentsNum());

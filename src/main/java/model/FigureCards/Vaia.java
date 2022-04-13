@@ -1,9 +1,9 @@
 package model.FigureCards;
 
-import model.MatchInterface;
+import model.ExpertMatchInterface;
 
 public class Vaia extends FigureCard {
-    public void playCard(MatchInterface matchInterface){
+    public void playCard(ExpertMatchInterface expertMatchInterface){
 
     }
     public void vittoria(){

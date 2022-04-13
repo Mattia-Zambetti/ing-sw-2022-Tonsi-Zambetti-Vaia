@@ -1,12 +1,12 @@
 package model.FigureCards;
 
-import model.MatchInterface;
+import model.ExpertMatchInterface;
 
 public class Postino extends FigureCard {
     public void muoviMadreNatura(int posizioni){
 
     }
-    public void playCard(MatchInterface matchInterface){
+    public void playCard(ExpertMatchInterface expertMatchInterface){
 
     }
 }
