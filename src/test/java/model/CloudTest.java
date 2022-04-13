@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 //Classe di test in quanto estende TestCase, i test possono essere eseguiti in blocco grazie al
 // play verde in parte alla classe(schiacciando col destro sui test è possibile far partire tutti i test
 // di tutte le classi), oppure far partire singolarmente ogni test sempre nello stesso modo
@@ -48,7 +50,9 @@ class CloudTest extends TestCase {
         Set<Student> tmp=new HashSet<>();
         cloudTest.takeStudents();
         //test riuscito sse i due oggetti sono uguali
-        assertEquals(tmp,cloudTest.takeStudents());
+        assertThrows(WrongCloudNumberException.class,()->cloudTest.takeStudents());
+
+
         assertEquals("",cloudTest.toString());
     }
 

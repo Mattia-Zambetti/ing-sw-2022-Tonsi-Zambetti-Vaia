@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class DiningRoom {
     private static final int DINING_ROOM_DIM = 10;
-    private Set<Student> students;
+    private final Set<Student> students;
     private final Color roomColor;
 
 
@@ -34,7 +34,7 @@ public class DiningRoom {
         if ( newStudent.getColor().ordinal()!=this.roomColor.ordinal() )
             throw new WrongColorException("Trying to insert newStudent in the wrong DR");
         if ( students.size() >= DINING_ROOM_DIM )
-            throw new MaxNumberException(roomColor.toString()+" Dining Room Full");
+            throw new MaxNumberException(roomColor+" Dining Room Full");
         if ( this.CheckForIDPresence(newStudent.getID())  )
             throw new StudentIDAlreadyExistingException("A Student with the same ID is already present."+
                     "\nThe ID is: "+newStudent.getID());

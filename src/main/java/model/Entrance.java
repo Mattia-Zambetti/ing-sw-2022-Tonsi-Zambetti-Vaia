@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Entrance {
     private final static int MAXSTUDENTS =9;
-    private Set<Student> students;
+    private final Set<Student> students;
 
     public Entrance(){
         students=new HashSet<>();
@@ -67,7 +67,7 @@ public class Entrance {
     }
 
     public Set<Student> getStudents(){
-        return new HashSet<Student>(students);
+        return new HashSet<>(students);
     }
 
     private boolean CheckForIDPresence( int ID ) {

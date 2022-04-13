@@ -2,9 +2,9 @@
 package model;
 
 public class Card {
-    private int value;
-    private int movementValue;
-    private int id;
+    private final int value;
+    private final int movementValue;
+    private final int id;
 
     public Card(int value, int movementValue, int id) {
         this.value = value;
@@ -41,8 +41,7 @@ public class Card {
     //It returns true if two cards have the same id
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Card)) return false;
-        Card card = (Card) o;
+        if (!(o instanceof Card card)) return false;
         return id == card.id;
     }
 

@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Cloud {
-    private Set<Student> studentsOnCloud;
+    private final Set<Student> studentsOnCloud;
     private static int studentsNumOnCloud;
 
     //Every cloud is created by receiving a Set of students, it launches a MaxNumberException
     //if the studentsFromBag size isn't the same of the students number on the cloud
     public Cloud() {
-        studentsOnCloud= new HashSet<Student>();
+        studentsOnCloud= new HashSet<>();
 
     }
 
@@ -31,8 +31,8 @@ public class Cloud {
     //It returns the students on this cloud in a Set and it removes them from it.
     //It throws an exception if the cloud is empty
     public Set<Student> takeStudents() throws WrongCloudNumberException {
-        if(studentsOnCloud.size()>=0) {
-            Set<Student> tmpstudents = new HashSet<Student>(studentsOnCloud);
+        if(studentsOnCloud.size()>0) {
+            Set<Student> tmpstudents = new HashSet<>(studentsOnCloud);
             studentsOnCloud.clear();
             return tmpstudents;
         }else throw new WrongCloudNumberException("Cloud has already been chosen");
@@ -56,11 +56,11 @@ public class Cloud {
 
     @Override
     public String toString(){
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (Student s: studentsOnCloud) {
-            res+=s.toString()+"\n";
+            res.append(s.toString()).append("\n");
         }
-        return res;
+        return res.toString();
     }
 
 

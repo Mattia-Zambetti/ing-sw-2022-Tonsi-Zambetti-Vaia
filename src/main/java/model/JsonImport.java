@@ -11,11 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class JsonImport {
-    private JsonParser parser;
-    private String filename;
+    private final String filename;
 
     public JsonImport(String filename){
-        parser=new JsonParser();
+
         this.filename=filename;
     }
 
@@ -24,7 +23,7 @@ public class JsonImport {
         Card tmpCard;
         int value, movementValue, id;
         try {
-            JsonArray reader = (JsonArray) parser.parseReader(new FileReader(filename)).getAsJsonArray();
+            JsonArray reader = JsonParser.parseReader(new FileReader(filename)).getAsJsonArray();
             for (JsonElement j : reader) {
                 JsonObject tmp = (JsonObject) j;
                 value = tmp.get("value").getAsInt();

@@ -1,6 +1,7 @@
 package model;
 
 import junit.framework.TestCase;
+import model.exception.MaxNumberException;
 import model.exception.NoMoreStudentsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,9 @@ public class BagTest extends TestCase {
     // students to the caller
     @Test
     void removeStudentsWithoutException() throws NoMoreStudentsException {
-        Bag.createAllStudents();
+        assertThrows(MaxNumberException.class, Bag::createAllStudents);
         assertEquals(5, Bag.removeStudents(5).size());
-        assertEquals(Bag.getSTUDENTSNUMCOLOR()*5-5, Bag.getStudentsNum());
+        assertEquals(Bag.getINITIALSTUDENTS()*5-5, Bag.getStudentsNum());
 
         String tmp=Bag.removeStudent().toString();
         assertTrue(tmp.equals("YELLOW student") ||

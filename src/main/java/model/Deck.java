@@ -10,23 +10,23 @@ import java.util.Set;
 enum Wizard{WIZARD1,WIZARD2, WIZARD3,WIZARD4}
 
 public class Deck {
-    private Set<Card> cards;
+    private final Set<Card> cards;
     private Card currentCard;
-    private Wizard wizard;
-    private JsonImport jsonImport;
+    private final Wizard wizard;
+    private final JsonImport jsonImport;
     private final static int CARDSNUMBER=10;
     private final static String stringName="Carte.json";
 
     public Deck(Wizard wizard){
         jsonImport=new JsonImport(stringName);
-        cards = new HashSet<Card>(jsonImport.createCards());
+        cards = new HashSet<>(jsonImport.createCards());
         this.wizard=wizard;
         currentCard=new Card(0,0,0);
     }
 
     //TESTED
     //Useful for a clone
-    public Deck(Deck deck) throws CardNotFoundException {
+    public Deck(Deck deck){
         this.cards=new HashSet<>(deck.getCards());
         this.wizard=deck.wizard;
         this.currentCard = new Card(deck.getCurrentCard());
@@ -57,26 +57,25 @@ public class Deck {
 
     //It returns a copy of the cards in the deck to show them in the view
     public Set<Card> getCards(){
-        return new HashSet<Card>(cards);
+        return new HashSet<>(cards);
     }
 
     //TESTED
     //it returns a string with a short description for every card in the deck
     @Override
     public String toString(){
-        String res="";
+        StringBuilder res= new StringBuilder();
         for (Card c: cards) {
-            res+=c.toString();
+            res.append(c.toString());
         }
-        return res;
+        return res.toString();
     }
 
     //TESTED
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Deck)) return false;
-        Deck deck = (Deck) o;
+        if (!(o instanceof Deck deck)) return false;
 
         return deck.getCards().containsAll(((Deck)o).getCards()) &&
                 ((Deck)o).getCards().containsAll(deck.getCards())

@@ -1,8 +1,8 @@
 package model;
 
 public class Tower {
-    private TowerColor color;
-    private int id;
+    private final TowerColor color;
+    private final int id;
 
     public Tower(TowerColor color, int id){
         this.color = color;
@@ -25,8 +25,7 @@ public class Tower {
     @Override
     public boolean equals(Object o) {
         boolean equalsResult = false;
-        if (o instanceof Tower) {
-            Tower tower = (Tower)o;
+        if (o instanceof Tower tower) {
             if ( ( tower.color == this.color ) && ( tower.id == this.id ) )
                 equalsResult = true;
         }

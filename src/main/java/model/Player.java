@@ -3,9 +3,9 @@ package model;
 
 public class Player{
 
-    private String nickname;
+    private final String nickname;
 
-    private int playerNumber;
+    private final int playerNumber;
 
     private Player buddy;
 

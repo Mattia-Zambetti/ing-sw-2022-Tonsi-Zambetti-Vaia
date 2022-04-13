@@ -2,8 +2,8 @@
 package model;
 
 public final class Student{
-    private Color color;
-    private int ID;
+    private final Color color;
+    private final int ID;
 
     public Student( int studentID, Color studentColor){
         this.color = studentColor;
@@ -28,8 +28,7 @@ public final class Student{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Student)) return false;
-        Student s = (Student)o;
+        if (!(o instanceof Student s)) return false;
         return s.color.ordinal() == this.color.ordinal() && ( s.ID == this.ID );
     }
 
