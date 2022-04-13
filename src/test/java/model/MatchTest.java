@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -234,4 +235,135 @@ public class MatchTest extends TestCase {
         match.moveMotherNature(9);
         assertEquals(true, match.checkMotherNatureOnIsland(0));
     }
+
+    //Test Zambo
+
+    //This test checks that masters are correctly created when a Match Object is created
+    @Test
+    void initialMasterTest () {
+
+        for ( Color c: Color.values() ) {
+            assertTrue ( match.getMasters().containsKey(c) );
+            assertEquals( match.getMasters().get(c).getColor(), c);
+        }
+    }
+
+    //this test checks that students are correctly moved from Entrance to DR for the currentPlayerDashboard
+    @Test
+    void moveStudentFromEntranceToDRTest () throws WrongColorException {
+        int redStudents=0, blueStudents=0, greenStudents=0, yellowStudents=0, pinkStudents=0;
+
+        match.initializeAllEntrance();
+        if ( PLAYERSNUM == 2 || PLAYERSNUM == 4 )
+            assertEquals(7, match.showCurrentPlayerDashboard().showEntrance().size());
+        else
+            assertEquals(9, match.showCurrentPlayerDashboard().showEntrance().size());
+
+        for ( Student s: match.showCurrentPlayerDashboard().showEntrance()) {
+            switch (s.getColor()) {
+                case RED -> redStudents++;
+                case BLUE -> blueStudents++;
+                case GREEN -> greenStudents++;
+                case YELLOW -> yellowStudents++;
+                case PINK -> pinkStudents++;
+            }
+            System.out.println(s.toString());
+        }
+        for ( Student s: match.showCurrentPlayerDashboard().showEntrance()) {
+            match.moveStudentFromEntranceToDR( s );
+        }
+        assertEquals(0, match.showCurrentPlayerDashboard().showEntrance().size());
+        assertEquals(redStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.RED));
+        assertEquals(blueStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.BLUE));
+        assertEquals(greenStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.GREEN));
+        assertEquals(yellowStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.YELLOW));
+        assertEquals(pinkStudents, match.showCurrentPlayerDashboard().getStudentsNumInDR(Color.PINK));
+
+    }
+
+    //This test checks that moveStudentFromEntranceToIsland works
+    @Test
+    void moveStudentFromEntranceToIslandTest() throws NoIslandException {
+
+        assertEquals( 12, match.getIslandPositions().size());
+
+        match.initializeAllEntrance();
+        if ( PLAYERSNUM == 2 || PLAYERSNUM == 4 )
+            assertEquals(7, match.showCurrentPlayerDashboard().showEntrance().size());
+        else
+            assertEquals(9, match.showCurrentPlayerDashboard().showEntrance().size());
+
+        //UTILIZZATO PER CONTARE GLI STUDENTI SU OGNI ISOLA
+        ArrayList<Student>[][] studentsOnEachIsland = new ArrayList[12][5];
+        int i=0;
+        int totalStudent;
+        for (ArrayList<Student>[] islandStudentLists : studentsOnEachIsland) {
+            //System.out.println("Island "+i+" before adding students:");
+            totalStudent = 0;
+            islandStudentLists = match.getStudentsOnIsland(i);
+            for ( ArrayList<Student> stud: islandStudentLists ) {
+                totalStudent += stud.size();
+                //System.out.println(stud.toString());
+            }
+            if ( i!=0 && i!=6 )
+                assertEquals(1, totalStudent);
+            else
+                assertEquals(0, totalStudent);
+            i++;
+        }
+
+        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+        for ( int index: match.getIslandPositions() ) {
+            if ( index%2==0 ) {
+                Student s = studentsInEntrance.get(index/2);
+                //System.out.println(s.toString());
+                match.moveStudentFromEntranceToIsland( s , index );
+            }
+        }
+
+        if ( PLAYERSNUM == 2 || PLAYERSNUM == 4 )
+            assertEquals(1, match.showCurrentPlayerDashboard().showEntrance().size());
+        else
+            assertEquals(3, match.showCurrentPlayerDashboard().showEntrance().size());
+
+
+        i=0;
+        for (ArrayList<Student>[] islandStudentLists : studentsOnEachIsland) {
+            //System.out.println("Island "+i+" after adding students:");
+            totalStudent = 0;
+            islandStudentLists = match.getStudentsOnIsland(i);
+            for ( ArrayList<Student> stud: islandStudentLists ) {
+                totalStudent += stud.size();
+                //System.out.println(stud.toString());
+            }
+            if ( i%2 == 0) {
+                if (i != 0 && i != 6)
+                    assertEquals(2, totalStudent);
+                else
+                    assertEquals(1, totalStudent);
+            }
+            else
+                assertEquals(1, totalStudent);
+            i++;
+        }
+
+    }
+
+    //Test that checks if exception is correctly thrown by moveStudentFromEntranceToIsland(...) method
+    @Test
+    void moveStudentFromEntranceToIslandExceptionTest() {
+
+        match.initializeAllEntrance();
+        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+
+        assertThrows(NoIslandException.class, ()->match.moveStudentFromEntranceToIsland(studentsInEntrance.get(0), 12));
+
+    }
+
+
+
+
+
+    //End Test Zambo
+
 }

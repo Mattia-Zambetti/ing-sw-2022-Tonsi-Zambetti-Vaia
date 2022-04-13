@@ -17,7 +17,6 @@ public class Dashboard {
     private static final int MAX_NUM_OF_TOWER = 8;
     private Player player;
 
-    //prova per vedere se funziona il rebase
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String playerNickname, int playerNumber ) {
 
@@ -36,12 +35,12 @@ public class Dashboard {
         this.towerColor = colorOfTower;
         this.deck = new Deck(chosenWizard);
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
-        this.coin = 1; //Inizialmente sempre a 1
-        this.isKnight = false; //Settato a false per la modalità esperto
+        this.coin = 1; //At the start of a match it is always one
+        this.isKnight = false;
         this.player = new Player( playerNickname, playerNumber );
     }
 
-    public Dashboard ( Dashboard dashboardToCopy ) throws CardNotFoundException, NullPointerException {
+    public Dashboard ( Dashboard dashboardToCopy ) throws NullPointerException {
         if ( dashboardToCopy == null )
             throw new NullPointerException("Tried to create a new Dashboard from a null Dashboard");
         this.entrance = new Entrance(dashboardToCopy.entrance);
@@ -179,8 +178,8 @@ public class Dashboard {
     }
 
     public void removeCoin ( int coinToBeRemoved ) throws InsufficientCoinException {
-        if ( this.coin > coinToBeRemoved )
-            this.coin = coinToBeRemoved;
+        if ( this.coin >= coinToBeRemoved )
+            this.coin -= coinToBeRemoved;
         else
             throw new InsufficientCoinException("You tried to remove too much coin, number of coin is: "+this.coin+", you tried to remove "+coinToBeRemoved+" coins");
     }

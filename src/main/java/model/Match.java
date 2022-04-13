@@ -113,7 +113,8 @@ public abstract class Match extends Observable {
         for (int i=0; i< ISLANDSNUM; i++){
             islands.add(new Island(motherNature, i));
             islandPositions.add(i);
-            if(i!=0 && i!=5)
+            //islands.add(new Island(motherNature, i+1));
+            if( i!=0 && i!=(Match.getISLANDSNUM()/2) )
                 islands.get(i).addStudent(Bag.removeStudent());
             motherNature=false;
         }
@@ -257,19 +258,17 @@ public abstract class Match extends Observable {
     }
 
 
-    //USED ONLY IN MATCHTEST
-    public Dashboard showCurrentPlayerDashboard(){
-        try {
-            return new Dashboard(currentPlayerDashboard);
-        } catch (CardNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+    public Dashboard showCurrentPlayerDashboard() throws NullPointerException {
+        return new Dashboard(currentPlayerDashboard);
     }
 
     //END TONSI
 
     //ZAMBO
+
+    public static int getISLANDSNUM() {
+        return ISLANDSNUM;
+    }
 
     private void initializeMasters() {
         mastersMap=new HashMap<>();
@@ -291,7 +290,8 @@ public abstract class Match extends Observable {
 
     }
 
-    public void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
+    //Useless, we use only indexes to chose Island
+    /*public void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
         try {
             Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
             for ( Island isl : islands) {
@@ -305,19 +305,16 @@ public abstract class Match extends Observable {
         catch ( InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
-
-    }
+    }*/
 
     public void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
         try {
-            Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
-            if ( chosenIslandPosition<0 || chosenIslandPosition>(ISLANDSNUM-1) )
+            if ( !islandPositions.contains(chosenIslandPosition) )
                 throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
-            //TODO possibile check sul fatto che l'isola non sia giá stata unificata ad un'altra
             if ( this.islands.get(chosenIslandPosition) == null )
                 throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
             else
-                this.islands.get(chosenIslandPosition).addStudent(tmpStudent);
+                this.islands.get(chosenIslandPosition).addStudent(currentPlayerDashboard.removeStudentFromEntrance(chosenStudent));
         }
         catch (InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
@@ -397,6 +394,13 @@ public abstract class Match extends Observable {
         }
     }
     //TODO se volessimo aggiornare la view quando il master viene spostato bisogna aggiungere un notify in questo metodo
+
+
+
+    //Only for test
+    public HashMap<Color, Master> getMasters () {
+        return new HashMap<Color, Master>(mastersMap);
+    }
 
     //END ZAMBO
 
@@ -510,6 +514,7 @@ public abstract class Match extends Observable {
         return dasboardInfluencer;
     }
 
+    //TODO NegativeNumberOfTowerException non bisogna fare printStackTrace ma va ritornata al controller che segnala che la partita è finita e ha vinto il giocatore che ha finito le torri
     //TODO SameInfluenceException mai sollevata
     public void changeTowerColorOnIsland() throws SameInfluenceException {
         try{
