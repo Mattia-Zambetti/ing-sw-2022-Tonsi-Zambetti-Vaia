@@ -40,8 +40,19 @@ public class MatchTest extends TestCase {
 
     @Test
     void showBag() throws NoMoreStudentsException {
-        System.out.println(Bag.removeStudents(Bag.getSTUDENTSNUMCOLOR()*5));
+        for (int i=0; i<Bag.getSTUDENTSNUMCOLOR()*5;i++) {
+            System.out.println(Bag.removeStudent());
+        }
     }
+
+    @Test
+    void showAllTogetherBag() throws NoMoreStudentsException {
+            Set<Student> students=Bag.removeStudents(Bag.getSTUDENTSNUMCOLOR());
+            for(Student s: students){
+                System.out.println(s);
+            }
+    }
+
 
 
     @Test

@@ -24,7 +24,7 @@ public class Bag {
         studentsInBag=new HashSet<>();
         counter=0;
         if (bag==null){
-            bag= new Bag();
+            bag=new Bag();
             for(Color c: Color.values()){
                 for(int i = 0; i< INITIALSTUDENTS; i++){
                     studentsInBag.add(new Student(counter, c));
@@ -54,6 +54,7 @@ public class Bag {
     //but I leave it because it's confortable
     public static Student removeStudent() throws NoMoreStudentsException {
          Optional<Student> student=studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
+
          if(student.isPresent()){
              studentsInBag.remove(student.get());
              return student.get();
@@ -65,9 +66,9 @@ public class Bag {
     //it allows to remove "numStudents" students from the bag
     public static Set<Student> removeStudents(int numStudents) throws NoMoreStudentsException {
         Set<Student> studentstmp= new HashSet<>();
-        Optional<Student> studentTmp;
         for(int i=0; i<numStudents; i++){
-            studentTmp=studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
+            Optional<Student> studentTmp = studentsInBag.stream().skip(new Random().nextInt(studentsInBag.size())).findAny();
+
             if(studentTmp.isPresent()){
                 studentsInBag.remove(studentTmp.get());
                 studentstmp.add(studentTmp.get());
@@ -75,7 +76,7 @@ public class Bag {
             else
                 throw new NoMoreStudentsException("Bag limit reached, now it's empty."+i+" students returned...");
         }
-        return studentstmp;
+        return new HashSet<>(studentstmp);
     }
 
     //it is the getter for the static final variable that contain the students number
