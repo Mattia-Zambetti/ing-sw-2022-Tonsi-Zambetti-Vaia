@@ -12,7 +12,7 @@ public class Match extends Observable{
     private Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
     private Collection<FigureCard> figureCards;
-    private int playersNum;
+    private int totalPlayersNum;
     //private boolean isExpertMode;
     private int currentIsland;
 
@@ -32,10 +32,10 @@ public class Match extends Observable{
     private static final int MINPLAYERSNUM=2;
 
     //TESTED
-    public Match(int playersNum, boolean isExpertMode) {
+    public Match(int totalPlayersNum, boolean isExpertMode) {
         try {
-            this.playersNum = playersNum;
-            if (this.playersNum <= MAXPLAYERSNUM && this.playersNum >= MINPLAYERSNUM) {
+            this.totalPlayersNum = totalPlayersNum;
+            if (this.totalPlayersNum <= MAXPLAYERSNUM && this.totalPlayersNum >= MINPLAYERSNUM) {
 
                 this.totalNumIslands=ISLANDSNUM; //TODO
 
@@ -86,22 +86,22 @@ public class Match extends Observable{
     }
 
     //It's the player's number in this match
-    public int getPlayersNum() {
-        return playersNum;
+    public int getTotalPlayersNum() {
+        return totalPlayersNum;
     }
 
     //It returns the students number on the clouds, used in the constructor
     private int chooseStudentsNumOnCLoud() {
-        if(playersNum ==2){
+        if(totalPlayersNum ==2){
             return STUDENTSONCLOUD2PLAYERS;
-        }else if(playersNum ==3)
+        }else if(totalPlayersNum ==3)
             return STUDENTSONCLOUD3PLAYERS;
         else return STUDENTSONCLOUD4PLAYERS;
     }
 
     //It's used in the constructor, it creates the clouds by using the player's number
     private void initializeClouds() {
-        for (int i = 0; i < playersNum; i++) {
+        for (int i = 0; i < totalPlayersNum; i++) {
             clouds.add(new Cloud());
         }
     }
@@ -125,7 +125,7 @@ public class Match extends Observable{
     //it's used to take the students from the bag and
     //put them into the cloud number "cloudNum"
     private Set<Student> pullStudentsFromCloud(int cloudNum) throws WrongCloudNumberException {
-        if (cloudNum <= playersNum && cloudNum > 0 && !(clouds.get(cloudNum - 1).toString().equals(""))) {
+        if (cloudNum <= totalPlayersNum && cloudNum > 0 && !(clouds.get(cloudNum - 1).toString().equals(""))) {
             return clouds.get(cloudNum - 1).takeStudents();
         } else throw new WrongCloudNumberException("wrong cloud's number");
     }
@@ -149,7 +149,7 @@ public class Match extends Observable{
     //the current player's entrance
     public void moveStudentsFromCloudToEntrance(int chosenCloud) {
         try {
-            if (chosenCloud <= playersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
+            if (chosenCloud <= totalPlayersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
@@ -204,7 +204,7 @@ public class Match extends Observable{
     public void addPlayer(String nickname, String towerColor, String wizard){
         try {
 
-            if (dashboardsCollection.size() < playersNum) {
+            if (dashboardsCollection.size() < totalPlayersNum) {
                 for(Dashboard player: dashboardsCollection ){
                     if(player.getTowerColor().toString().equals(towerColor))
                         throw new WrongDataplayerException("This tower color has been already chosen");
@@ -215,7 +215,7 @@ public class Match extends Observable{
                 }
 
                 //TODO gestire i team in qualche modo
-                if (playersNum <= 3) {
+                if (totalPlayersNum <= 3) {
                     dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
                     dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
@@ -232,11 +232,11 @@ public class Match extends Observable{
     }
 
     private void setTowersNum() {
-        if (playersNum == 2) {
+        if (totalPlayersNum == 2) {
             towersNum = 8;
-        } else if (playersNum == 3) {
+        } else if (totalPlayersNum == 3) {
             towersNum = 6;
-        } else if (playersNum == 4)
+        } else if (totalPlayersNum == 4)
             towersNum = 8;
 
     }
@@ -331,8 +331,8 @@ public class Match extends Observable{
 
     public void setDashboardOrder() {
         Dashboard tmp;
-        for ( int i=0; i<playersNum-1; i++ ) {
-            for ( int j=0; j<playersNum-i-1; j++ ) {
+        for (int i = 0; i< totalPlayersNum -1; i++ ) {
+            for (int j = 0; j< totalPlayersNum -i-1; j++ ) {
                 if ( dashboardsCollection.get(j).getCurrentCard().getValue() > dashboardsCollection.get(j+1).getCurrentCard().getValue() ) {
                     tmp = dashboardsCollection.get(j);
                     dashboardsCollection.set(j, dashboardsCollection.get(j+1));
@@ -346,7 +346,7 @@ public class Match extends Observable{
     public void initializeAllEntrance(){
         try {
             for (Dashboard d : dashboardsCollection) {
-                if (playersNum == 3)
+                if (totalPlayersNum == 3)
                     d.moveToEntrance(Bag.removeStudents(9));
                 else
                     d.moveToEntrance(Bag.removeStudents(7));

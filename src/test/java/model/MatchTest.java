@@ -19,7 +19,7 @@ public class MatchTest extends TestCase {
 
     @BeforeEach void init() {
         match=new Match(PLAYERSNUM, false);
-        assertEquals(PLAYERSNUM, match.getPlayersNum());
+        assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
         assertEquals(1, match.getCurrentPlayersNum());
         this.students = new ArrayList[5];
