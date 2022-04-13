@@ -37,7 +37,7 @@ public class DeckTest extends TestCase {
     //it tests the playCard() method, with and without exception
     @Test
     void playCardTest() throws CardNotFoundException {
-        Card cTestPresence=new Card(2,2,1);
+        Card cTestPresence=new Card(2,1,2);
 
         assertTrue(deck.getCards().contains(cTestPresence));
         deck.playCard(cTestPresence);
@@ -53,7 +53,7 @@ public class DeckTest extends TestCase {
     @Test
     void getCurrentPlayerTestNullNotNull() throws CardNotFoundException {
         assertEquals(new Card(0,0,0),deck.getCurrentCard());
-        Card cTestPresence=new Card(2,2,1);
+        Card cTestPresence=new Card(2,1,2);
         deck.playCard(cTestPresence);
         assertNotNull(deck.getCurrentCard());
         assertEquals(cTestPresence,deck.getCurrentCard());

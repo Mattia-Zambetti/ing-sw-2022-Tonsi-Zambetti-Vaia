@@ -350,7 +350,7 @@ public class MatchTest extends TestCase {
     }
 
     //Test that checks if exception is correctly thrown by moveStudentFromEntranceToIsland(...) method
-    @Test
+    @Test //TODO test più giocatori
     void moveStudentFromEntranceToIslandExceptionTest() {
 
         match.initializeAllEntrance();
@@ -360,9 +360,101 @@ public class MatchTest extends TestCase {
 
     }
 
+    //This test checks that dashboard order is correctly set after that players have played cards - only 2 players
+    @Test
+    void setDashboardOrderTest2Player() throws MaxNumberException, WrongDataplayerException, WrongColorException {
 
+        HashSet<Card> playerCards;
 
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
 
+        //playerCards = (HashSet<Card>) match.showCurrentPlayerDashboard().showCards();
+        match.chooseCard(new Card(3,2,3));
+        assertTrue(match.setNextCurrDashboard());
+        match.chooseCard(new Card(2,1,2));
+        assertFalse(match.setNextCurrDashboard());
+
+        match.setDashboardOrder();
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Tonsi");
+        assertTrue(match.setNextCurrDashboard());
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Vaia");
+        assertFalse(match.setNextCurrDashboard());
+    }
+
+    //This test checks that dashboard order is correctly set after that players have played cards - only 3 players
+    @Test
+    void setDashboardOrderTest3Player() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+
+        match=new NormalMatch(3, false);
+
+        match.addPlayer("Vaia", "BLACK", "WIZARD1");
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
+        match.addPlayer("SamboIsland", "GREY", "WIZARD3");
+
+        match.chooseCard(new Card(3,2,3));
+        assertTrue(match.setNextCurrDashboard());
+        match.chooseCard(new Card(2,1,2));
+        assertTrue(match.setNextCurrDashboard());
+        match.chooseCard(new Card(1,1,1));
+        assertFalse(match.setNextCurrDashboard());
+
+        match.setDashboardOrder();
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "SamboIsland");
+        assertTrue(match.setNextCurrDashboard());
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Tonsi");
+        assertTrue(match.setNextCurrDashboard());
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Vaia");
+        assertFalse(match.setNextCurrDashboard());
+    }
+
+    //This test checks that dashboard order is correctly set after that players have played cards - only 4 players
+    @Test
+    void setDashboardOrderTest4Player() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+
+        match=new NormalMatch(4, false);
+
+        match.addPlayer("Vaia", "BLACK", "WIZARD1");
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+        match.addPlayer("SamboIsland", "WHITE", "WIZARD3");
+        match.addPlayer("Cugola", "WHITE", "WIZARD4");
+
+        match.chooseCard(new Card(7,3,7));
+        assertTrue(match.setNextCurrDashboard());
+        match.chooseCard(new Card(2,1,2));
+        assertTrue(match.setNextCurrDashboard());
+        match.chooseCard(new Card(4,2,4));
+        assertTrue(match.setNextCurrDashboard());
+        match.chooseCard(new Card(1,1,1));
+        assertFalse(match.setNextCurrDashboard());
+
+        match.setDashboardOrder();
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Cugola");
+        assertTrue(match.setNextCurrDashboard());
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Tonsi");
+        assertTrue(match.setNextCurrDashboard());
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "SamboIsland");
+        assertTrue(match.setNextCurrDashboard());
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Vaia");
+        assertFalse(match.setNextCurrDashboard());
+    }
+
+    //Test that checkAndMoveMasters(..) works
+    @Test
+    void checkAndMoveMastersTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException {
+
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
+
+        match.initializeAllEntrance();
+
+        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+        Student studentToMove = studentsInEntrance.get(0);
+        System.out.println(studentToMove.toString());
+        match.moveStudentFromEntranceToDR(studentToMove);
+        match.checkAndMoveMasters();
+        assertTrue(match.showCurrentPlayerDashboard().haveMaster(studentToMove.getColor()));
+        //TODO finire test con spostamento di master tra diverse dashboard
+
+    }
 
     //End Test Zambo
 

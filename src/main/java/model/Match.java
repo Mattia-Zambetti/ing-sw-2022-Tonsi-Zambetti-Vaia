@@ -378,12 +378,16 @@ public abstract class Match extends Observable {
             maxStudentDashboard = null;
             dashboardWithMaster = null;
             for ( Dashboard d: dashboardsCollection ) {
+                if ( d.haveMaster(c) ) {
+                    dashboardWithMaster = d;
+                    maxStudents = d.getStudentsNumInDR(c);
+                }
+            }
+            for ( Dashboard d: dashboardsCollection ) {
                 if ( d.getStudentsNumInDR(c)>maxStudents ) {
                     maxStudents = d.getStudentsNumInDR(c);
                     maxStudentDashboard = d;
                 }
-                if ( d.haveMaster(c) )
-                    dashboardWithMaster = d;
             }
             if ( maxStudentDashboard!=null && dashboardWithMaster==null ) {
                 maxStudentDashboard.insertMaster(mastersMap.remove(c));
