@@ -53,4 +53,9 @@ public class DiningRoom {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return roomColor.toString() + " DR: " + students.size() + " students";
+    }
 }

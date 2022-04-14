@@ -201,4 +201,17 @@ public class Dashboard {
         return deck.getWizard();
     }
 
+    @Override
+    public String toString() {
+        String OutputString = "Entrance: "+entrance.toString();
+        for ( Color c : Color.values() ) {
+            OutputString = OutputString.concat("\n"+DiningRoomsList.get(c).toString());
+            if ( mastersList.containsKey(c) )
+                OutputString = OutputString.concat(" - HAVE MASTER (=");
+            else
+                OutputString = OutputString.concat(" - NO MASTER )=");
+        }
+        return OutputString;
+    }
+
 }

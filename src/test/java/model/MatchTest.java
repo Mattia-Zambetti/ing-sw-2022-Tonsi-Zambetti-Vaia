@@ -238,6 +238,19 @@ public class MatchTest extends TestCase {
 
     //Test Zambo
 
+    //This test checks that Entrance is filled correctly with initializeAllEntrance(..) and also that entrance.toString() works
+    @Test
+    void initializeAllEntranceTest() {
+        match.initializeAllEntrance();
+        if ( PLAYERSNUM == 2 || PLAYERSNUM == 4 )
+            assertEquals(7, match.showCurrentPlayerDashboard().showEntrance().size());
+        else
+            assertEquals(9, match.showCurrentPlayerDashboard().showEntrance().size());
+
+        System.out.println(match.showCurrentPlayerDashboard().toString());
+    }
+    //TODO test più giocatori per initializeAllEntrance()
+
     //This test checks that masters are correctly created when a Match Object is created
     @Test
     void initialMasterTest () {
@@ -350,7 +363,7 @@ public class MatchTest extends TestCase {
     }
 
     //Test that checks if exception is correctly thrown by moveStudentFromEntranceToIsland(...) method
-    @Test //TODO test più giocatori
+    @Test
     void moveStudentFromEntranceToIslandExceptionTest() {
 
         match.initializeAllEntrance();
@@ -452,8 +465,27 @@ public class MatchTest extends TestCase {
         match.moveStudentFromEntranceToDR(studentToMove);
         match.checkAndMoveMasters();
         assertTrue(match.showCurrentPlayerDashboard().haveMaster(studentToMove.getColor()));
-        //TODO finire test con spostamento di master tra diverse dashboard
+        //System.out.println(match.showCurrentPlayerDashboard().toString());
 
+        match.setNextCurrDashboard();
+
+        for ( Student s : match.showCurrentPlayerDashboard().showEntrance() ) {
+            match.moveStudentFromEntranceToDR(s);
+        }
+        match.checkAndMoveMasters();
+        match.setNextCurrDashboard();
+        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+        match.setNextCurrDashboard();
+        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+
+        match.setNextCurrDashboard();
+        for ( Student s : match.showCurrentPlayerDashboard().showEntrance() ) {
+            match.moveStudentFromEntranceToDR(s);
+        }
+        match.checkAndMoveMasters();
+        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+        match.setNextCurrDashboard();
+        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
     }
 
     //End Test Zambo

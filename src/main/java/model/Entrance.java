@@ -78,6 +78,16 @@ public class Entrance {
         return false;
     }
 
+    @Override
+    public String toString() {
+        String outputString = "";
+        for ( Student s : students ) {
+            outputString = outputString.concat(s.toString()+" - ");
+        }
+        outputString = outputString.concat("TOT="+students.size());
+        return outputString;
+    }
+
 
 }
 
