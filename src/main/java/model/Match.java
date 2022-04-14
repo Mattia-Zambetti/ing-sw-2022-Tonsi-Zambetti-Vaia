@@ -36,6 +36,10 @@ public abstract class Match extends Observable {
             this.totalPlayersNum = totalPlayersNum;
             if (this.totalPlayersNum <= MAXPLAYERSNUM && this.totalPlayersNum >= MINPLAYERSNUM) {
 
+                for (TowerColor c: TowerColor.values()) {
+                    c.resetCounter();
+                }
+
                 this.totalNumIslands=ISLANDSNUM; //TODO
 
                 Bag.restoreBag();

@@ -5,11 +5,17 @@ public enum TowerColor {
 
     private int counter=0;
 
+
+
     public int getCounter() {
         return counter;
     }
 
     public void counterplus(){
         counter++;
+    }
+
+    public void resetCounter(){
+        counter=0;
     }
 }
