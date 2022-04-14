@@ -1,18 +1,44 @@
 package model;
 
-import model.FigureCards.FigureCard;
+import model.FigureCards.*;
 import model.exception.CardNotFoundException;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ExpertMatch extends Match implements ExpertMatchInterface{
-    private Set<FigureCard> figureCards;
+    private final Set<FigureCard> figureCards;
+    private static final int FIGURECARDSTOTALNUM=8;
+    private static final int FIGURECARDSINGAME=3;
 
-    public ExpertMatch(int totalPlayersNum){
+    public ExpertMatch(int totalPlayersNum) {
         super(totalPlayersNum, true);
         figureCards=new HashSet<>();
-        //TODO capire come randomizzare la creazione
+
+        try {
+            while(figureCards.size()!=FIGURECARDSINGAME) {
+                int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM + 1);
+                if (randomInt == 1 && !Cavaliere.isAlreadyPlayed()) {
+                    figureCards.add(new Cavaliere());
+                } else if (randomInt == 2 && !Giullare.isAlreadyPlayed()) {
+                    figureCards.add(new Giullare());
+                } else if (randomInt == 3 && !Mercante.isAlreadyPlayed()) {
+                    figureCards.add(new Mercante());
+                } else if (randomInt == 4 && !Postino.isAlreadyPlayed()) {
+                    figureCards.add(new Postino());
+                } else if (randomInt == 5 && !Principessa.isAlreadyPlayed()) {
+                    figureCards.add(new Principessa());
+                } else if (randomInt == 6 && !Fungaiolo.isAlreadyPlayed()) {
+                    figureCards.add(new Fungaiolo());
+                } else if (randomInt == 7 && !Sciura.isAlreadyPlayed()) {
+                    figureCards.add(new Sciura());
+                } else if (randomInt == 8 && !Vaia.isAlreadyPlayed()) {
+                    figureCards.add(new Vaia());
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
 
@@ -27,19 +53,14 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
     }
 
 
-    //TODO
-    @Override
-    public boolean getIsColorBlocked(Color colorBlocked) {
-        return false;
-    }
 
-    @Override
-    public Set<Student> moveFromBagToFigureCard(int studentsNum) {
-        return null;
-    }
 
     @Override
     public void setIslandBlocked(int islandPosition) {
+        islands.get(islandPosition).setForbidden(true);
+    }
 
+    public List<FigureCard> showFigureCardsInGame(){
+        return new ArrayList<>(figureCards);
     }
 }
