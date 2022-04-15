@@ -5,7 +5,7 @@ import model.exception.*;
 
 import java.util.*;
 public abstract class Match extends Observable {
-    private List<Island> islands;
+    protected List<Island> islands;
     private List<Cloud> clouds;
     private List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     private Dashboard currentPlayerDashboard;
@@ -35,6 +35,10 @@ public abstract class Match extends Observable {
         try {
             this.totalPlayersNum = totalPlayersNum;
             if (this.totalPlayersNum <= MAXPLAYERSNUM && this.totalPlayersNum >= MINPLAYERSNUM) {
+
+                for (TowerColor c: TowerColor.values()) {
+                    c.resetCounter();
+                }
 
                 this.totalNumIslands=ISLANDSNUM; //TODO
 

@@ -5,7 +5,7 @@ import model.exception.*;
 import java.util.*;
 
 public class Island {
-    private boolean isMotherNature, isForbidden, vaiaEffect;
+    private boolean isMotherNature, isForbidden;
     private int position, numOfTowers;
     private TowerColor towerColor;
     private ArrayList<Student>[] students;
@@ -16,7 +16,6 @@ public class Island {
         this.numOfTowers = 0;
         this.isMotherNature = motherNature;
         this.isForbidden = false;
-        this.vaiaEffect = false;
         this.position = islandPosition;
         this.towerColor = null;
         this.towerList = new ArrayList<>(0);
