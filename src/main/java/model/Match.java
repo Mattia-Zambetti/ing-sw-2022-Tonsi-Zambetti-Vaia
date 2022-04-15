@@ -423,8 +423,6 @@ public abstract class Match extends Observable {
         islands.get(currentIsland).setMotherNature(true);
     }
 
-    //TODO la NegativeNumberException non viene mai lanciata(te lo indica il colore grigio)
-    //TODO c'è qualcosa che non quadra
     public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
@@ -436,11 +434,11 @@ public abstract class Match extends Observable {
         }
         islands.get(currentIsland).setStudents(studentsTmp);
         islandPositions.remove((Integer) islandToBeMerged);
-        totalNumIslands--; //TODO
+        totalNumIslands--;
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
     //solo per testare
-    public void setIslandsTowers(int islandToSet, ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void addIslandsTowers(int islandToSet, ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
         islands.get(islandToSet).addTowers(towers);
     }
 
@@ -465,7 +463,6 @@ public abstract class Match extends Observable {
         return tmp;
     }
 
-    //TODO NoTowerException mai sollevata
     public void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
@@ -483,9 +480,8 @@ public abstract class Match extends Observable {
             e.printStackTrace();
         }
     }
-
-    //metodo che ritorna l'indice della posizione della prossima isola
-    public int nextIsland(int position) throws NoIslandException {
+//
+    public int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp + 1 == islandPositions.size())
@@ -494,8 +490,7 @@ public abstract class Match extends Observable {
         else throw new NoIslandException("Island not found");
     }
 
-    //metodo che ritorna l'indice della posizione della isola precedente
-    public int previousIsland(int position) throws NoIslandException{
+    public int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
         if(tmp - 1 == - 1)
@@ -504,14 +499,29 @@ public abstract class Match extends Observable {
         else throw new NoIslandException("Island not found");
     }
 
-    public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException{
+    public void setDashboardMaster(int dashboardToSet, Master master)
+    {
+        dashboardsCollection.get(dashboardToSet).insertMaster(master);
+    }
+
+    public TowerColor getTowerColorFromIsland(int island) throws NoTowerException {
+        return islands.get(island).getTowerColor();
+    }
+
+    public void initializeDashboardsForTesting(Dashboard dashboard){
+        dashboardsCollection.add(dashboard);
+    }
+
+    public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException, CardNotFoundException {
         ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
-        Dashboard dasboardInfluencer = dashboardListTmp.get(0);
-        boolean exception = false;
-        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dasboardInfluencer);
+        int dasboardInfluencer;
+        dasboardInfluencer = 0;
+        Boolean exception = false;
+        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer));
         for (int i = 1; i < dashboardsCollection.size(); i++){
             if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i))){
-                dasboardInfluencer = dashboardListTmp.get(i);
+                dasboardInfluencer = i;
+                influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
                 exception = false;
             }
             else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
@@ -519,7 +529,11 @@ public abstract class Match extends Observable {
         }
         if (exception)
             throw new SameInfluenceException("No change needed in current island");
-        return dasboardInfluencer;
+        return dashboardsCollection.get(dasboardInfluencer);
+    }
+
+    public void removeTowersFromDashboard(int dashboard, int towersToRemove) throws NegativeNumberOfTowerException {
+        dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
     }
 
     //TODO NegativeNumberOfTowerException non bisogna fare printStackTrace ma va ritornata al controller che segnala che la partita è finita e ha vinto il giocatore che ha finito le torri
@@ -527,15 +541,14 @@ public abstract class Match extends Observable {
     public void changeTowerColorOnIsland() throws SameInfluenceException {
         try{
         Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
-        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
-        int towersNum;
+        int towersNum = 0;
         if(islands.get(currentIsland).getTowerNum() == 0)
             islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(1));
         else if(!dashboardTmp.getTowerColor().equals(islands.get(currentIsland).getTowerColor())){
-            for (int i = 0; i< dashboardsCollection.size(); i++)
+            for (int i = 0; i< this.dashboardsCollection.size(); i++)
             {
-                if(dashboardListTmp.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
-                    dashboardListTmp.get(i).addTowers(islands.get(currentIsland).removeTowers());
+                if(dashboardsCollection.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
+                    dashboardsCollection.get(i).addTowers(islands.get(currentIsland).removeTowers());
                     towersNum = islands.get(currentIsland).getTowerNum();
                     islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
                 }
@@ -543,9 +556,7 @@ public abstract class Match extends Observable {
         }
 
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        catch (Exception e){System.out.println(e.getMessage());}
     }
     // END VAIA
 }

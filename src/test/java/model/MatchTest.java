@@ -174,14 +174,14 @@ public class MatchTest extends TestCase {
         tmp= 11;
         assertEquals(10, match.previousIsland(tmp));
         assertThrows(NoIslandException.class, ()->match.previousIsland(12));
-        match.setIslandsTowers(1, tmpTowers);
+        match.addIslandsTowers(1, tmpTowers);
         match.mergeIsland(1);
         tmp = 0;
         assertEquals(2, match.nextIsland(tmp));
         assertEquals(0, match.previousIsland(2));
         assertThrows(NoIslandException.class, ()->match.previousIsland(-1));
         assertThrows(NoIslandException.class, ()->match.nextIsland(-2));
-        match.setIslandsTowers(11, tmpTowers);
+        match.addIslandsTowers(11, tmpTowers);
         match.mergeIsland(11);
         tmp = 10;
         assertEquals(0, match.nextIsland(tmp));
@@ -195,12 +195,12 @@ public class MatchTest extends TestCase {
         Tower tower = new Tower(TowerColor.BLACK,0);
         ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
         tmpTowers.add(tower);
-        match.setIslandsTowers(0,tmpTowers);
-        match.setIslandsTowers(1,tmpTowers);
+        match.addIslandsTowers(0,tmpTowers);
+        match.addIslandsTowers(1,tmpTowers);
         match.checkNearbyIslands();
         assertEquals(2,match.nextIsland(0));
         assertEquals(11,match.previousIsland(0));
-        match.setIslandsTowers(11,tmpTowers);
+        match.addIslandsTowers(11,tmpTowers);
         match.checkNearbyIslands();
         assertEquals(10,match.previousIsland(0));
     }
@@ -210,7 +210,7 @@ public class MatchTest extends TestCase {
         Tower tower = new Tower(TowerColor.BLACK,0);
         ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
         tmpTowers.add(tower);
-        match.setIslandsTowers(1,tmpTowers);
+        match.addIslandsTowers(1,tmpTowers);
         match.setIslandsStudents(0,students);
         match.setIslandsStudents(1,students);
         match.mergeIsland(1);
@@ -219,11 +219,41 @@ public class MatchTest extends TestCase {
         for (int i = 0; i < 5; i++)
             assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
         assertEquals(1, match.getTowersNumOnIsland(0));
-        match.setIslandsTowers(5,tmpTowers);
+        match.addIslandsTowers(5,tmpTowers);
         match.mergeIsland(5);
         for (int i = 0; i < 5; i++)
             assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
         assertEquals(2, match.getTowersNumOnIsland(0));
+    }
+
+    @Test
+    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException {
+        Dashboard dashboard0 = new Dashboard(6,TowerColor.GREY,Wizard.WIZARD1,"Rebecca");
+        Dashboard dashboard1 = new Dashboard(6,TowerColor.BLACK,Wizard.WIZARD1,"Rebecco");
+        Master masterR = new Master(Color.RED);
+        Master masterB = new Master(Color.BLUE);
+        Master masterY = new Master(Color.YELLOW);
+        Master masterP = new Master(Color.PINK);
+        Master masterG = new Master(Color.GREEN);
+        match.initializeDashboardsForTesting(dashboard0);
+        //match.initializeDashboardsForTesting(dashboard0);
+        match.setDashboardMaster(0,masterB); // 1
+        match.setDashboardMaster(1,masterG);
+        match.setDashboardMaster(1,masterR); // 1
+        match.setDashboardMaster(1,masterY); // 2
+        match.setDashboardMaster(0,masterP);
+        match.setIslandsStudents(0,students);
+        assertEquals(dashboard0.getTowerColor(), match.checkDashboardWithMoreInfluence().getTowerColor());
+        Tower tower = new Tower(TowerColor.BLACK,0);
+        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
+        tmpTowers.add(tower);
+        match.changeTowerColorOnIsland();
+        assertEquals(TowerColor.GREY,  match.getTowerColorFromIsland(0));
+        match.addIslandsTowers(1,tmpTowers);
+        match.removeTowersFromDashboard(0,1);
+        match.moveMotherNature(1);
+        match.changeTowerColorOnIsland();
+        assertEquals(TowerColor.GREY,  match.getTowerColorFromIsland(0));
     }
 
     @Test
