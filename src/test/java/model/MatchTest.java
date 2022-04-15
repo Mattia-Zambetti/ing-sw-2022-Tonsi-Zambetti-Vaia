@@ -451,7 +451,8 @@ public class MatchTest extends TestCase {
         assertFalse(match.setNextCurrDashboard());
     }
 
-    //Test that checkAndMoveMasters(..) works
+    //Test that checkAndMoveMasters(..) works, to check that it works between different dashboard it's necessary to manually watch the result of toSting()
+    //because of the randomness of Bag.removeStudents used in initializeAllDashboard()
     @Test
     void checkAndMoveMastersTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException {
 
@@ -487,6 +488,7 @@ public class MatchTest extends TestCase {
         match.setNextCurrDashboard();
         System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
     }
+    //TODO test con più di due dashboard
 
     //End Test Zambo
 
