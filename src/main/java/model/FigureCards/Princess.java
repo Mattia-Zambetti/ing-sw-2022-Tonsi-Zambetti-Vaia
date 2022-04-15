@@ -2,12 +2,12 @@ package model.FigureCards;
 import model.Bag;
 import model.ExpertMatchInterface;
 
-public class Principessa extends FigureCardWithStudents {
+public class Princess extends FigureCardWithStudents {
     private static final int PRICECARD=2;
 
     protected static boolean alreadyPlayed=false;
 
-    public Principessa() throws Exception {
+    public Princess() throws Exception {
         setPrice(PRICECARD);
         studentsNumOnCard =4;
         setStudentsOnCard(Bag.removeStudents(studentsNumOnCard));

@@ -7,13 +7,17 @@ public abstract class FigureCard {
     protected int price;
 
 
-    protected void setPrice(int price) {
-        this.price = price;
+    public void pricePlusPlus() {
+        this.price++;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public abstract void playCard(ExpertMatchInterface expertMatchInterface);
+    protected void setPrice(int price) {
+        this.price = price;
+    }
+
+    public abstract void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException;
 }

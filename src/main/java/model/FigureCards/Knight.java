@@ -2,12 +2,11 @@ package model.FigureCards;
 
 import model.ExpertMatchInterface;
 
-public class Postino extends FigureCard{
-    private static final int PRICECARD=1;
-
+public class Knight extends FigureCard {
+    private static final int PRICECARD=2;
     protected static boolean alreadyPlayed=false;
 
-    public Postino(){
+    public Knight(){
         setPrice(PRICECARD);
         alreadyPlayed=true;
     }
@@ -22,6 +21,6 @@ public class Postino extends FigureCard{
 
     @Override
     public String toString() {
-        return "I'm the postman";
+        return "I'm the knight";
     }
 }

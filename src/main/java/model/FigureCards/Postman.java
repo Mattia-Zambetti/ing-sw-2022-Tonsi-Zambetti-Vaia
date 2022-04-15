@@ -2,13 +2,12 @@ package model.FigureCards;
 
 import model.ExpertMatchInterface;
 
-public class Sciura extends FigureCard {
-    private static final int PRICECARD=2;
-    private static int blockCard=4;
+public class Postman extends FigureCard{
+    private static final int PRICECARD=1;
 
     protected static boolean alreadyPlayed=false;
 
-    public Sciura(){
+    public Postman(){
         setPrice(PRICECARD);
         alreadyPlayed=true;
     }
@@ -23,7 +22,6 @@ public class Sciura extends FigureCard {
 
     @Override
     public String toString() {
-        return "I'm the witch";
+        return "I'm the postman";
     }
 }
-

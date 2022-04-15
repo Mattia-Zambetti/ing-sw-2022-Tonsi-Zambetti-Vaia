@@ -2,12 +2,13 @@ package model.FigureCards;
 
 import model.ExpertMatchInterface;
 
-public class Vaia extends FigureCard {
-    private static final int PRICECARD=3;
+public class Witch extends FigureCard {
+    private static final int PRICECARD=2;
+    private static int blockCard=4;
 
     protected static boolean alreadyPlayed=false;
 
-    public Vaia(){
+    public Witch(){
         setPrice(PRICECARD);
         alreadyPlayed=true;
     }
@@ -22,7 +23,7 @@ public class Vaia extends FigureCard {
 
     @Override
     public String toString() {
-        return "Hai vinto cucciolo";
+        return "I'm the witch";
     }
-
 }
+

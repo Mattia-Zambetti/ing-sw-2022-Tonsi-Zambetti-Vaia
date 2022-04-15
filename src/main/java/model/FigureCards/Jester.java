@@ -1,16 +1,17 @@
 package model.FigureCards;
+
 import model.Bag;
 import model.ExpertMatchInterface;
 
-public class Mercante extends FigureCardWithStudents {
+public class Jester extends FigureCardWithStudents{
 
     private static final int PRICECARD=1;
 
     protected static boolean alreadyPlayed=false;
 
-    public Mercante() throws Exception {
+    public Jester() throws Exception {
         setPrice(PRICECARD);
-        studentsNumOnCard =4;
+        studentsNumOnCard =6;
         setStudentsOnCard(Bag.removeStudents(studentsNumOnCard));
         alreadyPlayed=true;
     }
@@ -19,12 +20,15 @@ public class Mercante extends FigureCardWithStudents {
         return alreadyPlayed;
     }
 
-    public  void playCard(ExpertMatchInterface expertMatchInterface){
-        
+    @Override
+    public void playCard(ExpertMatchInterface expertMatchInterface) {
+
     }
 
     @Override
     public String toString() {
-        return "I'm the merchant, I've got "+studentsOnCard.size()+" students";
+        return "I'm the jester, I've got "+studentsOnCard.size()+" students";
     }
 }
+
+

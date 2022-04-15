@@ -2,11 +2,11 @@ package model.FigureCards;
 
 import model.ExpertMatchInterface;
 
-public class Fungaiolo extends FigureCard {
+public class MushroomCollector extends FigureCard {
     private static final int PRICECARD=3;
     protected static boolean alreadyPlayed=false;
 
-    public Fungaiolo(){
+    public MushroomCollector(){
         setPrice(PRICECARD);
         alreadyPlayed=true;
     }
@@ -21,7 +21,7 @@ public class Fungaiolo extends FigureCard {
 
     @Override
     public String toString() {
-        return "I'm the fungaiolo";
+        return "I'm the mushroom collector";
     }
 
 

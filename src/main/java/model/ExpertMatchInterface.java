@@ -14,5 +14,9 @@ public interface ExpertMatchInterface {
 
     void setIslandBlocked(int islandPosition);
 
+    void setCentaurEffect(boolean centaurEffect);
+
+    boolean isCentaurEffect();
+
 
 }
