@@ -8,7 +8,7 @@ public abstract class Match extends Observable {
     protected List<Island> islands;
     private List<Cloud> clouds;
     private List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
-    private Dashboard currentPlayerDashboard;
+    protected Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
 
     private int totalPlayersNum;

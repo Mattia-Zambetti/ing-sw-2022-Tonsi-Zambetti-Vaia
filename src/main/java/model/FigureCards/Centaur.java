@@ -5,16 +5,13 @@ import model.ExpertMatchInterface;
 public class Centaur extends FigureCard {
     private static final int PRICECARD=3;
 
-    protected static boolean alreadyPlayed=false;
+
 
     public Centaur(){
         setPrice(PRICECARD);
-        alreadyPlayed=true;
+        cardId=1;
     }
 
-    public static boolean isAlreadyPlayed() {
-        return alreadyPlayed;
-    }
 
     public void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException {
         if(!expertMatchInterface.isCentaurEffect()){

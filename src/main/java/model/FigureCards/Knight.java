@@ -3,19 +3,14 @@ package model.FigureCards;
 import model.ExpertMatchInterface;
 
 public class Knight extends FigureCard {
-    private static final int PRICECARD=2;
-    protected static boolean alreadyPlayed=false;
+    private static final int PRICECARD = 2;
 
-    public Knight(){
+    public Knight() {
         setPrice(PRICECARD);
-        alreadyPlayed=true;
+        cardId=3;
     }
 
-    public static boolean isAlreadyPlayed() {
-        return alreadyPlayed;
-    }
-
-    public void playCard(ExpertMatchInterface expertMatchInterface){
+    public void playCard(ExpertMatchInterface expertMatchInterface) {
 
     }
 
@@ -23,4 +18,5 @@ public class Knight extends FigureCard {
     public String toString() {
         return "I'm the knight";
     }
+
 }

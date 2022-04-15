@@ -1,8 +1,10 @@
 package model;
 
+import model.FigureCards.FigureCardWithStudents;
 import model.exception.NoIslandException;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public interface ExpertMatchInterface {
 
@@ -17,6 +19,8 @@ public interface ExpertMatchInterface {
     void setCentaurEffect(boolean centaurEffect);
 
     boolean isCentaurEffect();
+
+    void notifyStudentsOnFigureCard(Set<Student> students, FigureCardWithStudents figureCardWithStudents);
 
 
 }
