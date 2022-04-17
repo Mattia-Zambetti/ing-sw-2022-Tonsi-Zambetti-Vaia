@@ -33,16 +33,23 @@ public abstract class FigureCardWithStudents extends FigureCard{
                     studentsOnCard.remove(s);
                 }else throw new InexistentStudentException("This student isn't on the card...");
             }
-        }else throw new MaxNumberException("Wrong students size, you can take only "+maxTakeStudentsNum+"students on this card and at least 1...");
+        }else throw new MaxNumberException("Wrong students size, you can take only "+maxTakeStudentsNum+" students on this card and at least 1...");
 
         studentsOnCard.addAll(Bag.removeStudents(chosenStudents.size()));
 
         return true;
     }
 
-    @Override
-    public void playCard(ExpertMatchInterface expertMatchInterface) {
-        expertMatchInterface.notifyStudentsOnFigureCard(studentsOnCard,this);
+    public Set<Student> getStudentsOnCard(){
+        return new HashSet<>(studentsOnCard);
     }
 
+    @Override
+    public void playCard(ExpertMatchInterface expertMatchInterface){
+        expertMatchInterface.notifyStudentsOnFigureCard(this);
+    }
+
+    public int getStudentsNumOnCard() {
+        return studentsNumOnCard;
+    }
 }

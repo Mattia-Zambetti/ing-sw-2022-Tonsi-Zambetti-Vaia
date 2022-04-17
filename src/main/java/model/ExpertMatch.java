@@ -85,9 +85,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         return new ArrayList<>(figureCards);
     }
 
-    public void notifyStudentsOnFigureCard(Set<Student> studentsOnFigureCard, FigureCardWithStudents figureCardWithStudents){
-        notifyObservers(new HashSet<>(studentsOnFigureCard)); //TODO pensare a che tipo, bisogna sapere che carta l'ha
-        // chiamato
+    public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCardWithStudents){
+        this.setChanged();
+        notifyObservers(figureCardWithStudents); //TODO vedremo se basta così
     }
 
     //islandPosition==-1  if isn't the merchant

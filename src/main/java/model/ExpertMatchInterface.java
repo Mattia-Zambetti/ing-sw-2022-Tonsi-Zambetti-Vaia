@@ -4,7 +4,6 @@ import model.FigureCards.FigureCardWithStudents;
 import model.exception.NoIslandException;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public interface ExpertMatchInterface {
 
@@ -20,7 +19,7 @@ public interface ExpertMatchInterface {
 
     boolean isCentaurEffect();
 
-    void notifyStudentsOnFigureCard(Set<Student> students, FigureCardWithStudents figureCardWithStudents);
+    void notifyStudentsOnFigureCard(FigureCardWithStudents figureCardWithStudents);
 
 
 }

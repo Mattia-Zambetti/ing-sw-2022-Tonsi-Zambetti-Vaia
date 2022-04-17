@@ -199,7 +199,7 @@ public abstract class Match extends Observable {
         } catch (CardNotFoundException | NoMoreCardException e) {
             System.out.println(e.getMessage());
         }finally {
-            notifyObservers(currentPlayerDashboard);//TODO decidere cosa restituire più correttamente
+            notifyObservers(this);//TODO restituiremo un match immutabile qui
         }
     }
 
