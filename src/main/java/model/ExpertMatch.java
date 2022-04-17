@@ -22,7 +22,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
-                int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM + 1);
+                int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM +1);
                 if (randomInt == 1 && !figureCards.contains(new Knight())) {
                     figureCards.add(new Knight());
                 } else if (randomInt == 2 && !figureCards.contains(new Jester())) {
@@ -90,7 +90,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         notifyObservers(figureCardWithStudents); //TODO vedremo se basta così
     }
 
-    //islandPosition==-1  if isn't the merchant
+    //Island position value doesn't matter if isn't used
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents, FigureCardWithStudents figureCard, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
         if(figureCard.takeStudents(chosenStudents)){
             if(figureCard instanceof Jester)
@@ -98,7 +98,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
             if(figureCard instanceof Princess)
                 currentPlayerDashboard.moveToDR(chosenStudents);
             if(figureCard instanceof Merchant)
-                islands.get(islandPosition).addStudent(chosenStudents.stream().findAny().get());
+                islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
         }
     }
 
