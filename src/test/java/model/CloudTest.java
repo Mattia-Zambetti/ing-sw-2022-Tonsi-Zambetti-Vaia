@@ -1,7 +1,6 @@
 package model;
 
 
-import junit.framework.TestCase;
 import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
@@ -11,12 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 //Classe di test in quanto estende TestCase, i test possono essere eseguiti in blocco grazie al
 // play verde in parte alla classe(schiacciando col destro sui test è possibile far partire tutti i test
 // di tutte le classi), oppure far partire singolarmente ogni test sempre nello stesso modo
-class CloudTest extends TestCase {
+class CloudTest {
     //si possono definire variabili che poi verranno utilizzate nei test
     Cloud cloudTest;
 

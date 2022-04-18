@@ -1,15 +1,17 @@
 package model;
 
-import junit.framework.TestCase;
-import model.exception.*;
+import model.exception.InexistentStudentException;
+import model.exception.MaxNumberException;
+import model.exception.StudentIDAlreadyExistingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class EntranceTest extends TestCase {
+public class EntranceTest  {
     Entrance entrance;
     Set<Student> studentsStartingSet;
 

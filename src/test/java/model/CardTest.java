@@ -1,12 +1,14 @@
 package model;
 
-import junit.framework.TestCase;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 
-public class CardTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CardTest  {
     Card cardTest;
 
 

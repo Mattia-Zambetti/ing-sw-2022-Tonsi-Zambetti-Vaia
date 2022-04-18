@@ -1,10 +1,11 @@
 package model;
 
-import junit.framework.TestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PlayerTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class PlayerTest{
     Player playerTest;
 
     @BeforeEach

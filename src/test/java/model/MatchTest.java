@@ -1,6 +1,5 @@
 package model;
 
-import junit.framework.TestCase;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MatchTest extends TestCase {
+public class MatchTest {
     Match match;
     static final int PLAYERSNUM = 2;
     ArrayList<Student>[] students;
@@ -205,26 +204,6 @@ public class MatchTest extends TestCase {
         assertEquals(10,match.previousIsland(0));
     }
 
-    @Test
-    void TestMergeIslands() throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
-        Tower tower = new Tower(TowerColor.BLACK,0);
-        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
-        tmpTowers.add(tower);
-        match.addIslandsTowers(1,tmpTowers);
-        match.setIslandsStudents(0,students);
-        match.setIslandsStudents(1,students);
-        match.mergeIsland(1);
-        for (int i = 0; i < 5; i++)
-            students[i].addAll(students[i]);
-        for (int i = 0; i < 5; i++)
-            assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
-        assertEquals(1, match.getTowersNumOnIsland(0));
-        match.addIslandsTowers(5,tmpTowers);
-        match.mergeIsland(5);
-        for (int i = 0; i < 5; i++)
-            assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
-        assertEquals(2, match.getTowersNumOnIsland(0));
-    }
 
     @Test
     void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException {

@@ -1,14 +1,16 @@
 package model;
 
-import junit.framework.TestCase;
-import model.exception.*;
+import model.exception.MaxNumberException;
+import model.exception.StudentIDAlreadyExistingException;
+import model.exception.WrongColorException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class DRTest extends TestCase {
+public class DRTest {
     DiningRoom diningRoomTest, diningRoomTest2;
 
     //Before each test 2 dining rooms are created, the second one is a copy of the first one

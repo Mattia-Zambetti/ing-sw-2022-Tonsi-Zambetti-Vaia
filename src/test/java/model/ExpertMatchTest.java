@@ -1,6 +1,5 @@
 package model;
 
-import junit.framework.TestCase;
 import model.FigureCards.*;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ExpertMatchTest extends TestCase implements Observer {
+public class ExpertMatchTest implements Observer {
     Match expertMatch;
     FigureCard figureCardTest;
 

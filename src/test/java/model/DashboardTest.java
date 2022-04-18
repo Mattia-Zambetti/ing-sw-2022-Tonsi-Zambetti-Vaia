@@ -1,15 +1,14 @@
 package model;
 
-import junit.framework.TestCase;
-import org.junit.jupiter.api.*;
-
-
 import model.exception.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class DashboardTest extends TestCase{
+public class DashboardTest{
 
     private Dashboard dashboard, dashboard2;
     private Set<Student> students;

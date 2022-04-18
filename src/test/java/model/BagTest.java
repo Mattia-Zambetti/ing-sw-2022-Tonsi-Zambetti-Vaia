@@ -1,14 +1,15 @@
 package model;
 
 
-import junit.framework.TestCase;
+
 import model.exception.MaxNumberException;
 import model.exception.NoMoreStudentsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-public class BagTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class BagTest {
     Bag bag;
 
 

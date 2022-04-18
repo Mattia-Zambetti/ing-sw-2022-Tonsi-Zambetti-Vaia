@@ -1,6 +1,5 @@
 package model;
 
-import junit.framework.TestCase;
 import model.exception.InvalidNumberOfTowers;
 import model.exception.NoListOfSameColoredTowers;
 import model.exception.NoTowerException;
@@ -9,9 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class IslandTest extends TestCase {
+public class IslandTest{
     Island island;
     ArrayList<Student>[] students;
     Dashboard dashboard;
