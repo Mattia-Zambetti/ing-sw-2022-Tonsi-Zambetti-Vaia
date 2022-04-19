@@ -218,8 +218,8 @@ public class MatchTest {
         for (int i = 0; i < 5; i++)
             assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
         assertEquals(1, match.getTowersNumOnIsland(0));
-        match.addIslandsTowers(5,tmpTowers);
-        match.mergeIsland(5);
+        match.addIslandsTowers(6,tmpTowers);
+        match.mergeIsland(6);
         for (int i = 0; i < 5; i++)
             assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
         assertEquals(2, match.getTowersNumOnIsland(0));
