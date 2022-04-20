@@ -8,7 +8,8 @@ import java.util.*;
 public class ExpertMatch extends Match implements ExpertMatchInterface{
     private final Set<FigureCard> figureCards;
     private boolean centaurEffect;
-
+    private int postManValue = 0;
+    private int colorBlocked = -1;
 
     private static final int FIGURECARDSTOTALNUM=8;
     private static final int FIGURECARDSINGAME=3;
@@ -51,8 +52,31 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
     @Override
     public boolean setNextCurrDashboard(){
         centaurEffect=false;
+        Island.setCentaurEffect(centaurEffect);
+        if(colorBlocked != -1){
+            Color.values()[colorBlocked].unlockColor();
+            colorBlocked = -1;
+        }
         return super.setNextCurrDashboard();
+    }
 
+    @Override
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
+        if(posizioni < currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue){
+            int positionTmp = currentIsland;
+            islands.get(positionTmp).setMotherNature(false);
+            for (int i = 0; i < posizioni; i++){
+                positionTmp = nextIsland(positionTmp);
+            }
+            currentIsland = positionTmp;
+            islands.get(currentIsland).setMotherNature(true);
+            if(!islands.get(currentIsland).checkForbidden())
+                changeTowerColorOnIsland();
+            else
+                Witch.addBlockCard();
+        }
+        else throw new MaxNumberException("Cannot move Mother nature that far");
+        postManValue = 0;
     }
 
 
@@ -66,6 +90,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
 
     public void setCentaurEffect(boolean centaurEffect) {
         this.centaurEffect = centaurEffect;
+        Island.setCentaurEffect(centaurEffect);
     }
 
     public void playFigureCard(FigureCard card) throws CardNotFoundException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
@@ -81,13 +106,52 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         islands.get(islandPosition).setForbidden(true);
     }
 
+    @Override
+    public void setPostManValue() {
+        postManValue = 2;
+    }
+
+    @Override
+    public void setIsKnight() {
+        currentPlayerDashboard.setKnight(true);
+    }
+
+    @Override
+    public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException, CardNotFoundException {
+        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
+        int dasboardInfluencer, knightEffect = 0;
+        dasboardInfluencer = 0;
+        Boolean exception = false;
+        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer));
+        for (int i = 1; i < dashboardsCollection.size(); i++){
+            if(dashboardListTmp.get(i).hasKnightPrivilege())
+                knightEffect = 2;
+            if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)) + knightEffect){
+                dasboardInfluencer = i;
+                influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
+                exception = false;
+            }
+            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+                exception = true;
+            knightEffect = 0;
+        }
+        if (exception)
+            throw new SameInfluenceException("No change needed in current island");
+        return dashboardsCollection.get(dasboardInfluencer);
+    }
+
     public List<FigureCard> showFigureCardsInGame(){
         return new ArrayList<>(figureCards);
     }
 
-    public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCardWithStudents){
+    public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCard){
         this.setChanged();
-        notifyObservers(figureCardWithStudents); //TODO vedremo se basta così
+        notifyObservers(figureCard); //TODO vedremo se basta così
+    }
+
+    public void notifyIslandFigureCard(FigureCard figureCard){
+        this.setChanged();
+        notifyObservers(figureCard); //TODO vedremo se basta così
     }
 
     //Island position value doesn't matter if isn't used
@@ -101,6 +165,21 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
                 islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
         }
     }
+
+    public void placeForbiddenCards(int islandToSetForbidden) throws NoIslandException, NoMoreBlockCardsException {
+        if(islandPositions.contains((Integer) islandToSetForbidden)){
+            islands.get(islandToSetForbidden).setForbidden(true);
+            Witch.removeBlockCard();
+        }
+        else throw new NoIslandException("Insert an island that exists");
+    }
+
+    public void blockColorForInfluence(Color color){
+        colorBlocked = color.ordinal();
+        color.lockColor();
+    }
+
+
 
 
 

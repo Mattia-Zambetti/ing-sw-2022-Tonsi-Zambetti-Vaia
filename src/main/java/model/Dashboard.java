@@ -13,7 +13,7 @@ public class Dashboard {
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
     private int coin;
-    private boolean isKnight; //per effetto carta personaggio
+    private boolean isKnight = false; //per effetto carta personaggio
     private static final int MAX_NUM_OF_TOWER = 8;
     private Player player;
 

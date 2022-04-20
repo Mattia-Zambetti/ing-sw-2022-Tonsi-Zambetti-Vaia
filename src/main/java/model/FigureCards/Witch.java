@@ -14,7 +14,19 @@ public class Witch extends FigureCard {
 
 
     public void playCard(ExpertMatchInterface expertMatchInterface) {
+        expertMatchInterface.notifyIslandFigureCard(this);
+    }
 
+    public static void removeBlockCard() throws NoMoreBlockCardsException{
+        if(Witch.blockCard > 0)
+            Witch.blockCard--;
+        else throw new NoMoreBlockCardsException("Block Cards finished");
+    }
+
+    public static void addBlockCard() throws NoMoreBlockCardsException{
+        if(Witch.blockCard < 4)
+            Witch.blockCard++;
+        else throw new NoMoreBlockCardsException("Too many block cards");
     }
 
     @Override
