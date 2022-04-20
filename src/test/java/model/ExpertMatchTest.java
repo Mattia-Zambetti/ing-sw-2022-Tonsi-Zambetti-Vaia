@@ -8,16 +8,33 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExpertMatchTest implements Observer {
     Match expertMatch;
     FigureCard figureCardTest;
-
+    ArrayList<Student> students[];
 
     @BeforeEach
     void init(){
         expertMatch=new ExpertMatch(3);
 
+        this.students = new ArrayList[5];
+
+        for(int i = 0; i < this.students.length; ++i) {
+            this.students[i] = new ArrayList(0);
+        }
+
+        Student student = new Student(0, Color.RED);
+        this.students[0].add(student);
+        student = new Student(0, Color.YELLOW);
+        this.students[4].add(student);
+        student = new Student(1, Color.BLUE);
+        this.students[2].add(student);
+        student = new Student(2, Color.YELLOW);
+        this.students[4].add(student);
+        student = new Student(2, Color.BLUE);
+        this.students[2].add(student);
     }
 
     //it shows the type of figure cards created, and if the students in the bag and on
@@ -104,8 +121,67 @@ public class ExpertMatchTest implements Observer {
 
         //princess call:
         ((ExpertMatch)expertMatch).playFigureCard(new Princess());
+
+        creationOftheRightCard(new Witch());
+        expertMatch.addObserver(this);
+
+        //princess call:
+        ((ExpertMatch)expertMatch).playFigureCard(new Witch());
+
+        creationOftheRightCard(new MushroomCollector());
+        expertMatch.addObserver(this);
+
+        //princess call:
+        ((ExpertMatch)expertMatch).playFigureCard(new MushroomCollector());
     }
 
+    @Test
+    void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, SameInfluenceException, NoIslandException {
+        creationOftheRightCard(new Postman());
+
+        ((ExpertMatch)expertMatch).playFigureCard(new Postman());
+
+        expertMatch.chooseCard(new Card(5,3,1));
+        expertMatch.moveMotherNature(5);
+        expertMatch.moveMotherNature(3);
+        assertThrows(MaxNumberException.class, ()-> expertMatch.moveMotherNature(5));
+    }
+
+    @Test
+    void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException {
+        creationOftheRightCard(new Knight());
+
+        //Knight call:
+        ((ExpertMatch)expertMatch).playFigureCard(new Knight());
+
+
+        Master masterR = new Master(Color.RED);
+        Master masterB = new Master(Color.BLUE);
+        Master masterY = new Master(Color.YELLOW);
+        Master masterP = new Master(Color.PINK);
+        Master masterG = new Master(Color.GREEN);
+
+        expertMatch.setDashboardMaster(0,masterB); // 2 influence
+        expertMatch.setDashboardMaster(1,masterG);
+        expertMatch.setDashboardMaster(1,masterR); // 1 influence
+        expertMatch.setDashboardMaster(1,masterY); // 2 influence
+        expertMatch.setDashboardMaster(0,masterP);
+
+        expertMatch.setIslandsStudents(0,students);
+
+        Tower tower = new Tower(TowerColor.GREY,0);
+        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
+        tmpTowers.add(tower);
+
+        expertMatch.changeTowerColorOnIsland();
+        assertEquals(TowerColor.BLACK,  expertMatch.getTowerColorFromIsland(0));
+
+        expertMatch.addIslandsTowers(1,expertMatch.removeTowersFromDashboard(1,1));
+        expertMatch.chooseCard(new Card(5,5,2));
+        expertMatch.moveMotherNature(1);
+        expertMatch.changeTowerColorOnIsland();
+        assertEquals(TowerColor.GREY,  expertMatch.getTowerColorFromIsland(1));
+    }
 
 
     private void takeStudentsFromFigureCardTest() throws Exception, WrongDataplayerException {
@@ -194,6 +270,82 @@ public class ExpertMatchTest implements Observer {
             } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException e) {
                 e.printStackTrace();
             }
+        }
+
+        else if(o instanceof ExpertMatch && arg instanceof Witch){
+            System.out.println(arg);
+            try{
+            Master masterR = new Master(Color.RED);
+            Master masterB = new Master(Color.BLUE);
+            Master masterY = new Master(Color.YELLOW);
+            Master masterP = new Master(Color.PINK);
+            Master masterG = new Master(Color.GREEN);
+
+            expertMatch.setDashboardMaster(1,masterB); // 2 influence
+            expertMatch.setDashboardMaster(1,masterG);
+            expertMatch.setDashboardMaster(1,masterR); // 1 influence
+            expertMatch.setDashboardMaster(1,masterY); // 2 influence
+            expertMatch.setDashboardMaster(0,masterP);
+
+            expertMatch.setIslandsStudents(0,students);
+            ((ExpertMatch) expertMatch).placeForbiddenCards(0);
+            Tower tower = new Tower(TowerColor.BLACK,0);
+            ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
+            tmpTowers.addAll(expertMatch.removeTowersFromDashboard(0,1));
+            expertMatch.chooseCard(new Card(5,5,2));
+            expertMatch.addIslandsTowers(0,tmpTowers);
+            expertMatch.moveMotherNature(0);
+
+            assertEquals(TowerColor.BLACK, expertMatch.getTowerColorFromIsland(0));
+            expertMatch.moveMotherNature(0);
+
+            assertEquals(TowerColor.GREY, expertMatch.getTowerColorFromIsland(0));
+
+            ((ExpertMatch) expertMatch).placeForbiddenCards(0);
+            ((ExpertMatch) expertMatch).placeForbiddenCards(1);
+            ((ExpertMatch) expertMatch).placeForbiddenCards(2);
+            ((ExpertMatch) expertMatch).placeForbiddenCards(3);
+            assertThrows(NoMoreBlockCardsException.class, ()-> ((ExpertMatch) expertMatch).placeForbiddenCards(4));
+            }
+            catch (Exception e){ e.printStackTrace();}
+        }
+
+        else if(o instanceof ExpertMatch && arg instanceof MushroomCollector){
+            System.out.println(arg);
+
+            ((ExpertMatch) expertMatch).blockColorForInfluence(Color.RED);
+
+            Master masterR = new Master(Color.RED);
+            Master masterB = new Master(Color.BLUE);
+            Master masterY = new Master(Color.YELLOW);
+            Master masterP = new Master(Color.PINK);
+            Master masterG = new Master(Color.GREEN);
+
+            expertMatch.setDashboardMaster(0,masterB); // 2 influence
+            expertMatch.setDashboardMaster(1,masterG);
+            expertMatch.setDashboardMaster(1,masterR); // 1 influence
+            expertMatch.setDashboardMaster(1,masterY); // 2 influence
+            expertMatch.setDashboardMaster(0,masterP);
+
+            expertMatch.setIslandsStudents(0,students);
+            try {
+                expertMatch.moveMotherNature(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            expertMatch.setNextCurrDashboard();
+
+            try {
+                expertMatch.moveMotherNature(0);
+                assertEquals(TowerColor.GREY,expertMatch.getTowerColorFromIsland(0));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //assertEquals(TowerColor.BLACK, expertMatch.getTowerColorFromIsland(0));}
+
+
         }
 
     }

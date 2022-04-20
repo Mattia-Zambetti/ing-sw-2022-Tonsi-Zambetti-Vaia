@@ -255,7 +255,7 @@ public class MatchTest {
         match.chooseCard(new Card(5,5,2));
         match.moveMotherNature(1);
         match.changeTowerColorOnIsland();
-        assertEquals(TowerColor.GREY,  match.getTowerColorFromIsland(0));
+        assertEquals(TowerColor.BLACK,  match.getTowerColorFromIsland(1));
     }
 
     @Test

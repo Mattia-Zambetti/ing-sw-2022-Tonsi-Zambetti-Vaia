@@ -14,8 +14,6 @@ public interface ExpertMatchInterface {
 
     //void moveMotherNature(int position) throws NoIslandException;
 
-    void setIslandBlocked(int islandPosition);
-
     void setPostManValue();
 
     void setIsKnight();

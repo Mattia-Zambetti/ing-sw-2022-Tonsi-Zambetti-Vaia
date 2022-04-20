@@ -62,7 +62,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
 
     @Override
     public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
-        if(posizioni < currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue){
+        if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue){
             int positionTmp = currentIsland;
             islands.get(positionTmp).setMotherNature(false);
             for (int i = 0; i < posizioni; i++){
@@ -72,8 +72,10 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
             islands.get(currentIsland).setMotherNature(true);
             if(!islands.get(currentIsland).checkForbidden())
                 changeTowerColorOnIsland();
-            else
+            else{
                 Witch.addBlockCard();
+                islands.get(currentIsland).setForbidden(false);
+            }
         }
         else throw new MaxNumberException("Cannot move Mother nature that far");
         postManValue = 0;
@@ -101,10 +103,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
 
-    @Override
-    public void setIslandBlocked(int islandPosition) {
-        islands.get(islandPosition).setForbidden(true);
-    }
 
     @Override
     public void setPostManValue() {
@@ -122,21 +120,27 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         int dasboardInfluencer, knightEffect = 0;
         dasboardInfluencer = 0;
         Boolean exception = false;
-        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer));
+        if(dashboardListTmp.get(0).hasKnightPrivilege())
+            knightEffect = 2;
+        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer)) + knightEffect, influenceTmp1;
+        knightEffect = 0;
         for (int i = 1; i < dashboardsCollection.size(); i++){
             if(dashboardListTmp.get(i).hasKnightPrivilege())
                 knightEffect = 2;
-            if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)) + knightEffect){
+            influenceTmp1 = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)) + knightEffect;
+            if (influenceTmp < influenceTmp1){
                 dasboardInfluencer = i;
-                influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
+                influenceTmp = influenceTmp1;
                 exception = false;
             }
             else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
                 exception = true;
             knightEffect = 0;
         }
+        if(currentPlayerDashboard.hasKnightPrivilege())
+            currentPlayerDashboard.setKnight(false);
         if (exception)
-            throw new SameInfluenceException("No change needed in current island");
+            throw new SameInfluenceException("No change needed in current island -- Same influence");
         return dashboardsCollection.get(dasboardInfluencer);
     }
 
@@ -178,9 +182,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         colorBlocked = color.ordinal();
         color.lockColor();
     }
-
-
-
 
 
     //ONLY FOR TESTING

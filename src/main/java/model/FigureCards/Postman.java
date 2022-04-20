@@ -13,13 +13,4 @@ public class Postman extends FigureCard{
     public void playCard(ExpertMatchInterface expertMatchInterface){
         expertMatchInterface.setPostManValue();
     }
-
-    @Override
-    public String toString() {
-        return "I'm the postman";
-    }
-
-
-
-
 }

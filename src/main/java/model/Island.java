@@ -79,7 +79,7 @@ public class Island {
             }
             else throw new NoListOfSameColoredTowers("Towers with different color, expected same color");
         }
-        else throw new InvalidNumberOfTowers("Wrong number of towers, expected: " + numOfTowers + " towers");
+        else throw new InvalidNumberOfTowers("Wrong number of towers, expected: " + numOfTowers + " towers, but given: "+ towers.size());
     }
 
     public ArrayList<Student>[] getStudents() {

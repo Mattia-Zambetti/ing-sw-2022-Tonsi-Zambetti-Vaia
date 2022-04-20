@@ -537,8 +537,8 @@ public abstract class Match extends Observable {
         return dashboardsCollection.get(dasboardInfluencer);
     }
 
-    public void removeTowersFromDashboard(int dashboard, int towersToRemove) throws NegativeNumberOfTowerException {
-        dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
+    public ArrayList<Tower> removeTowersFromDashboard(int dashboard, int towersToRemove) throws NegativeNumberOfTowerException {
+        return dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
     }
 
     //TODO NegativeNumberOfTowerException non bisogna fare printStackTrace ma va ritornata al controller che segnala che la partita è finita e ha vinto il giocatore che ha finito le torri
@@ -553,8 +553,9 @@ public abstract class Match extends Observable {
             for (int i = 0; i< this.dashboardsCollection.size(); i++)
             {
                 if(dashboardsCollection.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
-                    dashboardsCollection.get(i).addTowers(islands.get(currentIsland).removeTowers());
                     towersNum = islands.get(currentIsland).getTowerNum();
+                    dashboardsCollection.get(i).addTowers(islands.get(currentIsland).removeTowers());
+                    //towersNum = islands.get(currentIsland).getTowerNum();
                     islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
                 }
             }
