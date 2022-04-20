@@ -11,7 +11,7 @@ public class Knight extends FigureCard {
     }
 
     public void playCard(ExpertMatchInterface expertMatchInterface) {
-
+        expertMatchInterface.setIsKnight();
     }
 
     @Override

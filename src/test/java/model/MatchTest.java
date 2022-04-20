@@ -189,26 +189,6 @@ public class MatchTest {
         assertEquals(10, match.previousIsland(tmp));
     }
 
-    @Test
-    void TestMergeIslands() throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
-        Tower tower = new Tower(TowerColor.BLACK,0);
-        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
-        tmpTowers.add(tower);
-        match.addIslandsTowers(1,tmpTowers);
-        match.setIslandsStudents(0,students);
-        match.setIslandsStudents(1,students);
-        match.mergeIsland(1);
-        for (int i = 0; i < 5; i++)
-            students[i].addAll(students[i]);
-        for (int i = 0; i < 5; i++)
-            assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
-        assertEquals(1, match.getTowersNumOnIsland(0));
-        match.addIslandsTowers(6,tmpTowers);
-        match.mergeIsland(6);
-        for (int i = 0; i < 5; i++)
-            assertEquals(students[i].size(),match.getStudentsOnIsland(0)[i].size());
-        assertEquals(2, match.getTowersNumOnIsland(0));
-    }
 
     //check if it calls the merging method when actually is needed (i could have spared some time by testing just this method and not the previous one)
     @Test
