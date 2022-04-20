@@ -11,7 +11,7 @@ public class MushroomCollector extends FigureCard {
 
 
     public void playCard(ExpertMatchInterface expertMatchInterface){
-
+        expertMatchInterface.notifyIslandFigureCard(this);
     }
 
     @Override

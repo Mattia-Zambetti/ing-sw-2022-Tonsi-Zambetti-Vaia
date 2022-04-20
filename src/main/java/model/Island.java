@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Island {
     private boolean isMotherNature, isForbidden;
+    public static boolean centaurEffect = false;
     private int position, numOfTowers;
     private TowerColor towerColor;
     private ArrayList<Student>[] students;
@@ -46,13 +47,16 @@ public class Island {
         List<Master> tmp = (List<Master>) dashboard.getMastersList();
 
         for ( int i=0; i<tmp.size(); i++) {
-            influence += students[tmp.get(i).getColor().ordinal()].size();
+            if(!tmp.get(i).getColor().isColorBlocked())
+                influence += students[tmp.get(i).getColor().ordinal()].size();
         }
 
         //Bisognerà aggiungere il controllo su modalità esperto e su VaiaEffect, o forse fare due metodi diversi, uno in modalità esperto e un oin modalità normale
-        if (towerList.size() != 0)
-            if(towerList.get(0).getColor() == dashboard.getTowerColor())
-                influence = influence + towerList.size();
+        if(!centaurEffect){
+            if (towerList.size() != 0)
+                if(towerList.get(0).getColor() == dashboard.getTowerColor())
+                    influence = influence + towerList.size();
+        }
         return influence;
     }
 
@@ -108,6 +112,10 @@ public class Island {
 
     public void setForbidden(boolean forbidden){
         isForbidden = forbidden;
+    }
+
+    public static void setCentaurEffect(boolean centaur){
+        centaurEffect = centaur;
     }
 
     public boolean checkForbidden(){

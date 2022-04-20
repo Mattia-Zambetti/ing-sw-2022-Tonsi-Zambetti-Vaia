@@ -1,23 +1,24 @@
 //Tonsi, Zambo,Vaia
 package model;
 
+import model.FigureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
 import java.util.*;
 public abstract class Match extends Observable {
     protected List<Island> islands;
     private List<Cloud> clouds;
-    private List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
+    protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     protected Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
 
     private int totalPlayersNum;
     //private boolean isExpertMode;
-    private int currentIsland;
+    protected int currentIsland;
 
     private int totalNumIslands; //TODO questo attributo non modifica nulla, penso debba essere
                                 //TODO usato per capire se la partita è finita
-    private final List<Integer> islandPositions = new ArrayList<>();
+    protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
@@ -413,14 +414,18 @@ public abstract class Match extends Observable {
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int posizioni) throws NoIslandException {
-        int positionTmp = currentIsland;
-        islands.get(positionTmp).setMotherNature(false);
-        for (int i = 0; i < posizioni; i++){
-            positionTmp = nextIsland(positionTmp);
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
+        if(posizioni < currentPlayerDashboard.getCurrentCard().getMovementValue()){
+            int positionTmp = currentIsland;
+            islands.get(positionTmp).setMotherNature(false);
+            for (int i = 0; i < posizioni; i++){
+                positionTmp = nextIsland(positionTmp);
+            }
+            currentIsland = positionTmp;
+            islands.get(currentIsland).setMotherNature(true);
+            changeTowerColorOnIsland();
         }
-        currentIsland = positionTmp;
-        islands.get(currentIsland).setMotherNature(true);
+        else throw new MaxNumberException("Cannot move mother nature that far");
     }
 
     public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {

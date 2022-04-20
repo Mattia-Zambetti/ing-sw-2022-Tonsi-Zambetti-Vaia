@@ -1,5 +1,6 @@
 package model;
 
+import model.FigureCards.FigureCard;
 import model.FigureCards.FigureCardWithStudents;
 import model.exception.NoIslandException;
 
@@ -11,15 +12,21 @@ public interface ExpertMatchInterface {
 
     void setIslandsStudents(int islandToSet, ArrayList<Student>[] students);
 
-    void moveMotherNature(int position) throws NoIslandException;
+    //void moveMotherNature(int position) throws NoIslandException;
 
     void setIslandBlocked(int islandPosition);
+
+    void setPostManValue();
+
+    void setIsKnight();
 
     void setCentaurEffect(boolean centaurEffect);
 
     boolean isCentaurEffect();
 
     void notifyStudentsOnFigureCard(FigureCardWithStudents figureCardWithStudents);
+
+    void notifyIslandFigureCard(FigureCard figureCard);
 
 
 }
