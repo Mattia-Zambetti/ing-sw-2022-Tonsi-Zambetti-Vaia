@@ -261,6 +261,7 @@ public class MatchTest {
     @Test
     void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
         assertEquals(true, match.checkMotherNatureOnIsland(0));
+        match.chooseCard(new Card(5,10,5));
         match.moveMotherNature(3);
         assertEquals(true, match.checkMotherNatureOnIsland(3));
         assertEquals(false, match.checkMotherNatureOnIsland(0));
