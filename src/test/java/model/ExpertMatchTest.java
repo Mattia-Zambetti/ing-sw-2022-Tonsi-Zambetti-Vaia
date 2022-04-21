@@ -50,9 +50,9 @@ public class ExpertMatchTest implements Observer {
     }
 
     @Test
-    private void creationOftheRightCard(FigureCard figureCardWanted) throws MaxNumberException, WrongDataplayerException, WrongColorException {
+    private void creationOfTheRightCard(FigureCard figureCardWanted) throws MaxNumberException, WrongDataplayerException, WrongColorException {
         do {
-            expertMatch = new ExpertMatch(3);
+            expertMatch = new ExpertMatch(2);
 
         }while(!(((ExpertMatch)expertMatch).showFigureCardsInGame()).contains(figureCardWanted));
 
@@ -60,7 +60,7 @@ public class ExpertMatchTest implements Observer {
         ((ExpertMatch) expertMatch).addCoinToCurrPlayer();
         ((ExpertMatch) expertMatch).addCoinToCurrPlayer();
 
-        expertMatch.addPlayer("Zambo", "GREY", "WIZARD2");
+        expertMatch.addPlayer("Zambo", "WHITE", "WIZARD2");
     }
 
 
@@ -71,7 +71,7 @@ public class ExpertMatchTest implements Observer {
     void centaurTest() throws FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, MaxNumberException, WrongDataplayerException, WrongColorException {
         figureCardTest = new Centaur();
 
-        creationOftheRightCard(figureCardTest);
+        creationOfTheRightCard(figureCardTest);
 
 
 
@@ -104,40 +104,40 @@ public class ExpertMatchTest implements Observer {
     //and exception applied on the cards
     @Test
     void notifyFigureCardTest() throws Exception, WrongDataplayerException {
-        creationOftheRightCard(new Merchant());
+        creationOfTheRightCard(new Merchant());
         expertMatch.addObserver(this);
 
         //merchant call:
         ((ExpertMatch)expertMatch).playFigureCard(new Merchant());
 
-        creationOftheRightCard(new Jester());
+        creationOfTheRightCard(new Jester());
         expertMatch.addObserver(this);
 
         //jester call:
         ((ExpertMatch)expertMatch).playFigureCard(new Jester());
 
-        creationOftheRightCard(new Princess());
+        creationOfTheRightCard(new Princess());
         expertMatch.addObserver(this);
 
         //princess call:
         ((ExpertMatch)expertMatch).playFigureCard(new Princess());
 
-        creationOftheRightCard(new Witch());
+        creationOfTheRightCard(new Witch());
         expertMatch.addObserver(this);
 
-        //princess call:
+        //Granny grass call:
         ((ExpertMatch)expertMatch).playFigureCard(new Witch());
 
-        creationOftheRightCard(new MushroomCollector());
+        creationOfTheRightCard(new MushroomCollector());
         expertMatch.addObserver(this);
 
-        //princess call:
+        //Mushroom collector call:
         ((ExpertMatch)expertMatch).playFigureCard(new MushroomCollector());
     }
 
     @Test
     void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, SameInfluenceException, NoIslandException {
-        creationOftheRightCard(new Postman());
+        creationOfTheRightCard(new Postman());
 
         ((ExpertMatch)expertMatch).playFigureCard(new Postman());
 
@@ -149,7 +149,7 @@ public class ExpertMatchTest implements Observer {
 
     @Test
     void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException {
-        creationOftheRightCard(new Knight());
+        creationOfTheRightCard(new Knight());
 
         //Knight call:
         ((ExpertMatch)expertMatch).playFigureCard(new Knight());
@@ -180,14 +180,7 @@ public class ExpertMatchTest implements Observer {
         expertMatch.chooseCard(new Card(5,5,2));
         expertMatch.moveMotherNature(1);
         expertMatch.changeTowerColorOnIsland();
-        assertEquals(TowerColor.GREY,  expertMatch.getTowerColorFromIsland(1));
-    }
-
-
-    private void takeStudentsFromFigureCardTest() throws Exception, WrongDataplayerException {
-        creationOftheRightCard(new Merchant());
-        expertMatch.addObserver(this);
-
+        assertEquals(TowerColor.WHITE,  expertMatch.getTowerColorFromIsland(1));
     }
 
     @Override
@@ -196,7 +189,7 @@ public class ExpertMatchTest implements Observer {
         if(o instanceof ExpertMatch && arg instanceof Merchant) {
             System.out.println(arg);
 
-            Set<Student> extractionTest = new HashSet<Student>();
+            Set<Student> extractionTest = new HashSet<>();
             extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(0));
 
             try {
@@ -206,6 +199,7 @@ public class ExpertMatchTest implements Observer {
                 assertFalse(((Merchant)arg).getStudentsOnCard().containsAll(extractionTest));
                 assertEquals( ((Merchant)arg).getStudentsNumOnCard(),((Merchant)arg).getStudentsOnCard().size());
 
+                extractionTest.clear();
                 extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(1));
                 extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(2));
                 assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Merchant)arg, 1));
@@ -219,33 +213,54 @@ public class ExpertMatchTest implements Observer {
             System.out.println(arg);
 
             Set<Student> extractionTest = new HashSet<>();
-            assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, 1));
+            Set<Student> studentFromEntranceTest=new HashSet<>();
+
+            studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+
+            assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg,studentFromEntranceTest ));
 
             extractionTest.add(((Jester)arg).getStudentsOnCard().stream().toList().get(0));
 
             try {
-                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, 1);
-                assertThrows(InexistentStudentException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, 1));
+                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, studentFromEntranceTest);
+
+                studentFromEntranceTest.clear();
+                studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+
+                assertThrows(InexistentStudentException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, studentFromEntranceTest));
 
                 assertFalse(((Jester)arg).getStudentsOnCard().containsAll(extractionTest));
                 assertEquals(((Jester)arg).getStudentsNumOnCard(),((Jester)arg).getStudentsOnCard().size());
 
+                extractionTest.clear();
+                extractionTest.add(((Jester)arg).getStudentsOnCard().stream().toList().get(0));
                 extractionTest.add(((Jester)arg).getStudentsOnCard().stream().toList().get(3));
                 extractionTest.add(((Jester)arg).getStudentsOnCard().stream().toList().get(1));
                 extractionTest.add(((Jester)arg).getStudentsOnCard().stream().toList().get(2));
-                assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, 1));
+
+                studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(1));
+                studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(2));
+                studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(3));
+
+                assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, studentFromEntranceTest));
 
                 Set<Student> extractionTest2 = new HashSet<>();
                 extractionTest2.add(((Jester)arg).getStudentsOnCard().stream().toList().get(3));
                 extractionTest2.add(((Jester)arg).getStudentsOnCard().stream().toList().get(1));
                 extractionTest2.add(((Jester)arg).getStudentsOnCard().stream().toList().get(2));
-                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest2, (Jester)arg, 1);
+
+                studentFromEntranceTest.clear();
+                studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(1));
+                studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(2));
+                studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(3));
+
+                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest2, (Jester)arg, studentFromEntranceTest);
 
                 assertFalse(((Jester)arg).getStudentsOnCard().containsAll(extractionTest2));
                 assertEquals(((Jester)arg).getStudentsNumOnCard(),((Jester)arg).getStudentsOnCard().size());
 
 
-            } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException e) {
+            } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | NoMoreStudentsException e) {
                 e.printStackTrace();
             }
         }
@@ -254,18 +269,21 @@ public class ExpertMatchTest implements Observer {
         else if(o instanceof ExpertMatch && arg instanceof Princess) {
             System.out.println(arg);
 
-            Set<Student> extractionTest = new HashSet<Student>();
+            Set<Student> extractionTest = new HashSet<>();
             extractionTest.add(((Princess) arg).getStudentsOnCard().stream().toList().get(0));
 
             try {
-                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg, 1);
-                assertThrows(InexistentStudentException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg, 1));
+                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg);
+                assertThrows(InexistentStudentException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg));
 
                 assertFalse(((Princess) arg).getStudentsOnCard().containsAll(extractionTest));
                 assertEquals(((Princess) arg).getStudentsNumOnCard(), ((Princess) arg).getStudentsOnCard().size());
 
+                extractionTest.clear();
+                extractionTest.add(((Princess) arg).getStudentsOnCard().stream().toList().get(0));
                 extractionTest.add(((Princess) arg).getStudentsOnCard().stream().toList().get(1));
-                assertThrows(MaxNumberException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg, 1));
+
+                assertThrows(MaxNumberException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg));
 
             } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException e) {
                 e.printStackTrace();
@@ -299,7 +317,7 @@ public class ExpertMatchTest implements Observer {
             assertEquals(TowerColor.BLACK, expertMatch.getTowerColorFromIsland(0));
             expertMatch.moveMotherNature(0);
 
-            assertEquals(TowerColor.GREY, expertMatch.getTowerColorFromIsland(0));
+            assertEquals(TowerColor.WHITE, expertMatch.getTowerColorFromIsland(0));
 
             ((ExpertMatch) expertMatch).placeForbiddenCards(0);
             ((ExpertMatch) expertMatch).placeForbiddenCards(1);
@@ -338,7 +356,7 @@ public class ExpertMatchTest implements Observer {
 
             try {
                 expertMatch.moveMotherNature(0);
-                assertEquals(TowerColor.GREY,expertMatch.getTowerColorFromIsland(0));
+                assertEquals(TowerColor.WHITE,expertMatch.getTowerColorFromIsland(0));
             } catch (Exception e) {
                 e.printStackTrace();
             }

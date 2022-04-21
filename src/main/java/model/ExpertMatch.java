@@ -98,7 +98,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
     public void playFigureCard(FigureCard card) throws CardNotFoundException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
         if(figureCards.contains(card)){
             currentPlayerDashboard.removeCoin(card.getPrice());
-            card.playCard(this);
+            figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).playCard(this);
             card.pricePlusPlus();
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
@@ -158,17 +158,41 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         notifyObservers(figureCard); //TODO vedremo se basta così
     }
 
-    //Island position value doesn't matter if isn't used
-    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, FigureCardWithStudents figureCard, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
-        if(figureCard.takeStudents(chosenStudents)){
-            if(figureCard instanceof Jester)
-                currentPlayerDashboard.moveToEntrance(chosenStudents);
-            if(figureCard instanceof Princess)
-                currentPlayerDashboard.moveToDR(chosenStudents);
-            if(figureCard instanceof Merchant)
-                islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
+
+    //There's three overloading methods to manage figure with students different operations:
+
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Merchant figureCard, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
+        if (figureCard.takeStudents(chosenStudents)) {
+            islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
         }
     }
+
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Jester figureCard, Set<Student> studentsFromEntrance)
+            throws MaxNumberException, InexistentStudentException,
+            StudentIDAlreadyExistingException, NoMoreStudentsException {
+
+        if(chosenStudents.size()==studentsFromEntrance.size() &&
+                currentPlayerDashboard.showEntrance().containsAll(studentsFromEntrance)) {
+            if (figureCard.takeStudents(chosenStudents)) {
+                //TODO METODO ZAMBO, per adesso gestito con foreach
+                for (Student student : studentsFromEntrance)
+                    currentPlayerDashboard.removeStudentFromEntrance(student);
+                currentPlayerDashboard.moveToEntrance(chosenStudents);
+                figureCard.refillStudents(studentsFromEntrance);
+            }
+        }else throw new MaxNumberException("Wrong parameters for this method(taking students from the jester)...");
+    }
+
+
+
+
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Princess figureCard) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
+        if (figureCard.takeStudents(chosenStudents)) {
+            currentPlayerDashboard.moveToDR(chosenStudents);
+        }
+    }
+
+
 
     public void placeForbiddenCards(int islandToSetForbidden) throws NoIslandException, NoMoreBlockCardsException {
         if(islandPositions.contains((Integer) islandToSetForbidden)){

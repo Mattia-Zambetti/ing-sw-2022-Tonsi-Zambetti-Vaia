@@ -26,16 +26,19 @@ public abstract class FigureCardWithStudents extends FigureCard{
         else throw new Exception("Wrong students number on a figure card...");
     }
 
-    public boolean takeStudents(Set<Student> chosenStudents) throws InexistentStudentException, MaxNumberException, NoMoreStudentsException {
-        if(maxTakeStudentsNum>=chosenStudents.size() && chosenStudents.size()!=0){
-            for (Student s: chosenStudents) {
-                if(studentsOnCard.contains(s)){
-                    studentsOnCard.remove(s);
-                }else throw new InexistentStudentException("This student isn't on the card...");
-            }
-        }else throw new MaxNumberException("Wrong students size, you can take only "+maxTakeStudentsNum+" students on this card and at least 1...");
+    public boolean takeStudents(Set<Student> chosenStudents) throws MaxNumberException, NoMoreStudentsException, InexistentStudentException {
+        if(studentsOnCard.containsAll(chosenStudents)) {
 
-        studentsOnCard.addAll(Bag.removeStudents(chosenStudents.size()));
+            if (maxTakeStudentsNum >= chosenStudents.size() && chosenStudents.size() != 0) {
+                for (Student s : chosenStudents) {
+                    studentsOnCard.remove(s);
+                }
+            } else
+                throw new MaxNumberException("Wrong students size, you can take only " + maxTakeStudentsNum + " students on this card and at least 1...");
+        }else throw new InexistentStudentException("This student isn't on this figure card...");
+        if(!(this instanceof Jester))
+            studentsOnCard.addAll(Bag.removeStudents(chosenStudents.size()));
+
 
         return true;
     }
