@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ExpertMatchTest implements Observer {
     Match expertMatch;
     FigureCard figureCardTest;
-    ArrayList<Student> students[];
+    ArrayList<Student>[] students;
 
     @BeforeEach
     void init(){
@@ -170,7 +170,7 @@ public class ExpertMatchTest implements Observer {
         expertMatch.setIslandsStudents(0,students);
 
         Tower tower = new Tower(TowerColor.GREY,0);
-        ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
+        ArrayList<Tower> tmpTowers = new ArrayList<>();
         tmpTowers.add(tower);
 
         expertMatch.changeTowerColorOnIsland();
@@ -307,9 +307,7 @@ public class ExpertMatchTest implements Observer {
 
             expertMatch.setIslandsStudents(0,students);
             ((ExpertMatch) expertMatch).placeForbiddenCards(0);
-            Tower tower = new Tower(TowerColor.BLACK,0);
-            ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
-            tmpTowers.addAll(expertMatch.removeTowersFromDashboard(0,1));
+            ArrayList<Tower> tmpTowers = new ArrayList<>(expertMatch.removeTowersFromDashboard(0,1));
             expertMatch.chooseCard(new Card(5,5,2));
             expertMatch.addIslandsTowers(0,tmpTowers);
             expertMatch.moveMotherNature(0);
