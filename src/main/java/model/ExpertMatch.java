@@ -178,6 +178,10 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         else throw new NoIslandException("Insert an island that exists");
     }
 
+    public int getPostManValue(){
+        return postManValue;
+    }
+
     public void blockColorForInfluence(Color color){
         colorBlocked = color.ordinal();
         color.lockColor();
