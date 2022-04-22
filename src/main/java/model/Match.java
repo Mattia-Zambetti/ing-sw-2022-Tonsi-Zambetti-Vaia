@@ -5,7 +5,7 @@ import model.FigureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
 import java.util.*;
-public abstract class Match extends Observable {
+public class Match extends Observable {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
