@@ -1,5 +1,5 @@
 //Tonsi
-package model.FigureCards;
+package model.figureCards;
 
 import model.ExpertMatchInterface;
 

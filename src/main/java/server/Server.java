@@ -1,7 +1,7 @@
-package Server;
+package server;
 
-import Controller.Controller;
-import View.RemoteView;
+import controller.Controller;
+import view.RemoteView;
 import model.*;
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,8 +1,7 @@
 package model;
 
-import model.FigureCards.FigureCard;
-import model.FigureCards.FigureCardWithStudents;
-import model.exception.NoIslandException;
+import model.figureCards.FigureCard;
+import model.figureCards.FigureCardWithStudents;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 //Tonsi, Zambo,Vaia
 package model;
 
-import model.FigureCards.NoMoreBlockCardsException;
+import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
 import java.util.*;

@@ -1,6 +1,6 @@
 package view.choice;
 
-import model.FigureCards.FigureCard;
+import model.figureCards.FigureCard;
 
 public class FigureCardPlayedChoice implements Choice{
     private FigureCard chosenFigureCard;

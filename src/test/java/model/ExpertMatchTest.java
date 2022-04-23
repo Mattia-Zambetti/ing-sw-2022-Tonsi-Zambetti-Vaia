@@ -1,6 +1,6 @@
 package model;
 
-import model.FigureCards.*;
+import model.figureCards.*;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

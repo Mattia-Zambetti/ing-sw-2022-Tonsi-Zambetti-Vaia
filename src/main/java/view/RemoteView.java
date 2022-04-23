@@ -1,16 +1,15 @@
-package View;
+package view;
 
-import Server.Connection;
+import server.Connection;
 import model.*;
-import model.FigureCards.FigureCard;
-import model.exception.MaxNumberException;
+import model.figureCards.FigureCard;
 
 import java.util.*;
 
 public class RemoteView extends Observable implements Observer, utils.Observer<String> {
     private Player player;
     private Match match;
-    private Server.Connection c;
+    private server.Connection c;
 
     public RemoteView(Player player, Connection c){
         this.player = player;
