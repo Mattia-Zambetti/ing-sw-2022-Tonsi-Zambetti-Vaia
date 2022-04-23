@@ -1,52 +1,57 @@
 package view;
 
-import server.Connection;
 import model.*;
 import model.figureCards.FigureCard;
+import server.Connection;
+import view.choice.Choice;
 
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
 public class RemoteView extends Observable implements Observer, utils.Observer<String> {
     private Player player;
-    private Match match;
-    private server.Connection c;
 
-    public RemoteView(Player player, Connection c){
+    private final server.Connection connection;
+
+    public RemoteView(Player player, Connection connection){
         this.player = player;
-        this.c = c;
+        this.connection = connection;
+    }
+
+    public void choiceUser(Choice choice, Match match){
+        connection.send(match.toString()+"\n"+choice.toString());
     }
 
 
 
+/*
     public void chooseCard(){
         Set<Card> cardsTmp = match.showCards();
-        c.send(cardsTmp.toString());
+        connection.send(cardsTmp.toString());
     }
 
     public void moveStudent(){
         Set<Student> studentsTmp = match.showCurrentPlayerDashboard().showEntrance();
-        c.send(studentsTmp.toString());
+        connection.send(studentsTmp.toString());
     }
 
     public void chooseFigureCard(){
         List<FigureCard> figureCards = ((ExpertMatch) match).showFigureCardsInGame();
-        c.send(figureCards.toString());
+        connection.send(figureCards.toString());
     }
 
     public void moveMotherNature(){
         int maxMovement = match.showCurrentPlayerDashboard().getCurrentCard().getMovementValue() + ((ExpertMatch) match).getPostManValue();
-        c.send(""+ maxMovement);
+        connection.send(""+ maxMovement);
     }
 
     public void chooseCloud(){
-        c.send(match.toStringStudentsOnCloud());
+        connection.send(match.toStringStudentsOnCloud());
     }
-
+*/
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof Match){
-            match = (Match) arg;
-        }
+
         if(arg instanceof Card){
             Card cardChosenTmp = (Card) arg;
             notifyObservers(cardChosenTmp);

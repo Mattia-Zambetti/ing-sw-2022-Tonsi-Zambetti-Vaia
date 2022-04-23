@@ -43,15 +43,21 @@ public class Server {
     }
 
     public synchronized void lobby(Connection c, String name){
+        List<RemoteView> remoteViewList=new ArrayList<>();
         waitingConnection.put(name, c);
         if(waitingConnection.size() == 2){
             List<String> keys = new ArrayList<>(waitingConnection.keySet());
             Connection c1 = waitingConnection.get(keys.get(0));
             Connection c2 = waitingConnection.get(keys.get(1));
+
             RemoteView player1 = new RemoteView(new Player("Mariangello", 2), c1);
             RemoteView player2 = new RemoteView(new Player("IlTOnsi",8),c2);
+
+            remoteViewList.add(player1);
+            remoteViewList.add(player2);
+
             Match match = new NormalMatch(2,true);
-            Controller controller = new Controller(match);
+            Controller controller = new Controller(match,remoteViewList);
             match.addObserver(player1);
             match.addObserver(player2);
             player1.addObserver((Observer) controller);
