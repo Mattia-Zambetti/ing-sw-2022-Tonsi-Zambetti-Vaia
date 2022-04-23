@@ -1,6 +1,10 @@
 package model.FigureCards;
 
 import model.Bag;
+import model.Student;
+import model.exception.MaxNumberException;
+
+import java.util.Set;
 
 public class Jester extends FigureCardWithStudents{
 
@@ -16,6 +20,20 @@ public class Jester extends FigureCardWithStudents{
         cardId=2;
         maxTakeStudentsNum=MAXTAKESTUDENTSNUM;
     }
+
+
+    public void refillStudents(Set<Student> studentsFromEntrance){
+        try{
+            if(studentsFromEntrance.size()==STUDENTSNUMONCARD-studentsOnCard.size()){
+                studentsOnCard.addAll(studentsFromEntrance);
+
+            }else throw new MaxNumberException("Wrong students number given to this figure card...");
+        }catch (MaxNumberException e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 
 
 

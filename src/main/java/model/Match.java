@@ -5,7 +5,7 @@ import model.FigureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
 import java.util.*;
-public abstract class Match extends Observable {
+public class Match extends Observable {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -65,6 +65,8 @@ public abstract class Match extends Observable {
                 currentPlayerDashboard = null;
 
                 initializeMasters();
+
+
 
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException | NoMoreStudentsException e){
@@ -204,7 +206,7 @@ public abstract class Match extends Observable {
         }
     }
 
-    //missing nickname, this method must be fixed
+    //this method must be fixed
     public void addPlayer(String nickname, String towerColor, String wizard) throws WrongDataplayerException, WrongColorException, MaxNumberException {
         if (dashboardsCollection.size() < totalPlayersNum) {
 
@@ -243,6 +245,8 @@ public abstract class Match extends Observable {
                 TowerColor.valueOf(towerColor).counterplus();
             }
 
+            if(totalPlayersNum==dashboardsCollection.size())
+                initializeAllEntrance();
 
 
 
