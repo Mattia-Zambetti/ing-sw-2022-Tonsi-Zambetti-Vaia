@@ -5,6 +5,7 @@ import view.choice.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -13,6 +14,9 @@ public class Client implements Runnable {
     private final int port;
     private final String ip;
     private Choice actualToDoChoice;
+
+    private Socket clientSocket;
+
 
 
 
@@ -41,15 +45,18 @@ public class Client implements Runnable {
                 case 0:
                     ((MoveStudentChoice) actualToDoChoice).setWhereToMove(choice);
                     ((MoveStudentChoice) actualToDoChoice).choiceplus();
+                    break;
                 case 1:
                     ((MoveStudentChoice) actualToDoChoice).setChosenStudent(Integer.parseInt(choice));
                     ((MoveStudentChoice) actualToDoChoice).choiceplus();
                     if(((MoveStudentChoice) actualToDoChoice).getWhereToMove().equals("dining room")){
                         isChoiceTime=false;
                     }
+                    break;
                 case 2:
                     ((MoveStudentChoice) actualToDoChoice).setIslandID(Integer.parseInt(choice));
                     isChoiceTime=false;
+                    break;
             }
 
         }
@@ -61,7 +68,7 @@ public class Client implements Runnable {
     public void run() {
 
         try {
-            Socket clientSocket = new Socket(ip, port);
+            clientSocket = new Socket(ip, port);
             ObjectInputStream readObject=new ObjectInputStream(clientSocket.getInputStream());
             System.out.println("You are in the game");
             Thread threadUser= this.readingFromUser();
@@ -75,9 +82,10 @@ public class Client implements Runnable {
 
     }
 
-    public Thread readingFromUser() {
+    public Thread readingFromUser() throws IOException {
         Scanner readUser= new Scanner(System.in);
         PrintWriter writeUser=new PrintWriter(System.out);
+        ObjectOutputStream outputStream=new ObjectOutputStream(clientSocket.getOutputStream());
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -91,10 +99,13 @@ public class Client implements Runnable {
                         } else
                             while (isChoiceTime) {
                                 handleChoice(readUser.nextLine());
-                                readUser.nextLine();
                             }
+                            outputStream.writeObject(actualToDoChoice);
+                            outputStream.flush();
                     }catch (IllegalStateException e){
                         isActive=false;
+                    }catch (IOException e){
+                        e.printStackTrace();
                     }
                 }
             }
