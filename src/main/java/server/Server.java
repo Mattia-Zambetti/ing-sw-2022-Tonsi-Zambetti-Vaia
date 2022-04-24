@@ -20,7 +20,7 @@ public class Server {
     private Map<String,Connection> waitingConnection = new HashMap<>();
     private Map<Connection, Connection> playingConnection = new HashMap<>();
 
-    //Register connection
+   //Register connection
     private synchronized void registerConnection(Connection c){
         connections.add(c);
     }
@@ -30,7 +30,7 @@ public class Server {
         connections.remove(c);
         Connection opponent = playingConnection.get(c);
         if(opponent != null){
-            opponent.closeConnection();
+            //opponent.closeConnection();
             playingConnection.remove(c);
             playingConnection.remove(opponent);
             //Iterator<String> iterator = waitingConnection.keySet().iterator();
@@ -83,7 +83,7 @@ public class Server {
                 connections++;
                 Connection connection = new Connection(socket, this);
                 registerConnection(connection);
-                executor.submit(connection);
+                //executor.submit(connection);
             } catch (IOException e){
                 System.err.println("Connection error!");
             }

@@ -3,10 +3,10 @@ package model;
 
 import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
-import utils.Observable;
+
 
 import java.util.*;
-public class Match extends Observable<Match> {
+public class Match extends Observable {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -191,12 +191,15 @@ public class Match extends Observable<Match> {
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
-            notify(this);//non so cosa potrebbe notificare per ora, vedremo
+            setChanged();
+            notifyObservers(this);//non so cosa potrebbe notificare per ora, vedremo
         }catch (MaxNumberException | StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
         }catch (WrongCloudNumberException e){
             System.out.println(e.getMessage());
-            notify(this); //TODO qui bisogna capire cosa notifichiamo,
+
+            setChanged();
+            notifyObservers(this); //TODO qui bisogna capire cosa notifichiamo,
                                                     // per dire di ripetere la scelta
         }
     }
@@ -232,7 +235,8 @@ public class Match extends Observable<Match> {
         } catch (CardNotFoundException | NoMoreCardException e) {
             System.out.println(e.getMessage());
         }finally {
-            notify(this);
+            setChanged();
+            notifyObservers(this);
         }
     }
 
@@ -369,7 +373,9 @@ public class Match extends Observable<Match> {
         if ( currentPlayerPosition < (this.dashboardsCollection.size()-1) ) {
             currentPlayerPosition++;
             this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
-            notify(this);
+
+            setChanged();
+            notifyObservers(this);
             return true;
             //Views are notified only if another Player has to play the turn
         }

@@ -2,6 +2,7 @@ package view;
 
 import model.MatchView;
 import model.Player;
+import model.figureCards.FigureCard;
 import server.Connection;
 import view.choice.Choice;
 
@@ -28,7 +29,11 @@ public class RemoteView extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         if(o instanceof MatchView){
             connection.send(o.toString());
+        }else if (arg instanceof FigureCard) {
+            notifyObservers((FigureCard) arg);
         }
+
+
     }
 
 
@@ -69,10 +74,7 @@ public class RemoteView extends Observable implements Observer {
             Student studentChosen = (Student) arg;
             notifyObservers(studentChosen);
         }
-        if (arg instanceof FigureCard) {
-            FigureCard figureCardtmp = (FigureCard) arg;
-            notifyObservers(figureCardtmp);
-        }
+
         if (arg instanceof Integer) {
             notifyObservers((Integer) arg);
         }

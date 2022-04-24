@@ -43,6 +43,8 @@ public class Connection extends Observable<Object> {
 
 
 
+
+
  /*
 
     private String name;
@@ -65,15 +67,7 @@ public class Connection extends Observable<Object> {
         }).start();
     }
 
-    public synchronized void closeConnection(){
-        send("Connection closed from the server side");
-        try{
-            socket.close();
-        }catch (IOException e){
-            System.err.println(e.getMessage());
-        }
-        active = false;
-    }
+
 
     private void close(){
         closeConnection();
