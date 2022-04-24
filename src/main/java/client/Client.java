@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class Client implements Runnable {
     private final int port;
     private final String ip;
-    private Socket clientSocket;
     private Choice actualToDoChoice;
 
 
@@ -60,12 +59,18 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
+
         try {
-            clientSocket=new Socket(ip,port);
-        } catch (IOException e) {
+            Socket clientSocket = new Socket(ip, port);
+            ObjectInputStream readObject=new ObjectInputStream(clientSocket.getInputStream());
+            System.out.println("You are in the game");
+            Thread threadUser= this.readingFromUser();
+            Thread threadSocket= this.readingFromSocket(readObject);
+            threadUser.join();
+            threadSocket.join();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("You are in the game");
 
 
     }
@@ -78,15 +83,19 @@ public class Client implements Runnable {
             @Override
             public void run() {
                 while (isActive) {
-                    if (!isChoiceTime) {
-                        readUser.nextLine();
-                        writeUser.println("It's not your turn, please wait...");
-                        writeUser.flush();
-                    } else
-                        while(isChoiceTime) {
-                            handleChoice(readUser.nextLine());
+                    try {
+                        if (!isChoiceTime) {
                             readUser.nextLine();
-                        }
+                            writeUser.println("It's not your turn, please wait...");
+                            writeUser.flush();
+                        } else
+                            while (isChoiceTime) {
+                                handleChoice(readUser.nextLine());
+                                readUser.nextLine();
+                            }
+                    }catch (IllegalStateException e){
+                        isActive=false;
+                    }
                 }
             }
         });
@@ -108,10 +117,11 @@ public class Client implements Runnable {
                         isChoiceTime=true;
                         actualToDoChoice=(Choice) obj;
                     }
-                } catch (IOException | ClassNotFoundException e) {
+                } catch ( ClassNotFoundException e) {
                     e.printStackTrace();
+                } catch (IOException e){
+                    isActive=false;
                 }
-
             }
         });
         t.start();
