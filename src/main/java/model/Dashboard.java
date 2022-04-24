@@ -3,6 +3,7 @@ package model;
 
 import model.exception.*;
 import java.util.*;
+import graphicAssets.*;
 
 public class Dashboard {
     private final Entrance entrance;

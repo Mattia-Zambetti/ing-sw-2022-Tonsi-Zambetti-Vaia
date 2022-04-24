@@ -5,7 +5,7 @@ import model.FigureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
 import java.util.*;
-public abstract class Match extends Observable {
+public abstract class Match extends Observable implements MatchDataInterface {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -408,6 +408,16 @@ public abstract class Match extends Observable {
     }
     //TODO se volessimo aggiornare la view quando il master viene spostato bisogna aggiungere un notify in questo metodo
 
+    @Override
+    public String toString() {
+        String outputString = new String("");
+
+
+
+
+
+        return outputString;
+    }
 
 
     //Only for test
