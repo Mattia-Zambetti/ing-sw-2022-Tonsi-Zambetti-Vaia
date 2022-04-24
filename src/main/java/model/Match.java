@@ -3,9 +3,10 @@ package model;
 
 import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
+import utils.Observable;
 
 import java.util.*;
-public class Match extends Observable {
+public class Match extends Observable<Match> {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -72,6 +73,37 @@ public class Match extends Observable {
         }catch (MaxNumberException | NoMoreStudentsException e){
             System.out.println(e.getMessage());
         }
+    }
+
+
+    public Match(Match match){
+
+        this.islands = new ArrayList<>();
+        for (Island island: match.islands) {
+            this.islands.add(new Island(island));
+        }
+
+        this.clouds = new ArrayList<>();
+        for (Cloud cloud: match.clouds) {
+            this.clouds.add(new Cloud(cloud));
+        }
+
+        this.dashboardsCollection=new ArrayList<>();
+        for (Dashboard dashboard: match.dashboardsCollection) {
+            this.dashboardsCollection.add(new Dashboard(dashboard));
+        }
+
+        this.currentPlayerDashboard=new Dashboard(match.currentPlayerDashboard);
+
+        this.mastersMap=new HashMap<>(match.mastersMap);
+
+        this.totalPlayersNum=match.totalPlayersNum;
+
+        this.currentIsland=match.currentIsland;
+
+        this.islandPositions.addAll(match.islandPositions);
+
+        this.towersNum=match.towersNum;
     }
 
     //TONSI
@@ -159,12 +191,12 @@ public class Match extends Observable {
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
-            notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
+            notify(this);//non so cosa potrebbe notificare per ora, vedremo
         }catch (MaxNumberException | StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
         }catch (WrongCloudNumberException e){
             System.out.println(e.getMessage());
-            notifyObservers(currentPlayerDashboard); //TODO qui bisogna capire cosa notifichiamo,
+            notify(this); //TODO qui bisogna capire cosa notifichiamo,
                                                     // per dire di ripetere la scelta
         }
     }
@@ -176,13 +208,11 @@ public class Match extends Observable {
         for (Cloud c : clouds) {
             res.append(c.toString());
         }
-        notifyObservers(res.toString());
         return res.toString();
     }
 
 
     public Set<Card> showCards(){
-        notifyObservers(new HashSet<>(currentPlayerDashboard.showCards()));
         return new HashSet<>(currentPlayerDashboard.showCards());
     }
 
@@ -202,7 +232,7 @@ public class Match extends Observable {
         } catch (CardNotFoundException | NoMoreCardException e) {
             System.out.println(e.getMessage());
         }finally {
-            notifyObservers(this);//TODO restituiremo un match immutabile qui
+            notify(this);
         }
     }
 
@@ -339,7 +369,7 @@ public class Match extends Observable {
         if ( currentPlayerPosition < (this.dashboardsCollection.size()-1) ) {
             currentPlayerPosition++;
             this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
-            notifyObservers(currentPlayerDashboard.getPlayer());
+            notify(this);
             return true;
             //Views are notified only if another Player has to play the turn
         }

@@ -4,32 +4,57 @@ package server;
 import utils.Observable;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class Connection extends Observable<String> implements Runnable {
+public class Connection extends Observable<Object> {
 
-    private Socket socket;
-    private Scanner in;
-    private PrintWriter out;
-    private Server server;
+    private final ObjectInputStream scannerIn;
+    private final ObjectOutputStream writeOut;
+    private final Socket socket;
+    private final Server server;
+
+
+    public Connection(Socket socket, Server server) throws IOException {
+        this.socket=socket;
+
+        scannerIn=new ObjectInputStream(socket.getInputStream());
+        writeOut=new ObjectOutputStream(socket.getOutputStream());
+
+        this.server=server;
+    }
+
+    public synchronized void send(Object obj){
+        try {
+            writeOut.writeObject(obj);
+            writeOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+ /*
+
     private String name;
     private boolean active = true;
 
-    public Connection(Socket socket, Server server){
-        this.socket = socket;
-        this.server = server;
-    }
+
 
     private synchronized boolean isActive(){
         return active;
     }
 
-    public void send(String message){
-        out.println(message);
-        out.flush();
-    }
+
 
     public void asyncSend(final String message){
         new Thread(new Runnable() {
@@ -74,5 +99,5 @@ public class Connection extends Observable<String> implements Runnable {
         } finally {
             close();
         }
-    }
+    }*/
 }

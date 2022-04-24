@@ -3,15 +3,7 @@ package model;
 import model.figureCards.FigureCard;
 import model.figureCards.FigureCardWithStudents;
 
-import java.util.ArrayList;
-
 public interface ExpertMatchInterface {
-
-    Dashboard showCurrentPlayerDashboard();
-
-    void setIslandsStudents(int islandToSet, ArrayList<Student>[] students);
-
-    //void moveMotherNature(int position) throws NoIslandException;
 
     void setPostManValue();
 

@@ -19,6 +19,14 @@ public class Cloud {
 
     }
 
+    public Cloud(Cloud cloud) {
+
+        this.studentsOnCloud=new HashSet<>();
+        for (Student student: cloud.studentsOnCloud) {
+            this.studentsOnCloud.add(new Student(student));
+        }
+    }
+
 
     public static void setStudentsNumOnCloud(int studentsNumOnCloud){
         Cloud.studentsNumOnCloud = studentsNumOnCloud;

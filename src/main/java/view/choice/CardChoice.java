@@ -1,19 +1,23 @@
 package view.choice;
 
-import model.Card;
-
 public class CardChoice implements Choice{
-    private Card chosenCard;
+    private int chosenCard;
 
     public CardChoice(){
 
     }
 
-    public void setChosenCard(Card chosenCard) {
+    public void setChosenCard(int chosenCard) {
         this.chosenCard = chosenCard;
     }
 
-    public Card getChosenCard() {
+    public int getChosenCard() {
         return chosenCard;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Choose a card from your deck, insert the id: ";
     }
 }

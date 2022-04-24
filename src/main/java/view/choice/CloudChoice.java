@@ -10,4 +10,9 @@ public class CloudChoice implements Choice{
     public void setChosenCloudID(int chosenCloudID) {
         this.chosenCloudID = chosenCloudID;
     }
+
+    @Override
+    public String toString() {
+        return "Insert cloud number you want to take: ";
+    }
 }

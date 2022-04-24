@@ -149,13 +149,13 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
     }
 
     public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCard){
-        this.setChanged();
-        notifyObservers(figureCard); //TODO vedremo se basta così
+        //this.setChanged();
+        notify(); //TODO vedremo se basta così
     }
 
     public void notifyIslandFigureCard(FigureCard figureCard){
-        this.setChanged();
-        notifyObservers(figureCard); //TODO vedremo se basta così
+        //this.setChanged();
+        notify(); //TODO METTERE APPOSTO
     }
 
 
