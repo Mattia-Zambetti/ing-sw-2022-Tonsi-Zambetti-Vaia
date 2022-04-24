@@ -57,6 +57,6 @@ public class DiningRoom {
 
     @Override
     public String toString() {
-        return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(roomColor) + roomColor.toString() + " DR: " + students.size() + " students" + CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET;
+        return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(roomColor) + roomColor.toString() + " DR: \t" + students.size() + " students" + CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET;
     }
 }

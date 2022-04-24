@@ -206,11 +206,11 @@ public class Dashboard {
     public String toString() {
         String OutputString = "Entrance: "+entrance.toString();
         for ( Color c : Color.values() ) {
-            OutputString = OutputString.concat("\n"+DiningRoomsList.get(c).toString());
+            OutputString = OutputString.concat("\n"+DiningRoomsList.get(c).toString()+"\t");
             if ( mastersList.containsKey(c) )
-                OutputString = OutputString.concat(" - HAVE MASTER (=");
+                OutputString = OutputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(c) + " - HAVE MASTER (=" + CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
             else
-                OutputString = OutputString.concat(" - NO MASTER )=");
+                OutputString = OutputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(c) + " - NO MASTER (=" + CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
         }
         return OutputString;
     }
