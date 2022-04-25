@@ -20,7 +20,15 @@ public class RemoteView extends Observable implements Observer {
     }
 
     public void choiceUser(Choice choice) {
-        connection.send(choice.toString());
+        connection.send(choice);
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void sendError(String message){
+        connection.send(message);
     }
 
 
@@ -30,7 +38,12 @@ public class RemoteView extends Observable implements Observer {
         if(o instanceof MatchView){
             connection.send(o.toString());
         }else if (arg instanceof FigureCard) {
-            notifyObservers((FigureCard) arg);
+            setChanged();
+            notifyObservers(arg);
+        }
+        else if(o instanceof Connection && o==connection){
+            setChanged();
+            notifyObservers(arg);
         }
 
 

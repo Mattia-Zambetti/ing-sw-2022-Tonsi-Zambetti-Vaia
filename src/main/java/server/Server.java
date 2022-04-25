@@ -57,7 +57,7 @@ public class Server {
             remoteViewList.add(player2);
 
             Match match = new NormalMatch(2,true);
-            Controller controller = new Controller(match,remoteViewList);
+            Controller controller = new Controller(match,remoteViewList,true);
             match.addObserver(player1);
             match.addObserver(player2);
             player1.addObserver((Observer) controller);

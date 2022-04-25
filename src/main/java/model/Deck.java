@@ -57,7 +57,11 @@ public class Deck {
 
     //It returns a copy of the cards in the deck to show them in the view
     public Set<Card> getCards(){
-        return new HashSet<>(cards);
+        Set<Card> res=new HashSet<Card>();
+        for (Card c:cards) {
+            res.add(new Card(c));
+        }
+        return res;
     }
 
     //TESTED

@@ -1,10 +1,24 @@
 package view.choice;
 
+import model.Student;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class MoveStudentChoice implements Choice{
     private int chosenStudent;
     private int islandID;
     private String whereToMove;
     private int numChoice=0;
+    private Map<Integer,Student> studentsOnEntrance;
+
+    public MoveStudentChoice(Set<Student> studentsOnEntrance){
+        this.studentsOnEntrance=new HashMap<>();
+        for (Student s: studentsOnEntrance) {
+            this.studentsOnEntrance.put(s.getID(),s);
+        }
+    }
 
     public void choiceplus(){
         numChoice++;
@@ -19,8 +33,8 @@ public class MoveStudentChoice implements Choice{
     }
 
 
-    public int getChosenStudent() {
-        return chosenStudent;
+    public Student getChosenStudent() {
+        return studentsOnEntrance.get(chosenStudent);
     }
 
     @Override

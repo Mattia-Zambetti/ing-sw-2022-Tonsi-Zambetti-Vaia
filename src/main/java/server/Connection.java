@@ -1,19 +1,22 @@
 package server;
 
 
-import utils.Observable;
+import view.choice.Choice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Observable;
 
-public class Connection extends Observable<Object> {
+public class Connection extends Observable implements Runnable{
 
     private final ObjectInputStream scannerIn;
     private final ObjectOutputStream writeOut;
     private final Socket socket;
     private final Server server;
+
+    private boolean isActive=true;
 
 
     public Connection(Socket socket, Server server) throws IOException {
@@ -32,6 +35,22 @@ public class Connection extends Observable<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void run() {
+        try {
+            send("Whar's your name?");
+            while(isActive) {//TODO sa
+
+                Choice choice = (Choice) scannerIn.readObject();
+                setChanged();
+                notifyObservers(choice);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

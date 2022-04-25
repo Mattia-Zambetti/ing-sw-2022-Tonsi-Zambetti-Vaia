@@ -1,8 +1,16 @@
 package view.choice;
 
+import model.Cloud;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CloudChoice implements Choice{
     private int chosenCloudID;
-
+    private final List<Cloud> actualClouds;
+    public CloudChoice(List<Cloud> clouds){
+        actualClouds=new ArrayList<>(clouds);
+    }
     public int getChosenCloudID() {
         return chosenCloudID;
     }

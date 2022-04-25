@@ -1,9 +1,20 @@
 package view.choice;
 
+import model.Card;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class CardChoice implements Choice{
     private int chosenCard;
+    private final Map<Integer,Card> availableCards;
 
-    public CardChoice(){
+    public CardChoice(Set<Card> availableCards){
+        this.availableCards =new HashMap<>();
+        for (Card c:availableCards) {
+            this.availableCards.put(c.getId(), c);
+        }
 
     }
 
@@ -11,13 +22,13 @@ public class CardChoice implements Choice{
         this.chosenCard = chosenCard;
     }
 
-    public int getChosenCard() {
-        return chosenCard;
+    public Card getChosenCard() {
+        return availableCards.get(chosenCard);
     }
 
 
     @Override
     public String toString() {
-        return "Choose a card from your deck, insert the id: ";
+        return "Choose a card id from your deck:\n";
     }
 }

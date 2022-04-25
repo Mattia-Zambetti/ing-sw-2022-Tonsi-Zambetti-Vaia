@@ -109,6 +109,10 @@ public class Match extends Observable {
     //TONSI
 
 
+    public Player showCurrentPlayer() {
+        return showCurrentPlayerDashboard().getPlayer();
+    }
+
     public int getCurrentPlayersNum() {
         return dashboardsCollection.size();
     }
@@ -214,9 +218,16 @@ public class Match extends Observable {
         return res.toString();
     }
 
+    public List<Cloud> showClouds(){
+        List<Cloud> res=new ArrayList<>();
+        for (Cloud c:clouds) {
+            res.add(new Cloud(c));
+        }
+        return res;
+    }
 
     public Set<Card> showCards(){
-        return new HashSet<>(currentPlayerDashboard.showCards());
+        return currentPlayerDashboard.showCards();
     }
 
     public void chooseCard(Card chosenCard) {
@@ -604,5 +615,7 @@ public class Match extends Observable {
         }
         catch (Exception e){System.out.println(e.getMessage());}
     }
+
+
     // END VAIA
 }
