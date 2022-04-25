@@ -4,8 +4,7 @@ import model.ExpertMatch;
 import model.Match;
 import model.Player;
 import model.exception.*;
-import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
-import model.figureCards.NoMoreBlockCardsException;
+import model.figureCards.*;
 import view.RemoteView;
 import view.choice.*;
 
@@ -77,11 +76,15 @@ public class Controller implements Observer {
                         try {
                             match.moveStudentFromEntranceToIsland(((MoveStudentChoice) arg).getChosenStudent(), ((MoveStudentChoice) arg).getIslandID());
                         } catch (NoIslandException e) {
-                            remoteViewMap.get(match.showCurrentPlayer()).choiceUser((MoveStudentChoice) arg);
-                            //TODO VEDIAMO
+                            remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                            Choice choice=new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
+                            remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
                         }
                 }
-            }else if(arg instanceof FigureCardPlayedChoice){
+            }
+
+            //ONLY EXPERT MATCH:
+            else if(arg instanceof FigureCardPlayedChoice){
                 try {
                     ((ExpertMatch)match).playFigureCard(((FigureCardPlayedChoice) arg).getChosenFigureCard());
                 } catch (CardNotFoundException e) {
@@ -91,20 +94,67 @@ public class Controller implements Observer {
                 } catch (InsufficientCoinException e) {
                     remoteViewMap.get(match.showCurrentPlayer()).sendError("You don't have enough coins");
                 }
-            }//TODO manca parte di quando si chiamano i metodi delle carte specifiche
+            }else if(arg instanceof MerchantChoice){
+                try {
+                    ((ExpertMatch)match).takeStudentsOnFigureCard(((MerchantChoice) arg).getChosenStudents(), (Merchant) ((MerchantChoice) arg).getFigureCardPlayed(),((MerchantChoice) arg).getChosenIslandID());
+                } catch (MaxNumberException | InexistentStudentException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                    Choice choice=new MerchantChoice();
+                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
+                } catch (StudentIDAlreadyExistingException e) {
+                    e.printStackTrace();
+                } catch (WrongColorException e) {//TODO
+                    e.printStackTrace();
+                } catch (NoMoreStudentsException e) {//TODO NON QUI
+                    e.printStackTrace();
+                }
+            }else if(arg instanceof JesterChoice){
+                try {
+                    ((ExpertMatch)match).takeStudentsOnFigureCard(((JesterChoice) arg).getChosenStudents(),(Jester) ((JesterChoice) arg).getFigureCardPlayed(), ((JesterChoice) arg).getStudentsFromEntrance());
+                } catch (MaxNumberException |StudentIDAlreadyExistingException |InexistentStudentException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                    Choice choice=new JesterChoice();
+                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
+                } catch (NoMoreStudentsException e) {//TODO
+                    e.printStackTrace();
+                }
+            }else if(arg instanceof PrincessChoice){
+                try {
+                    ((ExpertMatch)match).takeStudentsOnFigureCard(((PrincessChoice) arg).getChosenStudents(),(Princess) ((PrincessChoice) arg).getFigureCardPlayed());
+                } catch (MaxNumberException |StudentIDAlreadyExistingException |InexistentStudentException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                    Choice choice=new JesterChoice();
+                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
+                } catch (NoMoreStudentsException e) {//TODO
+                    e.printStackTrace();
+                } catch (WrongColorException e) {//TODO QUI?
+                    e.printStackTrace();
+                }
+            }else if(arg instanceof MushroomCollectorChoice){
+                ((ExpertMatch)match).blockColorForInfluence(((MushroomCollectorChoice) arg).getBlockedColor());
+            }else if(arg instanceof GrannyGrassChoice){
+                try {
+                    ((ExpertMatch)match).placeForbiddenCards(((GrannyGrassChoice) arg).getBlockedIslanID());
+                } catch (NoIslandException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                    Choice choice=new GrannyGrassChoice();
+                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
+                } catch (NoMoreBlockCardsException e) {
+                    e.printStackTrace();//TODO
+                }
+            }
+            //END EXPERT MATCH
+
             else if(arg instanceof MoveMotherNatureChoice)
             {
                 try {
                     match.moveMotherNature(((MoveMotherNatureChoice) arg).getMovement());
-                } catch (NoIslandException e) {
-                    remoteViewMap.get(match.showCurrentPlayer()).sendError("You insert a wrong island number, try again:");
-                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser((MoveMotherNatureChoice)arg);
-                } catch (SameInfluenceException e) {
-                    e.printStackTrace();//COME DOVREI GESTIRLA CUCCIOLO
-                } catch (NoMoreBlockCardsException e) {
-                    e.printStackTrace();//MA
-                } catch (MaxNumberException e) {
-                    e.printStackTrace();//MADONNA
+                } catch (NoIslandException | MaxNumberException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                    Choice newChoice=new MoveMotherNatureChoice();
+                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(newChoice);
+                } catch (SameInfluenceException | NoMoreBlockCardsException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 }
             }else if(arg instanceof CloudChoice){
                 match.moveStudentsFromCloudToEntrance(((CloudChoice) arg).getChosenCloudID());
