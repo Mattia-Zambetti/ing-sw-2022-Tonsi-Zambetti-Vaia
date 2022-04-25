@@ -69,10 +69,11 @@ public class Controller implements Observer {
             if(arg instanceof CardChoice) {
                 match.chooseCard(((CardChoice) arg).getChosenCard());
             }else if(arg instanceof MoveStudentChoice){
-                switch (((MoveStudentChoice) arg).getWhereToMove()) {
-                    case "dining room":
+                switch (((MoveStudentChoice) arg).getWhereToMove().toUpperCase()) {
+                    case "DINING ROOM":
                         match.moveStudentFromEntranceToDR(((MoveStudentChoice) arg).getChosenStudent());
-                    case "island":
+                        break;
+                    case "ISLAND":
                         try {
                             match.moveStudentFromEntranceToIsland(((MoveStudentChoice) arg).getChosenStudent(), ((MoveStudentChoice) arg).getIslandID());
                         } catch (NoIslandException e) {
@@ -80,6 +81,11 @@ public class Controller implements Observer {
                             Choice choice=new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
                             remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
                         }
+                        break;
+                    default:
+                        remoteViewMap.get(match.showCurrentPlayer()).sendError("Choose between Island or Dining Room");
+                        Choice choice=new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
+                        remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
                 }
             }
 
