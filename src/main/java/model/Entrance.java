@@ -1,6 +1,7 @@
 //Zambo, Tonsi
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 
 import java.util.*;
@@ -81,10 +82,24 @@ public class Entrance {
     @Override
     public String toString() {
         String outputString = "";
+        int i = 1;
+        outputString = outputString.concat("ENTRANCE  -  TOTAL = "+students.size()+" students\n");
         for ( Student s : students ) {
-            outputString = outputString.concat(s.toString()+" - ");
+            outputString = outputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(s.getColor()) + " " + s.toString()+ CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
+            if ( i%3==0 )
+                outputString = outputString.concat("\n");
+            else {
+                outputString = switch (s.getColor()) {
+                    case RED -> outputString.concat("      ");
+                    case GREEN -> outputString.concat("    ");
+                    case YELLOW -> outputString.concat("   ");
+                    case BLUE -> outputString.concat("     ");
+                    case PINK -> outputString.concat("     ");
+                    default -> outputString;
+                };
+            }
+            i++;
         }
-        outputString = outputString.concat("TOT="+students.size());
         return outputString;
     }
 

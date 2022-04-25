@@ -204,14 +204,22 @@ public class Dashboard {
 
     @Override
     public String toString() {
-        String OutputString = "Entrance: "+entrance.toString();
+        String OutputString = "\n===================================================\n";
+        for ( int j=0; j<((41-getPlayer().getNickname().length())/2); j++)
+            OutputString = OutputString.concat(" ");
+        OutputString = OutputString.concat(getPlayer().getNickname() + " dashboard\n___________________________________________________\n");
+        OutputString = OutputString.concat("          "+entrance.toString());
+        OutputString = OutputString.concat("\n___________________________________________________");
         for ( Color c : Color.values() ) {
-            OutputString = OutputString.concat("\n"+DiningRoomsList.get(c).toString()+"\t");
+            OutputString = OutputString.concat("\n "+DiningRoomsList.get(c).toString()+"\t");
             if ( mastersList.containsKey(c) )
-                OutputString = OutputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(c) + " - HAVE MASTER (=" + CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
+                OutputString = OutputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(c) + " - HAVE MASTER (=" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
             else
-                OutputString = OutputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(c) + " - NO MASTER (=" + CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
+                OutputString = OutputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(c) + " - NO MASTER )=" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
         }
+        OutputString = OutputString.concat("\n___________________________________________________");
+        OutputString = OutputString.concat("\n               NUMBER OF TOWERS : " + towersCollection.size() + "\n              COLOR OF TOWERS : " + towerColor.toString() );
+        OutputString = OutputString.concat("\n===================================================\n");
         return OutputString;
     }
 

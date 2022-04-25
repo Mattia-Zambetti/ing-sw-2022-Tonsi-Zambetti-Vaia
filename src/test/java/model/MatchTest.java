@@ -1,5 +1,6 @@
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.FigureCards.NoMoreBlockCardsException;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -488,7 +489,9 @@ public class MatchTest {
     //because of the randomness of Bag.removeStudents used in initializeAllDashboard()
     @Test
     void checkAndMoveMastersTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException {
-
+        System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
+        //System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_BLACK_BACKGROUND);
+        //System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
         match.addPlayer("Tonsi", "WHITE", "WIZARD2");
 
         match.initializeAllEntrance();
@@ -508,9 +511,9 @@ public class MatchTest {
         }
         match.checkAndMoveMasters();
         match.setNextCurrDashboard();
-        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+        System.out.println(/*"Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + */"\n" + match.showCurrentPlayerDashboard().toString());
         match.setNextCurrDashboard();
-        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+        System.out.println(/*"Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + */"\n" + match.showCurrentPlayerDashboard().toString());
 
         match.setNextCurrDashboard();
         for ( Student s : match.showCurrentPlayerDashboard().showEntrance() ) {
@@ -520,6 +523,8 @@ public class MatchTest {
         System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
         match.setNextCurrDashboard();
         System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+
+        System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
     }
     //TODO test con più di due dashboard
 
