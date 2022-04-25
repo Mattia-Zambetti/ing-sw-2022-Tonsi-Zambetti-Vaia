@@ -1,29 +1,61 @@
 package server;
 
-import controller.Controller;
-import view.RemoteView;
-import model.*;
+import model.Player;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server {
-    private static final int PORT= 12345;
+public class Server implements Runnable {
+    private static final int PORT = 11111;
+
+
     private ServerSocket serverSocket;
 
-    private ExecutorService executor = Executors.newFixedThreadPool(128);
+    private ExecutorService executor;
+    private List<Connection> connections;
 
-    private List<Connection> connections = new ArrayList<Connection>();
-    private Map<String,Connection> waitingConnection = new HashMap<>();
-    private Map<Connection, Connection> playingConnection = new HashMap<>();
 
-   //Register connection
-    private synchronized void registerConnection(Connection c){
-        connections.add(c);
+    private Map<Player, Connection> waitingRoom;
+    private Map<Connection, Connection> playingConnection;
+
+    public Server() {
+        try {
+            executor = Executors.newFixedThreadPool(4);
+            connections = new ArrayList<>();
+            waitingRoom = new HashMap<>();
+            playingConnection = new HashMap<>();
+            serverSocket = new ServerSocket(PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                Connection clientConnection = new Connection(clientSocket, this);
+                executor.submit(clientConnection);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
+
+    /*
+
 
     //Deregister connection
     public synchronized void deregisterConnection(Connection c){
@@ -69,9 +101,7 @@ public class Server {
 
     }
 
-    public Server() throws IOException {
-        this.serverSocket = new ServerSocket(PORT);
-    }
+
 
     public void run(){
         int connections = 0;
@@ -89,5 +119,4 @@ public class Server {
             }
         }
     }
-
-}
+*/
