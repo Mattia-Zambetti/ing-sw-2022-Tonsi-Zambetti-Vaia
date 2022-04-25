@@ -5,11 +5,11 @@ import model.exception.*;
 import java.util.*;
 
 public class Island {
-    private boolean isMotherNature, isForbidden;
-    public static boolean centaurEffect = false;
-    private int position, numOfTowers;
-    private TowerColor towerColor;
-    private ArrayList<Student>[] students;
+    private boolean isMotherNature, isForbidden; //da stampare
+    public static boolean centaurEffect = false; //da stampare
+    private int position, numOfTowers; //da stampare
+    private TowerColor towerColor; //da stampare
+    private ArrayList<Student>[] students; //da stampare
     private ArrayList<Tower> towerList;
 
     public Island ( boolean motherNature, int islandPosition ) {
