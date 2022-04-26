@@ -10,4 +10,10 @@ public class MoveMotherNatureChoice extends Choice{
     public void setMovement(int movement) {
         this.movement = movement;
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        setMovement(Integer.parseInt(input));
+        return false;
+    }
 }

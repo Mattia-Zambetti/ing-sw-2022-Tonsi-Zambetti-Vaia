@@ -12,4 +12,9 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
     public void setBlockedColor(Color blockedColor) {
         this.blockedColor = blockedColor;
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        return false;
+    }
 }

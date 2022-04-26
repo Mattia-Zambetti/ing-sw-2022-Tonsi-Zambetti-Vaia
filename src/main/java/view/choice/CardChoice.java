@@ -31,4 +31,10 @@ public class CardChoice extends Choice{
     public String toString() {
         return "Choose a card id from your deck:\n";
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        setChosenCard(Integer.parseInt(input));
+        return false;
+    }
 }

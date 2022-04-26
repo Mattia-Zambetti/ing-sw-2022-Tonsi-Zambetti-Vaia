@@ -17,6 +17,7 @@ public class Connection extends Observable implements Runnable{
     private ObjectOutputStream writeOut;
     private final Server server;
 
+
     private boolean isActive=true;
 
 

@@ -10,4 +10,9 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
     public void setBlockedIslanID(int blockedIslanID) {
         this.blockedIslanID = blockedIslanID;
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        return false;
+    }
 }

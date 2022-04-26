@@ -23,4 +23,10 @@ public class CloudChoice extends Choice{
     public String toString() {
         return "Insert cloud number you want to take: ";
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        setChosenCloudID(Integer.parseInt(input));
+        return false;
+    }
 }

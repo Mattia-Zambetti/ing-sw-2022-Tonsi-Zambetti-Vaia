@@ -21,6 +21,8 @@ public class Server implements Runnable {
     private ExecutorService executor;
     private List<Connection> connections;
 
+    private int totalPlayerNumber;
+    private int matchType;
 
     private Map<Player, Connection> waitingRoom;
     private Map<Connection, Connection> playingConnection;

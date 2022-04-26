@@ -10,4 +10,9 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
     public void setChosenIslandID(int chosenIslandID) {
         this.chosenIslandID = chosenIslandID;
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        return false;
+    }
 }

@@ -58,4 +58,26 @@ public class MoveStudentChoice extends Choice{
     public String getWhereToMove() {
         return whereToMove;
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        switch (getNumChoice()) {
+            case 0:
+                setWhereToMove(input);
+                choiceplus();
+                return true;
+            case 1:
+                setChosenStudent(Integer.parseInt(input));
+                choiceplus();
+                if (getWhereToMove().equals("dining room")) {
+                    return false;
+                }
+                return true;
+
+            case 2:
+                setIslandID(Integer.parseInt(input));
+                return false;
+        }
+        return false;
+    }
 }

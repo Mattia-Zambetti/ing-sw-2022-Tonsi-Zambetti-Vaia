@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client implements Runnable {
+public class Client implements Runnable{
     private final int port;
     private final String ip;
     private Choice actualToDoChoice;
@@ -29,52 +29,6 @@ public class Client implements Runnable {
         isChoiceTime=false;
     }
 
-    public void handleChoice(String choice){
-        if(actualToDoChoice instanceof CardChoice){
-            ((CardChoice)actualToDoChoice).setChosenCard(Integer.parseInt(choice));
-            isChoiceTime=false;
-        }else if(actualToDoChoice instanceof CloudChoice){
-            ((CloudChoice) actualToDoChoice).setChosenCloudID(Integer.parseInt(choice));
-            isChoiceTime=false;
-        }else if(actualToDoChoice instanceof MoveMotherNatureChoice){
-            ((MoveMotherNatureChoice) actualToDoChoice).setMovement(Integer.parseInt(choice));
-            isChoiceTime=false;
-        }else if(actualToDoChoice instanceof MoveStudentChoice) {
-            switch (((MoveStudentChoice) actualToDoChoice).getNumChoice()) {
-                case 0:
-                    ((MoveStudentChoice) actualToDoChoice).setWhereToMove(choice);
-                    ((MoveStudentChoice) actualToDoChoice).choiceplus();
-                    break;
-                case 1:
-                    ((MoveStudentChoice) actualToDoChoice).setChosenStudent(Integer.parseInt(choice));
-                    ((MoveStudentChoice) actualToDoChoice).choiceplus();
-                    if (((MoveStudentChoice) actualToDoChoice).getWhereToMove().equals("dining room")) {
-                        isChoiceTime = false;
-                    }
-                    break;
-                case 2:
-                    ((MoveStudentChoice) actualToDoChoice).setIslandID(Integer.parseInt(choice));
-                    isChoiceTime = false;
-                    break;
-
-            }
-        }else if(actualToDoChoice instanceof StartingMatchChoice) {
-            switch (((StartingMatchChoice) actualToDoChoice).getNumChoice()) {
-                case 0:
-                    ((StartingMatchChoice) actualToDoChoice).setTotalPlayersNumMatch(Integer.parseInt(choice));
-                    ((StartingMatchChoice) actualToDoChoice).choicePlusPlus();
-                    break;
-                case 1:
-                    ((StartingMatchChoice) actualToDoChoice).setMatchType(Integer.parseInt(choice));
-                    isChoiceTime = false;
-                    break;
-
-            }
-        }
-    }
-
-
-
 
     @Override
     public void run() {
@@ -82,7 +36,6 @@ public class Client implements Runnable {
         try {
             clientSocket = new Socket(ip, port);
             System.out.println("You are in the lobby");
-
 
             Thread threadUser= this.readingFromUser();
             Thread threadSocket= this.readingFromSocket();
@@ -94,6 +47,7 @@ public class Client implements Runnable {
 
 
     }
+
 
     public Thread readingFromUser() throws IOException {
         Scanner readUser= new Scanner(System.in);
@@ -114,7 +68,7 @@ public class Client implements Runnable {
                             input=readUser.nextLine();
                         } else {
                             while (isChoiceTime) {
-                                handleChoice(input);
+                                isChoiceTime=actualToDoChoice.setChoiceParam(input);
                                 input=readUser.nextLine();
                             }
                             outputStream.writeObject(actualToDoChoice);

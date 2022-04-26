@@ -28,4 +28,9 @@ public class FigureCardPlayedChoice extends Choice{
     public String toString() {
         return "Choose a figure card by inserting its card id: ";
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        return false;
+    }
 }

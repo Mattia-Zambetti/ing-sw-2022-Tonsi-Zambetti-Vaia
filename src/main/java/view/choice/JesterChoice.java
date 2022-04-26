@@ -16,5 +16,10 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
     public void setStudentsFromEntrance(Set<Student> studentsFromEntrance) {
         this.studentsFromEntrance = new HashSet<>(studentsFromEntrance);
     }
+
+    @Override
+    public boolean setChoiceParam(String input) {
+        return false;
+    }
 }
 

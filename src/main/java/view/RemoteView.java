@@ -11,7 +11,6 @@ import java.util.Observer;
 
 public class RemoteView extends Observable implements Observer {
     private Player player;
-
     private final Connection connection;
 
     public RemoteView(Player player, Connection connection) {
