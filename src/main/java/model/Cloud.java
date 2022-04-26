@@ -6,6 +6,7 @@ import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Cloud {
@@ -69,6 +70,14 @@ public class Cloud {
             res.append(s.toString()+"\n");
         }
         return res.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cloud)) return false;
+        Cloud cloud = (Cloud) o;
+        return Objects.equals(studentsOnCloud, cloud.studentsOnCloud);
     }
 
 

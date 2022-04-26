@@ -115,6 +115,14 @@ class CloudTest {
         }
     }
 
+    @Test
+    void cloudCopyTest() throws WrongCloudNumberException {
+        Cloud copyTest=new Cloud(cloudTest);
+        assertEquals(copyTest,cloudTest);
+        cloudTest.takeStudents();
+        assertNotEquals(cloudTest,copyTest);
+    }
+
 
 
 
