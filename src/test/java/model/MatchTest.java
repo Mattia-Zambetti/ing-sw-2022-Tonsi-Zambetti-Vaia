@@ -18,8 +18,10 @@ public class MatchTest {
     ArrayList<Student>[] students;
 
 
-    @BeforeEach void init() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+    @BeforeEach void init() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         match=new NormalMatch(PLAYERSNUM, false);
+        match.refillClouds();
+
         assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
         assertEquals(1, match.getCurrentPlayersNum());
@@ -37,21 +39,6 @@ public class MatchTest {
         this.students[2].add(student);
         student = new Student(2, Color.YELLOW);
         this.students[4].add(student);
-    }
-
-    @Test
-    void showBag() throws NoMoreStudentsException {
-        for (int i=0; i<Bag.getSTUDENTSNUMCOLOR()*5;i++) {
-            System.out.println(Bag.removeStudent());
-        }
-    }
-
-    @Test
-    void showAllTogetherBag() throws NoMoreStudentsException {
-            Set<Student> students=Bag.removeStudents(Bag.getSTUDENTSNUMCOLOR());
-            for(Student s: students){
-                System.out.println(s);
-            }
     }
 
 
@@ -96,27 +83,32 @@ public class MatchTest {
     //it tests the presence of a wrong choice (or not) into
     // the parameters of the moveStudentsFromCloudToEntrance's method
     @Test
-    void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+    void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, NoMoreStudentsException {
         Match tmp=new NormalMatch(PLAYERSNUM, false);
+
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
-        Bag.restoreBag();
-        System.out.println(Bag.getStudentsNum());
+        tmp.addPlayer("Tonsi", "WHITE","WIZARD2");
+        tmp.refillClouds();
+
+
+        tmp.moveStudentFromEntranceToDR(tmp.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        tmp.moveStudentFromEntranceToDR(tmp.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        tmp.moveStudentFromEntranceToDR(tmp.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
 
         int chosenCloud=PLAYERSNUM+1;
-        match.moveStudentsFromCloudToEntrance(chosenCloud);
-        chosenCloud=0;
-        match.moveStudentsFromCloudToEntrance(chosenCloud);
+        assertThrows(WrongCloudNumberException.class,()->tmp.moveStudentsFromCloudToEntrance(chosenCloud));
+        int chosenCloud1=0;
+        assertThrows(WrongCloudNumberException.class,()->tmp.moveStudentsFromCloudToEntrance(chosenCloud1));
 
-        chosenCloud=PLAYERSNUM;
-        Set<Student> entranceTest=  new HashSet<>(match.showCurrentPlayerDashboard().showEntrance());
-        match.moveStudentsFromCloudToEntrance(chosenCloud);
-        assertNotSame(match.showCurrentPlayerDashboard().showEntrance(),entranceTest);
+        Set<Student> entranceTest=  new HashSet<>(tmp.showCurrentPlayerDashboard().showEntrance());
+        tmp.moveStudentsFromCloudToEntrance(PLAYERSNUM);
+        assertNotSame(tmp.showCurrentPlayerDashboard().showEntrance(),entranceTest);
     }
 
     //It tests if the method refillClouds() correctly by refilling without students
     // (and with,that is a possible error) on the clouds
     @Test
-    void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException {
+    void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException, NoMoreStudentsException, WrongCloudNumberException {
         System.out.println(match.toStringStudentsOnCloud());
         for(int i=0; i<PLAYERSNUM; i++){
             match.moveStudentsFromCloudToEntrance(i+1);
@@ -141,7 +133,7 @@ public class MatchTest {
     }
 
     @Test
-    void chooseCardMethod() throws CardNotFoundException {
+    void chooseCardMethod() throws CardNotFoundException, NoMoreCardException {
         Card tmp=new Card(2,2,1);
 
         assertTrue(match.showCards().contains(tmp));
@@ -228,7 +220,7 @@ public class MatchTest {
     }
 
     @Test
-    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException {
+    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException {
         Dashboard dashboard0 = new Dashboard(6,TowerColor.GREY,Wizard.WIZARD1,"Rebecca",1);
         Dashboard dashboard1 = new Dashboard(6,TowerColor.BLACK,Wizard.WIZARD1,"Rebecco",2);
         Master masterR = new Master(Color.RED);
@@ -259,7 +251,7 @@ public class MatchTest {
     }
 
     @Test
-    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
+    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException {
         assertEquals(true, match.checkMotherNatureOnIsland(0));
         match.chooseCard(new Card(5,10,5));
         match.moveMotherNature(3);
@@ -408,7 +400,7 @@ public class MatchTest {
 
     //This test checks that dashboard order is correctly set after that players have played cards - only 2 players
     @Test
-    void setDashboardOrderTest2Player() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+    void setDashboardOrderTest2Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException {
 
         HashSet<Card> playerCards;
 
@@ -429,7 +421,7 @@ public class MatchTest {
 
     //This test checks that dashboard order is correctly set after that players have played cards - only 3 players
     @Test
-    void setDashboardOrderTest3Player() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+    void setDashboardOrderTest3Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException {
 
         match=new NormalMatch(3, false);
 
@@ -455,7 +447,7 @@ public class MatchTest {
 
     //This test checks that dashboard order is correctly set after that players have played cards - only 4 players
     @Test
-    void setDashboardOrderTest4Player() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+    void setDashboardOrderTest4Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException {
 
         match=new NormalMatch(4, false);
 

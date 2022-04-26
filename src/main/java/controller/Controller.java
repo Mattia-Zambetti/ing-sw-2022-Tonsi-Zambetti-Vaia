@@ -59,6 +59,9 @@ public class Controller implements Observer {
             System.out.println(e.getMessage());
         } catch (WrongColorException e) {
             e.printStackTrace();
+        } catch (NoMoreStudentsException e) {
+            remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+            //e.printStackTrace();//TODO CONDIZIONE END MATCH
         }
     }
 
@@ -67,7 +70,15 @@ public class Controller implements Observer {
     public void update(Observable o, Object arg) {
         if(o instanceof RemoteView) {
             if(arg instanceof CardChoice) {
-                match.chooseCard(((CardChoice) arg).getChosenCard());
+                try {
+                    match.chooseCard(((CardChoice) arg).getChosenCard());
+                } catch (CardNotFoundException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                    Choice choice=new CardChoice(match.showCards());
+                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
+                } catch (NoMoreCardException e) {
+                    remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+                }
             }else if(arg instanceof MoveStudentChoice){
                 switch (((MoveStudentChoice) arg).getWhereToMove().toUpperCase()) {
                     case "DINING ROOM":
@@ -111,8 +122,9 @@ public class Controller implements Observer {
                     e.printStackTrace();
                 } catch (WrongColorException e) {//TODO
                     e.printStackTrace();
-                } catch (NoMoreStudentsException e) {//TODO NON QUI
-                    e.printStackTrace();
+                } catch (NoMoreStudentsException e) {//TODO
+                    remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+                    //e.printStackTrace();
                 }
             }else if(arg instanceof JesterChoice){
                 try {
@@ -122,7 +134,8 @@ public class Controller implements Observer {
                     Choice choice=new JesterChoice();
                     remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
                 } catch (NoMoreStudentsException e) {//TODO
-                    e.printStackTrace();
+                    remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+                    //e.printStackTrace();
                 }
             }else if(arg instanceof PrincessChoice){
                 try {
@@ -132,7 +145,8 @@ public class Controller implements Observer {
                     Choice choice=new JesterChoice();
                     remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
                 } catch (NoMoreStudentsException e) {//TODO
-                    e.printStackTrace();
+                    remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+                    //e.printStackTrace();
                 } catch (WrongColorException e) {//TODO QUI?
                     e.printStackTrace();
                 }
@@ -146,7 +160,8 @@ public class Controller implements Observer {
                     Choice choice=new GrannyGrassChoice();
                     remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
                 } catch (NoMoreBlockCardsException e) {
-                    e.printStackTrace();//TODO
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                    //e.printStackTrace();//TODO
                 }
             }
             //END EXPERT MATCH
@@ -163,7 +178,13 @@ public class Controller implements Observer {
                     remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 }
             }else if(arg instanceof CloudChoice){
-                match.moveStudentsFromCloudToEntrance(((CloudChoice) arg).getChosenCloudID());
+                try {
+                    match.moveStudentsFromCloudToEntrance(((CloudChoice) arg).getChosenCloudID());
+                } catch (WrongCloudNumberException e) {
+                    e.printStackTrace();
+                } catch (MaxNumberException e) {
+                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                }
             }
         }
     }

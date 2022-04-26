@@ -175,36 +175,34 @@ public class Match extends Observable {
     //TESTED
     //it is used at the start of a round to refill every cloud
     //with new students from the bag
-    public void refillClouds() {
-        try {
-            for (Cloud c : clouds) {
+    public void refillClouds() throws NoMoreStudentsException {
+        for (Cloud c : clouds) {
+            try {
                 c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+            } catch (AlreadyFilledCloudException | MaxNumberException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
-        }catch (AlreadyFilledCloudException | MaxNumberException | NoMoreStudentsException e){
-            System.out.println(e.getMessage());
         }
+
     }
 
     //TESTED
     //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
     //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
     //the current player's entrance
-    public void moveStudentsFromCloudToEntrance(int chosenCloud) {
+    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException{
         try {
-            if (chosenCloud <= totalPlayersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
+
+            if (chosenCloud <= totalPlayersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals("") )
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
             setChanged();
-            notifyObservers(this);//non so cosa potrebbe notificare per ora, vedremo
-        }catch (MaxNumberException | StudentIDAlreadyExistingException e){
+            notifyObservers(this);
+        }catch (StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
-        }catch (WrongCloudNumberException e){
-            System.out.println(e.getMessage());
-
-            setChanged();
-            notifyObservers(this); //TODO qui bisogna capire cosa notifichiamo,
-                                                    // per dire di ripetere la scelta
+            e.printStackTrace();
         }
     }
 
@@ -230,25 +228,16 @@ public class Match extends Observable {
         return currentPlayerDashboard.showCards();
     }
 
-    public void chooseCard(Card chosenCard) {
+    public void chooseCard(Card chosenCard) throws CardNotFoundException, NoMoreCardException{
+        currentPlayerDashboard.playChosenCard(chosenCard);
 
-        try {
-            currentPlayerDashboard.playChosenCard(chosenCard);
-
-            //qui si passa al prossimo giocatore, di modo che se la carta è corretta ci entra
-            //e passa al prossimo, se non lo è viene direttamente catchato. Nel momento in
-            //cui ci troviamo all'ultima carta, lancia l'exception e prosegue col normale corso
-            //del programma
-
-            if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
-                throw new NoMoreCardException("It's the last turn");
-            }
-        } catch (CardNotFoundException | NoMoreCardException e) {
-            System.out.println(e.getMessage());
-        }finally {
-            setChanged();
-            notifyObservers(this);
+        if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
+            throw new NoMoreCardException("It's the last turn");
         }
+
+        setChanged();
+        notifyObservers(this);
+
     }
 
     //this method must be fixed

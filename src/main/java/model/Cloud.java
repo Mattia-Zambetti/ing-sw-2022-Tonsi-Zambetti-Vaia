@@ -52,21 +52,21 @@ public class Cloud {
     public void refillCloud(Set<Student> students) throws MaxNumberException, AlreadyFilledCloudException {
         if(studentsOnCloud.size()==0) {
             for (Student s : students) {
-                if (s.getColor() == null) {
+                if (s == null) {
                     throw new MaxNumberException("Wrong parameter in refilling cloud's operation");
                 }
             }
             if (students.size() == getStudentsNumOnCloud())
-                studentsOnCloud.addAll(students);
+                studentsOnCloud.addAll(new HashSet<>(students));
             else throw new MaxNumberException("Wrong size of the set to refill the clouds");
         }else throw new AlreadyFilledCloudException("there's a cloud that has already been filled");
     }
 
     @Override
     public String toString(){
-        StringBuilder res = new StringBuilder();
+        StringBuilder res=new StringBuilder("");
         for (Student s: studentsOnCloud) {
-            res.append(s.toString()).append("\n");
+            res.append(s.toString()+"\n");
         }
         return res.toString();
     }

@@ -103,7 +103,7 @@ class CloudTest {
 
         tmp.add(new Student(1,Color.YELLOW));
         tmp.add(new Student(2,Color.RED));
-        tmp.add(new Student(3,null));
+        tmp.add(null);
         try {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
