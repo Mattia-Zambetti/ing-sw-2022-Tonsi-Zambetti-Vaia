@@ -2,6 +2,7 @@ package server;
 
 
 import view.choice.Choice;
+import view.choice.StartingMatchChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,25 +12,23 @@ import java.util.Observable;
 
 public class Connection extends Observable implements Runnable{
 
-    private final ObjectInputStream scannerIn;
-    private final ObjectOutputStream writeOut;
-    private final Socket socket;
+    private Socket clientSocket;
+    private ObjectInputStream scannerIn;
+    private ObjectOutputStream writeOut;
     private final Server server;
 
     private boolean isActive=true;
 
 
     public Connection(Socket socket, Server server) throws IOException {
-        this.socket=socket;
-
-        scannerIn=new ObjectInputStream(socket.getInputStream());
-        writeOut=new ObjectOutputStream(socket.getOutputStream());
-
+        this.clientSocket=socket;
         this.server=server;
     }
 
     public synchronized void send(Object obj){
+
         try {
+
             writeOut.writeObject(obj);
             writeOut.flush();
         } catch (IOException e) {
@@ -40,8 +39,14 @@ public class Connection extends Observable implements Runnable{
     @Override
     public void run() {
         try {
-            send("Whar's your name?");
-            while(isActive) {//TODO sa
+            writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
+            scannerIn=new ObjectInputStream(clientSocket.getInputStream());
+
+            if(server.getConnectionsSize()==1){
+                Choice choice=new StartingMatchChoice();
+                send(choice);
+            }
+            while(isActive) {//TODO
 
                 Choice choice = (Choice) scannerIn.readObject();
                 setChanged();

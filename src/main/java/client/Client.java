@@ -39,9 +39,8 @@ public class Client implements Runnable {
         }else if(actualToDoChoice instanceof MoveMotherNatureChoice){
             ((MoveMotherNatureChoice) actualToDoChoice).setMovement(Integer.parseInt(choice));
             isChoiceTime=false;
-        }else if(actualToDoChoice instanceof MoveStudentChoice){
-            switch (((MoveStudentChoice) actualToDoChoice).getNumChoice())
-            {
+        }else if(actualToDoChoice instanceof MoveStudentChoice) {
+            switch (((MoveStudentChoice) actualToDoChoice).getNumChoice()) {
                 case 0:
                     ((MoveStudentChoice) actualToDoChoice).setWhereToMove(choice);
                     ((MoveStudentChoice) actualToDoChoice).choiceplus();
@@ -49,18 +48,31 @@ public class Client implements Runnable {
                 case 1:
                     ((MoveStudentChoice) actualToDoChoice).setChosenStudent(Integer.parseInt(choice));
                     ((MoveStudentChoice) actualToDoChoice).choiceplus();
-                    if(((MoveStudentChoice) actualToDoChoice).getWhereToMove().equals("dining room")){
-                        isChoiceTime=false;
+                    if (((MoveStudentChoice) actualToDoChoice).getWhereToMove().equals("dining room")) {
+                        isChoiceTime = false;
                     }
                     break;
                 case 2:
                     ((MoveStudentChoice) actualToDoChoice).setIslandID(Integer.parseInt(choice));
-                    isChoiceTime=false;
+                    isChoiceTime = false;
                     break;
-            }
 
+            }
+        }else if(actualToDoChoice instanceof StartingMatchChoice) {
+            switch (((StartingMatchChoice) actualToDoChoice).getNumChoice()) {
+                case 0:
+                    ((StartingMatchChoice) actualToDoChoice).setTotalPlayersNumMatch(Integer.parseInt(choice));
+                    ((StartingMatchChoice) actualToDoChoice).choicePlusPlus();
+                    break;
+                case 1:
+                    ((StartingMatchChoice) actualToDoChoice).setMatchType(Integer.parseInt(choice));
+                    isChoiceTime = false;
+                    break;
+
+            }
         }
     }
+
 
 
 
@@ -69,10 +81,11 @@ public class Client implements Runnable {
 
         try {
             clientSocket = new Socket(ip, port);
-            ObjectInputStream readObject=new ObjectInputStream(clientSocket.getInputStream());
-            System.out.println("You are in the game");
+            System.out.println("You are in the lobby");
+
+
             Thread threadUser= this.readingFromUser();
-            Thread threadSocket= this.readingFromSocket(readObject);
+            Thread threadSocket= this.readingFromSocket();
             threadUser.join();
             threadSocket.join();
         } catch (IOException | InterruptedException e) {
@@ -90,18 +103,23 @@ public class Client implements Runnable {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                String input=readUser.nextLine();
                 while (isActive) {
                     try {
+
                         if (!isChoiceTime) {
-                            readUser.nextLine();
+
                             writeUser.println("It's not your turn, please wait...");
                             writeUser.flush();
-                        } else
+                            input=readUser.nextLine();
+                        } else {
                             while (isChoiceTime) {
-                                handleChoice(readUser.nextLine());
+                                handleChoice(input);
+                                input=readUser.nextLine();
                             }
                             outputStream.writeObject(actualToDoChoice);
                             outputStream.flush();
+                        }
                     }catch (IllegalStateException e){
                         isActive=false;
                     }catch (IOException e){
@@ -114,8 +132,9 @@ public class Client implements Runnable {
         return t;
     }
 
-    public Thread readingFromSocket(ObjectInputStream readSocket){
+    public Thread readingFromSocket() throws IOException {
         PrintWriter writeUser=new PrintWriter(System.out);
+        ObjectInputStream readSocket=new ObjectInputStream(clientSocket.getInputStream());
 
         Thread t= new Thread(new Runnable() {
             @Override

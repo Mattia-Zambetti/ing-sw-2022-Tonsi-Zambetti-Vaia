@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class MoveStudentChoice implements Choice{
+public class MoveStudentChoice extends Choice{
     private int chosenStudent;
     private int islandID;
     private String whereToMove;

@@ -1,6 +1,6 @@
 package view.choice;
 
-public class MoveMotherNatureChoice implements Choice{
+public class MoveMotherNatureChoice extends Choice{
     private int movement;
 
     public int getMovement() {

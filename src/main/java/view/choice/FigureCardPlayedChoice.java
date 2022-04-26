@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FigureCardPlayedChoice implements Choice{
+public class FigureCardPlayedChoice extends Choice{
     private int chosenFigureCard;
     private final Map<Integer, FigureCard> figureCardsMap;
     public FigureCardPlayedChoice(List<FigureCard> currentFigureCards){

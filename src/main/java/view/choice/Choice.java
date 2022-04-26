@@ -1,4 +1,6 @@
 package view.choice;
 
-public interface Choice {
+import java.io.Serializable;
+
+public abstract class Choice implements Serializable {
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server implements Runnable {
-    private static final int PORT = 11111;
+    private static final int PORT = 12345;
 
 
     private ServerSocket serverSocket;
@@ -40,17 +40,29 @@ public class Server implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        do {
             try {
                 Socket clientSocket = serverSocket.accept();
+
+
                 Connection clientConnection = new Connection(clientSocket, this);
+
+                connections.add(clientConnection);
+
+                System.out.println("Connection number: "+ connections.size());
+
                 executor.submit(clientConnection);
+
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }while(true);
 
+    }
+
+    public int getConnectionsSize() {
+        return connections.size();
     }
 }
 

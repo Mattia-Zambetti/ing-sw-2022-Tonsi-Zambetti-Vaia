@@ -5,7 +5,7 @@ import model.Cloud;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CloudChoice implements Choice{
+public class CloudChoice extends Choice{
     private int chosenCloudID;
     private final List<Cloud> actualClouds;
     public CloudChoice(List<Cloud> clouds){

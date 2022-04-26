@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class CardChoice implements Choice{
+public class CardChoice extends Choice{
     private int chosenCard;
     private final Map<Integer,Card> availableCards;
 

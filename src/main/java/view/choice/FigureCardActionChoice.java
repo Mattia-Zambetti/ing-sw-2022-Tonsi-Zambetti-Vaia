@@ -2,7 +2,7 @@ package view.choice;
 
 import model.figureCards.FigureCard;
 
-public abstract class FigureCardActionChoice implements Choice{
+public abstract class FigureCardActionChoice extends Choice{
     private FigureCard figureCardPlayed;
 
     public FigureCard getFigureCardPlayed() {
