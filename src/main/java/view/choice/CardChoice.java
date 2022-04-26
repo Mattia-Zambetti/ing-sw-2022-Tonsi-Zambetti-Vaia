@@ -1,6 +1,10 @@
 package view.choice;
 
 import model.Card;
+import model.Match;
+import model.exception.CardNotFoundException;
+import model.exception.NoMoreCardException;
+import view.RemoteView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +38,17 @@ public class CardChoice extends Choice{
 
     @Override
     public boolean setChoiceParam(String input) {
-        setChosenCard(Integer.parseInt(input));
-        return false;
+        if(isItAnInt(input)) {
+            if(availableCards.get(chosenCard)!=null) {
+                setChosenCard(Integer.parseInt(input));
+                return false;
+            }else System.out.println("This card isn't in you deck, try again: ");
+        }
+        return true;
+    }
+
+    @Override
+    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException {
+        match.chooseCard(this.getChosenCard());
     }
 }

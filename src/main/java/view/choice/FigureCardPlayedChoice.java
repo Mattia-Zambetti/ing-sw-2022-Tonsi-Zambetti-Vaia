@@ -1,6 +1,11 @@
 package view.choice;
 
+import model.ExpertMatch;
+import model.Match;
+import model.exception.*;
 import model.figureCards.FigureCard;
+import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
+import view.RemoteView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +36,15 @@ public class FigureCardPlayedChoice extends Choice{
 
     @Override
     public boolean setChoiceParam(String input) {
-        return false;
+        if(isItAnInt(input)) {
+            setChosenFigureCard(Integer.parseInt(input));
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
+        ((ExpertMatch)match).playFigureCard(this.getChosenFigureCard());
     }
 }

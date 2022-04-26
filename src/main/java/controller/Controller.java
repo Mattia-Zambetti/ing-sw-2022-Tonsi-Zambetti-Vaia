@@ -42,15 +42,18 @@ public class Controller implements Observer {
                         actualChoice = new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
                         remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
                     }
+
                     match.checkAndMoveMasters();
+
                     if(isExpertMatch) {
                         actualChoice = new FigureCardPlayedChoice(((ExpertMatch) match).showFigureCardsInGame());
                         remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
                     }
+
                     actualChoice=new MoveMotherNatureChoice();
                     remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
 
-                    actualChoice=new CloudChoice(match.showClouds());
+                    actualChoice=new CloudChoice();
                     remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
                 }while(match.setNextCurrDashboard());
             }
@@ -68,18 +71,53 @@ public class Controller implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof RemoteView) {
-            if(arg instanceof CardChoice) {
-                try {
-                    match.chooseCard(((CardChoice) arg).getChosenCard());
-                } catch (CardNotFoundException e) {
-                    remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-                    Choice choice=new CardChoice(match.showCards());
-                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
-                } catch (NoMoreCardException e) {
-                    remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
-                }
-            }else if(arg instanceof MoveStudentChoice){
+        if (o instanceof RemoteView) {
+            try {
+                ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
+            } catch (CardNotFoundException e) {
+                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
+            } catch (NoMoreCardException e) {
+                remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+            } catch (WrongCloudNumberException e) {
+                e.printStackTrace();
+            } catch (MaxNumberException e) {
+                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                //remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                //remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice)arg);
+            } catch (FigureCardAlreadyPlayedInThisTurnException e) {//TODO siamo sicuri che serva?
+                remoteViewMap.get(match.showCurrentPlayer()).sendError("You have already played this card in this turn");
+            } catch (InsufficientCoinException e) {
+                remoteViewMap.get(match.showCurrentPlayer()).sendError("You don't have enough coins");
+            } catch (InexistentStudentException e) {
+                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);//TODO FUNZIONERA'?
+            } catch (StudentIDAlreadyExistingException e) {
+                e.printStackTrace();
+                //remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                //Choice choice=new JesterChoice();
+                //remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
+            } catch (WrongColorException e) {//TODO
+                e.printStackTrace();
+            } catch (NoMoreStudentsException e) {//TODO
+                remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+                //e.printStackTrace();
+            } catch (NoIslandException e) {
+                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
+            } catch (NoMoreBlockCardsException e) {
+                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+                //e.printStackTrace();//TODO
+            } catch (SameInfluenceException e) {
+                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+            }
+        }
+    }
+}
+
+
+/*
+}else if(arg instanceof MoveStudentChoice){
                 switch (((MoveStudentChoice) arg).getWhereToMove().toUpperCase()) {
                     case "DINING ROOM":
                         match.moveStudentFromEntranceToDR(((MoveStudentChoice) arg).getChosenStudent());
@@ -186,6 +224,5 @@ public class Controller implements Observer {
                     remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 }
             }
-        }
-    }
-}
+
+ */

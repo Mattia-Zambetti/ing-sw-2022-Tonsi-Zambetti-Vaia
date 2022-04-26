@@ -1,6 +1,9 @@
 package view.choice;
 
+import model.Match;
 import model.Student;
+import model.exception.*;
+import view.RemoteView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,19 +68,46 @@ public class MoveStudentChoice extends Choice{
             case 0:
                 setWhereToMove(input);
                 choiceplus();
-                return true;
+                break;
             case 1:
-                setChosenStudent(Integer.parseInt(input));
-                choiceplus();
-                if (getWhereToMove().equals("dining room")) {
-                    return false;
+                if(isItAnInt(input)) {
+                    setChosenStudent(Integer.parseInt(input));
+                    choiceplus();
+                    if (getWhereToMove().equals("dining room")) {
+                        return false;
+                    }
                 }
-                return true;
+                break;
 
             case 2:
-                setIslandID(Integer.parseInt(input));
-                return false;
+                if(isItAnInt(input)) {
+                    setIslandID(Integer.parseInt(input));
+                    return false;
+                }
+                break;
         }
-        return false;
+        return true;
+    }
+
+    @Override
+    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
+        switch (this.getWhereToMove().toUpperCase()) {
+            case "DINING ROOM":
+                match.moveStudentFromEntranceToDR(this.getChosenStudent());
+                break;
+            case "ISLAND":
+                try {
+                    match.moveStudentFromEntranceToIsland(this.getChosenStudent(), this.getIslandID());
+                } catch (NoIslandException e) {
+                    remoteView.sendError(e.getMessage());
+                    Choice choice=new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
+                    remoteView.choiceUser(choice);
+                }
+                break;
+            default:
+                remoteView.sendError("Choose between Island or Dining Room");
+                Choice choice=new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
+                remoteView.choiceUser(choice);
+        }
     }
 }

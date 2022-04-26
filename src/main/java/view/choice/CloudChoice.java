@@ -1,16 +1,18 @@
 package view.choice;
 
-import model.Cloud;
-
-import java.util.ArrayList;
-import java.util.List;
+import model.Match;
+import model.exception.CardNotFoundException;
+import model.exception.MaxNumberException;
+import model.exception.NoMoreCardException;
+import model.exception.WrongCloudNumberException;
+import view.RemoteView;
 
 public class CloudChoice extends Choice{
     private int chosenCloudID;
-    private final List<Cloud> actualClouds;
-    public CloudChoice(List<Cloud> clouds){
-        actualClouds=new ArrayList<>(clouds);
+
+    public CloudChoice(){
     }
+
     public int getChosenCloudID() {
         return chosenCloudID;
     }
@@ -28,5 +30,10 @@ public class CloudChoice extends Choice{
     public boolean setChoiceParam(String input) {
         setChosenCloudID(Integer.parseInt(input));
         return false;
+    }
+
+    @Override
+    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
+        match.moveStudentsFromCloudToEntrance(this.getChosenCloudID());
     }
 }
