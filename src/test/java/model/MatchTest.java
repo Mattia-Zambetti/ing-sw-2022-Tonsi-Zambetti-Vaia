@@ -528,6 +528,62 @@ public class MatchTest {
     }
     //TODO test con più di due dashboard
 
+    @Test
+    void IslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException {
+
+        match=new NormalMatch(PLAYERSNUM, false);
+
+        match.addPlayer("Vaia", "WHITE", "WIZARD1");
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+
+        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+        Student studentToMove = studentsInEntrance.get(0);
+        System.out.println(studentToMove.toString());
+        match.moveStudentFromEntranceToDR(studentToMove);
+        match.checkAndMoveMasters();
+        assertTrue(match.showCurrentPlayerDashboard().haveMaster(studentToMove.getColor()));
+
+        match.chooseCard(new Card(3,2,3));
+
+        for ( Island island : match.islands ) {
+            match.moveMotherNature(1);
+            if ( match.getStudentsOnIsland(island.getPosition())[studentToMove.getColor().ordinal()].size()>0 )
+                assertEquals(TowerColor.WHITE, match.getTowerColorFromIsland(island.getPosition()));
+        }
+        for ( Island i : match.islands ) {
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    void ExpertMatchIslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException {
+
+        match=new ExpertMatch(PLAYERSNUM);
+
+        match.addPlayer("Vaia", "WHITE", "WIZARD1");
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+
+        ((ExpertMatch)match).setCentaurEffect(true);
+
+        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+        Student studentToMove = studentsInEntrance.get(0);
+        System.out.println(studentToMove.toString());
+        match.moveStudentFromEntranceToDR(studentToMove);
+        match.checkAndMoveMasters();
+        assertTrue(match.showCurrentPlayerDashboard().haveMaster(studentToMove.getColor()));
+
+        match.chooseCard(new Card(3,2,3));
+
+        for ( Island island : match.islands ) {
+            match.moveMotherNature(1);
+            if ( match.getStudentsOnIsland(island.getPosition())[studentToMove.getColor().ordinal()].size()>0 )
+                assertEquals(TowerColor.WHITE, match.getTowerColorFromIsland(island.getPosition()));
+        }
+        for ( Island i : match.islands ) {
+            System.out.println(i);
+        }
+    }
+
     //End Test Zambo
 
 }

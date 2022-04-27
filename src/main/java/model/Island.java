@@ -1,5 +1,6 @@
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 
 import java.util.*;
@@ -128,5 +129,37 @@ public class Island {
 
     public boolean checkIsMotherNature(){
         return isMotherNature;
+    }
+
+    @Override
+    public String toString() {
+        String OutputString =   "\n======================" +
+                                "\n       ISLAND " + position + "      ";
+        if ( isMotherNature )
+            OutputString = OutputString.concat("\n     MOTHER NATURE    ");
+        else
+            OutputString = OutputString.concat("\n                      ");
+        for ( Color c : Color.values() ) {
+            OutputString = OutputString.concat("\n  " + CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(c) + getStudentsNumByColor(c) + " " + c.toString() + " students" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
+        }
+        OutputString = OutputString.concat("\n                      ");
+        if ( numOfTowers > 0 ) {
+            try {
+                OutputString = OutputString.concat("\n    " + numOfTowers + " " + getTowerColor().toString() + " TOWERS");
+            } catch (NoTowerException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+            OutputString = OutputString.concat("\n      NO TOWERS       ");
+        if ( isForbidden )
+            OutputString = OutputString.concat("\n   FORBIDDEN ISLAND   ");
+        if ( centaurEffect )
+            OutputString = OutputString.concat("\n    CENTAUR EFFECT    ");
+
+        OutputString = OutputString.concat("\n======================");
+
+
+        return OutputString;
     }
 }
