@@ -2,6 +2,7 @@ package server;
 
 
 import view.choice.Choice;
+import view.choice.DataPlayerChoice;
 import view.choice.StartingMatchChoice;
 
 import java.io.IOException;
@@ -29,7 +30,6 @@ public class Connection extends Observable implements Runnable{
     public synchronized void send(Object obj){
 
         try {
-
             writeOut.writeObject(obj);
             writeOut.flush();
         } catch (IOException e) {
@@ -42,14 +42,21 @@ public class Connection extends Observable implements Runnable{
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
-
+            Choice choice = null;
             if(server.getConnectionsSize()==1){
-                Choice choice=new StartingMatchChoice();
+                choice=new StartingMatchChoice();
                 send(choice);
+                Choice startChoice = (Choice) scannerIn.readObject();
+                server.setMatchParams(((StartingMatchChoice)startChoice).getTotalNumMatchType(),((StartingMatchChoice)startChoice).getMatchType());
             }
-            while(isActive) {//TODO
 
-                Choice choice = (Choice) scannerIn.readObject();
+            choice = new DataPlayerChoice(server.getTotalPlayerNumber());
+            send(choice);
+            choice = (Choice) scannerIn.readObject();
+            server.lobby(this,(DataPlayerChoice) choice);
+
+            while(isActive) {//TODO
+                choice = (Choice) scannerIn.readObject();
                 setChanged();
                 notifyObservers(choice);
             }

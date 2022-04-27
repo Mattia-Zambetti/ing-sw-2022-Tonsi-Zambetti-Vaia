@@ -1,6 +1,9 @@
 package server;
 
-import model.Player;
+import controller.Controller;
+import model.*;
+import view.RemoteView;
+import view.choice.DataPlayerChoice;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -24,7 +27,7 @@ public class Server implements Runnable {
     private int totalPlayerNumber;
     private int matchType;
 
-    private Map<Player, Connection> waitingRoom;
+    private Map<Connection, Player> waitingRoom;
     private Map<Connection, Connection> playingConnection;
 
     public Server() {
@@ -39,6 +42,9 @@ public class Server implements Runnable {
         }
     }
 
+    public int getTotalPlayerNumber() {
+        return totalPlayerNumber;
+    }
 
     @Override
     public void run() {
@@ -63,8 +69,54 @@ public class Server implements Runnable {
 
     }
 
+
+
     public int getConnectionsSize() {
         return connections.size();
+    }
+
+    public void setMatchParams(int totalPlayerNumber, int matchType){
+        this.totalPlayerNumber = totalPlayerNumber;
+        this.matchType = matchType;
+    }
+
+    public synchronized void lobby(Connection c, DataPlayerChoice dataPlayerChoice){
+        List<RemoteView> remoteViewList=new ArrayList<>();
+        boolean isExpertMatch = false;
+        Match match = null;
+        waitingRoom.put(c, dataPlayerChoice.getPlayer());
+        if(waitingRoom.size() == totalPlayerNumber - 1){
+
+            for (Connection connection : connections){
+                remoteViewList.add(new RemoteView(waitingRoom.get(connection),connection));
+            }
+
+            switch (matchType){
+                case 0:
+                    match = new NormalMatch(totalPlayerNumber, true);
+                    break;
+                case 1 :
+                    match = new ExpertMatch(totalPlayerNumber);
+                    isExpertMatch = true;
+                    break;
+            }
+
+            Controller controller = new Controller(match,remoteViewList,isExpertMatch);
+            MatchView matchView = new MatchView();
+
+            for (RemoteView remoteView : remoteViewList){
+                match.addObserver(remoteView);
+                remoteView.addObserver(controller);
+                matchView.addObserver(remoteView);
+            }
+
+            match.addObserver(matchView);
+
+            System.out.println("Starting match");
+            controller.startMatch();
+            waitingRoom.clear();
+        }
+
     }
 }
 

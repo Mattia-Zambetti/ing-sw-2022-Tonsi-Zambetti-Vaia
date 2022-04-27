@@ -78,5 +78,8 @@ public class StartingMatchChoice extends Choice{
         //QUESTO IN ReALTA' NON DEVE ESSERE MAI CHIAMATO, almeno per ora
     }
 
+    public int getTotalNumMatchType(){
+        return totalPlayersNumMatch;
+    }
 
 }

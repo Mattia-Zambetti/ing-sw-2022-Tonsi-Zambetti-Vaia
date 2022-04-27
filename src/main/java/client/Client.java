@@ -57,23 +57,23 @@ public class Client implements Runnable{
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                String input=readUser.nextLine();
+                String input;
                 while (isActive) {
                     try {
-
+                        input=readUser.nextLine();
                         if (!isChoiceTime) {
-
-                            writeUser.println("It's not your turn, please wait...");
+                            writeUser.println("please wait...");
                             writeUser.flush();
-                            input=readUser.nextLine();
                         } else {
                             while (isChoiceTime) {
                                 isChoiceTime=actualToDoChoice.setChoiceParam(input);
-                                input=readUser.nextLine();
+                                if(isChoiceTime)
+                                    input=readUser.nextLine();
                             }
                             outputStream.writeObject(actualToDoChoice);
                             outputStream.flush();
                         }
+                        //input=readUser.nextLine();
                     }catch (IllegalStateException e){
                         isActive=false;
                     }catch (IOException e){
