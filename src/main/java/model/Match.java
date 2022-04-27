@@ -181,7 +181,6 @@ public class Match extends Observable {
                 c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
             } catch (AlreadyFilledCloudException | MaxNumberException e) {
                 System.out.println(e.getMessage());
-                e.printStackTrace();
             }
         }
 

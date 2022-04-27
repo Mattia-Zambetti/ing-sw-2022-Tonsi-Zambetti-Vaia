@@ -116,12 +116,12 @@ public class MatchTest {
         }
         assertEquals("",match.toStringStudentsOnCloud());
         match.refillClouds();
-        System.out.println(match.toStringStudentsOnCloud());
+        String studentsAndCloudsTest=match.toStringStudentsOnCloud();
 
+        //catcha exception
         match.refillClouds();
-        System.out.println(match.toStringStudentsOnCloud());
 
-        //assertEquals("there's a cloud that is already filled",e.getMessage());
+        assertEquals(studentsAndCloudsTest,match.toStringStudentsOnCloud());
     }
 
     //It tests if the cards are returned and shown correctly(method used by the view)
