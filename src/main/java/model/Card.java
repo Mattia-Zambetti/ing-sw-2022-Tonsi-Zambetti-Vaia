@@ -35,8 +35,8 @@ public class Card implements Serializable {
 
     //Useful to obtain a representation of a card in string format
     public String toString() {
-        return "Card "+id+":\n" +
-                "value: " + value +"\n"+
+        return "Card "+id+":" +
+                " value " + value +","+
                 "movementValue: " + movementValue +"\n";
     }
 
