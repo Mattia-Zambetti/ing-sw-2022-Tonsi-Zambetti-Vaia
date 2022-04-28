@@ -32,6 +32,13 @@ public class Controller implements Observer {
         Choice actualChoice;
         try{
             while(true){
+                for (Player p: remoteViewMap.keySet()) {
+                    actualChoice = new DataPlayerChoice(match.getTotalPlayersNum(), p.getNickname());
+                    remoteViewMap.get(p).choiceUser(actualChoice);
+
+                }
+
+
                 match.refillClouds();
                 do{
                     actualChoice=new CardChoice(match.showCards());
@@ -74,6 +81,7 @@ public class Controller implements Observer {
         if (o instanceof RemoteView) {
             try {
                 ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
+
             } catch (CardNotFoundException e) {
                 remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
@@ -110,6 +118,8 @@ public class Controller implements Observer {
                 //e.printStackTrace();//TODO
             } catch (SameInfluenceException e) {
                 remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
+            } catch (WrongDataplayerException e) {
+                e.printStackTrace();
             }
         }
     }

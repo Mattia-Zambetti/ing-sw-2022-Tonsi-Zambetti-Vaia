@@ -19,7 +19,6 @@ public class Client implements Runnable{
 
 
 
-
     private boolean isActive=true;
     private boolean isChoiceTime;
 
@@ -65,15 +64,12 @@ public class Client implements Runnable{
                             writeUser.println("please wait...");
                             writeUser.flush();
                         } else {
-                            while (isChoiceTime) {
-                                isChoiceTime=actualToDoChoice.setChoiceParam(input);
-                                if(isChoiceTime)
-                                    input=readUser.nextLine();
+                            isChoiceTime=actualToDoChoice.setChoiceParam(input);
+                            if(!isChoiceTime) {
+                                outputStream.writeObject(actualToDoChoice);
+                                outputStream.flush();
                             }
-                            outputStream.writeObject(actualToDoChoice);
-                            outputStream.flush();
                         }
-                        //input=readUser.nextLine();
                     }catch (IllegalStateException e){
                         isActive=false;
                     }catch (IOException e){
@@ -93,18 +89,21 @@ public class Client implements Runnable{
         Thread t= new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Object obj=readSocket.readObject();
-                    writeUser.println(obj);
-                    writeUser.flush();
-                    if(obj instanceof Choice){
-                        isChoiceTime=true;
-                        actualToDoChoice=(Choice) obj;
+                while(isActive) {
+                    try {
+                        Object obj = readSocket.readObject();
+                        writeUser.println(obj);
+                        writeUser.flush();
+                        if (obj instanceof Choice) {
+                            isChoiceTime = true;
+                            actualToDoChoice = (Choice) obj;
+                        }
+
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        isActive = false;
                     }
-                } catch ( ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e){
-                    isActive=false;
                 }
             }
         });

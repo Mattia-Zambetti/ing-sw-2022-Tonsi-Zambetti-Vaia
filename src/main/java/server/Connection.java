@@ -2,7 +2,7 @@ package server;
 
 
 import view.choice.Choice;
-import view.choice.DataPlayerChoice;
+import view.choice.NamePlayerChoice;
 import view.choice.StartingMatchChoice;
 
 import java.io.IOException;
@@ -18,7 +18,6 @@ public class Connection extends Observable implements Runnable{
     private ObjectOutputStream writeOut;
     private final Server server;
 
-
     private boolean isActive=true;
 
 
@@ -27,8 +26,7 @@ public class Connection extends Observable implements Runnable{
         this.server=server;
     }
 
-    public synchronized void send(Object obj){
-
+    public void send(Object obj){
         try {
             writeOut.writeObject(obj);
             writeOut.flush();
@@ -42,18 +40,24 @@ public class Connection extends Observable implements Runnable{
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
-            Choice choice = null;
-            if(server.getConnectionsSize()==1){
-                choice=new StartingMatchChoice();
-                send(choice);
-                Choice startChoice = (Choice) scannerIn.readObject();
-                server.setMatchParams(((StartingMatchChoice)startChoice).getTotalNumMatchType(),((StartingMatchChoice)startChoice).getMatchType());
-            }
+            Choice choice = new StartingMatchChoice();
 
-            choice = new DataPlayerChoice(server.getTotalPlayerNumber());
-            send(choice);
-            choice = (Choice) scannerIn.readObject();
-            server.lobby(this,(DataPlayerChoice) choice);
+
+            synchronized (server) {
+                if (server.getConnectionsSize() == 1) {
+                    choice = new StartingMatchChoice();
+                    send(choice);
+                    Choice startChoice = (Choice) scannerIn.readObject();
+                    server.setMatchParams(((StartingMatchChoice) startChoice).getTotalNumMatchType(), ((StartingMatchChoice) startChoice).getMatchType());
+                }
+
+
+                choice = new NamePlayerChoice(server.getNicknameSet());
+                send(choice);
+                choice = (Choice) scannerIn.readObject();
+                server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());
+                server.lobby(this, (NamePlayerChoice) choice);
+            }
 
             while(isActive) {//TODO
                 choice = (Choice) scannerIn.readObject();

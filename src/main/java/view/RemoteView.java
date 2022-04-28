@@ -16,9 +16,10 @@ public class RemoteView extends Observable implements Observer {
     public RemoteView(Player player, Connection connection) {
         this.player = player;
         this.connection = connection;
+        connection.addObserver(this);
     }
 
-    public void choiceUser(Choice choice) {
+    public synchronized void choiceUser(Choice choice) {
         connection.send(choice);
     }
 
@@ -33,7 +34,7 @@ public class RemoteView extends Observable implements Observer {
 
 
     @Override
-    public void update(Observable o, Object arg) {
+    public synchronized void update(Observable o, Object arg) {
         if(o instanceof MatchView){
             connection.send(o.toString());
         }else if (arg instanceof FigureCard) {

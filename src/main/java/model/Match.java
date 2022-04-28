@@ -63,7 +63,6 @@ public class Match extends Observable {
                 setTowersNum();
 
                 dashboardsCollection = new ArrayList<>();
-                currentPlayerDashboard = null;
 
                 initializeMasters();
 

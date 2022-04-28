@@ -3,20 +3,20 @@ package server;
 import controller.Controller;
 import model.*;
 import view.RemoteView;
-import view.choice.DataPlayerChoice;
+import view.choice.NamePlayerChoice;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server implements Runnable {
     private static final int PORT = 12345;
+
+
+    private static Set<String> nicknames;
 
 
     private ServerSocket serverSocket;
@@ -37,15 +37,27 @@ public class Server implements Runnable {
             waitingRoom = new HashMap<>();
             playingConnection = new HashMap<>();
             serverSocket = new ServerSocket(PORT);
+            nicknames= new HashSet<>();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addNickname(String nickname){
+        nicknames.add(nickname);
+    }
+
+    public Set getNicknameSet(){
+        return nicknames;
     }
 
     public int getTotalPlayerNumber() {
         return totalPlayerNumber;
     }
 
+    public TowerColor[] getTowerColors(){
+        return TowerColor.values();
+    }
     @Override
     public void run() {
         do {
@@ -80,43 +92,53 @@ public class Server implements Runnable {
         this.matchType = matchType;
     }
 
-    public synchronized void lobby(Connection c, DataPlayerChoice dataPlayerChoice){
-        List<RemoteView> remoteViewList=new ArrayList<>();
+    public synchronized void lobby(Connection c, NamePlayerChoice dataPlayerChoice) {
+        List<RemoteView> remoteViewList = new ArrayList<>();
         boolean isExpertMatch = false;
         Match match = null;
         waitingRoom.put(c, dataPlayerChoice.getPlayer());
-        if(waitingRoom.size() == totalPlayerNumber - 1){
+        if (waitingRoom.size() == totalPlayerNumber) { //TODO PERCHE'
 
-            for (Connection connection : connections){
-                remoteViewList.add(new RemoteView(waitingRoom.get(connection),connection));
+            for (Connection connection : connections) {
+                remoteViewList.add(new RemoteView(waitingRoom.get(connection), connection));
             }
 
-            switch (matchType){
+            switch (matchType) {
                 case 0:
                     match = new NormalMatch(totalPlayerNumber, true);
                     break;
-                case 1 :
+                case 1:
                     match = new ExpertMatch(totalPlayerNumber);
                     isExpertMatch = true;
                     break;
             }
 
-            Controller controller = new Controller(match,remoteViewList,isExpertMatch);
+            Controller controller = new Controller(match, remoteViewList, isExpertMatch);
             MatchView matchView = new MatchView();
 
-            for (RemoteView remoteView : remoteViewList){
+            for (RemoteView remoteView : remoteViewList) {
                 match.addObserver(remoteView);
                 remoteView.addObserver(controller);
                 matchView.addObserver(remoteView);
             }
-
             match.addObserver(matchView);
 
-            System.out.println("Starting match");
-            controller.startMatch();
-            waitingRoom.clear();
-        }
 
+            System.out.println("Starting match");
+            matchExecution(controller);
+            waitingRoom.clear();
+            nicknames.clear();
+        }
+    }
+    public Thread matchExecution(Controller controller){
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                controller.startMatch();
+            }
+        });
+        thread.start();
+        return thread;
     }
 }
 

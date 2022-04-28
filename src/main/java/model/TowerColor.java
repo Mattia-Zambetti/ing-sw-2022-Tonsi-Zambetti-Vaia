@@ -7,12 +7,13 @@ public enum TowerColor {
 
 
 
+
     public int getCounter() {
         return counter;
     }
 
     public void counterplus(){
-        counter++;
+        this.counter++;
     }
 
     public void resetCounter(){
