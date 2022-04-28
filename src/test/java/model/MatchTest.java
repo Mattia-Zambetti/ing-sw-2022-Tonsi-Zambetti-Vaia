@@ -1,6 +1,6 @@
 package model;
 
-import model.figureCards.NoMoreBlockCardsException;
+import model.figureCards.*;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -220,7 +220,7 @@ public class MatchTest {
     }
 
     @Test
-    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException {
+    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, model.FigureCards.NoMoreBlockCardsException, MaxNumberException, NoMoreCardException {
         Dashboard dashboard0 = new Dashboard(6,TowerColor.GREY,Wizard.WIZARD1,"Rebecca",1);
         Dashboard dashboard1 = new Dashboard(6,TowerColor.BLACK,Wizard.WIZARD1,"Rebecco",2);
         Master masterR = new Master(Color.RED);
@@ -251,7 +251,7 @@ public class MatchTest {
     }
 
     @Test
-    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException {
+    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, model.FigureCards.NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException {
         assertEquals(true, match.checkMotherNatureOnIsland(0));
         match.chooseCard(new Card(5,10,5));
         match.moveMotherNature(3);
