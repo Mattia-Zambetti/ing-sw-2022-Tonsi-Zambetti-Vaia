@@ -6,6 +6,7 @@ import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Cloud {
@@ -17,6 +18,14 @@ public class Cloud {
     public Cloud() {
         studentsOnCloud= new HashSet<>();
 
+    }
+
+    public Cloud(Cloud cloud) {
+
+        this.studentsOnCloud=new HashSet<>();
+        for (Student student: cloud.studentsOnCloud) {
+            this.studentsOnCloud.add(new Student(student));
+        }
     }
 
 
@@ -44,23 +53,31 @@ public class Cloud {
     public void refillCloud(Set<Student> students) throws MaxNumberException, AlreadyFilledCloudException {
         if(studentsOnCloud.size()==0) {
             for (Student s : students) {
-                if (s.getColor() == null) {
+                if (s == null) {
                     throw new MaxNumberException("Wrong parameter in refilling cloud's operation");
                 }
             }
             if (students.size() == getStudentsNumOnCloud())
-                studentsOnCloud.addAll(students);
+                studentsOnCloud.addAll(new HashSet<>(students));
             else throw new MaxNumberException("Wrong size of the set to refill the clouds");
         }else throw new AlreadyFilledCloudException("there's a cloud that has already been filled");
     }
 
     @Override
     public String toString(){
-        StringBuilder res = new StringBuilder();
+        StringBuilder res=new StringBuilder("");
         for (Student s: studentsOnCloud) {
-            res.append(s.toString()).append("\n");
+            res.append(s.toString()+"\n");
         }
         return res.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cloud)) return false;
+        Cloud cloud = (Cloud) o;
+        return Objects.equals(studentsOnCloud, cloud.studentsOnCloud);
     }
 
 

@@ -1,11 +1,12 @@
 //Tonsi, Zambo,Vaia
 package model;
 
-import model.FigureCards.NoMoreBlockCardsException;
+import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
+
 import java.util.*;
-public abstract class Match extends Observable {
+public class Match extends Observable {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -62,7 +63,6 @@ public abstract class Match extends Observable {
                 setTowersNum();
 
                 dashboardsCollection = new ArrayList<>();
-                currentPlayerDashboard = null;
 
                 initializeMasters();
 
@@ -74,8 +74,47 @@ public abstract class Match extends Observable {
         }
     }
 
+
+    public Match(Match match){
+
+        this.islands = new ArrayList<>();
+        for (Island island: match.islands) {
+            this.islands.add(new Island(island));
+        }
+
+        this.clouds = new ArrayList<>();
+        for (Cloud cloud: match.clouds) {
+            this.clouds.add(new Cloud(cloud));
+        }
+
+        this.dashboardsCollection=new ArrayList<>();
+        for (Dashboard dashboard: match.dashboardsCollection) {
+            this.dashboardsCollection.add(new Dashboard(dashboard));
+        }
+
+        this.currentPlayerDashboard=new Dashboard(match.currentPlayerDashboard);
+
+        this.mastersMap=new HashMap<>(match.mastersMap);
+
+        this.totalPlayersNum=match.totalPlayersNum;
+
+        this.currentIsland=match.currentIsland;
+
+        this.islandPositions.addAll(match.islandPositions);
+
+        this.towersNum=match.towersNum;
+    }
+
     //TONSI
 
+
+    public Player showCurrentPlayer() {
+        try{
+            return showCurrentPlayerDashboard().getPlayer();
+        }catch (NullPointerException e){
+            return new Player("error");
+        }
+    }
 
     public int getCurrentPlayersNum() {
         return dashboardsCollection.size();
@@ -139,33 +178,33 @@ public abstract class Match extends Observable {
     //TESTED
     //it is used at the start of a round to refill every cloud
     //with new students from the bag
-    public void refillClouds() {
-        try {
-            for (Cloud c : clouds) {
+    public void refillClouds() throws NoMoreStudentsException {
+        for (Cloud c : clouds) {
+            try {
                 c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+            } catch (AlreadyFilledCloudException | MaxNumberException e) {
+                System.out.println(e.getMessage());
             }
-        }catch (AlreadyFilledCloudException | MaxNumberException | NoMoreStudentsException e){
-            System.out.println(e.getMessage());
         }
+
     }
 
     //TESTED
     //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
     //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
     //the current player's entrance
-    public void moveStudentsFromCloudToEntrance(int chosenCloud) {
+    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException{
         try {
-            if (chosenCloud <= totalPlayersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals(""))
+
+            if (chosenCloud <= totalPlayersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals("") )
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
-            notifyObservers();//non so cosa potrebbe notificare per ora, vedremo
-        }catch (MaxNumberException | StudentIDAlreadyExistingException e){
+            setChanged();
+            notifyObservers(this);
+        }catch (StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
-        }catch (WrongCloudNumberException e){
-            System.out.println(e.getMessage());
-            notifyObservers(currentPlayerDashboard); //TODO qui bisogna capire cosa notifichiamo,
-                                                    // per dire di ripetere la scelta
+            e.printStackTrace();
         }
     }
 
@@ -176,34 +215,31 @@ public abstract class Match extends Observable {
         for (Cloud c : clouds) {
             res.append(c.toString());
         }
-        notifyObservers(res.toString());
         return res.toString();
     }
 
-
-    public Set<Card> showCards(){
-        notifyObservers(new HashSet<>(currentPlayerDashboard.showCards()));
-        return new HashSet<>(currentPlayerDashboard.showCards());
+    public List<Cloud> showClouds(){
+        List<Cloud> res=new ArrayList<>();
+        for (Cloud c:clouds) {
+            res.add(new Cloud(c));
+        }
+        return res;
     }
 
-    public void chooseCard(Card chosenCard) {
+    public Set<Card> showCards(){
+        return currentPlayerDashboard.showCards();
+    }
 
-        try {
-            currentPlayerDashboard.playChosenCard(chosenCard);
+    public void chooseCard(Card chosenCard) throws CardNotFoundException, NoMoreCardException{
+        currentPlayerDashboard.playChosenCard(chosenCard);
 
-            //qui si passa al prossimo giocatore, di modo che se la carta è corretta ci entra
-            //e passa al prossimo, se non lo è viene direttamente catchato. Nel momento in
-            //cui ci troviamo all'ultima carta, lancia l'exception e prosegue col normale corso
-            //del programma
-
-            if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
-                throw new NoMoreCardException("It's the last turn");
-            }
-        } catch (CardNotFoundException | NoMoreCardException e) {
-            System.out.println(e.getMessage());
-        }finally {
-            notifyObservers(this);//TODO restituiremo un match immutabile qui
+        if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
+            throw new NoMoreCardException("It's the last turn");
         }
+
+        setChanged();
+        notifyObservers(this);
+
     }
 
     //this method must be fixed
@@ -339,7 +375,9 @@ public abstract class Match extends Observable {
         if ( currentPlayerPosition < (this.dashboardsCollection.size()-1) ) {
             currentPlayerPosition++;
             this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
-            notifyObservers(currentPlayerDashboard.getPlayer());
+
+            setChanged();
+            notifyObservers(this);
             return true;
             //Views are notified only if another Player has to play the turn
         }
@@ -568,5 +606,7 @@ public abstract class Match extends Observable {
         }
         catch (Exception e){System.out.println(e.getMessage());}
     }
+
+
     // END VAIA
 }

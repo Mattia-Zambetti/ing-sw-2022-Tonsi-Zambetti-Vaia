@@ -1,10 +1,9 @@
 package model;
 
-public enum TowerColor {
-    WHITE, BLACK, GREY;
+public enum Wizard {
+    WIZARD1, WIZARD2, WIZARD3, WIZARD4;
 
     private int counter=0;
-
 
 
 
@@ -13,7 +12,7 @@ public enum TowerColor {
     }
 
     public void counterplus(){
-        this.counter++;
+        counter++;
     }
 
     public void resetCounter(){

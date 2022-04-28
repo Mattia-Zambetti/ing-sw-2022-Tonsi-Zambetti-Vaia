@@ -1,4 +1,4 @@
-package model.FigureCards;
+package model.figureCards;
 
 import model.Bag;
 import model.ExpertMatchInterface;

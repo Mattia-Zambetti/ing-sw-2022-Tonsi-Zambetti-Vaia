@@ -1,6 +1,6 @@
 package model;
 
-import model.FigureCards.*;
+import model.figureCards.*;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -136,7 +136,7 @@ public class ExpertMatchTest implements Observer {
     }
 
     @Test
-    void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, SameInfluenceException, NoIslandException {
+    void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, SameInfluenceException, NoIslandException, NoMoreCardException {
         creationOfTheRightCard(new Postman());
 
         ((ExpertMatch)expertMatch).playFigureCard(new Postman());
@@ -148,7 +148,7 @@ public class ExpertMatchTest implements Observer {
     }
 
     @Test
-    void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException {
+    void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException, NoMoreCardException {
         creationOfTheRightCard(new Knight());
 
         //Knight call:

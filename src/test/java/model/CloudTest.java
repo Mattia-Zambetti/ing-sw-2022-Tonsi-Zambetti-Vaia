@@ -103,7 +103,7 @@ class CloudTest {
 
         tmp.add(new Student(1,Color.YELLOW));
         tmp.add(new Student(2,Color.RED));
-        tmp.add(new Student(3,null));
+        tmp.add(null);
         try {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
@@ -113,6 +113,14 @@ class CloudTest {
         }finally {
             assertEquals("",cloudTest.toString());
         }
+    }
+
+    @Test
+    void cloudCopyTest() throws WrongCloudNumberException {
+        Cloud copyTest=new Cloud(cloudTest);
+        assertEquals(copyTest,cloudTest);
+        cloudTest.takeStudents();
+        assertNotEquals(cloudTest,copyTest);
     }
 
 

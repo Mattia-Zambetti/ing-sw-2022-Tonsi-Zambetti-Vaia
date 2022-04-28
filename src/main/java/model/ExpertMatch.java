@@ -1,6 +1,6 @@
 package model;
 
-import model.FigureCards.*;
+import model.figureCards.*;
 import model.exception.*;
 
 import java.util.*;
@@ -148,6 +148,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
         return new ArrayList<>(figureCards);
     }
 
+
     public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCard){
         this.setChanged();
         notifyObservers(figureCard); //TODO vedremo se basta così
@@ -155,7 +156,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
 
     public void notifyIslandFigureCard(FigureCard figureCard){
         this.setChanged();
-        notifyObservers(figureCard); //TODO vedremo se basta così
+        notifyObservers(figureCard); //TODO METTERE APPOSTO
     }
 
 
@@ -200,6 +201,10 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
             Witch.removeBlockCard();
         }
         else throw new NoIslandException("Insert an island that exists");
+    }
+
+    public int getPostManValue(){
+        return postManValue;
     }
 
     public void blockColorForInfluence(Color color){

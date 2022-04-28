@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-enum Wizard{WIZARD1,WIZARD2, WIZARD3,WIZARD4}
-
 public class Deck {
     private final Set<Card> cards;
     private Card currentCard;
@@ -16,6 +14,7 @@ public class Deck {
     private final JsonImport jsonImport;
     private final static int CARDSNUMBER=10;
     private final static String stringName="Carte.json";
+    private int counter=0;
 
     public Deck(Wizard wizard){
         jsonImport=new JsonImport(stringName);
@@ -32,6 +31,22 @@ public class Deck {
         this.currentCard = new Card(deck.getCurrentCard());
 
         this.jsonImport=new JsonImport(stringName);
+    }
+
+
+
+
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void counterplus(){
+        counter++;
+    }
+
+    public void resetCounter(){
+        counter=0;
     }
 
     //TESTED
@@ -57,7 +72,11 @@ public class Deck {
 
     //It returns a copy of the cards in the deck to show them in the view
     public Set<Card> getCards(){
-        return new HashSet<>(cards);
+        Set<Card> res=new HashSet<Card>();
+        for (Card c:cards) {
+            res.add(new Card(c));
+        }
+        return res;
     }
 
     //TESTED

@@ -1,7 +1,9 @@
 //Tonsi, TESTED
 package model;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     private final int value;
     private final int movementValue;
     private final int id;
@@ -33,8 +35,8 @@ public class Card {
 
     //Useful to obtain a representation of a card in string format
     public String toString() {
-        return "Card "+id+":\n" +
-                "value: " + value +"\n"+
+        return "Card "+id+":" +
+                " value " + value +","+
                 "movementValue: " + movementValue +"\n";
     }
 

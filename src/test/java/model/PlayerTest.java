@@ -10,19 +10,15 @@ public class PlayerTest{
 
     @BeforeEach
     void init(){
-        playerTest= new Player("Vaia",0);
+        playerTest= new Player("Vaia");
     }
 
     //It's a test on the buddy's management and in general on every getter in the Player class
     @Test
     void setBuddyAndPlayerNumberTest(){
-        Player buddyTest=new Player("Tonsi",1 );
-
-        assertEquals(0,playerTest.getPlayerNumber());
-        assertEquals(1,buddyTest.getPlayerNumber());
+        Player buddyTest=new Player("Tonsi");
 
         playerTest.setBuddy(buddyTest);
         assertEquals(buddyTest.getNickname(), playerTest.getNicknameBuddy());
-        assertEquals(buddyTest.getPlayerNumber(), playerTest.getPlayerNumberBuddy());
     }
 }

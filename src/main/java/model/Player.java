@@ -1,17 +1,17 @@
 //Tonsi
 package model;
 
+import java.util.Objects;
+
 public class Player{
 
     private final String nickname;
 
-    private final int playerNumber;
 
     private Player buddy;
 
-    public Player(String nickname, int playerNumber) {
+    public Player(String nickname) {
         this.nickname = nickname;
-        this.playerNumber = playerNumber;
     }
 
 
@@ -23,16 +23,21 @@ public class Player{
         return nickname;
     }
 
-    public int getPlayerNumber() {
-        return playerNumber;
-    }
-
     public String getNicknameBuddy(){
         return buddy.getNickname();
     }
 
-    public int getPlayerNumberBuddy() {
-        return buddy.getPlayerNumber();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+        Player player = (Player) o;
+        return Objects.equals(nickname, player.nickname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname);
     }
 }
 

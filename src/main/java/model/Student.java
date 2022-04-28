@@ -32,8 +32,6 @@ public final class Student{
         return s.color.ordinal() == this.color.ordinal() && ( s.ID == this.ID );
     }
 
-    //need to check that hashCode() do not create problems during the normal working because of memory addressing
-    //visit https://www.baeldung.com/java-hashcode
 
     @Override
     public int hashCode() {

@@ -37,7 +37,7 @@ public class Dashboard {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //At the start of a match it is always one
         this.isKnight = false;
-        this.player = new Player( playerNickname, playerNumber );
+        this.player = new Player(playerNickname);
     }
 
     public Dashboard ( Dashboard dashboardToCopy ) throws NullPointerException {
