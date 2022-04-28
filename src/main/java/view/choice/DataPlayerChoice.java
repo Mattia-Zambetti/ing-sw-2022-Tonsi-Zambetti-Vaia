@@ -4,8 +4,8 @@ import model.Match;
 import model.TowerColor;
 import model.Wizard;
 import model.exception.*;
-import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
-import model.figureCards.NoMoreBlockCardsException;
+import model.figureCards.*;
+
 import view.RemoteView;
 
 import java.util.ArrayList;
@@ -42,12 +42,13 @@ public class DataPlayerChoice extends Choice{
     }
 
     public void setTowerChoice(ArrayList<TowerColor> tmp){
-        this.towersChoiceTmp = tmp;
+        this.towersChoice = tmp;
     }
 
-    public void removeWizard(Wizard wizard){
-        wizardChoiceTmp.remove(wizard);
+    public void setWizardChoice(ArrayList<Wizard> tmp) {
+        this.wizardChoice = tmp;
     }
+
 
     @Override
     public boolean setChoiceParam(String input) {
@@ -55,19 +56,15 @@ public class DataPlayerChoice extends Choice{
         switch (numChoice) {
             case 0:
                 if(isItAnInt(input)){
-                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) < TowerColor.values().length && TowerColor.values()[Integer.parseInt(input)-1].getCounter()<=counterTowers) {
+                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) < towersChoiceTmp.size()+1) {
                         towerColor = towersChoiceTmp.get(Integer.parseInt(input)-1).ordinal();
-                        towersChoiceTmp.get(Integer.parseInt(input)-1).counterplus();
                         towersChoiceTmp.remove(Integer.parseInt(input)-1);
                         numChoice++;
                         StringBuilder tmp = new StringBuilder("\nChoose your Wizard: ");
                         int counter=1;
-                        for (Wizard w: Wizard.values()){
-                            if(w.getCounter() == 0){
-                                wizardChoiceTmp.add(w);
+                        for (Wizard w: wizardChoiceTmp){
                                 tmp.append("\n" + counter + ") " + w.toString());
                                 counter++;
-                            }
                         }
                         System.out.println(tmp);
                     }
@@ -77,9 +74,9 @@ public class DataPlayerChoice extends Choice{
                 return true;
             case 1:
                 if(isItAnInt(input)){
-                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) < Wizard.values().length && Wizard.values()[Integer.parseInt(input)-1].getCounter() == 0) {
+                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) < wizardChoiceTmp.size() + 1) {
                         wizard = wizardChoiceTmp.get(Integer.parseInt(input)-1).ordinal();
-                        wizardChoiceTmp.get(Integer.parseInt(input)-1).counterplus();
+                        wizardChoiceTmp.remove(Integer.parseInt(input)-1);
                         System.out.println("Wait now the other players...");
                         return false;
                     }
@@ -96,8 +93,9 @@ public class DataPlayerChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoMoreBlockCardsException, NoIslandException, SameInfluenceException, WrongDataplayerException {
+    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException, SameInfluenceException, WrongDataplayerException {
         setTowerChoice(towersChoiceTmp);
+        setWizardChoice(wizardChoiceTmp);
         match.addPlayer(nickname,TowerColor.values()[towerColor].toString(), Wizard.values()[wizard].toString());
     }
 
@@ -115,12 +113,9 @@ public class DataPlayerChoice extends Choice{
             }
 
         } else if (numPlayers == 3) {
-            for (TowerColor t : TowerColor.values()) {
-                if(t.getCounter() == 0){
-                    towersChoiceTmp.add(t);
+            for (TowerColor t : towersChoiceTmp) {
                     tmp.append("\n" + counter + ") " + t.toString());
                     counter++;
-                }
             }
         }
         return tmp.toString();
