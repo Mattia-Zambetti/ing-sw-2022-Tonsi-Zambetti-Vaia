@@ -3,8 +3,7 @@ package view.choice;
 import model.Match;
 import model.Player;
 import model.exception.*;
-import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
-import model.figureCards.NoMoreBlockCardsException;
+import model.figureCards.*;
 import view.RemoteView;
 
 import java.util.HashSet;
@@ -33,7 +32,7 @@ public class NamePlayerChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoMoreBlockCardsException, NoIslandException, SameInfluenceException {
+    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException, SameInfluenceException {
         //NON UTILIZZATO
     }
 

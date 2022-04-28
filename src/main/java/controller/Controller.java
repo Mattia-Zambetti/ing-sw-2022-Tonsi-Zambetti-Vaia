@@ -81,7 +81,6 @@ public class Controller implements Observer {
         if (o instanceof RemoteView) {
             try {
                 ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
-
             } catch (CardNotFoundException e) {
                 remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
@@ -93,8 +92,7 @@ public class Controller implements Observer {
                 remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 //remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 //remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice)arg);
-            } catch (FigureCardAlreadyPlayedInThisTurnException e) {//TODO siamo sicuri che serva?
-                remoteViewMap.get(match.showCurrentPlayer()).sendError("You have already played this card in this turn");
+
             } catch (InsufficientCoinException e) {
                 remoteViewMap.get(match.showCurrentPlayer()).sendError("You don't have enough coins");
             } catch (InexistentStudentException e) {
@@ -113,12 +111,14 @@ public class Controller implements Observer {
             } catch (NoIslandException e) {
                 remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
-            } catch (NoMoreBlockCardsException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
                 //e.printStackTrace();//TODO
             } catch (SameInfluenceException e) {
                 remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
             } catch (WrongDataplayerException e) {
+                e.printStackTrace();
+            } catch (NoMoreBlockCardsException e) {
+                e.printStackTrace();
+            } catch (FigureCardAlreadyPlayedInThisTurnException e) {
                 e.printStackTrace();
             }
         }
