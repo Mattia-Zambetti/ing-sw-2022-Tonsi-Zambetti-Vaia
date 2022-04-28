@@ -23,9 +23,9 @@ public class CardTest  {
         assertEquals(1,cardTest.getId());
         assertEquals(1,cardTest.getValue());
         assertEquals(1,cardTest.getMovementValue());
-        assertEquals("Card "+1+":\n" +
-                "value: " + 1 +"\n"+
-                "movementValue: " + 1 +"\n",cardTest.toString());
+        assertEquals((String)("Card "+1+": " +
+                            "Value " + 1 +
+                " - Movement " + 1),cardTest.toString());
     }
 
     //it tests how the overrided method equals work

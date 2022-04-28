@@ -4,6 +4,7 @@ package model;
 import model.exception.MaxNumberException;
 import model.exception.StudentIDAlreadyExistingException;
 import model.exception.WrongColorException;
+import graphicAssets.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -56,6 +57,6 @@ public class DiningRoom {
 
     @Override
     public String toString() {
-        return roomColor.toString() + " DR: " + students.size() + " students";
+        return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(roomColor) + roomColor.toString() + " DR:\t" + students.size() + " students" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR;
     }
 }

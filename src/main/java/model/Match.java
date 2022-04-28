@@ -4,7 +4,6 @@ package model;
 import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
-
 import java.util.*;
 public class Match extends Observable {
     protected List<Island> islands;
@@ -147,7 +146,7 @@ public class Match extends Observable {
     //It's used in the constructor, it creates the clouds by using the player's number
     private void initializeClouds() {
         for (int i = 0; i < totalPlayersNum; i++) {
-            clouds.add(new Cloud());
+            clouds.add(new Cloud(i));
         }
     }
 
@@ -606,7 +605,5 @@ public class Match extends Observable {
         }
         catch (Exception e){System.out.println(e.getMessage());}
     }
-
-
     // END VAIA
 }

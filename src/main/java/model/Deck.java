@@ -85,7 +85,7 @@ public class Deck {
     public String toString(){
         StringBuilder res= new StringBuilder();
         for (Card c: cards) {
-            res.append(c.toString());
+            res.append(c.toString()+"\n");
         }
         return res.toString();
     }

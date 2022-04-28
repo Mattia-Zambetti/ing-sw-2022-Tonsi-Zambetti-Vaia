@@ -1,6 +1,7 @@
 //Tonsi
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
@@ -12,11 +13,13 @@ import java.util.Set;
 public class Cloud {
     private final Set<Student> studentsOnCloud;
     private static int studentsNumOnCloud;
+    private final int ID;
 
     //Every cloud is created by receiving a Set of students, it launches a MaxNumberException
     //if the studentsFromBag size isn't the same of the students number on the cloud
-    public Cloud() {
+    public Cloud( int ID ) {
         studentsOnCloud= new HashSet<>();
+        this.ID = ID;
 
     }
 
@@ -65,11 +68,36 @@ public class Cloud {
 
     @Override
     public String toString(){
-        StringBuilder res=new StringBuilder("");
-        for (Student s: studentsOnCloud) {
-            res.append(s.toString()+"\n");
+        String outputString = "";
+        int i = 1;
+        outputString = outputString.concat("\n==================================");
+        outputString = outputString.concat("\n            CLOUD "+ID+"               \n");
+        for ( Student s : studentsOnCloud ) {
+            outputString = outputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(s.getColor()) + " " + s.toString() + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
+            if ( i%2==0 )
+                outputString = outputString.concat("\n");
+            else {
+                outputString = switch (s.getColor()) {
+                    case RED -> outputString.concat("      ");
+                    case GREEN -> outputString.concat("    ");
+                    case YELLOW -> outputString.concat("   ");
+                    case BLUE -> outputString.concat("     ");
+                    case PINK -> outputString.concat("     ");
+                    default -> outputString;
+                };
+            }
+            i++;
         }
-        return res.toString();
+        outputString = outputString.concat("\n==================================");
+        return outputString;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if (!(o instanceof Cloud c))
+            return false;
+        else
+            return ( ( c.ID==this.ID ) && ( c.studentsOnCloud.equals(this.studentsOnCloud)) );
     }
 
     @Override

@@ -30,19 +30,20 @@ class CloudTest {
         students.add(new Student(3,Color.YELLOW));
 
         Cloud.setStudentsNumOnCloud(3);
-        cloudTest=new Cloud();
+        cloudTest=new Cloud(1);
         cloudTest.refillCloud(students);
 
     }
 
     //Da mettere sempre prima di un test
-    @Test
-    void createToStringCloud(){
+    //Test removed because toString is changed
+    //@Test
+    /*void createToStringCloud(){
         //Indica se il test è fallito(false) oppure è riuscito all'esecuzione
         assertTrue(cloudTest.toString().equals("YELLOW student\nYELLOW student\nRED student\n") ||
                     cloudTest.toString().equals("YELLOW student\nRED student\nYELLOW student\n") ||
                     cloudTest.toString().equals("RED student\nYELLOW student\nYELLOW student\n"));
-    }
+    }*/
 
     @Test
     void checkIsEmptyAfterTakeStudents() throws WrongCloudNumberException {
@@ -52,7 +53,7 @@ class CloudTest {
         assertThrows(WrongCloudNumberException.class,()->cloudTest.takeStudents());
 
 
-        assertEquals("",cloudTest.toString());
+        assertEquals(cloudTest, new Cloud(1));
     }
 
     @Test
@@ -67,12 +68,12 @@ class CloudTest {
         } catch (AlreadyFilledCloudException e) {
             e.printStackTrace();
         } finally{
-            assertEquals("",cloudTest.toString());
+            assertEquals(cloudTest, new Cloud(1));
         }
     }
 
     @Test
-    void takeAndRefillCloudRealSet(){
+    void takeAndRefillCloudRealSet() throws WrongCloudNumberException {
         Set<Student> tmp=new HashSet<>();
 
         tmp.add(new Student(1,Color.YELLOW));
@@ -89,12 +90,7 @@ class CloudTest {
         }
 
 
-        assertTrue(cloudTest.toString().equals("BLUE student\nYELLOW student\nRED student\n") ||
-                cloudTest.toString().equals("BLUE student\nRED student\nYELLOW student\n") ||
-                cloudTest.toString().equals("RED student\nYELLOW student\nBLUE student\n") ||
-                cloudTest.toString().equals("YELLOW student\nRED student\nBLUE student\n") ||
-                cloudTest.toString().equals("RED student\nBLUE student\nYELLOW student\n") ||
-                cloudTest.toString().equals("YELLOW student\nBLUE student\nRED student\n"));
+        assertTrue(cloudTest.takeStudents().containsAll(tmp));
     }
 
     @Test
@@ -111,7 +107,7 @@ class CloudTest {
         } catch (MaxNumberException | AlreadyFilledCloudException | WrongCloudNumberException e) {
             System.out.println(e.getMessage());
         }finally {
-            assertEquals("",cloudTest.toString());
+            assertEquals(cloudTest, new Cloud(1));
         }
     }
 

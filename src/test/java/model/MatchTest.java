@@ -1,6 +1,7 @@
 package model;
 
 import model.figureCards.*;
+import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -114,7 +115,7 @@ public class MatchTest {
             match.moveStudentsFromCloudToEntrance(i+1);
             System.out.println(match.toStringStudentsOnCloud());
         }
-        assertEquals("",match.toStringStudentsOnCloud());
+        assertEquals("\n==================================\n            CLOUD 0               \n\n==================================\n==================================\n            CLOUD 1               \n\n==================================",match.toStringStudentsOnCloud());
         match.refillClouds();
         String studentsAndCloudsTest=match.toStringStudentsOnCloud();
 
@@ -480,7 +481,9 @@ public class MatchTest {
     //because of the randomness of Bag.removeStudents used in initializeAllDashboard()
     @Test
     void checkAndMoveMastersTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException {
-
+        System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
+        //System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_BLACK_BACKGROUND);
+        //System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
         match.addPlayer("Tonsi", "WHITE", "WIZARD2");
 
         match.initializeAllEntrance();
@@ -500,9 +503,9 @@ public class MatchTest {
         }
         match.checkAndMoveMasters();
         match.setNextCurrDashboard();
-        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+        System.out.println(/*"Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + */"\n" + match.showCurrentPlayerDashboard().toString());
         match.setNextCurrDashboard();
-        System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+        System.out.println(/*"Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + */"\n" + match.showCurrentPlayerDashboard().toString());
 
         match.setNextCurrDashboard();
         for ( Student s : match.showCurrentPlayerDashboard().showEntrance() ) {
@@ -512,8 +515,77 @@ public class MatchTest {
         System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
         match.setNextCurrDashboard();
         System.out.println("Player " + match.showCurrentPlayerDashboard().getPlayer().getNickname() + "\n" + match.showCurrentPlayerDashboard().toString());
+
+        System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
     }
     //TODO test con più di due dashboard
+
+    @Test
+    void IslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException {
+
+        match=new NormalMatch(PLAYERSNUM, false);
+
+        match.addPlayer("Vaia", "WHITE", "WIZARD1");
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+
+        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+        Student studentToMove = studentsInEntrance.get(0);
+        System.out.println(studentToMove.toString());
+        match.moveStudentFromEntranceToDR(studentToMove);
+        match.checkAndMoveMasters();
+        assertTrue(match.showCurrentPlayerDashboard().haveMaster(studentToMove.getColor()));
+
+        match.chooseCard(new Card(3,2,3));
+
+        for ( Island island : match.islands ) {
+            match.moveMotherNature(1);
+            if ( match.getStudentsOnIsland(island.getPosition())[studentToMove.getColor().ordinal()].size()>0 )
+                assertEquals(TowerColor.WHITE, match.getTowerColorFromIsland(island.getPosition()));
+        }
+        for ( Island i : match.islands ) {
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    void ExpertMatchIslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException {
+
+        match=new ExpertMatch(PLAYERSNUM);
+
+        match.addPlayer("Vaia", "WHITE", "WIZARD1");
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+
+        ((ExpertMatch)match).setCentaurEffect(true);
+
+        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+        Student studentToMove = studentsInEntrance.get(0);
+        System.out.println(studentToMove.toString());
+        match.moveStudentFromEntranceToDR(studentToMove);
+        match.checkAndMoveMasters();
+        assertTrue(match.showCurrentPlayerDashboard().haveMaster(studentToMove.getColor()));
+
+        match.chooseCard(new Card(3,2,3));
+
+        for ( Island island : match.islands ) {
+            match.moveMotherNature(1);
+            if ( match.getStudentsOnIsland(island.getPosition())[studentToMove.getColor().ordinal()].size()>0 )
+                assertEquals(TowerColor.WHITE, match.getTowerColorFromIsland(island.getPosition()));
+        }
+        for ( Island i : match.islands ) {
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    void matchToStringTest() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+        match=new NormalMatch(PLAYERSNUM, false);
+        match.addPlayer("Island", "BLACK", "WIZARD1");
+        match.addPlayer("Tower", "WHITE", "WIZARD2");
+        match.refillClouds();
+
+        System.out.println(match);
+
+    }
 
     //End Test Zambo
 
