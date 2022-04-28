@@ -147,7 +147,7 @@ public class Dashboard {
     }
 
     public void insertMaster( Master m ) {
-        //valutare se può causare un'eccezione in qualche caso
+        //TODO valutare se può causare un'eccezione in qualche caso (se il master esiste già)
         mastersList.put(m.getColor(),m);
     }
 

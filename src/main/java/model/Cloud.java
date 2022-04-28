@@ -29,6 +29,7 @@ public class Cloud {
         for (Student student: cloud.studentsOnCloud) {
             this.studentsOnCloud.add(new Student(student));
         }
+        this.ID = cloud.ID;
     }
 
 
@@ -94,18 +95,11 @@ public class Cloud {
 
     @Override
     public boolean equals( Object o ) {
+        if (this == o) return true;
         if (!(o instanceof Cloud c))
             return false;
         else
             return ( ( c.ID==this.ID ) && ( c.studentsOnCloud.equals(this.studentsOnCloud)) );
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Cloud)) return false;
-        Cloud cloud = (Cloud) o;
-        return Objects.equals(studentsOnCloud, cloud.studentsOnCloud);
     }
 
 
