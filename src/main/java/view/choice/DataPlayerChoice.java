@@ -42,11 +42,11 @@ public class DataPlayerChoice extends Choice{
     }
 
     public void setTowerChoice(ArrayList<TowerColor> tmp){
-        this.towersChoice = tmp;
+        this.towersChoiceTmp = tmp;
     }
 
     public void removeWizard(Wizard wizard){
-        wizardChoice.remove(wizard);
+        wizardChoiceTmp.remove(wizard);
     }
 
     @Override
@@ -56,15 +56,15 @@ public class DataPlayerChoice extends Choice{
             case 0:
                 if(isItAnInt(input)){
                     if(Integer.parseInt(input)>0 && Integer.parseInt(input) < TowerColor.values().length && TowerColor.values()[Integer.parseInt(input)-1].getCounter()<=counterTowers) {
-                        towerColor = towersChoice.get(Integer.parseInt(input)-1).ordinal();
-                        towersChoice.get(Integer.parseInt(input)-1).counterplus();
-                        towersChoice.remove(Integer.parseInt(input)-1);
+                        towerColor = towersChoiceTmp.get(Integer.parseInt(input)-1).ordinal();
+                        towersChoiceTmp.get(Integer.parseInt(input)-1).counterplus();
+                        towersChoiceTmp.remove(Integer.parseInt(input)-1);
                         numChoice++;
                         StringBuilder tmp = new StringBuilder("\nChoose your Wizard: ");
                         int counter=1;
                         for (Wizard w: Wizard.values()){
                             if(w.getCounter() == 0){
-                                wizardChoice.add(w);
+                                wizardChoiceTmp.add(w);
                                 tmp.append("\n" + counter + ") " + w.toString());
                                 counter++;
                             }
@@ -78,8 +78,8 @@ public class DataPlayerChoice extends Choice{
             case 1:
                 if(isItAnInt(input)){
                     if(Integer.parseInt(input)>0 && Integer.parseInt(input) < Wizard.values().length && Wizard.values()[Integer.parseInt(input)-1].getCounter() == 0) {
-                        wizard = wizardChoice.get(Integer.parseInt(input)-1).ordinal();
-                        wizardChoice.get(Integer.parseInt(input)-1).counterplus();
+                        wizard = wizardChoiceTmp.get(Integer.parseInt(input)-1).ordinal();
+                        wizardChoiceTmp.get(Integer.parseInt(input)-1).counterplus();
                         System.out.println("Wait now the other players...");
                         return false;
                     }
@@ -108,8 +108,8 @@ public class DataPlayerChoice extends Choice{
         StringBuilder tmp = new StringBuilder("Choose your tower color:");
         int counter = 1;
         if (numPlayers == 2 || numPlayers == 4) {
-            towersChoice.remove(TowerColor.GREY);
-            for (TowerColor t : towersChoice) {
+            towersChoiceTmp.remove(TowerColor.GREY);
+            for (TowerColor t : towersChoiceTmp) {
                     tmp.append("\n" + counter + ") " + t.toString() + " " + t.getCounter());
                     counter++;
             }
@@ -117,7 +117,7 @@ public class DataPlayerChoice extends Choice{
         } else if (numPlayers == 3) {
             for (TowerColor t : TowerColor.values()) {
                 if(t.getCounter() == 0){
-                    towersChoice.add(t);
+                    towersChoiceTmp.add(t);
                     tmp.append("\n" + counter + ") " + t.toString());
                     counter++;
                 }
