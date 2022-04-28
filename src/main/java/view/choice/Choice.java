@@ -10,6 +10,8 @@ import java.io.Serializable;
 
 public abstract class Choice implements Serializable {
 
+    private static final long serialVersionUID =445345454;
+
     public abstract boolean setChoiceParam(String input);
 
     public abstract void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoMoreBlockCardsException, NoIslandException, SameInfluenceException, WrongDataplayerException;

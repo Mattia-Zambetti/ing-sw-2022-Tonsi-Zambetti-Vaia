@@ -28,14 +28,13 @@ public class Server implements Runnable {
     private int matchType;
 
     private Map<Connection, Player> waitingRoom;
-    private Map<Connection, Connection> playingConnection;
+
 
     public Server() {
         try {
             executor = Executors.newFixedThreadPool(4);
             connections = new ArrayList<>();
             waitingRoom = new HashMap<>();
-            playingConnection = new HashMap<>();
             serverSocket = new ServerSocket(PORT);
             nicknames= new HashSet<>();
         } catch (IOException e) {
@@ -71,7 +70,8 @@ public class Server implements Runnable {
 
                 System.out.println("Connection number: "+ connections.size());
 
-                executor.submit(clientConnection);
+                clientConnection.createConnection();
+
 
 
             } catch (IOException e) {
@@ -97,7 +97,7 @@ public class Server implements Runnable {
         boolean isExpertMatch = false;
         Match match = null;
         waitingRoom.put(c, dataPlayerChoice.getPlayer());
-        if (waitingRoom.size() == totalPlayerNumber) { //TODO PERCHE'
+        if (waitingRoom.size() == totalPlayerNumber) {
 
             for (Connection connection : connections) {
                 remoteViewList.add(new RemoteView(waitingRoom.get(connection), connection));
@@ -114,6 +114,7 @@ public class Server implements Runnable {
             }
 
             Controller controller = new Controller(match, remoteViewList, isExpertMatch);
+
             MatchView matchView = new MatchView();
 
             for (RemoteView remoteView : remoteViewList) {
@@ -125,11 +126,14 @@ public class Server implements Runnable {
 
 
             System.out.println("Starting match");
-            matchExecution(controller);
+
+            controller.startMatch();
+
             waitingRoom.clear();
             nicknames.clear();
         }
     }
+
     public Thread matchExecution(Controller controller){
         Thread thread=new Thread(new Runnable() {
             @Override

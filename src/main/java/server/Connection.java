@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Observable;
 
-public class Connection extends Observable implements Runnable{
+public class Connection extends Observable{
 
     private Socket clientSocket;
     private ObjectInputStream scannerIn;
@@ -28,6 +28,7 @@ public class Connection extends Observable implements Runnable{
 
     public void send(Object obj){
         try {
+
             writeOut.writeObject(obj);
             writeOut.flush();
         } catch (IOException e) {
@@ -35,15 +36,28 @@ public class Connection extends Observable implements Runnable{
         }
     }
 
-    @Override
-    public void run() {
+    public Choice sendAndReceive(Object obj){
+        try {
+
+            writeOut.writeObject(obj);
+            writeOut.flush();
+            return (Choice) scannerIn.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void createConnection (){
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
             Choice choice = new StartingMatchChoice();
 
 
-            synchronized (server) {
+
                 if (server.getConnectionsSize() == 1) {
                     choice = new StartingMatchChoice();
                     send(choice);
@@ -57,16 +71,17 @@ public class Connection extends Observable implements Runnable{
                 choice = (Choice) scannerIn.readObject();
                 server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());
                 server.lobby(this, (NamePlayerChoice) choice);
-            }
 
-            while(isActive) {//TODO
+            /*while(isActive) {//TODO
                 choice = (Choice) scannerIn.readObject();
                 setChanged();
                 notifyObservers(choice);
-            }
+            }*/
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
 
     }
 

@@ -109,7 +109,11 @@ public class Match extends Observable {
 
 
     public Player showCurrentPlayer() {
-        return showCurrentPlayerDashboard().getPlayer();
+        try{
+            return showCurrentPlayerDashboard().getPlayer();
+        }catch (NullPointerException e){
+            return new Player("error");
+        }
     }
 
     public int getCurrentPlayersNum() {

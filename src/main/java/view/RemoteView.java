@@ -20,7 +20,9 @@ public class RemoteView extends Observable implements Observer {
     }
 
     public synchronized void choiceUser(Choice choice) {
-        connection.send(choice);
+        choice=connection.sendAndReceive(choice);
+        setChanged();
+        notifyObservers((Choice)choice);
     }
 
     public Player getPlayer() {
