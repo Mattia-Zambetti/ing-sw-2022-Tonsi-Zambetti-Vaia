@@ -28,7 +28,6 @@ public class Connection extends Observable{
 
     public void send(Object obj){
         try {
-
             writeOut.writeObject(obj);
             writeOut.flush();
         } catch (IOException e) {
