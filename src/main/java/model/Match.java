@@ -108,7 +108,7 @@ public abstract class Match extends Observable implements MatchDataInterface {
     //It's used in the constructor, it creates the clouds by using the player's number
     private void initializeClouds() {
         for (int i = 0; i < totalPlayersNum; i++) {
-            clouds.add(new Cloud());
+            clouds.add(new Cloud(i));
         }
     }
 

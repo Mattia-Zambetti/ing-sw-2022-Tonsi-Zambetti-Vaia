@@ -12,11 +12,13 @@ import java.util.Set;
 public class Cloud {
     private final Set<Student> studentsOnCloud;
     private static int studentsNumOnCloud;
+    private final int ID;
 
     //Every cloud is created by receiving a Set of students, it launches a MaxNumberException
     //if the studentsFromBag size isn't the same of the students number on the cloud
-    public Cloud() {
+    public Cloud( int ID ) {
         studentsOnCloud= new HashSet<>();
+        this.ID = ID;
 
     }
 
@@ -60,7 +62,7 @@ public class Cloud {
         String outputString = "";
         int i = 1;
         outputString = outputString.concat("\n==================================");
-        outputString = outputString.concat("\n              CLOUD               \n");
+        outputString = outputString.concat("\n            CLOUD "+ID+"               \n");
         for ( Student s : studentsOnCloud ) {
             outputString = outputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(s.getColor()) + " " + s.toString() + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
             if ( i%2==0 )
@@ -77,8 +79,16 @@ public class Cloud {
             }
             i++;
         }
-        outputString = outputString.concat("\n\n==================================");
+        outputString = outputString.concat("\n==================================");
         return outputString;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if (!(o instanceof Cloud c))
+            return false;
+        else
+            return ( ( c.ID==this.ID ) && ( c.studentsOnCloud.equals(this.studentsOnCloud)) );
     }
 
 

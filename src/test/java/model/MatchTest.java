@@ -123,7 +123,7 @@ public class MatchTest {
             match.moveStudentsFromCloudToEntrance(i+1);
             System.out.println(match.toStringStudentsOnCloud());
         }
-        assertEquals("",match.toStringStudentsOnCloud());
+        assertEquals("\n==================================\n            CLOUD 0               \n\n==================================\n==================================\n            CLOUD 1               \n\n==================================",match.toStringStudentsOnCloud());
         match.refillClouds();
         System.out.println(match.toStringStudentsOnCloud());
 
