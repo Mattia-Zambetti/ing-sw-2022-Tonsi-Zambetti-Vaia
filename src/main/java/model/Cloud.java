@@ -1,6 +1,7 @@
 //Tonsi
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
@@ -56,11 +57,28 @@ public class Cloud {
 
     @Override
     public String toString(){
-        StringBuilder res = new StringBuilder();
-        for (Student s: studentsOnCloud) {
-            res.append(s.toString()).append("\n");
+        String outputString = "";
+        int i = 1;
+        outputString = outputString.concat("\n==================================");
+        outputString = outputString.concat("\n              CLOUD               \n");
+        for ( Student s : studentsOnCloud ) {
+            outputString = outputString.concat(CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(s.getColor()) + " " + s.toString() + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
+            if ( i%2==0 )
+                outputString = outputString.concat("\n");
+            else {
+                outputString = switch (s.getColor()) {
+                    case RED -> outputString.concat("      ");
+                    case GREEN -> outputString.concat("    ");
+                    case YELLOW -> outputString.concat("   ");
+                    case BLUE -> outputString.concat("     ");
+                    case PINK -> outputString.concat("     ");
+                    default -> outputString;
+                };
+            }
+            i++;
         }
-        return res.toString();
+        outputString = outputString.concat("\n\n==================================");
+        return outputString;
     }
 
 

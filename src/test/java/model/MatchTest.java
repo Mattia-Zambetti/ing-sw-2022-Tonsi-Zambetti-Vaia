@@ -584,6 +584,17 @@ public class MatchTest {
         }
     }
 
+    @Test
+    void matchToStringTest() throws MaxNumberException, WrongDataplayerException, WrongColorException {
+        match=new NormalMatch(PLAYERSNUM, false);
+        match.addPlayer("Island", "BLACK", "WIZARD1");
+        match.addPlayer("Tower", "WHITE", "WIZARD2");
+        match.refillClouds();
+
+        System.out.println(match);
+
+    }
+
     //End Test Zambo
 
 }

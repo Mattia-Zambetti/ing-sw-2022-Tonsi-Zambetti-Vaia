@@ -408,22 +408,85 @@ public abstract class Match extends Observable implements MatchDataInterface {
     }
     //TODO se volessimo aggiornare la view quando il master viene spostato bisogna aggiungere un notify in questo metodo
 
+    /*@Override
+    public String toString() {
+        String outputString = "";
+        String dashboardEmptyLine = "                                                    ";
+        int dashboardLineSize = 52;
+
+
+        ArrayList<String[]> dashboardsToStringSplit = new ArrayList<>();
+        String allDashboardsString = "";
+        int maxSingleDashboardLines;
+        int maxDashboardLines = 0;
+
+        for ( Dashboard d : dashboardsCollection ) {
+            dashboardsToStringSplit.add(d.toString().split("\n"));
+        }
+        int j=0;
+        int k;
+        for ( String[] stringVector : dashboardsToStringSplit ) {
+            maxSingleDashboardLines = 0;
+            k=0;
+            for ( String line : stringVector ) {
+                maxSingleDashboardLines++;
+                while ( line.length()<dashboardLineSize )
+                    line = line.concat(" ");
+                stringVector[k] = line;
+                k++;
+            }
+            if ( maxSingleDashboardLines > maxDashboardLines )
+                maxDashboardLines = maxSingleDashboardLines;
+
+            dashboardsToStringSplit.set(j, stringVector);
+            j++;
+        }
+
+        for ( int i=0; i<maxDashboardLines; i++) {
+            for ( String[] stringVector : dashboardsToStringSplit ) {
+                if ( i<stringVector.length )
+                    allDashboardsString = allDashboardsString.concat(stringVector[i]+"     ");
+                else
+                    allDashboardsString = allDashboardsString.concat(dashboardEmptyLine+"     ");
+            }
+            allDashboardsString = allDashboardsString.concat("\n");
+        }
+
+        outputString = outputString.concat(allDashboardsString);
+
+        return outputString;
+    }*/
+
+
     @Override
     public String toString() {
-        String outputString = new String("");
+        String outputString = "";
 
+        outputString = outputString.concat("-> " + currentPlayerDashboard.getPlayer().getNickname() + " it's your turn <-\n");
 
+        for ( Dashboard d : dashboardsCollection ) {
+            outputString = outputString.concat(d.toString()+"Card played by " + d.getPlayer().getNickname() + ": " + d.getCurrentCard().toString() + "\n");
+        }
 
+        for ( Island i : islands ) {
+            outputString = outputString.concat(i.toString());
+        }
 
+        for ( Cloud c : clouds ) {
+            outputString = outputString.concat(c.toString());
+        }
 
         return outputString;
     }
-
 
     //Only for test
     public HashMap<Color, Master> getMasters () {
         return new HashMap<Color, Master>(mastersMap);
     }
+
+
+
+
 
     //END ZAMBO
 

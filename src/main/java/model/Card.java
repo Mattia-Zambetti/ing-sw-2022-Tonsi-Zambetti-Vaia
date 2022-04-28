@@ -33,9 +33,11 @@ public class Card {
 
     //Useful to obtain a representation of a card in string format
     public String toString() {
-        return "Card "+id+":\n" +
-                "value: " + value +"\n"+
-                "movementValue: " + movementValue +"\n";
+        if ( this.equals(new Card(0,0,0)) )
+            return "No card played yet";
+        return "Card "+id+": " +
+                "Value " + value +
+                " - Movement " + movementValue;
     }
 
     //It returns true if two cards have the same id
