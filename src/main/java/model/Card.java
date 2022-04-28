@@ -1,7 +1,9 @@
 //Tonsi, TESTED
 package model;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     private final int value;
     private final int movementValue;
     private final int id;
