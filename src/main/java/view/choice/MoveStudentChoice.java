@@ -5,22 +5,20 @@ import model.Student;
 import model.exception.*;
 import view.RemoteView;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MoveStudentChoice extends Choice{
     private int chosenStudent;
     private int islandID;
-    private String whereToMove;
+    private int whereToMove;
     private int numChoice=0;
-    private Map<Integer,Student> studentsOnEntrance;
+    private List<Student> studentsOnEntrance;
+    private final String[] possiblePlace={"DINING ROOM", "ISLAND"};
 
     public MoveStudentChoice(Set<Student> studentsOnEntrance){
-        this.studentsOnEntrance=new HashMap<>();
-        for (Student s: studentsOnEntrance) {
-            this.studentsOnEntrance.put(s.getID(),s);
-        }
+        this.studentsOnEntrance=new ArrayList<>();
+        this.studentsOnEntrance.addAll(studentsOnEntrance);
+
     }
 
     public void choiceplus(){
@@ -31,18 +29,28 @@ public class MoveStudentChoice extends Choice{
         return numChoice;
     }
 
-    public void setChosenStudent(int chosenStudent) {
-        this.chosenStudent = chosenStudent;
+    public boolean setChosenStudent(int chosenStudent) {
+        try{
+            studentsOnEntrance.get(chosenStudent-1);
+            this.chosenStudent = chosenStudent;
+            return true;
+        }catch (IndexOutOfBoundsException e) {
+            return false;
+        }
     }
 
 
     public Student getChosenStudent() {
-        return studentsOnEntrance.get(chosenStudent);
+        return studentsOnEntrance.get(chosenStudent-1);
     }
 
     @Override
     public String toString() {
-        return "insert what student you want to take and where do you want to put it: ";
+        StringBuilder stringBuilder=new StringBuilder("Insert which student you want to take:\n");
+        for (int i=0; i< studentsOnEntrance.size(); i++) {
+            stringBuilder.append((i+1)+". "+studentsOnEntrance.get(i).toString()+"\n");
+        }
+        return stringBuilder.toString();
     }
 
 
@@ -54,37 +62,46 @@ public class MoveStudentChoice extends Choice{
         this.islandID = islandID;
     }
 
-    public void setWhereToMove(String whereToMove) {
-        this.whereToMove = whereToMove;
+    public boolean setWhereToMove(int whereToMove) {
+        try {
+            String string=possiblePlace[whereToMove-1];
+            this.whereToMove=whereToMove;
+            return true;
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("You must choose one of these options, "+retryMessage());
+            return false;
+        }
     }
 
     public String getWhereToMove() {
-        return whereToMove;
+        return possiblePlace[whereToMove-1];
     }
 
     @Override
     public boolean setChoiceParam(String input) {
-        switch (getNumChoice()) {
-            case 0:
-                setWhereToMove(input);
-                choiceplus();
-                break;
-            case 1:
-                if(isItAnInt(input)) {
-                    setChosenStudent(Integer.parseInt(input));
-                    choiceplus();
-                    if (getWhereToMove().equals("dining room")) {
-                        return false;
+        if(isItAnInt(input)) {
+            switch (getNumChoice()) {
+                case 0:
+                    if (setChosenStudent(Integer.parseInt(input))) {
+                        choiceplus();
+                        toStringWhereToMove();
+                    } else System.out.println("You must choose one of these options, " + retryMessage());
+                    break;
+                case 1:
+                    if (setWhereToMove(Integer.parseInt(input))) {
+                        choiceplus();
+                        if (possiblePlace[0].equals(getWhereToMove())) {
+                            System.out.println("You choose to move in " + possiblePlace[whereToMove - 1] + " the " + studentsOnEntrance.get(chosenStudent - 1));
+                            return false;
+                        }
+                        System.out.println("Insert on which island you want to put the "+ studentsOnEntrance.get(chosenStudent-1));
                     }
-                }
-                break;
+                    break;
 
-            case 2:
-                if(isItAnInt(input)) {
+                case 2:
                     setIslandID(Integer.parseInt(input));
                     return false;
-                }
-                break;
+            }
         }
         return true;
     }
@@ -110,4 +127,14 @@ public class MoveStudentChoice extends Choice{
                 remoteView.choiceUser(choice);
         }
     }
+
+    public void toStringWhereToMove(){
+        System.out.println("Where do you want to put it?");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i=0; i< possiblePlace.length; i++) {
+            stringBuilder.append(i + 1).append(". ").append(possiblePlace[i]).append("\n");
+        }
+        System.out.println(stringBuilder);
+    }
+
 }

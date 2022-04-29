@@ -26,4 +26,8 @@ public abstract class Choice implements Serializable {
             return false;
         }
     }
+
+    public String retryMessage(){
+        return  "please try again";
+    }
 }

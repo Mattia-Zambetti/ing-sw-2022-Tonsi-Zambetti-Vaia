@@ -3,7 +3,9 @@ package model.figureCards;
 
 import model.ExpertMatchInterface;
 
-public abstract class FigureCard {
+import java.io.Serializable;
+
+public abstract class FigureCard implements Serializable {
     protected int price;
     protected int cardId;
 

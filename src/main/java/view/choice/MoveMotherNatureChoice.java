@@ -30,4 +30,9 @@ public class MoveMotherNatureChoice extends Choice{
     public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoMoreBlockCardsException, NoIslandException, SameInfluenceException {
         match.moveMotherNature(this.getMovement());
     }
+
+    @Override
+    public String toString() {
+        return "Insert the number of mother nature movement you want to do: " ;
+    }
 }

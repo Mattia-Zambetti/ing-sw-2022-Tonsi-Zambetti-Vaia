@@ -199,8 +199,8 @@ public class Match extends Observable {
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
-            setChanged();
-            notifyObservers(this);
+            //setChanged();
+            //notifyObservers(this);
         }catch (StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -236,8 +236,8 @@ public class Match extends Observable {
             throw new NoMoreCardException("It's the last turn");
         }
 
-        setChanged();
-        notifyObservers(this);
+        //setChanged();
+        //notifyObservers(this);
 
     }
 
@@ -375,8 +375,8 @@ public class Match extends Observable {
             currentPlayerPosition++;
             this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
 
-            setChanged();
-            notifyObservers(this);
+            //setChanged();
+            //notifyObservers(this);
             return true;
             //Views are notified only if another Player has to play the turn
         }

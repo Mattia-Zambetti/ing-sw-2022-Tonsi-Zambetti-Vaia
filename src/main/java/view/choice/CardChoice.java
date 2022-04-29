@@ -33,7 +33,7 @@ public class CardChoice extends Choice{
 
     @Override
     public String toString() {
-        StringBuilder string=new StringBuilder( "Choose a card id from your deck:\n ");
+        StringBuilder string=new StringBuilder("Choose a card id from your deck:\n");
         for (Card c:availableCards.values()) {
             string.append(c.toString()+"\n");
         }
@@ -45,8 +45,9 @@ public class CardChoice extends Choice{
         if(isItAnInt(input)) {
             if(availableCards.get(Integer.parseInt(input))!=null) {
                 setChosenCard(Integer.parseInt(input));
+                System.out.println("You choose "+ getChosenCard()+" succesfully");
                 return false;
-            }else System.out.println("This card isn't in you deck, try again: ");
+            }else System.out.println("This card isn't in you deck, "+retryMessage());
         }
         return true;
     }

@@ -104,10 +104,10 @@ public class Server implements Runnable {
             }
 
             switch (matchType) {
-                case 0:
+                case 1:
                     match = new NormalMatch(totalPlayerNumber, true);
                     break;
-                case 1:
+                case 2:
                     match = new ExpertMatch(totalPlayerNumber);
                     isExpertMatch = true;
                     break;

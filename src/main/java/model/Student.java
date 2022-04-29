@@ -1,7 +1,9 @@
 // Zambo
 package model;
 
-public final class Student{
+import java.io.Serializable;
+
+public final class Student implements Serializable {
     private final Color color;
     private final int ID;
 
