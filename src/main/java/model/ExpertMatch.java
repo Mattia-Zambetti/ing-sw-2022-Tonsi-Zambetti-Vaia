@@ -15,7 +15,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
     private static final int FIGURECARDSINGAME=3;
 
     public ExpertMatch(int totalPlayersNum) {
-        super(totalPlayersNum, true);
+        super(totalPlayersNum);
         centaurEffect =false;
 
         figureCards=new HashSet<>();

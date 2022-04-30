@@ -5,7 +5,7 @@ import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
 
 import java.util.*;
-public class Match extends Observable {
+public class Match extends Observable implements MatchDataInterface {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -13,7 +13,6 @@ public class Match extends Observable {
     private HashMap<Color, Master> mastersMap;
 
     private int totalPlayersNum;
-    //private boolean isExpertMode;
     protected int currentIsland;
 
     private int totalNumIslands; //TODO questo attributo non modifica nulla, penso debba essere
@@ -32,7 +31,7 @@ public class Match extends Observable {
     private static final int MINPLAYERSNUM=2;
 
     //TESTED
-    public Match(int totalPlayersNum, boolean isExpertMode) {
+    public Match(int totalPlayersNum) {
         try {
             this.totalPlayersNum = totalPlayersNum;
             if (this.totalPlayersNum <= MAXPLAYERSNUM && this.totalPlayersNum >= MINPLAYERSNUM) {
@@ -280,8 +279,11 @@ public class Match extends Observable {
                 TowerColor.valueOf(towerColor).counterplus();
             }
 
-            if(totalPlayersNum==dashboardsCollection.size())
+            if(totalPlayersNum==dashboardsCollection.size()) {
                 initializeAllEntrance();
+                setChanged();
+                notifyObservers(this);
+            }
 
 
 
@@ -445,7 +447,26 @@ public class Match extends Observable {
     }
     //TODO se volessimo aggiornare la view quando il master viene spostato bisogna aggiungere un notify in questo metodo
 
+    @Override
+    public String toString() {
+        String outputString = "";
 
+        outputString = outputString.concat("-> " + currentPlayerDashboard.getPlayer().getNickname() + " it's your turn <-\n");
+
+        for ( Dashboard d : dashboardsCollection ) {
+            outputString = outputString.concat(d.toString()+"Card played by " + d.getPlayer().getNickname() + ": " + d.getCurrentCard().toString() + "\n");
+        }
+
+        for ( Island i : islands ) {
+            outputString = outputString.concat(i.toString());
+        }
+
+        for ( Cloud c : clouds ) {
+            outputString = outputString.concat(c.toString());
+        }
+
+        return outputString;
+    }
 
     //Only for test
     public HashMap<Color, Master> getMasters () {

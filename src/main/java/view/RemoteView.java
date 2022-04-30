@@ -38,7 +38,8 @@ public class RemoteView extends Observable implements Observer {
     @Override
     public synchronized void update(Observable o, Object arg) {
         if(o instanceof MatchView){
-            connection.send(o.toString());
+            if ( arg instanceof String)
+                connection.send(arg);
         }else if (arg instanceof FigureCard) {
             setChanged();
             notifyObservers(arg);
