@@ -67,6 +67,10 @@ public class Cloud {
         }else throw new AlreadyFilledCloudException("there's a cloud that has already been filled");
     }
 
+    public int getID() {
+        return ID;
+    }
+
     @Override
     public String toString(){
         String outputString = "";

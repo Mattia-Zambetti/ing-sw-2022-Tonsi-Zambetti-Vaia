@@ -15,7 +15,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
     private static final int FIGURECARDSINGAME=3;
 
     public ExpertMatch(int totalPlayersNum) {
-        super(totalPlayersNum, true);
+        super(totalPlayersNum);
         centaurEffect =false;
 
         figureCards=new HashSet<>();
@@ -76,6 +76,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
                 Witch.addBlockCard();
                 islands.get(currentIsland).setForbidden(false);
             }
+
+            setChanged();
+            notifyObservers(this.toString());
         }
         else throw new MaxNumberException("Cannot move Mother nature that far");
         postManValue = 0;

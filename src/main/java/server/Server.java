@@ -93,10 +93,12 @@ public class Server implements Runnable {
     }
 
     public synchronized void lobby(Connection c, NamePlayerChoice dataPlayerChoice) {
+
         List<RemoteView> remoteViewList = new ArrayList<>();
         boolean isExpertMatch = false;
         Match match = null;
         waitingRoom.put(c, dataPlayerChoice.getPlayer());
+
         if (waitingRoom.size() == totalPlayerNumber) {
 
             for (Connection connection : connections) {
@@ -105,7 +107,7 @@ public class Server implements Runnable {
 
             switch (matchType) {
                 case 1:
-                    match = new NormalMatch(totalPlayerNumber, true);
+                    match = new NormalMatch(totalPlayerNumber);
                     break;
                 case 2:
                     match = new ExpertMatch(totalPlayerNumber);
@@ -115,15 +117,19 @@ public class Server implements Runnable {
 
             Controller controller = new Controller(match, remoteViewList, isExpertMatch);
 
-            MatchView matchView = new MatchView();
+            //MatchView matchView = new MatchView();
 
-            for (RemoteView remoteView : remoteViewList) {
-                match.addObserver(remoteView);
-                remoteView.addObserver(controller);
-                matchView.addObserver(remoteView);
+            if (match != null)
+            //    match.addObserver(matchView);
+                for (RemoteView remoteView : remoteViewList) {
+                    //La matchView serve semplicemente per rendere il Match invisibile alle RemoteView, di modo che esse non possano modificarlo in nessun caso
+                    match.addObserver(remoteView);
+                    remoteView.addObserver(controller);
+                }
+            else {
+                System.out.println("Error, match not created");
+                return;
             }
-            match.addObserver(matchView);
-
 
             System.out.println("Starting match");
 
