@@ -22,7 +22,7 @@ public class Match extends Observable {
     private int towersNum;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
-    private static final int ISLANDSNUM=12;
+    private final int ISLANDSNUM=12;
 
     private static final int STUDENTSONCLOUD2PLAYERS= 3;
     private static final int STUDENTSONCLOUD3PLAYERS= 4;
@@ -159,7 +159,7 @@ public class Match extends Observable {
             islands.add(new Island(motherNature, i));
             islandPositions.add(i);
             //islands.add(new Island(motherNature, i+1));
-            if( i!=0 && i!=(Match.getISLANDSNUM()/2) )
+            if( i!=0 && i!=(getISLANDSNUM()/2) )
                 islands.get(i).addStudent(Bag.removeStudent());
             motherNature=false;
         }
@@ -310,7 +310,7 @@ public class Match extends Observable {
 
     //ZAMBO
 
-    public static int getISLANDSNUM() {
+    public int getISLANDSNUM() {
         return ISLANDSNUM;
     }
 
@@ -456,7 +456,7 @@ public class Match extends Observable {
 
     //Start Vaia
     public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
-        if(posizioni < currentPlayerDashboard.getCurrentCard().getMovementValue()){
+        if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0){
             int positionTmp = currentIsland;
             islands.get(positionTmp).setMotherNature(false);
             for (int i = 0; i < posizioni; i++){

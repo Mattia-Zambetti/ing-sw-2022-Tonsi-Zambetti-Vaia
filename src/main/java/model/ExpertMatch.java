@@ -7,7 +7,7 @@ import java.util.*;
 
 public class ExpertMatch extends Match implements ExpertMatchInterface{
     private final Set<FigureCard> figureCards;
-    private boolean centaurEffect;
+    private static boolean centaurEffect;
     private int postManValue = 0;
     private int colorBlocked = -1;
 
@@ -62,7 +62,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
 
     @Override
     public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
-        if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue){
+        if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue && posizioni > 0){
             int positionTmp = currentIsland;
             islands.get(positionTmp).setMotherNature(false);
             for (int i = 0; i < posizioni; i++){

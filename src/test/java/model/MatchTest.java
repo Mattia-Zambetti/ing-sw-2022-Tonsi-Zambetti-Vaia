@@ -238,7 +238,7 @@ public class MatchTest {
         match.setDashboardMaster(0,masterP);
         match.setIslandsStudents(0,students);
         assertEquals(dashboard0.getTowerColor(), match.checkDashboardWithMoreInfluence().getTowerColor());
-        Tower tower = new Tower(TowerColor.BLACK,0);
+        Tower tower = new Tower(TowerColor.BLACK,7);
         ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
         tmpTowers.add(tower);
         match.changeTowerColorOnIsland();
@@ -246,8 +246,9 @@ public class MatchTest {
         match.addIslandsTowers(1,tmpTowers);
         match.removeTowersFromDashboard(0,1);
         match.chooseCard(new Card(5,5,2));
+        Island.setCentaurEffect(false);
         match.moveMotherNature(1);
-        match.changeTowerColorOnIsland();
+        //match.changeTowerColorOnIsland();
         assertEquals(TowerColor.BLACK,  match.getTowerColorFromIsland(1));
     }
 

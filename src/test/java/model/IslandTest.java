@@ -88,21 +88,22 @@ public class IslandTest{
     @Test
     void TestGetInfluenceByDashboard() throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
         island.setStudents(students);
-        dashboard.insertMaster(master);
+        //dashboard.insertMaster(master);
         int tmp = island.getInfluenceByDashboard(dashboard);
         assertEquals(3, tmp);
         Master master1 = new Master(Color.BLUE);
         dashboard.insertMaster(master1);
         tmp = island.getInfluenceByDashboard(dashboard);
         assertEquals(4, tmp);
-        Tower tower = new Tower(TowerColor.GREY,0);
-        Tower tower1 = new Tower(TowerColor.GREY,0);
-        Tower tower2 = new Tower(TowerColor.GREY,0);
+        Tower tower = new Tower(TowerColor.GREY,7);
+        Tower tower1 = new Tower(TowerColor.GREY,8);
+        Tower tower2 = new Tower(TowerColor.GREY,9);
         ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
         tmpTowers.add(tower);
         tmpTowers.add(tower1);
         tmpTowers.add(tower2);
         island.addTowers(tmpTowers);
+        Island.setCentaurEffect(false);
         tmp = island.getInfluenceByDashboard(dashboard);
         assertEquals(7, tmp);
 
