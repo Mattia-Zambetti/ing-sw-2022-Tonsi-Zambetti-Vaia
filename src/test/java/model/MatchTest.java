@@ -21,7 +21,7 @@ public class MatchTest {
 
     @BeforeEach void init() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         match=new NormalMatch(PLAYERSNUM);
-        match.refillClouds();
+        match.refillCloudsNoNotify();
 
         assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
@@ -84,7 +84,7 @@ public class MatchTest {
     //it tests the presence of a wrong choice (or not) into
     // the parameters of the moveStudentsFromCloudToEntrance's method
     @Test
-    void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, NoMoreStudentsException {
+    void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, NoMoreStudentsException, NoMasterException {
         Match tmp=new NormalMatch(PLAYERSNUM);
 
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
@@ -98,12 +98,13 @@ public class MatchTest {
 
         int chosenCloud=PLAYERSNUM+1;
         assertThrows(WrongCloudNumberException.class,()->tmp.moveStudentsFromCloudToEntrance(chosenCloud));
-        int chosenCloud1=0;
+        int chosenCloud1=-1;
         assertThrows(WrongCloudNumberException.class,()->tmp.moveStudentsFromCloudToEntrance(chosenCloud1));
 
         Set<Student> entranceTest=  new HashSet<>(tmp.showCurrentPlayerDashboard().showEntrance());
-        tmp.moveStudentsFromCloudToEntrance(PLAYERSNUM);
+        tmp.moveStudentsFromCloudToEntrance(PLAYERSNUM-1);
         assertNotSame(tmp.showCurrentPlayerDashboard().showEntrance(),entranceTest);
+        assertThrows(WrongCloudNumberException.class,()->tmp.moveStudentsFromCloudToEntrance(PLAYERSNUM-1));
     }
 
     //It tests if the method refillClouds() correctly by refilling without students
@@ -112,7 +113,7 @@ public class MatchTest {
     void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException, NoMoreStudentsException, WrongCloudNumberException {
         System.out.println(match.toStringStudentsOnCloud());
         for(int i=0; i<PLAYERSNUM; i++){
-            match.moveStudentsFromCloudToEntrance(i+1);
+            match.moveStudentsFromCloudToEntrance(i);
             System.out.println(match.toStringStudentsOnCloud());
         }
         assertEquals("\n==================================\n            CLOUD 0               \n\n==================================\n==================================\n            CLOUD 1               \n\n==================================",match.toStringStudentsOnCloud());
@@ -289,7 +290,7 @@ public class MatchTest {
 
     //this test checks that students are correctly moved from Entrance to DR for the currentPlayerDashboard
     @Test
-    void moveStudentFromEntranceToDRTest () throws WrongColorException {
+    void moveStudentFromEntranceToDRTest () throws WrongColorException, NoMasterException {
         int redStudents=0, blueStudents=0, greenStudents=0, yellowStudents=0, pinkStudents=0;
 
         match.initializeAllEntrance();

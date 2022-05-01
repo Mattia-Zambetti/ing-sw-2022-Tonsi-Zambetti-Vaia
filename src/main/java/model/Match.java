@@ -168,15 +168,39 @@ public class Match extends Observable implements MatchDataInterface {
     //it's used to take the students from the bag and
     //put them into the cloud number "cloudNum"
     private Set<Student> pullStudentsFromCloud(int cloudNum) throws WrongCloudNumberException {
-        if (cloudNum <= totalPlayersNum && cloudNum > 0 && !(clouds.get(cloudNum - 1).toString().equals(""))) {
-            return clouds.get(cloudNum - 1).takeStudents();
-        } else throw new WrongCloudNumberException("wrong cloud's number");
+        if (cloudNum < totalPlayersNum && cloudNum >= 0 && !(getCloudByID(cloudNum).equals(new Cloud(cloudNum)))) {
+            return getCloudByID(cloudNum).takeStudents();
+        }
+        throw new WrongCloudNumberException("wrong cloud's number");
+    }
+
+    private Cloud getCloudByID(int ID) throws WrongCloudNumberException {
+        for ( Cloud c: clouds ) {
+            if ( c.getID() == ID )
+                return c;
+        }
+        throw new WrongCloudNumberException("wrong cloud's number");
     }
 
     //TESTED
     //it is used at the start of a round to refill every cloud
     //with new students from the bag
     public void refillClouds() throws NoMoreStudentsException {
+        for (Cloud c : clouds) {
+            try {
+                c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
+            } catch (AlreadyFilledCloudException | MaxNumberException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        setChanged();
+        notifyObservers(this.toString());
+
+    }
+
+    //ONLY FOR TEST
+    public void refillCloudsNoNotify() throws NoMoreStudentsException {
         for (Cloud c : clouds) {
             try {
                 c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
@@ -194,7 +218,7 @@ public class Match extends Observable implements MatchDataInterface {
     public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException{
         try {
 
-            if (chosenCloud <= totalPlayersNum && chosenCloud > 0 && !clouds.get(chosenCloud-1).toString().equals("") )
+            if (chosenCloud < totalPlayersNum && chosenCloud >= 0 && !(getCloudByID(chosenCloud).equals(new Cloud(chosenCloud))))
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
@@ -281,8 +305,9 @@ public class Match extends Observable implements MatchDataInterface {
 
             if(totalPlayersNum==dashboardsCollection.size()) {
                 initializeAllEntrance();
-                setChanged();
-                notifyObservers(this);
+                //SPOSTATI DOPO REFILL CLOUD
+                //setChanged();
+                //notifyObservers(this.toString());
             }
 
 
@@ -324,15 +349,20 @@ public class Match extends Observable implements MatchDataInterface {
     }
 
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
-    public void moveStudentFromEntranceToDR( Student studentToBeMoved ) {
+    public void moveStudentFromEntranceToDR( Student studentToBeMoved ) throws NoMasterException, WrongColorException {
         Student tmpStudent;
         try {
             tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
             this.currentPlayerDashboard.moveToDR(tmpStudent);
+            checkAndMoveMasters();
+
+            setChanged();
+            notifyObservers(this.toString());
         }
-        catch ( MaxNumberException | WrongColorException | StudentIDAlreadyExistingException | InexistentStudentException | NullPointerException e ) {
+        catch ( MaxNumberException | StudentIDAlreadyExistingException | InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
+
 
     }
 
@@ -359,12 +389,17 @@ public class Match extends Observable implements MatchDataInterface {
                 throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
             if ( this.islands.get(chosenIslandPosition) == null )
                 throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
-            else
+            else {
                 this.islands.get(chosenIslandPosition).addStudent(currentPlayerDashboard.removeStudentFromEntrance(chosenStudent));
+
+                setChanged();
+                notifyObservers(this.toString());
+            }
         }
         catch (InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
+
     }
 
     //This method set the next dashboard (and so the player) that has to play, if there is a next player it notifies the player and after return true, if there are no more player
@@ -377,10 +412,10 @@ public class Match extends Observable implements MatchDataInterface {
             currentPlayerPosition++;
             this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
 
-            //setChanged();
-            //notifyObservers(this);
+            setChanged();
+            notifyObservers(this.toString());
             return true;
-            //Views are notified only if another Player has to play the turn
+            //Views are notified only if another Player has to play the turn, the first player is notified in the setDashboardOrder() method
         }
         else {
             currentPlayerPosition = 0;
@@ -401,6 +436,9 @@ public class Match extends Observable implements MatchDataInterface {
             }
         }
         this.currentPlayerDashboard = dashboardsCollection.get(0);
+
+        setChanged();
+        notifyObservers(this.toString());
     }
 
     public void initializeAllEntrance(){
@@ -445,13 +483,11 @@ public class Match extends Observable implements MatchDataInterface {
             }
         }
     }
-    //TODO se volessimo aggiornare la view quando il master viene spostato bisogna aggiungere un notify in questo metodo
 
     @Override
     public String toString() {
         String outputString = "";
 
-        outputString = outputString.concat("-> " + currentPlayerDashboard.getPlayer().getNickname() + " it's your turn <-\n");
 
         for ( Dashboard d : dashboardsCollection ) {
             outputString = outputString.concat(d.toString()+"Card played by " + d.getPlayer().getNickname() + ": " + d.getCurrentCard().toString() + "\n");
@@ -464,6 +500,8 @@ public class Match extends Observable implements MatchDataInterface {
         for ( Cloud c : clouds ) {
             outputString = outputString.concat(c.toString());
         }
+
+        outputString = outputString.concat("\n-> " + currentPlayerDashboard.getPlayer().getNickname() + " it's your turn! <-\n");
 
         return outputString;
     }
@@ -486,6 +524,9 @@ public class Match extends Observable implements MatchDataInterface {
             currentIsland = positionTmp;
             islands.get(currentIsland).setMotherNature(true);
             changeTowerColorOnIsland();
+
+            setChanged();
+            notifyObservers(this.toString());
         }
         else throw new MaxNumberException("Cannot move mother nature that far");
     }

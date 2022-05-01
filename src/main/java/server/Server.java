@@ -117,20 +117,19 @@ public class Server implements Runnable {
 
             Controller controller = new Controller(match, remoteViewList, isExpertMatch);
 
-            MatchView matchView = new MatchView();
+            //MatchView matchView = new MatchView();
 
             if (match != null)
-                match.addObserver(matchView);
+            //    match.addObserver(matchView);
+                for (RemoteView remoteView : remoteViewList) {
+                    //La matchView serve semplicemente per rendere il Match invisibile alle RemoteView, di modo che esse non possano modificarlo in nessun caso
+                    match.addObserver(remoteView);
+                    remoteView.addObserver(controller);
+                }
             else {
                 System.out.println("Error, match not created");
                 return;
             }
-            for (RemoteView remoteView : remoteViewList) {
-                //La matchView serve semplicemente per rendere il Match invisibile alle RemoteView, di modo che esse non possano modificarlo in nessun caso
-                matchView.addObserver(remoteView);
-                remoteView.addObserver(controller);
-            }
-
 
             System.out.println("Starting match");
 

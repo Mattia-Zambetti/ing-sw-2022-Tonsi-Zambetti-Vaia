@@ -76,6 +76,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
                 Witch.addBlockCard();
                 islands.get(currentIsland).setForbidden(false);
             }
+
+            setChanged();
+            notifyObservers(this.toString());
         }
         else throw new MaxNumberException("Cannot move Mother nature that far");
         postManValue = 0;

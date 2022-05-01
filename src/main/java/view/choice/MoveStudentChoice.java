@@ -107,7 +107,7 @@ public class MoveStudentChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
+    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, NoMasterException, WrongColorException {
         switch (this.getWhereToMove().toUpperCase()) {
             case "DINING ROOM":
                 match.moveStudentFromEntranceToDR(this.getChosenStudent());

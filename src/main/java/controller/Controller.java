@@ -13,6 +13,13 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+//TODO ERRORI DA RIMUOVERE:
+/*
+    -Il numero di studenti da muovere dipende dal numero di giocatori (NUMSTUDENTSMOVE errato)
+    -Non viene segnalato errore se si gioca la stessa carta
+*/
+
+
 public class Controller implements Observer {
     private final Match match;
     private final HashMap<Player,RemoteView> remoteViewMap;
@@ -50,7 +57,8 @@ public class Controller implements Observer {
                         remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
                     }
 
-                    match.checkAndMoveMasters();
+                    //SPOSTATO NEI METODI moveStudent.. del match
+                    //match.checkAndMoveMasters();
 
                     if(isExpertMatch) {
                         actualChoice = new FigureCardPlayedChoice(((ExpertMatch) match).showFigureCardsInGame());
@@ -64,11 +72,6 @@ public class Controller implements Observer {
                     remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
                 }while(match.setNextCurrDashboard());
             }
-        } catch (NoMasterException e) {
-            e.printStackTrace();//TODO Penso funzioni così...?
-            System.out.println(e.getMessage());
-        } catch (WrongColorException e) {
-            e.printStackTrace();
         } catch (NoMoreStudentsException e) {
             remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
             //e.printStackTrace();TODO CONDIZIONE END MATCH
@@ -120,6 +123,8 @@ public class Controller implements Observer {
             } catch (NoMoreBlockCardsException e) {
                 e.printStackTrace();
             } catch (FigureCardAlreadyPlayedInThisTurnException e) {
+                e.printStackTrace();
+            } catch (NoMasterException e) {
                 e.printStackTrace();
             }
         }

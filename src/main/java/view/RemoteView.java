@@ -1,6 +1,7 @@
 package view;
 
-import model.MatchView;
+import model.Match;
+import model.MatchDataInterface;
 import model.Player;
 import model.figureCards.FigureCard;
 import server.Connection;
@@ -37,7 +38,10 @@ public class RemoteView extends Observable implements Observer {
 
     @Override
     public synchronized void update(Observable o, Object arg) {
-        if(o instanceof MatchView){
+        /*if(o instanceof MatchView){
+            if ( arg instanceof String)
+                connection.send(arg);*/
+        if(o instanceof MatchDataInterface){
             if ( arg instanceof String)
                 connection.send(arg);
         }else if (arg instanceof FigureCard) {
