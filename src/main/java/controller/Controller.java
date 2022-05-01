@@ -17,6 +17,7 @@ import java.util.Observer;
 /*
     -Il numero di studenti da muovere dipende dal numero di giocatori (NUMSTUDENTSMOVE errato)
     -Non viene segnalato errore se si gioca la stessa carta
+    -Le isole non vengono unite (il metodo checkNearbyIsland non viene mai utilizzato)
 */
 
 
