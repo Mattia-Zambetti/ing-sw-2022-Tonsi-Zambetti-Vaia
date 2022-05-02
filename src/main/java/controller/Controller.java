@@ -85,22 +85,17 @@ public class Controller implements Observer {
         if (o instanceof RemoteView) {
             try {
                 ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
-            } catch (CardNotFoundException | WrongCloudNumberException | MaxNumberException | InexistentStudentException | NoIslandException | InsufficientCoinException | SameInfluenceException | WrongColorException | WrongDataplayerException | NoMoreBlockCardsException | FigureCardAlreadyPlayedInThisTurnException | NoMasterException | StudentIDAlreadyExistingException e) {
+            } catch (CardNotFoundException | WrongCloudNumberException | MaxNumberException | InexistentStudentException |
+                     NoIslandException | InsufficientCoinException | SameInfluenceException |
+                     WrongColorException | WrongDataplayerException | NoMoreBlockCardsException |
+                     FigureCardAlreadyPlayedInThisTurnException | NoMasterException |
+                     StudentIDAlreadyExistingException e) { //re asking choice exceptions
                 e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
             } catch (NoMoreCardException | NoMoreStudentsException | FinishedGameIslandException e) { //Finished game exceptions
                 e.manageException(remoteViewMap);
-            } catch (NegativeNumberOfTowerException e) {
-                throw new RuntimeException(e);
-            } catch (TowerIDAlreadyExistingException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidNumberOfTowers e) {
-                throw new RuntimeException(e);
-            } catch (NoTowerException e) {
-                throw new RuntimeException(e);
-            } catch (NoListOfSameColoredTowers e) {
-                throw new RuntimeException(e);
-            } catch (MaxNumberOfTowerPassedException e) {
-                throw new RuntimeException(e);
+            }   catch (NoTowerException | NoListOfSameColoredTowers | NegativeNumberOfTowerException |
+                       TowerIDAlreadyExistingException | InvalidNumberOfTowers | MaxNumberOfTowerPassedException e) { //print stacktrace exceptions
+                e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
             }
         }
     }
