@@ -85,17 +85,16 @@ public class Controller implements Observer {
         if (o instanceof RemoteView) {
             try {
                 ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
-            } catch (CardNotFoundException | WrongCloudNumberException | MaxNumberException | InexistentStudentException |
-                     NoIslandException | InsufficientCoinException | SameInfluenceException |
-                     WrongColorException | WrongDataplayerException | NoMoreBlockCardsException |
-                     FigureCardAlreadyPlayedInThisTurnException | NoMasterException |
-                     StudentIDAlreadyExistingException e) { //re asking choice exceptions
+            } catch (CardNotFoundException | WrongCloudNumberException | MaxNumberException |
+                     InexistentStudentException | NoIslandException | InsufficientCoinException |
+                     SameInfluenceException | WrongColorException | WrongDataplayerException |
+                     NoMoreBlockCardsException | FigureCardAlreadyPlayedInThisTurnException | NoMasterException |
+                     StudentIDAlreadyExistingException | NegativeNumberOfTowerException |
+                     TowerIDAlreadyExistingException | InvalidNumberOfTowers | NoTowerException |
+                     NoListOfSameColoredTowers | MaxNumberOfTowerPassedException e) {
                 e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
             } catch (NoMoreCardException | NoMoreStudentsException | FinishedGameIslandException e) { //Finished game exceptions
                 e.manageException(remoteViewMap);
-            }   catch (NoTowerException | NoListOfSameColoredTowers | NegativeNumberOfTowerException |
-                       TowerIDAlreadyExistingException | InvalidNumberOfTowers | MaxNumberOfTowerPassedException e) { //print stacktrace exceptions
-                e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
             }
         }
     }
