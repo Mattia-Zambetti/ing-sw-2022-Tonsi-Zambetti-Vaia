@@ -514,7 +514,7 @@ public class Match extends Observable implements MatchDataInterface {
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0){
             int positionTmp = currentIsland;
             islands.get(positionTmp).setMotherNature(false);
@@ -524,6 +524,9 @@ public class Match extends Observable implements MatchDataInterface {
             currentIsland = positionTmp;
             islands.get(currentIsland).setMotherNature(true);
             changeTowerColorOnIsland();
+
+            if(totalNumIslands <= 3)
+                throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
             setChanged();
             notifyObservers(this.toString());
@@ -578,14 +581,14 @@ public class Match extends Observable implements MatchDataInterface {
         try{if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
             mergeIsland(nextIslandTmp);}
         catch (NoTowerException e){
-            e.printStackTrace();
+            ((NoTowerException) e).printStackTrace();
         }
         try{
             if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
                 mergeIsland(previousIslandTmp);
         }
         catch (NoTowerException e){
-            e.printStackTrace();
+            ((NoTowerException) e).printStackTrace();
         }
     }
 //
@@ -646,9 +649,9 @@ public class Match extends Observable implements MatchDataInterface {
 
     //TODO NegativeNumberOfTowerException non bisogna fare printStackTrace ma va ritornata al controller che segnala che la partita è finita e ha vinto il giocatore che ha finito le torri
     //TODO SameInfluenceException mai sollevata
-    public void changeTowerColorOnIsland() throws SameInfluenceException {
-        try{
-        Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
+    public void changeTowerColorOnIsland() throws SameInfluenceException, CardNotFoundException, NegativeNumberOfTowerException, NoTowerException, InvalidNumberOfTowers, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NoListOfSameColoredTowers {
+        //try{
+        try{Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
         int towersNum = 0;
         if(islands.get(currentIsland).getTowerNum() == 0)
             islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(1));
@@ -662,10 +665,12 @@ public class Match extends Observable implements MatchDataInterface {
                     islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
                 }
             }
-        }
+        }}
+        catch (SameInfluenceException e){System.out.println(e.getMessage());}
 
-        }
-        catch (Exception e){System.out.println(e.getMessage());}
+       // }
+       // catch (NoTowerException | NegativeNumberOfTowerException | InvalidNumberOfTowers | NoListOfSameColoredTowers |
+         //      MaxNumberOfTowerPassedException | TowerIDAlreadyExistingException e){System.out.println(e.getMessage());}
     }
     // END VAIA
 }

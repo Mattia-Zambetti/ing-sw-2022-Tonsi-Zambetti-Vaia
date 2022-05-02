@@ -154,7 +154,7 @@ public class MatchTest {
     //Start Vaia
     //Testing if the returned Island is the correct one under every circumstance
     @Test
-    void PreviousAndNextIslandTest() throws NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    void PreviousAndNextIslandTest() throws NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, FinishedGameIslandException {
         int tmp = 0;
         Tower tower = new Tower(TowerColor.BLACK,0);
         ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
@@ -186,7 +186,7 @@ public class MatchTest {
 
     //check if it calls the merging method when actually is needed (i could have spared some time by testing just this method and not the previous one)
     @Test
-    void TestCheckNearbyIsland() throws InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoTowerException, NoIslandException {
+    void TestCheckNearbyIsland() throws InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoTowerException, NoIslandException, FinishedGameIslandException {
         Tower tower = new Tower(TowerColor.BLACK,0);
         ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
         tmpTowers.add(tower);
@@ -201,7 +201,7 @@ public class MatchTest {
     }
 
     @Test
-    void TestMergeIslands() throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    void TestMergeIslands() throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, FinishedGameIslandException {
         Tower tower = new Tower(TowerColor.BLACK,0);
         ArrayList<Tower> tmpTowers = new ArrayList<Tower>();
         tmpTowers.add(tower);
@@ -222,7 +222,7 @@ public class MatchTest {
     }
 
     @Test
-    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException {
+    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         Dashboard dashboard0 = new Dashboard(6,TowerColor.GREY,Wizard.WIZARD1,"Rebecca",1);
         Dashboard dashboard1 = new Dashboard(6,TowerColor.BLACK,Wizard.WIZARD1,"Rebecco",2);
         Master masterR = new Master(Color.RED);
@@ -254,7 +254,7 @@ public class MatchTest {
     }
 
     @Test
-    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException {
+    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         assertEquals(true, match.checkMotherNatureOnIsland(0));
         match.chooseCard(new Card(5,10,5));
         match.moveMotherNature(3);
@@ -523,7 +523,7 @@ public class MatchTest {
     //TODO test con più di due dashboard
 
     @Test
-    void IslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException {
+    void IslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException {
 
         match=new NormalMatch(PLAYERSNUM);
 
@@ -550,7 +550,7 @@ public class MatchTest {
     }
 
     @Test
-    void ExpertMatchIslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException {
+    void ExpertMatchIslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException {
 
         match=new ExpertMatch(PLAYERSNUM);
 

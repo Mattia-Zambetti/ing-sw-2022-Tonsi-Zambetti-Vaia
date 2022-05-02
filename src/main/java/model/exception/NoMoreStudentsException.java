@@ -1,6 +1,6 @@
 package model.exception;
 
-public class NoMoreStudentsException extends Exception {
+public class NoMoreStudentsException extends FinishedGameExceptions {
     private static boolean endTurn=false;
 
 

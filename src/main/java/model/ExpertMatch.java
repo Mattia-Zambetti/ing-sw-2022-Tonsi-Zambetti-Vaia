@@ -61,7 +61,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
     }
 
     @Override
-    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException {
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue && posizioni > 0){
             int positionTmp = currentIsland;
             islands.get(positionTmp).setMotherNature(false);
@@ -76,6 +76,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
                 Witch.addBlockCard();
                 islands.get(currentIsland).setForbidden(false);
             }
+
+            if(getISLANDSNUM() <= 3)
+                throw new FinishedGameIslandException("Island num <= 3, game over");
 
             setChanged();
             notifyObservers(this.toString());

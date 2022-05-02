@@ -1,6 +1,6 @@
 package model.exception;
 
-public class NoMoreCardException extends Exception {
+public class NoMoreCardException extends FinishedGameExceptions {
     private static boolean endTurn=false;
     public NoMoreCardException(String s) {
         super(s);

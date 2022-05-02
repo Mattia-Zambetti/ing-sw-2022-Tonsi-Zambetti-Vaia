@@ -85,48 +85,22 @@ public class Controller implements Observer {
         if (o instanceof RemoteView) {
             try {
                 ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
-
-            } catch (CardNotFoundException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
-            } catch (NoMoreCardException e) {
-                remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
-            } catch (WrongCloudNumberException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
-            } catch (MaxNumberException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice)arg);
-
-            } catch (InsufficientCoinException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError("You don't have enough coins");
-            } catch (InexistentStudentException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);//TODO FUNZIONERA'?
-            } catch (StudentIDAlreadyExistingException e) {
-                e.printStackTrace();
-                //remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-                //Choice choice=new JesterChoice();
-                //remoteViewMap.get(match.showCurrentPlayer()).choiceUser(choice);
-            } catch (WrongColorException e) {//TODO
-                e.printStackTrace();
-            } catch (NoMoreStudentsException e) {//TODO
-                remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
-                //e.printStackTrace();
-            } catch (NoIslandException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-                remoteViewMap.get(match.showCurrentPlayer()).choiceUser((Choice) arg);
-                //e.printStackTrace();//TODO
-            } catch (SameInfluenceException e) {
-                remoteViewMap.get(match.showCurrentPlayer()).sendError(e.getMessage());
-            } catch (WrongDataplayerException e) {
-                e.printStackTrace();
-            } catch (NoMoreBlockCardsException e) {
-                e.printStackTrace();
-            } catch (FigureCardAlreadyPlayedInThisTurnException e) {
-                e.printStackTrace();
-            } catch (NoMasterException e) {
-                e.printStackTrace();
+            } catch (CardNotFoundException | WrongCloudNumberException | MaxNumberException | InexistentStudentException | NoIslandException | InsufficientCoinException | SameInfluenceException | WrongColorException | WrongDataplayerException | NoMoreBlockCardsException | FigureCardAlreadyPlayedInThisTurnException | NoMasterException | StudentIDAlreadyExistingException e) {
+                e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
+            } catch (NoMoreCardException | NoMoreStudentsException | FinishedGameIslandException e) { //Finished game exceptions
+                e.manageException(remoteViewMap);
+            } catch (NegativeNumberOfTowerException e) {
+                throw new RuntimeException(e);
+            } catch (TowerIDAlreadyExistingException e) {
+                throw new RuntimeException(e);
+            } catch (InvalidNumberOfTowers e) {
+                throw new RuntimeException(e);
+            } catch (NoTowerException e) {
+                throw new RuntimeException(e);
+            } catch (NoListOfSameColoredTowers e) {
+                throw new RuntimeException(e);
+            } catch (MaxNumberOfTowerPassedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
