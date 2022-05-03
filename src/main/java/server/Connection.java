@@ -35,7 +35,7 @@ public class Connection extends Observable{
         }
     }
 
-    public Choice sendAndReceive(Object obj){
+    /*public Choice sendAndReceive(Object obj){
         try {
 
             writeOut.writeObject(obj);
@@ -47,7 +47,7 @@ public class Connection extends Observable{
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     public void createConnection (){
         try {
@@ -71,11 +71,11 @@ public class Connection extends Observable{
                 server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());
                 server.lobby(this, (NamePlayerChoice) choice);
 
-            /*while(isActive) {//TODO
+            while(isActive) {
                 choice = (Choice) scannerIn.readObject();
                 setChanged();
                 notifyObservers(choice);
-            }*/
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

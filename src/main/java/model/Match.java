@@ -12,6 +12,8 @@ public class Match extends Observable implements MatchDataInterface {
     protected Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
 
+    private String errorMessage = "";
+
     private int totalPlayersNum;
     protected int currentIsland;
 
@@ -488,7 +490,6 @@ public class Match extends Observable implements MatchDataInterface {
     public String toString() {
         String outputString = "";
 
-
         for ( Dashboard d : dashboardsCollection ) {
             outputString = outputString.concat(d.toString()+"Card played by " + d.getPlayer().getNickname() + ": " + d.getCurrentCard().toString() + "\n");
         }
@@ -500,6 +501,8 @@ public class Match extends Observable implements MatchDataInterface {
         for ( Cloud c : clouds ) {
             outputString = outputString.concat(c.toString());
         }
+
+        outputString = outputString.concat(errorMessage);
 
         outputString = outputString.concat("\n-> " + currentPlayerDashboard.getPlayer().getNickname() + " it's your turn! <-\n");
 

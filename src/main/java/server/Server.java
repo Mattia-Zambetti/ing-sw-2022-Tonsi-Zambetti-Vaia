@@ -23,6 +23,7 @@ public class Server implements Runnable {
 
     private ExecutorService executor;
     private List<Connection> connections;
+    private List<RemoteView> remoteViewList = new ArrayList<>();
 
     private int totalPlayerNumber;
     private int matchType;
@@ -32,7 +33,7 @@ public class Server implements Runnable {
 
     public Server() {
         try {
-            executor = Executors.newFixedThreadPool(4);
+            executor = Executors.newFixedThreadPool(128);
             connections = new ArrayList<>();
             waitingRoom = new HashMap<>();
             serverSocket = new ServerSocket(PORT);
@@ -70,7 +71,7 @@ public class Server implements Runnable {
 
                 System.out.println("Connection number: "+ connections.size());
 
-                clientConnection.createConnection();
+                connectionExecution(clientConnection);
 
 
 
@@ -93,17 +94,12 @@ public class Server implements Runnable {
     }
 
     public synchronized void lobby(Connection c, NamePlayerChoice dataPlayerChoice) {
-
-        List<RemoteView> remoteViewList = new ArrayList<>();
         boolean isExpertMatch = false;
         Match match = null;
         waitingRoom.put(c, dataPlayerChoice.getPlayer());
 
         if (waitingRoom.size() == totalPlayerNumber) {
 
-            for (Connection connection : connections) {
-                remoteViewList.add(new RemoteView(waitingRoom.get(connection), connection));
-            }
 
             switch (matchType) {
                 case 1:
@@ -120,35 +116,35 @@ public class Server implements Runnable {
             //MatchView matchView = new MatchView();
 
             if (match != null)
-            //    match.addObserver(matchView);
                 for (RemoteView remoteView : remoteViewList) {
                     //La matchView serve semplicemente per rendere il Match invisibile alle RemoteView, di modo che esse non possano modificarlo in nessun caso
                     match.addObserver(remoteView);
                     remoteView.addObserver(controller);
+                    remoteView.getConnection().addObserver(remoteView);
+                    System.out.println("Starting match");
                 }
             else {
                 System.out.println("Error, match not created");
                 return;
             }
 
-            System.out.println("Starting match");
-
-            controller.startMatch();
+            matchExecution(controller);
 
             waitingRoom.clear();
             nicknames.clear();
         }
     }
 
-    public Thread matchExecution(Controller controller){
-        Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                controller.startMatch();
-            }
-        });
-        thread.start();
-        return thread;
+    public void matchExecution(Controller controller){
+        executor.submit(new Thread(() -> {
+            controller.startMatch();
+        }));
+    }
+
+    public void connectionExecution(Connection connection){
+        executor.submit(new Thread(() -> {
+            connection.createConnection();
+        }));
     }
 }
 

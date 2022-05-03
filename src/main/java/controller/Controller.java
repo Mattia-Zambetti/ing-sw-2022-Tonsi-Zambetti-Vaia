@@ -8,10 +8,11 @@ import model.figureCards.*;
 import view.RemoteView;
 import view.choice.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.util.*;
 
 //TODO ERRORI DA RIMUOVERE:
 /*
@@ -40,45 +41,79 @@ public class Controller implements Observer {
         remoteViewMap.get(player).choiceUser(choice);
     }
 
-    public void startMatch(){
+    /*public void startMatch(){
         Choice actualChoice;
-        try{
-            for (Player p: remoteViewMap.keySet()) {
-                choiceManager(new DataPlayerChoice(match.getTotalPlayersNum(), p.getNickname()),p);
+
+        try {
+            for (Player p : remoteViewMap.keySet()) {
+                choiceManager(new DataPlayerChoice(match.getTotalPlayersNum(), p.getNickname()), p);
             }
-            while(true){
+            while (true) {
                 match.refillClouds();
-                do{
+                do {
                     choiceManager(new CardChoice(match.showCards()), match.showCurrentPlayer());
-                }while(match.setNextCurrDashboard());
+                } while (match.setNextCurrDashboard());
                 match.setDashboardOrder();
-                do{
-                    for(int i=0; i< match.chooseStudentsNumOnCLoud(); i++) {
+                do {
+                    for (int i = 0; i < match.chooseStudentsNumOnCLoud(); i++) {
                         choiceManager(new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance()), match.showCurrentPlayer());
                     }
-
                     //SPOSTATO NEI METODI moveStudent.. del match
                     //match.checkAndMoveMasters();
-
-                    if(isExpertMatch) {
+                    if (isExpertMatch) {
                         choiceManager(new FigureCardPlayedChoice(((ExpertMatch) match).showFigureCardsInGame()), match.showCurrentPlayer());
                     }
-
                     choiceManager(new MoveMotherNatureChoice(), match.showCurrentPlayer());
 
                     choiceManager(new CloudChoice(), match.showCurrentPlayer());
 
-                }while(match.setNextCurrDashboard());
+                } while (match.setNextCurrDashboard());
             }
         } catch (NoMoreStudentsException e) {
             remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
             //e.printStackTrace();TODO CONDIZIONE END MATCH
         }
+
+    }*/
+
+    public void startMatch() {
+        try {
+            do {
+                wait(100);
+            }while(match.getCurrentPlayersNum()!=match.getTotalPlayersNum());
+            while (true) {
+                match.refillClouds();
+                do {
+                    choiceManager(new CardChoice(match.showCards()), match.showCurrentPlayer());
+                } while (match.setNextCurrDashboard());
+                match.setDashboardOrder();
+                do {
+                    for (int i = 0; i < match.chooseStudentsNumOnCLoud(); i++) {
+                        choiceManager(new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance()), match.showCurrentPlayer());
+                    }
+                    //SPOSTATO NEI METODI moveStudent.. del match
+                    //match.checkAndMoveMasters();
+                    if (isExpertMatch) {
+                        choiceManager(new FigureCardPlayedChoice(((ExpertMatch) match).showFigureCardsInGame()), match.showCurrentPlayer());
+                    }
+                    choiceManager(new MoveMotherNatureChoice(), match.showCurrentPlayer());
+
+                    choiceManager(new CloudChoice(), match.showCurrentPlayer());
+
+                } while (match.setNextCurrDashboard());
+            }
+        } catch (NoMoreStudentsException e) {
+            remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
+            //e.printStackTrace();TODO CONDIZIONE END MATCH
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("Match thread blocked by ");
+        }
+
     }
 
-
     @Override
-    public void update(Observable o, Object arg) {
+    public synchronized void update(Observable o, Object arg) {
         if (o instanceof RemoteView) {
             try {
                 ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
@@ -89,4 +124,5 @@ public class Controller implements Observer {
             }
         }
     }
+
 }
