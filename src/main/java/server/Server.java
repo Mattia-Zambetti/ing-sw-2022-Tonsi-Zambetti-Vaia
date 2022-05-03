@@ -42,19 +42,19 @@ public class Server implements Runnable {
         }
     }
 
-    public void addNickname(String nickname){
+    public synchronized void addNickname(String nickname){
         nicknames.add(nickname);
     }
 
-    public Set getNicknameSet(){
+    public synchronized Set getNicknameSet(){
         return nicknames;
     }
 
-    public int getTotalPlayerNumber() {
+    public synchronized int getTotalPlayerNumber() {
         return totalPlayerNumber;
     }
 
-    public TowerColor[] getTowerColors(){
+    public synchronized TowerColor[] getTowerColors(){
         return TowerColor.values();
     }
     @Override
@@ -83,11 +83,11 @@ public class Server implements Runnable {
 
 
 
-    public int getConnectionsSize() {
+    public synchronized int getConnectionsSize() {
         return connections.size();
     }
 
-    public void setMatchParams(int totalPlayerNumber, int matchType){
+    public synchronized void setMatchParams(int totalPlayerNumber, int matchType){
         this.totalPlayerNumber = totalPlayerNumber;
         this.matchType = matchType;
     }
