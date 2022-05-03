@@ -23,24 +23,18 @@ import java.util.Observer;
 
 public class Controller implements Observer {
     private final Match match;
-    private final HashMap<Player,RemoteView> remoteViewMap;
     private static final int NUMSTUDENTSMOVE=3;
     private final boolean isExpertMatch;
 
-    public Controller(Match match, List<RemoteView> remoteViewList, boolean isExpertMatch){
+    public Controller(Match match, boolean isExpertMatch){
         this.match=match;
-        this.remoteViewMap=new HashMap<>();
-        for (RemoteView view: remoteViewList) {
-            remoteViewMap.put(view.getPlayer(),view);
-        }
         this.isExpertMatch=isExpertMatch;
     }
 
-    private void choiceManager(Choice choice, Player player){
-        remoteViewMap.get(player).choiceUser(choice);
-    }
-
     public void startMatch(){
+
+    }
+   /* public void startMatch(){
         Choice actualChoice;
         try{
             for (Player p: remoteViewMap.keySet()) {
@@ -74,18 +68,18 @@ public class Controller implements Observer {
             remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
             //e.printStackTrace();TODO CONDIZIONE END MATCH
         }
-    }
+    }*/
 
 
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof RemoteView) {
             try {
-                ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
+                ((Choice) arg).manageUpdate(match);
             } catch (Exceptions e) {
-                e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
+                //e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
             } catch (FinishedGameExceptions e) { //Finished game exceptions
-                e.manageException(remoteViewMap);
+                //e.manageException(remoteViewMap);
             }
         }
     }

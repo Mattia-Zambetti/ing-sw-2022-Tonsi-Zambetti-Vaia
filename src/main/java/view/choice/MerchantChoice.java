@@ -5,7 +5,6 @@ import model.Match;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.Merchant;
-import view.RemoteView;
 
 public class MerchantChoice extends FigureCardWithStudentsChoice {
     private int chosenIslandID, numChoice = 0;
@@ -47,7 +46,7 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException {
         ((ExpertMatch)match).takeStudentsOnFigureCard(this.getChosenStudent(), (Merchant) this.getFigureCardPlayed(),this.getChosenIslandID());
     }
 

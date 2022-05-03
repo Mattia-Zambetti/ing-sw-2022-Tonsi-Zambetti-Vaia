@@ -70,9 +70,7 @@ public class Server implements Runnable {
 
                 System.out.println("Connection number: "+ connections.size());
 
-                clientConnection.createConnection();
-
-
+                executor.submit(clientConnection);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -108,14 +106,18 @@ public class Server implements Runnable {
             switch (matchType) {
                 case 1:
                     match = new NormalMatch(totalPlayerNumber);
+                    for (RemoteView remoteView : remoteViewList)
+                        match.addObserver(remoteView);
                     break;
                 case 2:
                     match = new ExpertMatch(totalPlayerNumber);
                     isExpertMatch = true;
+                    for (RemoteView remoteView : remoteViewList)
+                        match.addObserver(remoteView);
                     break;
             }
 
-            Controller controller = new Controller(match, remoteViewList, isExpertMatch);
+            Controller controller = new Controller(match, isExpertMatch);
 
             //MatchView matchView = new MatchView();
 

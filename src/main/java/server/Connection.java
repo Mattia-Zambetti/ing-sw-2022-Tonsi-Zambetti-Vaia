@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Observable;
 
-public class Connection extends Observable{
+public class Connection extends Observable implements Runnable{
 
     private Socket clientSocket;
     private ObjectInputStream scannerIn;
@@ -35,9 +35,8 @@ public class Connection extends Observable{
         }
     }
 
-    public Choice sendAndReceive(Object obj){
+    /*public Choice sendAndReceive(Object obj){
         try {
-
             writeOut.writeObject(obj);
             writeOut.flush();
             return (Choice) scannerIn.readObject();
@@ -47,13 +46,13 @@ public class Connection extends Observable{
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
-    public void createConnection (){
+    public void run (){
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
-            Choice choice = new StartingMatchChoice();
+            Choice choice;
 
 
 
@@ -71,11 +70,11 @@ public class Connection extends Observable{
                 server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());
                 server.lobby(this, (NamePlayerChoice) choice);
 
-            /*while(isActive) {//TODO
+            while(isActive) {//TODO
                 choice = (Choice) scannerIn.readObject();
                 setChanged();
                 notifyObservers(choice);
-            }*/
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

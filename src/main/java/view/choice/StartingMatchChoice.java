@@ -5,7 +5,6 @@ import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
 import model.exception.NoMoreCardException;
 import model.exception.WrongCloudNumberException;
-import view.RemoteView;
 
 public class StartingMatchChoice extends Choice{
     private int totalPlayersNumMatch;
@@ -74,7 +73,7 @@ public class StartingMatchChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
         //QUESTO IN ReALTA' NON DEVE ESSERE MAI CHIAMATO, almeno per ora
     }
 

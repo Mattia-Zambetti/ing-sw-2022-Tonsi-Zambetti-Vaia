@@ -4,6 +4,7 @@ import java.util.Observable;
 
 public interface MatchDataInterface {
 
-    @Override
+    Dashboard showCurrentPlayerDashboard();
+
     String toString();
 }

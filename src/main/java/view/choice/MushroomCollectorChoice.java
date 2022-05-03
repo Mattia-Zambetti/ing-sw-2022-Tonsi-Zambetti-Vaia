@@ -5,7 +5,6 @@ import model.ExpertMatch;
 import model.Match;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
-import view.RemoteView;
 
 public class MushroomCollectorChoice extends FigureCardActionChoice{
     private Color blockedColor;
@@ -33,7 +32,7 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException {
         ((ExpertMatch)match).blockColorForInfluence(this.getBlockedColor());
     }
 }

@@ -12,6 +12,9 @@ public class Match extends Observable implements MatchDataInterface {
     protected Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
 
+    protected boolean matchStateChanged = true;
+
+
     private int totalPlayersNum;
     protected int currentIsland;
 

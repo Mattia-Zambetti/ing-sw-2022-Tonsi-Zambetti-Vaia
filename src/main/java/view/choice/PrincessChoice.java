@@ -5,7 +5,6 @@ import model.Match;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.Princess;
-import view.RemoteView;
 
 public class PrincessChoice extends FigureCardWithStudentsChoice{
     @Override
@@ -15,7 +14,7 @@ public class PrincessChoice extends FigureCardWithStudentsChoice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException {
         ((ExpertMatch)match).takeStudentsOnFigureCard(this.getChosenStudent(), (Princess) this.getFigureCardPlayed());
     }
 }

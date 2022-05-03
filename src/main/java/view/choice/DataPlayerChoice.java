@@ -4,9 +4,6 @@ import model.Match;
 import model.TowerColor;
 import model.Wizard;
 import model.exception.*;
-import model.figureCards.*;
-
-import view.RemoteView;
 
 import java.util.ArrayList;
 
@@ -93,7 +90,7 @@ public class DataPlayerChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException, SameInfluenceException, WrongDataplayerException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException, SameInfluenceException, WrongDataplayerException {
         setTowerChoice(towersChoiceTmp);
         setWizardChoice(wizardChoiceTmp);
         match.addPlayer(nickname,TowerColor.values()[towerColor].toString(), Wizard.values()[wizard].toString());
