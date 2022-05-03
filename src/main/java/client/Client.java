@@ -1,6 +1,8 @@
 package client;
 
 
+import model.Match;
+import model.MatchDataInterface;
 import view.choice.*;
 
 import java.io.IOException;
