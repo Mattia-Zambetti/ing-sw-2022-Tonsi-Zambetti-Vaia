@@ -108,7 +108,7 @@ public class DataPlayerChoice extends Choice{
         if (numPlayers == 2 || numPlayers == 4) {
             towersChoiceTmp.remove(TowerColor.GREY);
             for (TowerColor t : towersChoiceTmp) {
-                    tmp.append("\n" + counter + ") " + t.toString() + " " + t.getCounter());
+                    tmp.append("\n" + counter + ") " + t.toString());
                     counter++;
             }
 

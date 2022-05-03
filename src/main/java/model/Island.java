@@ -97,8 +97,8 @@ public class Island {
         if(numOfTowers == towers.size() || numOfTowers == 0){
             TowerColor tmpColor = towers.get(0).getColor();
             if (towers.stream().allMatch(tower -> tower.getColor().equals(tmpColor))){
-            towerList.addAll(towers);
-            numOfTowers = towers.size();
+                towerList.addAll(towers);
+                numOfTowers = towerList.size();
             }
             else throw new NoListOfSameColoredTowers("Towers with different color, expected same color");
         }

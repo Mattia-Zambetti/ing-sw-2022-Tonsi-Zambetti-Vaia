@@ -28,7 +28,9 @@ public class CloudChoice extends Choice{
 
     @Override
     public boolean setChoiceParam(String input) {
-        setChosenCloudID(Integer.parseInt(input));
+        if(isItAnInt(input))
+            setChosenCloudID(Integer.parseInt(input));
+        else return true;
         return false;
     }
 

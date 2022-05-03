@@ -493,8 +493,8 @@ public class Match extends Observable implements MatchDataInterface {
             outputString = outputString.concat(d.toString()+"Card played by " + d.getPlayer().getNickname() + ": " + d.getCurrentCard().toString() + "\n");
         }
 
-        for ( Island i : islands ) {
-            outputString = outputString.concat(i.toString());
+        for ( int i : islandPositions ) {
+            outputString = outputString.concat(islands.get(i).toString());
         }
 
         for ( Cloud c : clouds ) {
@@ -665,10 +665,14 @@ public class Match extends Observable implements MatchDataInterface {
                     islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
                 }
             }
-        }}
-        catch (SameInfluenceException e){System.out.println(e.getMessage());}
+        }
+            checkNearbyIslands();
+        }
+        catch (SameInfluenceException e){System.out.println(e.getMessage());} catch (NoIslandException e) {
+            e.printStackTrace();
+        }
 
-       // }
+        // }
        // catch (NoTowerException | NegativeNumberOfTowerException | InvalidNumberOfTowers | NoListOfSameColoredTowers |
          //      MaxNumberOfTowerPassedException | TowerIDAlreadyExistingException e){System.out.println(e.getMessage());}
     }

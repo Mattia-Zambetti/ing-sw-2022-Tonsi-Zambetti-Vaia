@@ -36,41 +36,38 @@ public class Controller implements Observer {
         this.isExpertMatch=isExpertMatch;
     }
 
+    private void choiceManager(Choice choice, Player player){
+        remoteViewMap.get(player).choiceUser(choice);
+    }
+
     public void startMatch(){
         Choice actualChoice;
         try{
             for (Player p: remoteViewMap.keySet()) {
-                actualChoice = new DataPlayerChoice(match.getTotalPlayersNum(), p.getNickname());
-                remoteViewMap.get(p).choiceUser(actualChoice);
-
+                choiceManager(new DataPlayerChoice(match.getTotalPlayersNum(), p.getNickname()),p);
             }
             while(true){
                 match.refillClouds();
                 do{
-                    actualChoice=new CardChoice(match.showCards());
-                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
+                    choiceManager(new CardChoice(match.showCards()), match.showCurrentPlayer());
                 }while(match.setNextCurrDashboard());
                 match.setDashboardOrder();
-
                 do{
                     for(int i=0; i<NUMSTUDENTSMOVE; i++) {
-                        actualChoice = new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
-                        remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
+                        choiceManager(new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance()), match.showCurrentPlayer());
                     }
 
                     //SPOSTATO NEI METODI moveStudent.. del match
                     //match.checkAndMoveMasters();
 
                     if(isExpertMatch) {
-                        actualChoice = new FigureCardPlayedChoice(((ExpertMatch) match).showFigureCardsInGame());
-                        remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
+                        choiceManager(new FigureCardPlayedChoice(((ExpertMatch) match).showFigureCardsInGame()), match.showCurrentPlayer());
                     }
 
-                    actualChoice=new MoveMotherNatureChoice();
-                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
+                    choiceManager(new MoveMotherNatureChoice(), match.showCurrentPlayer());
 
-                    actualChoice=new CloudChoice();
-                    remoteViewMap.get(match.showCurrentPlayer()).choiceUser(actualChoice);
+                    choiceManager(new CloudChoice(), match.showCurrentPlayer());
+
                 }while(match.setNextCurrDashboard());
             }
         } catch (NoMoreStudentsException e) {
@@ -85,15 +82,9 @@ public class Controller implements Observer {
         if (o instanceof RemoteView) {
             try {
                 ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
-            } catch (CardNotFoundException | WrongCloudNumberException | MaxNumberException |
-                     InexistentStudentException | NoIslandException | InsufficientCoinException |
-                     SameInfluenceException | WrongColorException | WrongDataplayerException |
-                     NoMoreBlockCardsException | FigureCardAlreadyPlayedInThisTurnException | NoMasterException |
-                     StudentIDAlreadyExistingException | NegativeNumberOfTowerException |
-                     TowerIDAlreadyExistingException | InvalidNumberOfTowers | NoTowerException |
-                     NoListOfSameColoredTowers | MaxNumberOfTowerPassedException e) {
+            } catch (Exceptions e) {
                 e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
-            } catch (NoMoreCardException | NoMoreStudentsException | FinishedGameIslandException e) { //Finished game exceptions
+            } catch (FinishedGameExceptions e) { //Finished game exceptions
                 e.manageException(remoteViewMap);
             }
         }
