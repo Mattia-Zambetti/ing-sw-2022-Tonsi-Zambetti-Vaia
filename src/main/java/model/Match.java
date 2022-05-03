@@ -3,6 +3,7 @@ package model;
 
 import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
+import view.choice.*;
 
 import java.util.*;
 public class Match extends Observable implements MatchDataInterface {
@@ -31,6 +32,8 @@ public class Match extends Observable implements MatchDataInterface {
 
     private static final int MAXPLAYERSNUM=4;
     private static final int MINPLAYERSNUM=2;
+
+    private Choice choicePhase;
 
     //TESTED
     public Match(int totalPlayersNum) {
@@ -507,6 +510,11 @@ public class Match extends Observable implements MatchDataInterface {
         outputString = outputString.concat("\n-> " + currentPlayerDashboard.getPlayer().getNickname() + " it's your turn! <-\n");
 
         return outputString;
+    }
+
+    @Override
+    public Choice getChoice() {
+        return choicePhase;
     }
 
     //Only for test
