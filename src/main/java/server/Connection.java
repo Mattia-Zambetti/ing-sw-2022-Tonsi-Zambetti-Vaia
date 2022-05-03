@@ -61,7 +61,7 @@ public class Connection extends Observable{
                     choice = new StartingMatchChoice();
                     send(choice);
                     Choice startChoice = (Choice) scannerIn.readObject();
-                    server.setMatchParams(((StartingMatchChoice) startChoice).getTotalNumMatchType(), ((StartingMatchChoice) startChoice).getMatchType());
+                    server.setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
                 }
 
 

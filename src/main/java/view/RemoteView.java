@@ -17,7 +17,8 @@ public class RemoteView extends Observable implements Observer {
     public RemoteView(Player player, Connection connection) {
         this.player = player;
         this.connection = connection;
-        connection.addObserver(this);
+        //connection doesn't notify any more
+        //connection.addObserver(this);
     }
 
     public synchronized void choiceUser(Choice choice) {
@@ -48,10 +49,11 @@ public class RemoteView extends Observable implements Observer {
             setChanged();
             notifyObservers(arg);
         }
-        else if(o instanceof Connection && o==connection){
+        //useful
+        /*else if(o instanceof Connection && o==connection){
             setChanged();
             notifyObservers(arg);
-        }
+        }*/
 
 
     }
