@@ -134,7 +134,7 @@ public class Match extends Observable implements MatchDataInterface {
     }
 
     //It returns the students number on the clouds, used in the constructor
-    private int chooseStudentsNumOnCLoud() {
+    public int chooseStudentsNumOnCLoud() {
         if(totalPlayersNum ==2){
             return STUDENTSONCLOUD2PLAYERS;
         }else if(totalPlayersNum ==3)

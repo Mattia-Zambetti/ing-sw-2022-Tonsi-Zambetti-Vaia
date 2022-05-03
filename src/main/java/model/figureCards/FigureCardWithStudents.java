@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class FigureCardWithStudents extends FigureCard{
-    protected Set<Student> studentsOnCard;
+    protected static Set<Student> studentsOnCard;
     protected int studentsNumOnCard;
     protected int maxTakeStudentsNum;
 
@@ -45,6 +45,10 @@ public abstract class FigureCardWithStudents extends FigureCard{
 
     public Set<Student> getStudentsOnCard(){
         return new HashSet<>(studentsOnCard);
+    }
+
+    public static Student getStudentsOnCardByInt(int studentChosen){
+        return studentsOnCard.stream().toList().get(studentChosen);
     }
 
     @Override

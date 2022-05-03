@@ -31,7 +31,7 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
 
     @Override
     public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException {
-        ((ExpertMatch)match).takeStudentsOnFigureCard( this.getChosenStudents(),(Jester) this.getFigureCardPlayed(), this.getStudentsFromEntrance());
+        ((ExpertMatch)match).takeStudentsOnFigureCard( this.getChosenStudent(),(Jester) this.getFigureCardPlayed(), this.getStudentsFromEntrance());
     }
 }
 

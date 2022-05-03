@@ -53,7 +53,7 @@ public class Controller implements Observer {
                 }while(match.setNextCurrDashboard());
                 match.setDashboardOrder();
                 do{
-                    for(int i=0; i<NUMSTUDENTSMOVE; i++) {
+                    for(int i=0; i< match.chooseStudentsNumOnCLoud(); i++) {
                         choiceManager(new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance()), match.showCurrentPlayer());
                     }
 

@@ -168,10 +168,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface{
 
     //There's three overloading methods to manage figure with students different operations:
 
-    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Merchant figureCard, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Merchant figureCard, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException, NoIslandException {
+        if(islandPositions.contains(islandPosition))
         if (figureCard.takeStudents(chosenStudents)) {
             islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
         }
+        else throw new NoIslandException("That island doesn't exists");
     }
 
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Jester figureCard, Set<Student> studentsFromEntrance)

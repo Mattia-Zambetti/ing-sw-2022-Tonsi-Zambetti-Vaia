@@ -204,7 +204,7 @@ public class ExpertMatchTest implements Observer {
                 extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(2));
                 assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Merchant)arg, 1));
 
-            } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException e) {
+            } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException | NoIslandException e) {
                 e.printStackTrace();
             }
 

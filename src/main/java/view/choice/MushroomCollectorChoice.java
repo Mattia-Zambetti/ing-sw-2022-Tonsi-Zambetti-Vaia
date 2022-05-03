@@ -26,7 +26,7 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
         }catch (IllegalArgumentException e){
             System.out.println("You must choose one of this color: ");
             for (Color c: Color.values()){
-                System.out.println("-"+c.toString());
+                System.out.println(" - "+c.toString());
             }
             return true;
         }

@@ -12,6 +12,7 @@ public class Island {
     private TowerColor towerColor; //da stampare
     private ArrayList<Student>[] students; //da stampare
     private ArrayList<Tower> towerList;
+    private boolean expectingTowers = false;
 
     public Island ( boolean motherNature, int islandPosition ) {
         students = new ArrayList[5];
@@ -88,21 +89,32 @@ public class Island {
             ArrayList<Tower> tmpTowers = new ArrayList<Tower>(towerList);
             numOfTowers = towerList.size();
             towerList.clear();
+            expectingTowers = true;
             return tmpTowers;
         }
         else throw new InvalidNumberOfTowers("Prima bisogna inserire delle torri");
     }
 
     public void addTowers (ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers{
-        if(numOfTowers == towers.size() || numOfTowers == 0){
-            TowerColor tmpColor = towers.get(0).getColor();
+        final TowerColor tmpColor = towers.get(0).getColor();
+        if(!expectingTowers){
             if (towers.stream().allMatch(tower -> tower.getColor().equals(tmpColor))){
                 towerList.addAll(towers);
                 numOfTowers = towerList.size();
             }
             else throw new NoListOfSameColoredTowers("Towers with different color, expected same color");
         }
-        else throw new InvalidNumberOfTowers("Wrong number of towers, expected: " + numOfTowers + " towers, but given: "+ towers.size());
+        else{
+            if(numOfTowers == towers.size()){
+                if (towers.stream().allMatch(tower -> tower.getColor().equals(tmpColor))){
+                    towerList.addAll(towers);
+                    numOfTowers = towerList.size();
+                    expectingTowers = false;
+                }
+                else throw new NoListOfSameColoredTowers("Towers with different color, expected same color");
+            }
+            else throw new InvalidNumberOfTowers("Wrong number of towers, expected: " + numOfTowers + " towers, but given: "+ towers.size());
+        }
     }
 
     public ArrayList<Student>[] getStudents() {

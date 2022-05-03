@@ -16,6 +16,6 @@ public class PrincessChoice extends FigureCardWithStudentsChoice{
 
     @Override
     public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException {
-        ((ExpertMatch)match).takeStudentsOnFigureCard(this.getChosenStudents(), (Princess) this.getFigureCardPlayed());
+        ((ExpertMatch)match).takeStudentsOnFigureCard(this.getChosenStudent(), (Princess) this.getFigureCardPlayed());
     }
 }
