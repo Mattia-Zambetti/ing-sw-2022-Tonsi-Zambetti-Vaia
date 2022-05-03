@@ -1,7 +1,10 @@
 package client;
 
 
-import view.choice.*;
+import model.MatchDataInterface;
+import model.Player;
+import view.choice.Choice;
+import view.choice.NamePlayerChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,9 +18,11 @@ public class Client implements Runnable{
     private final String ip;
     private Choice actualToDoChoice;
 
+    private MatchDataInterface matchView;
+
     private Socket clientSocket;
 
-
+    private Player player;
 
     private boolean isActive=true;
     private boolean isChoiceTime;
@@ -65,9 +70,12 @@ public class Client implements Runnable{
                             writeUser.flush();
                         } else {
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
+                            if(actualToDoChoice instanceof NamePlayerChoice)
+                                player=new Player(input);
                             if(!isChoiceTime) {
                                 outputStream.writeObject(actualToDoChoice);
                                 outputStream.flush();
+                                outputStream.reset();
                             }
                         }
                     }catch (IllegalStateException e){
@@ -92,11 +100,18 @@ public class Client implements Runnable{
                 while(isActive) {
                     try {
                         Object obj = readSocket.readObject();
-                        writeUser.println(obj);
+
+                        if(obj instanceof MatchDataInterface)
+                            matchView=(MatchDataInterface) obj;
+
+
+                        writeUser.println(matchView);
                         writeUser.flush();
-                        if (obj instanceof Choice) {
+
+                        if(matchView.showCurrentPlayer().equals(player)) {
                             isChoiceTime = true;
-                            actualToDoChoice = (Choice) obj;
+                            actualToDoChoice= matchView.getChoice();
+                            writeUser.println(actualToDoChoice);
                         }
 
                     } catch (ClassNotFoundException e) {

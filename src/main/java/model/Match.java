@@ -1,11 +1,12 @@
 //Tonsi, Zambo,Vaia
 package model;
 
-import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
+import model.figureCards.NoMoreBlockCardsException;
+import view.choice.Choice;
 
 import java.util.*;
-public class Match extends Observable {
+public class Match extends Observable implements MatchDataInterface {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -30,6 +31,10 @@ public class Match extends Observable {
 
     private static final int MAXPLAYERSNUM=4;
     private static final int MINPLAYERSNUM=2;
+
+
+
+    private Choice choicePhase;
 
     //TESTED
     public Match(int totalPlayersNum, boolean isExpertMode) {
@@ -106,6 +111,15 @@ public class Match extends Observable {
 
     //TONSI
 
+    @Override
+    public Choice getChoice() {
+        return choicePhase;
+    }
+
+    public void setChoice(Choice choice) {
+        choicePhase=choice;
+    }
+
 
     public Player showCurrentPlayer() {
         try{
@@ -114,6 +128,8 @@ public class Match extends Observable {
             return new Player("error");
         }
     }
+
+
 
     public int getCurrentPlayersNum() {
         return dashboardsCollection.size();
