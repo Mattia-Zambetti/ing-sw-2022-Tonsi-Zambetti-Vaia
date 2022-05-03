@@ -79,7 +79,7 @@ public class StartingMatchChoice extends Choice{
     }
 
     public int getTotalNumMatchType(){
-        return totalPlayersNumMatch;
+        return TOTAL_NUM_MATCH_TYPE;
     }
 
 }
