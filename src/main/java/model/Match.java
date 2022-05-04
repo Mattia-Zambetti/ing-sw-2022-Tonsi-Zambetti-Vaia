@@ -113,17 +113,6 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //TONSI
 
-    protected void chooseNextPlayerAndNotify(Choice actualPhase,Choice nextPhase, boolean isNextPhase){
-        if(isNextPhase){
-            setDashboardOrder();
-            choicePhase=nextPhase;
-        }else
-            choicePhase=actualPhase;
-
-        setChanged();
-        notifyObservers(this);
-    }
-
 
     public Player showCurrentPlayer() {
         try{
@@ -245,12 +234,14 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             //notifyObservers(this);
 
 
-            boolean isNextPhase=!setNextCurrDashboard();
-
-            if(isNextPhase)
+            if(!setNextCurrDashboard()){
+                setDashboardOrder();
+                choicePhase=new CardChoice(showCurrentPlayerDashboard().showCards());
                 refillClouds();
+            }else
+                choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
 
-            chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new CardChoice(showCurrentPlayerDashboard().showCards()), isNextPhase);
+            notifyMatchObservers();
 
 
 
@@ -294,8 +285,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
 
 
-        boolean isNextPhase=!setNextCurrDashboard();
-        chooseNextPlayerAndNotify(new CardChoice(showCurrentPlayerDashboard().showCards()),new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()), isNextPhase);
+        if(!setNextCurrDashboard()){
+            setDashboardOrder();
+            choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+        }else
+            choicePhase=new CardChoice(showCurrentPlayerDashboard().showCards());
+
+        notifyMatchObservers();
 
     }
 
