@@ -72,7 +72,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
                 initializeMasters();
 
-                choicePhase = new DataPlayerChoice();
+                choicePhase = new DataPlayerChoice(totalPlayersNum);
 
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException | NoMoreStudentsException e){

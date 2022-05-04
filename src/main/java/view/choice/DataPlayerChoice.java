@@ -11,6 +11,12 @@ public class DataPlayerChoice extends Choice{
     private int wizard, numChoice = 0;
     private int towerColor;
 
+    int playerNum;
+
+    public DataPlayerChoice(int totalPlayersNum) {
+        playerNum = totalPlayersNum;
+    }
+
     @Override
     public boolean setChoiceParam(String input) {
 
@@ -21,7 +27,7 @@ public class DataPlayerChoice extends Choice{
                 return true;
             case 1:
                 if(isItAnInt(input)){
-                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) <= TowerColor.values().length) {
+                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) <= playerNum) {
                         towerColor = (Integer.parseInt(input)-1);
                         numChoice++;
                     }
@@ -55,14 +61,38 @@ public class DataPlayerChoice extends Choice{
     @Override
     public String toString() {
 
-        String OutputString = switch (numChoice) {
-            case 0 -> "Insert your nickname: ";
-            case 1 -> "Insert your tower color: ";
-            case 2 -> "Insert your wizard: ";
-            default -> "";
-        };
+        StringBuilder OutputString = new StringBuilder();
+        int counter = 1;
 
-        return OutputString;
+        switch (numChoice){
+            case 0:
+                OutputString.append("Insert your name:");
+                break;
+            case 1:
+                OutputString.append("Choose your tower color: ");
+                if (playerNum == 2 || playerNum == 4) {
+                    for (TowerColor t : TowerColor.values()) {
+                        if(!t.equals(TowerColor.GREY)){
+                            OutputString.append("\n" + counter + ") " + t.toString());
+                            counter++;
+                        }
+                    }
+
+                } else if (playerNum == 3) {
+                    for (TowerColor t : TowerColor.values()) {
+                        OutputString.append("\n" + counter + ") " + t.toString());
+                        counter++;
+                    }
+                }
+                break;
+            case 2:
+                for (Wizard w: Wizard.values()){
+                    OutputString.append("\n" + counter + ") " + w.toString());
+                    counter++;
+                }
+        }
+
+        return OutputString.toString();
     }
 
     public Player getPlayer(){
