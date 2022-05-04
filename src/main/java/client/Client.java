@@ -3,7 +3,10 @@ package client;
 
 import model.MatchDataInterface;
 import model.Player;
-import view.choice.*;
+import view.choice.CardChoice;
+import view.choice.Choice;
+import view.choice.DataPlayerChoice;
+import view.choice.StartingMatchChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,10 +24,12 @@ public class Client implements Runnable{
 
     private Socket clientSocket;
 
-    private Player player = null;
+    private Player player = new Player("none");
 
     private boolean isActive=true;
     private volatile boolean isChoiceTime;
+
+    private boolean matchCompletelyCreated = false;
 
     public Client(String ip, int port){
         this.port=port;
@@ -68,19 +73,19 @@ public class Client implements Runnable{
                             writeUser.println("please wait...");
                             writeUser.flush();
                         } else {
+
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
+
                             if(actualToDoChoice instanceof DataPlayerChoice)
-                                player=new Player(input);
-                            if(actualToDoChoice instanceof StartingMatchChoice) {
-                                if(isChoiceTime) {
-                                    writeUser.println(actualToDoChoice);
-                                    writeUser.flush();
-                                }
+                                player=((DataPlayerChoice) actualToDoChoice).getPlayer();
+
+                            if(isChoiceTime) {
+                                writeUser.println(actualToDoChoice);
+                                writeUser.flush();
                             }
+
                             if(!isChoiceTime) {
                                 outputStream.writeObject(actualToDoChoice);
-                                outputStream.flush();
-                                outputStream.reset();
                             }
                         }
                     }catch (IllegalStateException e){
@@ -103,13 +108,14 @@ public class Client implements Runnable{
         Thread t= new Thread(new Runnable() {
             @Override
             public void run() {
+
+
+
                 while(isActive) {
                     try {
 
-                        Object obj;
-                        boolean matchCompletelyCreated = false;
+                        Object obj = readSocket.readObject();
 
-                        obj = readSocket.readObject();
                         if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
                             actualToDoChoice = s;
@@ -118,32 +124,24 @@ public class Client implements Runnable{
                             while (isChoiceTime) {
                             }
                         }
+                        else if(obj instanceof MatchDataInterface){
 
-                        System.out.println("Before DataPlayerChoice");
+                            matchView=(MatchDataInterface) obj;
+                            actualToDoChoice = matchView.getChoice();
+                            if (actualToDoChoice instanceof CardChoice)
+                                matchCompletelyCreated = true;
+                            if(matchCompletelyCreated)
+                                writeUser.println(matchView);
 
-                        do {
-
-                            obj = readSocket.readObject();
-
-                            if (obj instanceof MatchDataInterface) {
-                                if ( player == null ) {
-                                    matchView = (MatchDataInterface) obj;
-                                    writeUser.println(matchView.getErrorMessage());
-                                    writeUser.println(matchView.getChoice().toString());
-                                    writeUser.flush();
-                                    isChoiceTime = true;
-                                    actualToDoChoice = matchView.getChoice();
-                                }
-                            }
-
-                            if ( actualToDoChoice instanceof CardChoice )
-                                matchCompletelyCreated=true;
-
-                        } while(!matchCompletelyCreated);
+                            writeUser.println(matchView.getErrorMessage());
+                            writeUser.println(matchView.getChoice().toString());
+                            writeUser.flush();
+                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player))
+                                isChoiceTime = true;
 
 
-                        writeUser.println(matchView.getChoice().toString());
-                        writeUser.flush();
+                        }
+
 
                         /*if(matchView.showCurrentPlayer().equals(player)) {
                             isChoiceTime = true;

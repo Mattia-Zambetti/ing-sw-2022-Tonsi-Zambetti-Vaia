@@ -2,7 +2,6 @@ package server;
 
 
 import view.choice.Choice;
-import view.choice.NamePlayerChoice;
 import view.choice.StartingMatchChoice;
 
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Observable;
 
-public class Connection extends Observable{
+public class Connection extends Observable implements Runnable{
 
     private Socket clientSocket;
     private ObjectInputStream scannerIn;
@@ -50,7 +49,7 @@ public class Connection extends Observable{
         return null;
     }*/
 
-    public void createConnection (){
+    public void run (){
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
@@ -67,7 +66,7 @@ public class Connection extends Observable{
 
                 server.lobby(this);
 
-                System.out.println("After lobby()");
+
                 /*choice = new NamePlayerChoice(server.getNicknameSet());
                 send(choice);
                 choice = (Choice) scannerIn.readObject();

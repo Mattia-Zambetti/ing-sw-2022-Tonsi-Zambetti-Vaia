@@ -70,7 +70,7 @@ public class Server implements Runnable {
 
                 System.out.println("Connection number: "+ connections.size());
 
-                connectionExecution(clientConnection);
+                executor.submit(clientConnection);
 
 
 
@@ -97,11 +97,10 @@ public class Server implements Runnable {
         Match match = null;
         waitingRoom.add(c);
 
-        System.out.println("In lobby()");
 
         if (waitingRoom.size() == totalPlayerNumber) {
 
-            System.out.println("In lobby() match creation\ntotalPlayerNumber= "+totalPlayerNumber+"\nmatchType= "+matchType);
+
 
             for (Connection connection : connections) {
                 remoteViewList.add(new RemoteView(connection));
@@ -136,8 +135,6 @@ public class Server implements Runnable {
                 return;
             }
 
-            matchExecution(controller);
-
             waitingRoom.clear();
             nicknames.clear();
         }
@@ -149,11 +146,6 @@ public class Server implements Runnable {
         }));
     }
 
-    public void connectionExecution(Connection connection){
-        executor.submit(new Thread(() -> {
-            connection.createConnection();
-        }));
-    }
 }
 
     /*

@@ -24,6 +24,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
+    private static int counterMoveStudents=0;
+
     //utile definire tanti attributi così per avere codice facilmente modificabile
     private final int ISLANDSNUM=12;
 
@@ -110,6 +112,17 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
     //TONSI
+
+    protected void chooseNextPlayerAndNotify(Choice actualPhase,Choice nextPhase, boolean isNextPhase){
+        if(isNextPhase){
+            setDashboardOrder();
+            choicePhase=nextPhase;
+        }else
+            choicePhase=actualPhase;
+
+        setChanged();
+        notifyObservers(this);
+    }
 
 
     public Player showCurrentPlayer() {
@@ -264,11 +277,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
             throw new NoMoreCardException("It's the last turn");
         }
-
-        //setChanged();
-        //notifyObservers(this);
+        boolean isNextPhase=!setNextCurrDashboard();
+        chooseNextPlayerAndNotify(new CardChoice(showCurrentPlayerDashboard().showCards()),new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()), isNextPhase);
 
     }
+
 
     public void addPlayer(String nickname, String towerColor, String wizard) {
         try {
@@ -364,18 +377,29 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
     public void moveStudentFromEntranceToDR( Student studentToBeMoved ) throws NoMasterException, WrongColorException {
         Student tmpStudent;
+
+
         try {
             tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
             this.currentPlayerDashboard.moveToDR(tmpStudent);
             checkAndMoveMasters();
 
-            setChanged();
-            notifyObservers(this.toString());
+
         }
         catch ( MaxNumberException | StudentIDAlreadyExistingException | InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
 
+        if(counterMoveStudents<=3){
+            choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+            notifyMatchObservers();
+            counterMoveStudents++;
+        }
+        else {
+            boolean isNextPhase=!setNextCurrDashboard();
+            chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), isNextPhase);
+            counterMoveStudents=0;
+        }
 
     }
 
@@ -405,8 +429,17 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             else {
                 this.islands.get(chosenIslandPosition).addStudent(currentPlayerDashboard.removeStudentFromEntrance(chosenStudent));
 
-                setChanged();
-                notifyObservers(this.toString());
+            }
+
+            if(counterMoveStudents<=3){
+                choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+                notifyMatchObservers();
+                counterMoveStudents++;
+            }
+            else {
+                boolean isNextPhase=!setNextCurrDashboard();
+                chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), isNextPhase);
+                counterMoveStudents=0;
             }
         }
         catch (InexistentStudentException | NullPointerException e ) {

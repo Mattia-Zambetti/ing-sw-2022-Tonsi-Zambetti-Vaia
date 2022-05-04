@@ -1,12 +1,9 @@
 package view.choice;
 
 import model.Match;
+import model.Player;
 import model.TowerColor;
 import model.Wizard;
-import model.exception.*;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 public class DataPlayerChoice extends Choice{
 
@@ -66,6 +63,10 @@ public class DataPlayerChoice extends Choice{
         };
 
         return OutputString;
+    }
+
+    public Player getPlayer(){
+        return new Player(name);
     }
 
 }

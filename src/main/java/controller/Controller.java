@@ -72,8 +72,6 @@ public class Controller implements Observer {
 
     public void startMatch() {
         try {
-
-            System.out.println("StartMatch() done 1");
             do {
                 wait(100);
             }while(match.getCurrentPlayersNum()!=match.getTotalPlayersNum());
