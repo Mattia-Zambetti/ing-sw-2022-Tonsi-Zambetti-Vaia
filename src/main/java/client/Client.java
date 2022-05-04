@@ -134,10 +134,14 @@ public class Client implements Runnable{
                                 writeUser.println(matchView);
 
                             writeUser.println(matchView.getErrorMessage());
-                            writeUser.println(matchView.getChoice().toString());
+                            //writeUser.println(matchView.getChoice().toString());
                             writeUser.flush();
-                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player))
+                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player)){
                                 isChoiceTime = true;
+                                writeUser.println(matchView.getChoice().toString());
+                                writeUser.flush();
+                            }
+
 
 
                         }

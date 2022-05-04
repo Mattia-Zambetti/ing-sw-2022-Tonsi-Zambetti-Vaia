@@ -214,7 +214,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
 
         setChanged();
-        notifyObservers(this.toString());
+        notifyObservers();
 
     }
 
@@ -241,8 +241,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
-            //setChanged();
-            //notifyObservers(this);
+            setChanged();
+            notifyMatchObservers();
+            setNextCurrDashboard();
+            chooseNextPlayerAndNotify(new CloudChoice(),new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),true);
         }catch (StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -324,6 +326,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
                 if (totalPlayersNum == dashboardsCollection.size()) {
                     initializeAllEntrance();
+                    refillClouds();
                     choicePhase=new CardChoice(currentPlayerDashboard.showCards());
                     setChanged();
                     notifyObservers((MatchDataInterface)this);
@@ -336,6 +339,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             } else throw new MaxNumberException("Max players number reached...");
         } catch ( Exceptions e ) {
             e.manageException(this);
+        } catch (NoMoreStudentsException e) {
+            throw new RuntimeException(e); //finish game
         }
     }
 
@@ -396,8 +401,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             counterMoveStudents++;
         }
         else {
-            boolean isNextPhase=!setNextCurrDashboard();
-            chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), isNextPhase);
+            //boolean isNextPhase=!setNextCurrDashboard();
+            chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), true);
             counterMoveStudents=0;
         }
 
@@ -437,8 +442,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 counterMoveStudents++;
             }
             else {
-                boolean isNextPhase=!setNextCurrDashboard();
-                chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), isNextPhase);
+                //boolean isNextPhase=!setNextCurrDashboard();
+                chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), true);
                 counterMoveStudents=0;
             }
         }
@@ -484,7 +489,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         this.currentPlayerDashboard = dashboardsCollection.get(0);
 
         setChanged();
-        notifyObservers(this.toString());
+        notifyMatchObservers();
     }
 
     public void initializeAllEntrance(){
@@ -588,7 +593,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
             setChanged();
-            notifyObservers(this.toString());
+            notifyMatchObservers();
+            //setNextCurrDashboard();
+            chooseNextPlayerAndNotify(new MoveMotherNatureChoice(),new CloudChoice(), true);
+
         }
         else throw new MaxNumberException("Cannot move mother nature that far");
     }
