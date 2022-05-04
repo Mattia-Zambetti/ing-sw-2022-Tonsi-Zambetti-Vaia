@@ -30,6 +30,7 @@ public class Connection extends Observable{
         try {
             writeOut.writeObject(obj);
             writeOut.flush();
+            writeOut.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +54,7 @@ public class Connection extends Observable{
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
-            Choice choice = new StartingMatchChoice();
+            Choice choice;
 
 
 
@@ -64,12 +65,13 @@ public class Connection extends Observable{
                     server.setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
                 }
 
+                server.lobby(this);
 
-                choice = new NamePlayerChoice(server.getNicknameSet());
+                System.out.println("After lobby()");
+                /*choice = new NamePlayerChoice(server.getNicknameSet());
                 send(choice);
                 choice = (Choice) scannerIn.readObject();
-                server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());
-                server.lobby(this, (NamePlayerChoice) choice);
+                server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());*/
 
             while(isActive) {
                 choice = (Choice) scannerIn.readObject();

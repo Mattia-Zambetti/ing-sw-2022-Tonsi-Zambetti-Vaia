@@ -14,11 +14,11 @@ public class TestRemoteView extends RemoteView {
     private boolean isChoiceTime = false;
 
     public TestRemoteView(Player player, Connection connection) {
-        super(player, connection);
+        super(connection);
     }
 
     public TestRemoteView(Player player) {
-        super(player,null);
+        super(null);
     }
 
     public void setInputString(int index, String s) {

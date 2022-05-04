@@ -4,9 +4,10 @@ import model.Bag;
 import model.Student;
 import model.exception.MaxNumberException;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Jester extends FigureCardWithStudents{
+public class Jester extends FigureCardWithStudents implements Serializable {
 
     private static final int PRICECARD=1;
     private static final int MAXTAKESTUDENTSNUM=3;

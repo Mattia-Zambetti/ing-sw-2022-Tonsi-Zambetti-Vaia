@@ -1,7 +1,6 @@
 package controller;
 
 import client.Client;
-import graphicAssets.CLIgraphicsResources;
 import model.*;
 import server.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +77,7 @@ public class ControllerTest {
 
         normalMatch2P = new NormalMatch(PLAYERSNUM);
 
-        controller = new Controller(normalMatch2P, remoteViewList, false);
+        controller = new Controller(normalMatch2P, false);
 
         for (RemoteView remoteView : remoteViewList) {
             normalMatch2P.addObserver(remoteView);

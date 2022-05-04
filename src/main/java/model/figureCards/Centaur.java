@@ -2,7 +2,9 @@ package model.figureCards;
 
 import model.ExpertMatchInterface;
 
-public class Centaur extends FigureCard {
+import java.io.Serializable;
+
+public class Centaur extends FigureCard implements Serializable {
     private static final int PRICECARD=3;
 
 

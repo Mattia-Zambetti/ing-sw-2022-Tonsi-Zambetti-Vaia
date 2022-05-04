@@ -4,7 +4,6 @@ import model.Card;
 import model.Match;
 import model.exception.CardNotFoundException;
 import model.exception.NoMoreCardException;
-import view.RemoteView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class CardChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException {
         match.chooseCard(this.getChosenCard());
     }
 }

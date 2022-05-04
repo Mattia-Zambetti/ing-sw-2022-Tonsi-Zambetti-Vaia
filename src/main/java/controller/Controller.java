@@ -1,17 +1,11 @@
 package controller;
 
-import model.ExpertMatch;
 import model.Match;
 import model.Player;
 import model.exception.*;
-import model.figureCards.*;
 import view.RemoteView;
 import view.choice.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.*;
 
 //TODO ERRORI DA RIMUOVERE:
@@ -28,12 +22,12 @@ public class Controller implements Observer {
     private static final int NUMSTUDENTSMOVE=3;
     private final boolean isExpertMatch;
 
-    public Controller(Match match, List<RemoteView> remoteViewList, boolean isExpertMatch){
+    public Controller(Match match, boolean isExpertMatch){
         this.match=match;
         this.remoteViewMap=new HashMap<>();
-        for (RemoteView view: remoteViewList) {
+        /*for (RemoteView view: remoteViewList) {
             remoteViewMap.put(view.getPlayer(),view);
-        }
+        }*/
         this.isExpertMatch=isExpertMatch;
     }
 
@@ -78,9 +72,13 @@ public class Controller implements Observer {
 
     public void startMatch() {
         try {
+
+            System.out.println("StartMatch() done 1");
             do {
                 wait(100);
             }while(match.getCurrentPlayersNum()!=match.getTotalPlayersNum());
+            System.out.println("StartMatch() done 2");
+            /*
             while (true) {
                 match.refillClouds();
                 do {
@@ -101,11 +99,11 @@ public class Controller implements Observer {
                     choiceManager(new CloudChoice(), match.showCurrentPlayer());
 
                 } while (match.setNextCurrDashboard());
-            }
-        } catch (NoMoreStudentsException e) {
+            }*/
+        } /*catch (NoMoreStudentsException e) {
             remoteViewMap.forEach(((player, remoteView) -> remoteView.sendError(e.getMessage())));
             //e.printStackTrace();TODO CONDIZIONE END MATCH
-        } catch (InterruptedException e) {
+        } */catch (InterruptedException e) {
             e.printStackTrace();
             System.out.println("Match thread blocked by ");
         }
@@ -116,11 +114,11 @@ public class Controller implements Observer {
     public synchronized void update(Observable o, Object arg) {
         if (o instanceof RemoteView) {
             try {
-                ((Choice) arg).manageUpdate(match, remoteViewMap.get(match.showCurrentPlayer()));
+                ((Choice) arg).manageUpdate(match);
             } catch (Exceptions e) {
-                e.manageException(remoteViewMap.get(match.showCurrentPlayer()),(Choice) arg);
+                e.manageException(match);
             } catch (FinishedGameExceptions e) { //Finished game exceptions
-                e.manageException(remoteViewMap);
+                //e.manageException(remoteViewMap);
             }
         }
     }

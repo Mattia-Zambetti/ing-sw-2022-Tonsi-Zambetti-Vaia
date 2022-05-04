@@ -5,8 +5,9 @@ import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
 import view.choice.*;
 
+import java.io.Serializable;
 import java.util.*;
-public class Match extends Observable implements MatchDataInterface {
+public class Match extends Observable implements MatchDataInterface, Serializable {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
@@ -69,7 +70,7 @@ public class Match extends Observable implements MatchDataInterface {
 
                 initializeMasters();
 
-
+                choicePhase = new DataPlayerChoice();
 
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException | NoMoreStudentsException e){
@@ -269,58 +270,60 @@ public class Match extends Observable implements MatchDataInterface {
 
     }
 
-    //this method must be fixed
-    public void addPlayer(String nickname, String towerColor, String wizard) throws WrongDataplayerException, WrongColorException, MaxNumberException {
-        if (dashboardsCollection.size() < totalPlayersNum) {
+    public void addPlayer(String nickname, String towerColor, String wizard) {
+        try {
+            if (dashboardsCollection.size() < totalPlayersNum) {
 
-            if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {
-                throw new WrongColorException("You can't choose this color...");
-            }
-
-
-            for (Dashboard player : dashboardsCollection) {
-                if (player.getPlayer().getNickname().equals(nickname))
-                    throw new WrongDataplayerException("This nickname has been already chosen");
-                if (player.getWizard().toString().equals(wizard))
-                    throw new WrongDataplayerException("This wizard has already chosen");
-            }
-
-            if (totalPlayersNum < MAXPLAYERSNUM) {
-                for (Dashboard player : dashboardsCollection) {
-                    if (player.getTowerColor().toString().equals(towerColor))
-                        throw new WrongDataplayerException("This tower color has been already chosen");
+                if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {
+                    throw new WrongColorException("You can't choose this color...");
                 }
-            } else{
+
+
                 for (Dashboard player : dashboardsCollection) {
-                    if (player.getTowerColor().toString().equals(towerColor) && TowerColor.valueOf(towerColor).getCounter()==2)
-                        throw new WrongDataplayerException("This tower color has been already chosen");
+                    if (player.getPlayer().getNickname().equals(nickname))
+                        throw new WrongDataplayerException("This nickname has been already chosen");
+                    if (player.getWizard().toString().equals(wizard))
+                        throw new WrongDataplayerException("This wizard has already chosen");
                 }
-            }
+
+                if (totalPlayersNum < MAXPLAYERSNUM) {
+                    for (Dashboard player : dashboardsCollection) {
+                        if (player.getTowerColor().toString().equals(towerColor))
+                            throw new WrongDataplayerException("This tower color has been already chosen");
+                    }
+                } else {
+                    for (Dashboard player : dashboardsCollection) {
+                        if (player.getTowerColor().toString().equals(towerColor) && TowerColor.valueOf(towerColor).getCounter() == 2)
+                            throw new WrongDataplayerException("This tower color has been already chosen");
+                    }
+                }
 
 
-            if (totalPlayersNum < MAXPLAYERSNUM) {
-                dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
-            } else if (dashboardsCollection.size() == 0 || dashboardsCollection.size() == 2) {
-                dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
-                TowerColor.valueOf(towerColor).counterplus();
-            } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
-                dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
-                TowerColor.valueOf(towerColor).counterplus();
-            }
+                if (totalPlayersNum < MAXPLAYERSNUM) {
+                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+                } else if (dashboardsCollection.size() == 0 || dashboardsCollection.size() == 2) {
+                    dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+                    TowerColor.valueOf(towerColor).counterplus();
+                } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
+                    dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+                    TowerColor.valueOf(towerColor).counterplus();
+                }
 
-            if(totalPlayersNum==dashboardsCollection.size()) {
-                initializeAllEntrance();
-                //SPOSTATI DOPO REFILL CLOUD
-                //setChanged();
-                //notifyObservers(this.toString());
-            }
+                if (totalPlayersNum == dashboardsCollection.size()) {
+                    initializeAllEntrance();
+                    choicePhase=new CardChoice(currentPlayerDashboard.showCards());
+                    setChanged();
+                    notifyObservers((MatchDataInterface)this);
+                }
 
 
-
-            if (dashboardsCollection.size() == 1) {
-                currentPlayerDashboard = dashboardsCollection.get(0);
-            }
-        }else throw new MaxNumberException("Max players number reached...");
+                if (dashboardsCollection.size() == 1) {
+                    currentPlayerDashboard = dashboardsCollection.get(0);
+                }
+            } else throw new MaxNumberException("Max players number reached...");
+        } catch ( Exceptions e ) {
+            e.manageException(this);
+        }
     }
 
     private void setTowersNum() {
@@ -341,6 +344,11 @@ public class Match extends Observable implements MatchDataInterface {
     //END TONSI
 
     //ZAMBO
+
+    public void notifyMatchObservers() {
+        setChanged();
+        notifyObservers((MatchDataInterface)this);
+    }
 
     public int getISLANDSNUM() {
         return ISLANDSNUM;
@@ -505,11 +513,18 @@ public class Match extends Observable implements MatchDataInterface {
             outputString = outputString.concat(c.toString());
         }
 
-        outputString = outputString.concat(errorMessage);
-
         outputString = outputString.concat("\n-> " + currentPlayerDashboard.getPlayer().getNickname() + " it's your turn! <-\n");
 
         return outputString;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    @Override
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     @Override

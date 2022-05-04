@@ -7,10 +7,11 @@ import model.exception.InexistentStudentException;
 import model.exception.MaxNumberException;
 import model.exception.NoMoreStudentsException;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class FigureCardWithStudents extends FigureCard{
+public abstract class FigureCardWithStudents extends FigureCard implements Serializable {
     protected static Set<Student> studentsOnCard;
     protected int studentsNumOnCard;
     protected int maxTakeStudentsNum;

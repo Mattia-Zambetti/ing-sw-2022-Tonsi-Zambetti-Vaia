@@ -3,7 +3,6 @@ package server;
 import controller.Controller;
 import model.*;
 import view.RemoteView;
-import view.choice.NamePlayerChoice;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -28,14 +27,14 @@ public class Server implements Runnable {
     private int totalPlayerNumber;
     private int matchType;
 
-    private Map<Connection, Player> waitingRoom;
+    private HashSet<Connection> waitingRoom;
 
 
     public Server() {
         try {
             executor = Executors.newFixedThreadPool(128);
             connections = new ArrayList<>();
-            waitingRoom = new HashMap<>();
+            waitingRoom = new HashSet<>();
             serverSocket = new ServerSocket(PORT);
             nicknames= new HashSet<>();
         } catch (IOException e) {
@@ -93,13 +92,20 @@ public class Server implements Runnable {
         this.matchType = matchType;
     }
 
-    public synchronized void lobby(Connection c, NamePlayerChoice dataPlayerChoice) {
+    public synchronized void lobby(Connection c) {
         boolean isExpertMatch = false;
         Match match = null;
-        waitingRoom.put(c, dataPlayerChoice.getPlayer());
+        waitingRoom.add(c);
+
+        System.out.println("In lobby()");
 
         if (waitingRoom.size() == totalPlayerNumber) {
 
+            System.out.println("In lobby() match creation\ntotalPlayerNumber= "+totalPlayerNumber+"\nmatchType= "+matchType);
+
+            for (Connection connection : connections) {
+                remoteViewList.add(new RemoteView(connection));
+            }
 
             switch (matchType) {
                 case 1:
@@ -111,19 +117,21 @@ public class Server implements Runnable {
                     break;
             }
 
-            Controller controller = new Controller(match, remoteViewList, isExpertMatch);
+            Controller controller = new Controller(match, isExpertMatch);
 
             //MatchView matchView = new MatchView();
 
-            if (match != null)
+            if (match != null) {
                 for (RemoteView remoteView : remoteViewList) {
                     //La matchView serve semplicemente per rendere il Match invisibile alle RemoteView, di modo che esse non possano modificarlo in nessun caso
                     match.addObserver(remoteView);
                     remoteView.addObserver(controller);
                     remoteView.getConnection().addObserver(remoteView);
                     System.out.println("Starting match");
+
                 }
-            else {
+                match.notifyMatchObservers();
+            }else {
                 System.out.println("Error, match not created");
                 return;
             }

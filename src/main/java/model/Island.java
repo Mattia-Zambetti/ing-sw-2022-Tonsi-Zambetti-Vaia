@@ -3,9 +3,10 @@ package model;
 import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Island {
+public class Island implements Serializable {
     private boolean isMotherNature, isForbidden; //da stampare
     public static boolean centaurEffect = false; //da stampare
     private int position, numOfTowers; //da stampare

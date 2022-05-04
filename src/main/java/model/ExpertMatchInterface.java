@@ -3,7 +3,9 @@ package model;
 import model.figureCards.FigureCard;
 import model.figureCards.FigureCardWithStudents;
 
-public interface ExpertMatchInterface {
+import java.io.Serializable;
+
+public interface ExpertMatchInterface extends Serializable {
 
     void setPostManValue();
 

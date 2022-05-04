@@ -3,7 +3,6 @@ package view.choice;
 import model.Match;
 import model.Student;
 import model.exception.*;
-import view.RemoteView;
 
 import java.util.*;
 
@@ -107,24 +106,25 @@ public class MoveStudentChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, NoMasterException, WrongColorException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, NoMasterException, WrongColorException, NoIslandException {
         switch (this.getWhereToMove().toUpperCase()) {
             case "DINING ROOM":
                 match.moveStudentFromEntranceToDR(this.getChosenStudent());
                 break;
             case "ISLAND":
-                try {
+                match.moveStudentFromEntranceToIsland(this.getChosenStudent(), this.getIslandID());
+                /*try {
                     match.moveStudentFromEntranceToIsland(this.getChosenStudent(), this.getIslandID());
                 } catch (NoIslandException e) {
                     remoteView.sendError(e.getMessage());
                     Choice choice=new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
                     remoteView.choiceUser(choice);
-                }
+                }*/
                 break;
-            default:
+            /*default:
                 remoteView.sendError("Choose between Island or Dining Room");
                 Choice choice=new MoveStudentChoice(match.showCurrentPlayerDashboard().showEntrance());
-                remoteView.choiceUser(choice);
+                remoteView.choiceUser(choice);*/
         }
     }
 

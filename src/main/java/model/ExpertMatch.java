@@ -3,9 +3,10 @@ package model;
 import model.figureCards.*;
 import model.exception.*;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ExpertMatch extends Match implements ExpertMatchInterface{
+public class ExpertMatch extends Match implements ExpertMatchInterface, Serializable {
     private final Set<FigureCard> figureCards;
     private static boolean centaurEffect;
     private int postManValue = 0;

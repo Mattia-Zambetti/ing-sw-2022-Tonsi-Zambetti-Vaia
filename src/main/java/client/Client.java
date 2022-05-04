@@ -21,10 +21,10 @@ public class Client implements Runnable{
 
     private Socket clientSocket;
 
-    private Player player;
+    private Player player = null;
 
     private boolean isActive=true;
-    private boolean isChoiceTime;
+    private volatile boolean isChoiceTime;
 
     public Client(String ip, int port){
         this.port=port;
@@ -69,8 +69,14 @@ public class Client implements Runnable{
                             writeUser.flush();
                         } else {
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
-                            if(actualToDoChoice instanceof NamePlayerChoice)
+                            if(actualToDoChoice instanceof DataPlayerChoice)
                                 player=new Player(input);
+                            if(actualToDoChoice instanceof StartingMatchChoice) {
+                                if(isChoiceTime) {
+                                    writeUser.println(actualToDoChoice);
+                                    writeUser.flush();
+                                }
+                            }
                             if(!isChoiceTime) {
                                 outputStream.writeObject(actualToDoChoice);
                                 outputStream.flush();
@@ -93,25 +99,57 @@ public class Client implements Runnable{
         PrintWriter writeUser=new PrintWriter(System.out);
         ObjectInputStream readSocket=new ObjectInputStream(clientSocket.getInputStream());
 
+
         Thread t= new Thread(new Runnable() {
             @Override
             public void run() {
                 while(isActive) {
                     try {
-                        Object obj = readSocket.readObject();
 
-                        if(obj instanceof MatchDataInterface)
-                            matchView=(MatchDataInterface) obj;
+                        Object obj;
+                        boolean matchCompletelyCreated = false;
+
+                        obj = readSocket.readObject();
+                        if ( obj instanceof StartingMatchChoice s) {
+                            isChoiceTime = true;
+                            actualToDoChoice = s;
+                            writeUser.println(actualToDoChoice);
+                            writeUser.flush();
+                            while (isChoiceTime) {
+                            }
+                        }
+
+                        System.out.println("Before DataPlayerChoice");
+
+                        do {
+
+                            obj = readSocket.readObject();
+
+                            if (obj instanceof MatchDataInterface) {
+                                if ( player == null ) {
+                                    matchView = (MatchDataInterface) obj;
+                                    writeUser.println(matchView.getErrorMessage());
+                                    writeUser.println(matchView.getChoice().toString());
+                                    writeUser.flush();
+                                    isChoiceTime = true;
+                                    actualToDoChoice = matchView.getChoice();
+                                }
+                            }
+
+                            if ( actualToDoChoice instanceof CardChoice )
+                                matchCompletelyCreated=true;
+
+                        } while(!matchCompletelyCreated);
 
 
-                        writeUser.println(matchView);
+                        writeUser.println(matchView.getChoice().toString());
                         writeUser.flush();
 
-                        if(matchView.showCurrentPlayer().equals(player)) {
+                        /*if(matchView.showCurrentPlayer().equals(player)) {
                             isChoiceTime = true;
                             actualToDoChoice = matchView.getChoice();
                             writeUser.println(actualToDoChoice);
-                        }
+                        }*/
 
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();

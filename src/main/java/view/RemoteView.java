@@ -1,6 +1,5 @@
 package view;
 
-import model.Match;
 import model.MatchDataInterface;
 import model.Player;
 import model.figureCards.FigureCard;
@@ -11,11 +10,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class RemoteView extends Observable implements Observer {
-    private Player player;
+    //private Player player;
     private final Connection connection;
 
-    public RemoteView(Player player, Connection connection) {
-        this.player = player;
+    public RemoteView(Connection connection) {
+        //this.player = player;
         this.connection = connection;
         //connection doesn't notify any more
         //connection.addObserver(this);
@@ -28,9 +27,9 @@ public class RemoteView extends Observable implements Observer {
         //TODO
     }
 
-    public Player getPlayer() {
+    /*public Player getPlayer() {
         return player;
-    }
+    }*/
 
     public Connection getConnection() {
         return connection;

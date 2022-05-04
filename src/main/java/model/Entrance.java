@@ -4,9 +4,10 @@ package model;
 import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Entrance {
+public class Entrance implements Serializable {
     private final static int MAXSTUDENTS =9;
     private final Set<Student> students;
 
