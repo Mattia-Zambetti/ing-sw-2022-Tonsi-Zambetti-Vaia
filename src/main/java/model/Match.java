@@ -213,8 +213,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             }
         }
 
-        setChanged();
-        notifyObservers(this.toString());
+        //setChanged();
+        //notifyObservers(this.toString());
 
     }
 
@@ -234,7 +234,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
     //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
     //the current player's entrance
-    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException{
+    public void moveStudentsFromCloudToEntrance(int chosenCloud) {
         try {
 
             if (chosenCloud < totalPlayersNum && chosenCloud >= 0 && !(getCloudByID(chosenCloud).equals(new Cloud(chosenCloud))))
@@ -243,9 +243,24 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 throw new WrongCloudNumberException("This cloud doesn't exist");
             //setChanged();
             //notifyObservers(this);
+
+
+            boolean isNextPhase=!setNextCurrDashboard();
+
+            if(isNextPhase)
+                refillClouds();
+
+            chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new CardChoice(showCurrentPlayerDashboard().showCards()), isNextPhase);
+
+
+
         }catch (StudentIDAlreadyExistingException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
+        }catch (Exceptions e){
+            e.manageException(this);
+        } catch (FinishedGameExceptions e) {
+            e.printStackTrace();//TODO
         }
     }
 
@@ -277,6 +292,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
             throw new NoMoreCardException("It's the last turn");
         }
+
+
         boolean isNextPhase=!setNextCurrDashboard();
         chooseNextPlayerAndNotify(new CardChoice(showCurrentPlayerDashboard().showCards()),new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()), isNextPhase);
 
@@ -325,6 +342,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 if (totalPlayersNum == dashboardsCollection.size()) {
                     initializeAllEntrance();
                     choicePhase=new CardChoice(currentPlayerDashboard.showCards());
+                    refillClouds();
                     setChanged();
                     notifyObservers((MatchDataInterface)this);
                 }
@@ -336,6 +354,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             } else throw new MaxNumberException("Max players number reached...");
         } catch ( Exceptions e ) {
             e.manageException(this);
+        } catch (NoMoreStudentsException e) {
+            e.printStackTrace();
         }
     }
 
@@ -390,17 +410,15 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             System.out.println(e.getMessage());
         }
 
-        if(counterMoveStudents<=3){
+        if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
             choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
-            notifyMatchObservers();
+
             counterMoveStudents++;
-        }
-        else {
-            boolean isNextPhase=!setNextCurrDashboard();
-            chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), isNextPhase);
+        }else {
+            choicePhase = new MoveMotherNatureChoice();
             counterMoveStudents=0;
         }
-
+        notifyMatchObservers();
     }
 
     //Useless, we use only indexes to chose Island
@@ -431,16 +449,15 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
             }
 
-            if(counterMoveStudents<=3){
+            if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
                 choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
-                notifyMatchObservers();
+
                 counterMoveStudents++;
-            }
-            else {
-                boolean isNextPhase=!setNextCurrDashboard();
-                chooseNextPlayerAndNotify(new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance()),new MoveMotherNatureChoice(), isNextPhase);
+            }else {
+                choicePhase = new MoveMotherNatureChoice();
                 counterMoveStudents=0;
             }
+            notifyMatchObservers();
         }
         catch (InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
@@ -458,8 +475,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             currentPlayerPosition++;
             this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
 
-            setChanged();
-            notifyObservers(this.toString());
+            //setChanged();
+            //notifyObservers(this.toString());
             return true;
             //Views are notified only if another Player has to play the turn, the first player is notified in the setDashboardOrder() method
         }
@@ -483,8 +500,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
         this.currentPlayerDashboard = dashboardsCollection.get(0);
 
-        setChanged();
-        notifyObservers(this.toString());
+        //setChanged();
+        //notifyObservers(this.toString());
     }
 
     public void initializeAllEntrance(){
@@ -574,23 +591,29 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //Start Vaia
     public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
-        if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0){
-            int positionTmp = currentIsland;
-            islands.get(positionTmp).setMotherNature(false);
-            for (int i = 0; i < posizioni; i++){
-                positionTmp = nextIsland(positionTmp);
-            }
-            currentIsland = positionTmp;
-            islands.get(currentIsland).setMotherNature(true);
-            changeTowerColorOnIsland();
+        try {
+            if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
+                int positionTmp = currentIsland;
+                islands.get(positionTmp).setMotherNature(false);
+                for (int i = 0; i < posizioni; i++) {
+                    positionTmp = nextIsland(positionTmp);
+                }
+                currentIsland = positionTmp;
+                islands.get(currentIsland).setMotherNature(true);
+                changeTowerColorOnIsland();
 
-            if(totalNumIslands <= 3)
-                throw new FinishedGameIslandException("Island Num <= 3, game is over");
+                if (totalNumIslands <= 3)
+                    throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
-            setChanged();
-            notifyObservers(this.toString());
+                //setChanged();
+                //notifyObservers(this.toString());
+
+                choicePhase = new CloudChoice();
+                notifyMatchObservers();
+            } else throw new MaxNumberException("Cannot move mother nature that far");
+        }catch (Exceptions e){
+            e.manageException(this);
         }
-        else throw new MaxNumberException("Cannot move mother nature that far");
     }
 
     public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {

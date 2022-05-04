@@ -13,6 +13,8 @@ public class CardChoice extends Choice{
     private int chosenCard;
     private final Map<Integer,Card> availableCards;
 
+
+
     public CardChoice(Set<Card> availableCards){
         this.availableCards =new HashMap<>();
         for (Card c:availableCards) {

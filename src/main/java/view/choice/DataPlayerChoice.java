@@ -86,6 +86,7 @@ public class DataPlayerChoice extends Choice{
                 }
                 break;
             case 2:
+                OutputString.append("Choose your wizard: ");
                 for (Wizard w: Wizard.values()){
                     OutputString.append("\n" + counter + ") " + w.toString());
                     counter++;

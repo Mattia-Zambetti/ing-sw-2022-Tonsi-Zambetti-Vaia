@@ -14,10 +14,18 @@ public class MoveStudentChoice extends Choice{
     private List<Student> studentsOnEntrance;
     private final String[] possiblePlace={"DINING ROOM", "ISLAND"};
 
+
+
+
     public MoveStudentChoice(Set<Student> studentsOnEntrance){
         this.studentsOnEntrance=new ArrayList<>();
         this.studentsOnEntrance.addAll(studentsOnEntrance);
 
+    }
+
+
+    public void setStudentsOnEntrance(Set<Student> studentsOnEntrance) {
+        this.studentsOnEntrance = new ArrayList<>(studentsOnEntrance);
     }
 
     public void choiceplus(){
