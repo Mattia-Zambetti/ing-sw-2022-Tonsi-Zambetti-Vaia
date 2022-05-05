@@ -395,7 +395,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             System.out.println(e.getMessage());
         }
 
-        if(counterMoveStudents<=3){
+        if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
             choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
             notifyMatchObservers();
             counterMoveStudents++;
@@ -436,7 +436,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
             }
 
-            if(counterMoveStudents<=3){
+            if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
                 choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
                 notifyMatchObservers();
                 counterMoveStudents++;
