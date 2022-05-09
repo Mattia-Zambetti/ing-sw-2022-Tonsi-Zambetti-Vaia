@@ -119,9 +119,9 @@ public class ControllerTest {
         ((TestRemoteView)remoteViewList.get(1)).setInputString(1,"1");
     }
 
-    @Test
+    /*@Test
     void initTest() {
-    }
+    }*/
 
     /*
     @Test
