@@ -583,6 +583,16 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return new HashMap<Color, Master>(mastersMap);
     }
 
+    public List<String> showAllPlayersNickname() {
+        ArrayList<String> NicknamesList = new ArrayList<>(0);
+
+        for ( Dashboard d : dashboardsCollection ) {
+            NicknamesList.add(d.getPlayer().getNickname());
+        }
+
+        return NicknamesList;
+    }
+
     //END ZAMBO
 
     //Start Vaia

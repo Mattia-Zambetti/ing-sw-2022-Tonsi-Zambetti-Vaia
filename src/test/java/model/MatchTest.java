@@ -5,6 +5,7 @@ import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -586,6 +587,20 @@ public class MatchTest {
         match.refillClouds();
 
         System.out.println(match);
+
+    }
+
+    //This test verifies that showAllPlayersNickname() method works
+    @Test
+    void playersNicknameTest() {
+        Match match2 = new NormalMatch(2);
+
+        assertEquals( 0, match2.showAllPlayersNickname().size());
+
+        match2.addPlayer( "Giocatore1", "BLACK", "WIZARD1");
+
+        assertEquals( "Giocatore1", match2.showAllPlayersNickname().get(0));
+        assertEquals( 1, match2.showAllPlayersNickname().size());
 
     }
 
