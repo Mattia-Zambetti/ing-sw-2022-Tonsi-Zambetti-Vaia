@@ -54,6 +54,7 @@ public class Connection extends Observable implements Runnable{
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
             Choice choice;
+            Object o;
 
 
 
@@ -73,9 +74,12 @@ public class Connection extends Observable implements Runnable{
                 server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());*/
 
             while(isActive) {
-                choice = (Choice) scannerIn.readObject();
-                setChanged();
-                notifyObservers(choice);
+                o = scannerIn.readObject();
+                if (o instanceof Choice) {
+                    choice = (Choice) o;
+                    setChanged();
+                    notifyObservers(choice);
+                }
             }
 
         } catch (IOException | ClassNotFoundException e) {

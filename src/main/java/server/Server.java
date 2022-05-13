@@ -93,7 +93,6 @@ public class Server implements Runnable {
     }
 
     public synchronized void lobby(Connection c) {
-        boolean isExpertMatch = false;
         Match match = null;
         waitingRoom.add(c);
 
@@ -112,17 +111,13 @@ public class Server implements Runnable {
                     break;
                 case 2:
                     match = new ExpertMatch(totalPlayerNumber);
-                    isExpertMatch = true;
                     break;
             }
 
-            Controller controller = new Controller(match, isExpertMatch);
-
-            //MatchView matchView = new MatchView();
+            Controller controller = new Controller(match);
 
             if (match != null) {
                 for (RemoteView remoteView : remoteViewList) {
-                    //La matchView serve semplicemente per rendere il Match invisibile alle RemoteView, di modo che esse non possano modificarlo in nessun caso
                     match.addObserver(remoteView);
                     remoteView.addObserver(controller);
                     remoteView.getConnection().addObserver(remoteView);
@@ -138,12 +133,6 @@ public class Server implements Runnable {
             waitingRoom.clear();
             nicknames.clear();
         }
-    }
-
-    public void matchExecution(Controller controller){
-        executor.submit(new Thread(() -> {
-            controller.startMatch();
-        }));
     }
 
 }
