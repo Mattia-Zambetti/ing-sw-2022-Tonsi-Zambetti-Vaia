@@ -1,7 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Observable;
+import java.util.*;
 import view.choice.*;
 import view.*;
 import model.*;
@@ -16,4 +16,6 @@ public interface MatchDataInterface extends Serializable {
     Player showCurrentPlayer();
 
     String getErrorMessage();
+
+    List<String> showAllPlayersNickname();
 }
