@@ -20,6 +20,8 @@ public class ControllerTest {
 
     Match match;
     Controller controller;
+    RemoteView testRemoteView1;
+    RemoteView testRemoteView2;
 
     @BeforeEach void init() {
 
@@ -29,8 +31,8 @@ public class ControllerTest {
         match = new NormalMatch(2);
         controller = new Controller(match);
 
-        RemoteView testRemoteView1 = new TestRemoteView();
-        RemoteView testRemoteView2 = new TestRemoteView();
+        testRemoteView1 = new TestRemoteView();
+        testRemoteView2 = new TestRemoteView();
 
         match.addObserver(testRemoteView1);
         match.addObserver(testRemoteView2);
@@ -41,7 +43,27 @@ public class ControllerTest {
     }
 
     @Test
-    void addPlayerTest() {
+    void matchTest() {
+        Choice addPlayerChoice = new DataPlayerChoice(2);
+        assertTrue(addPlayerChoice.setChoiceParam("Player1"));
+        assertTrue(addPlayerChoice.setChoiceParam("1"));
+        assertFalse(addPlayerChoice.setChoiceParam("1"));
+        ((TestRemoteView)testRemoteView1).setChangedForObservers();
+        testRemoteView1.notifyObservers(addPlayerChoice);
+        addPlayerChoice = new DataPlayerChoice(2);
+        addPlayerChoice.setChoiceParam("Player2");
+        addPlayerChoice.setChoiceParam("2");
+        addPlayerChoice.setChoiceParam("2");
+        ((TestRemoteView)testRemoteView2).setChangedForObservers();
+        testRemoteView2.notifyObservers(addPlayerChoice);
+
+        assertEquals(match.showAllPlayersNickname().size(), 2);
+        assertTrue( match.getChoice() instanceof CardChoice );
+
+        assertFalse(match.getChoice().setChoiceParam("1"));
+
+
+
 
     }
 

@@ -2,6 +2,7 @@ package view.choice;
 
 import model.Card;
 import model.Match;
+import model.exception.CardAlreadyPlayedException;
 import model.exception.CardNotFoundException;
 import model.exception.NoMoreCardException;
 
@@ -54,7 +55,7 @@ public class CardChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, CardAlreadyPlayedException {
         match.chooseCard(this.getChosenCard());
     }
 }

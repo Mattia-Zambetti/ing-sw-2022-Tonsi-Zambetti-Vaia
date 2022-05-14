@@ -136,7 +136,7 @@ public class MatchTest {
     }
 
     @Test
-    void chooseCardMethod() throws CardNotFoundException, NoMoreCardException {
+    void chooseCardMethod() throws CardNotFoundException, NoMoreCardException, CardAlreadyPlayedException {
         Card tmp=new Card(2,2,1);
 
         assertTrue(match.showCards().contains(tmp));
@@ -223,7 +223,7 @@ public class MatchTest {
     }
 
     @Test
-    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException {
         Dashboard dashboard0 = new Dashboard(6,TowerColor.GREY,Wizard.WIZARD1,"Rebecca",1);
         Dashboard dashboard1 = new Dashboard(6,TowerColor.BLACK,Wizard.WIZARD1,"Rebecco",2);
         Master masterR = new Master(Color.RED);
@@ -255,7 +255,7 @@ public class MatchTest {
     }
 
     @Test
-    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException {
         assertEquals(true, match.checkMotherNatureOnIsland(0));
         match.chooseCard(new Card(5,10,5));
         match.moveMotherNature(3);
@@ -404,7 +404,7 @@ public class MatchTest {
 
     //This test checks that dashboard order is correctly set after that players have played cards - only 2 players
     @Test
-    void setDashboardOrderTest2Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException {
+    void setDashboardOrderTest2Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException, CardAlreadyPlayedException {
 
         HashSet<Card> playerCards;
 
@@ -425,7 +425,7 @@ public class MatchTest {
 
     //This test checks that dashboard order is correctly set after that players have played cards - only 3 players
     @Test
-    void setDashboardOrderTest3Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException {
+    void setDashboardOrderTest3Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException, CardAlreadyPlayedException {
 
         match=new NormalMatch(3);
 
@@ -451,7 +451,7 @@ public class MatchTest {
 
     //This test checks that dashboard order is correctly set after that players have played cards - only 4 players
     @Test
-    void setDashboardOrderTest4Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException {
+    void setDashboardOrderTest4Player() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreCardException, CardNotFoundException, CardAlreadyPlayedException {
 
         match=new NormalMatch(4);
 
@@ -524,7 +524,7 @@ public class MatchTest {
     //TODO test con più di due dashboard
 
     @Test
-    void IslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+    void IslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException {
 
         match=new NormalMatch(PLAYERSNUM);
 
@@ -551,7 +551,7 @@ public class MatchTest {
     }
 
     @Test
-    void ExpertMatchIslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+    void ExpertMatchIslandToStringTest() throws NoMoreBlockCardsException, MaxNumberException, SameInfluenceException, NoIslandException, WrongDataplayerException, WrongColorException, NoMasterException, NoTowerException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException {
 
         match=new ExpertMatch(PLAYERSNUM);
 

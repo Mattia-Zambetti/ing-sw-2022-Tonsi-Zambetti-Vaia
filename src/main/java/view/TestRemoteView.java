@@ -33,4 +33,8 @@ public class TestRemoteView extends RemoteView {
                 currentMatch = (MatchDataInterface) arg;
         }
     }
+
+    public void setChangedForObservers() {
+        setChanged();
+    }
 }

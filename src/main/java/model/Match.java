@@ -277,7 +277,15 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return currentPlayerDashboard.showCards();
     }
 
-    public void chooseCard(Card chosenCard) throws CardNotFoundException, NoMoreCardException{
+    public void chooseCard(Card chosenCard) throws CardNotFoundException, NoMoreCardException, CardAlreadyPlayedException {
+
+        for (Dashboard d: dashboardsCollection) {
+            if ( dashboardsCollection.indexOf(d) < dashboardsCollection.indexOf(currentPlayerDashboard) ) {
+                if ( chosenCard.equals(d.getCurrentCard()))
+                   throw new CardAlreadyPlayedException("This card has already been chosen by another player");
+            }
+        }
+
         currentPlayerDashboard.playChosenCard(chosenCard);
 
         if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
