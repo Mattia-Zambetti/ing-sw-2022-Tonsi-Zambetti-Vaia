@@ -2,7 +2,9 @@ package model.figureCards;
 
 import model.ExpertMatchInterface;
 
-public class MushroomCollector extends FigureCard {
+import java.io.Serializable;
+
+public class MushroomCollector extends FigureCard  implements Serializable {
     private static final int PRICECARD=3;
     public MushroomCollector(){
         setPrice(PRICECARD);

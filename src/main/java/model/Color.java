@@ -1,7 +1,9 @@
 //Tonsi e Zambo
 package model;
 
-public enum Color{
+import java.io.Serializable;
+
+public enum Color implements Serializable {
     RED, GREEN, BLUE, PINK, YELLOW;
 
     private boolean isColorBlocked=false;

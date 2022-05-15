@@ -1,6 +1,5 @@
 package view;
 
-import model.Match;
 import model.MatchDataInterface;
 import model.Player;
 import model.figureCards.FigureCard;
@@ -11,24 +10,29 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class RemoteView extends Observable implements Observer {
-    private Player player;
+    //private Player player;
     private final Connection connection;
 
-    public RemoteView(Player player, Connection connection) {
-        this.player = player;
+    public RemoteView(Connection connection) {
+        //this.player = player;
         this.connection = connection;
         //connection doesn't notify any more
         //connection.addObserver(this);
     }
 
     public synchronized void choiceUser(Choice choice) {
-        choice=connection.sendAndReceive(choice);
+        /*choice=connection.sendAndReceive(choice);
         setChanged();
-        notifyObservers((Choice)choice);
+        notifyObservers((Choice)choice);*/
+        //TODO
     }
 
-    public Player getPlayer() {
+    /*public Player getPlayer() {
         return player;
+    }*/
+
+    public Connection getConnection() {
+        return connection;
     }
 
     public void sendError(String message){
@@ -39,69 +43,17 @@ public class RemoteView extends Observable implements Observer {
 
     @Override
     public synchronized void update(Observable o, Object arg) {
-        /*if(o instanceof MatchView){
-            if ( arg instanceof String)
-                connection.send(arg);*/
         if(o instanceof MatchDataInterface){
-            if ( arg instanceof String)
+            if ( arg instanceof MatchDataInterface)
                 connection.send(arg);
         }else if (arg instanceof FigureCard) {
             setChanged();
             notifyObservers(arg);
         }
-        //useful
-        /*else if(o instanceof Connection && o==connection){
+        else if(o instanceof Connection && o==connection){
             setChanged();
             notifyObservers(arg);
-        }*/
-
-
+        }
     }
 
-
 }
-    /*
-        public void chooseCard(){
-            Set<Card> cardsTmp = match.showCards();
-            connection.send(cardsTmp.toString());
-        }
-
-        public void moveStudent(){
-            Set<Student> studentsTmp = match.showCurrentPlayerDashboard().showEntrance();
-            connection.send(studentsTmp.toString());
-        }
-
-        public void chooseFigureCard(){
-            List<FigureCard> figureCards = ((ExpertMatch) match).showFigureCardsInGame();
-            connection.send(figureCards.toString());
-        }
-
-        public void moveMotherNature(){
-            int maxMovement = match.showCurrentPlayerDashboard().getCurrentCard().getMovementValue() + ((ExpertMatch) match).getPostManValue();
-            connection.send(""+ maxMovement);
-        }
-
-        public void chooseCloud(){
-            connection.send(match.toStringStudentsOnCloud());
-        }
-
-
-
-
-        if (arg instanceof Card) {
-            Card cardChosenTmp = (Card) arg;
-            notifyObservers(cardChosenTmp);
-        }
-        if (arg instanceof Student) {
-            Student studentChosen = (Student) arg;
-            notifyObservers(studentChosen);
-        }
-
-        if (arg instanceof Integer) {
-            notifyObservers((Integer) arg);
-        }
-        if (arg instanceof Cloud) {
-            Cloud cloudTmp = (Cloud) arg;
-            notifyObservers(cloudTmp);
-        }
-    */

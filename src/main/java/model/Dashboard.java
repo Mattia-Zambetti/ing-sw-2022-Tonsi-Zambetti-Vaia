@@ -2,10 +2,12 @@
 package model;
 
 import model.exception.*;
+
+import java.io.Serializable;
 import java.util.*;
 import graphicAssets.*;
 
-public class Dashboard {
+public class Dashboard implements Serializable {
     private final Entrance entrance;
     private final HashMap<Color, DiningRoom> DiningRoomsList;
     private final ArrayList<Tower> towersCollection;  //TODO possibile cambiamento a HashSet quando riguarderemo la funzione di hash

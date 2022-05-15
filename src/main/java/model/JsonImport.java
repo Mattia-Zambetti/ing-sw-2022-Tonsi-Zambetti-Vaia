@@ -7,10 +7,11 @@ import com.google.gson.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class JsonImport {
+public class JsonImport implements Serializable {
     private final String filename;
 
     public JsonImport(String filename){

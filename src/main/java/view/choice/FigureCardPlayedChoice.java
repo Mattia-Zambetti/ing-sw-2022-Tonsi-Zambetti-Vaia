@@ -5,7 +5,6 @@ import model.Match;
 import model.exception.*;
 import model.figureCards.FigureCard;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
-import view.RemoteView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +43,7 @@ public class FigureCardPlayedChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
         ((ExpertMatch)match).playFigureCard(this.getChosenFigureCard());
     }
 }

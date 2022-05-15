@@ -2,7 +2,9 @@ package model.figureCards;
 
 import model.ExpertMatchInterface;
 
-public class Witch extends FigureCard {
+import java.io.Serializable;
+
+public class Witch extends FigureCard  implements Serializable {
     private static final int PRICECARD = 2;
     private static int blockCard = 4;
 

@@ -2,7 +2,6 @@ package server;
 
 
 import view.choice.Choice;
-import view.choice.NamePlayerChoice;
 import view.choice.StartingMatchChoice;
 
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Observable;
 
-public class Connection extends Observable{
+public class Connection extends Observable implements Runnable{
 
     private Socket clientSocket;
     private ObjectInputStream scannerIn;
@@ -30,12 +29,13 @@ public class Connection extends Observable{
         try {
             writeOut.writeObject(obj);
             writeOut.flush();
+            writeOut.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Choice sendAndReceive(Object obj){
+    /*public Choice sendAndReceive(Object obj){
         try {
 
             writeOut.writeObject(obj);
@@ -47,13 +47,14 @@ public class Connection extends Observable{
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
-    public void createConnection (){
+    public void run (){
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
-            Choice choice = new StartingMatchChoice();
+            Choice choice;
+            Object o;
 
 
 
@@ -64,18 +65,22 @@ public class Connection extends Observable{
                     server.setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
                 }
 
+                server.lobby(this);
 
-                choice = new NamePlayerChoice(server.getNicknameSet());
+
+                /*choice = new NamePlayerChoice(server.getNicknameSet());
                 send(choice);
                 choice = (Choice) scannerIn.readObject();
-                server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());
-                server.lobby(this, (NamePlayerChoice) choice);
+                server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());*/
 
-            /*while(isActive) {//TODO
-                choice = (Choice) scannerIn.readObject();
-                setChanged();
-                notifyObservers(choice);
-            }*/
+            while(isActive) {
+                o = scannerIn.readObject();
+                if (o instanceof Choice) {
+                    choice = (Choice) o;
+                    setChanged();
+                    notifyObservers(choice);
+                }
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

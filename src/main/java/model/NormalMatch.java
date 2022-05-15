@@ -2,7 +2,9 @@ package model;
 
 //POTREBBE NON SERVIRE
 
-public class NormalMatch extends Match{
+import java.io.Serializable;
+
+public class NormalMatch extends Match implements Serializable {
     public NormalMatch(int totalPlayersNum){
         super(totalPlayersNum);
     }

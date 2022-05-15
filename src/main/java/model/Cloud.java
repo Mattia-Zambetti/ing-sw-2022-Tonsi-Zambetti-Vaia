@@ -6,11 +6,12 @@ import model.exception.AlreadyFilledCloudException;
 import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Cloud {
+public class Cloud  implements Serializable {
     private final Set<Student> studentsOnCloud;
     private static int studentsNumOnCloud;
     private final int ID;

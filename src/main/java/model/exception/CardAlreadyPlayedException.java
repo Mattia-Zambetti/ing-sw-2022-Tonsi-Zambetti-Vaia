@@ -1,9 +1,11 @@
 package model.exception;
 
-import model.*;
+import model.Match;
 
-public abstract class Exceptions extends Exception{
-    public Exceptions(String errorMessage) { super(errorMessage);}
+public class CardAlreadyPlayedException extends Exceptions {
+    public CardAlreadyPlayedException(String errorMessage){
+        super(errorMessage);
+    }
 
     public void manageException(Match match){
         match.setErrorMessage(getMessage());

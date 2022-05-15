@@ -3,11 +3,13 @@ package model;
 
 
 import model.exception.CardNotFoundException;
+
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Deck {
+public class Deck implements Serializable {
     private final Set<Card> cards;
     private Card currentCard;
     private final Wizard wizard;

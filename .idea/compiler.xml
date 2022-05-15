@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="softeng-GC35" />
-        <module name="ProjectFolder" />
         <module name="ing-sw-2022-Tonsi-Zambetti-Vaia" />
+        <module name="ProjectFolder" />
+        <module name="Desktop_ProjectFolder" />
       </profile>
     </annotationProcessing>
   </component>

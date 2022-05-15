@@ -4,12 +4,13 @@ package model;
 import model.exception.MaxNumberException;
 import model.exception.NoMoreStudentsException;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
-public class Bag {
+public class Bag  implements Serializable {
     private final static int INITIALSTUDENTS=2;
     private final static int STUDENTSNUMCOLOR =24;
     private static Set<Student> studentsInBag;

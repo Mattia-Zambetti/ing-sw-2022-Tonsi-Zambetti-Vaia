@@ -2,9 +2,9 @@ package view.choice;
 
 import model.Card;
 import model.Match;
+import model.exception.CardAlreadyPlayedException;
 import model.exception.CardNotFoundException;
 import model.exception.NoMoreCardException;
-import view.RemoteView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,8 @@ import java.util.Set;
 public class CardChoice extends Choice{
     private int chosenCard;
     private final Map<Integer,Card> availableCards;
+
+
 
     public CardChoice(Set<Card> availableCards){
         this.availableCards =new HashMap<>();
@@ -53,7 +55,7 @@ public class CardChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, CardAlreadyPlayedException {
         match.chooseCard(this.getChosenCard());
     }
 }

@@ -3,14 +3,18 @@ package model;
 
 import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
+import view.choice.*;
 
+import java.io.Serializable;
 import java.util.*;
-public class Match extends Observable implements MatchDataInterface {
+public class Match extends Observable implements MatchDataInterface, Serializable {
     protected List<Island> islands;
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     protected Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
+
+    private String errorMessage = "";
 
     private int totalPlayersNum;
     protected int currentIsland;
@@ -19,6 +23,8 @@ public class Match extends Observable implements MatchDataInterface {
                                 //TODO usato per capire se la partita è finita
     protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
+
+    private int counterMoveStudents=0;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
     private final int ISLANDSNUM=12;
@@ -29,6 +35,8 @@ public class Match extends Observable implements MatchDataInterface {
 
     private static final int MAXPLAYERSNUM=4;
     private static final int MINPLAYERSNUM=2;
+
+    private Choice choicePhase;
 
     //TESTED
     public Match(int totalPlayersNum) {
@@ -64,7 +72,7 @@ public class Match extends Observable implements MatchDataInterface {
 
                 initializeMasters();
 
-
+                choicePhase = new DataPlayerChoice(totalPlayersNum);
 
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException | NoMoreStudentsException e){
@@ -194,8 +202,8 @@ public class Match extends Observable implements MatchDataInterface {
             }
         }
 
-        setChanged();
-        notifyObservers(this.toString());
+        //setChanged();
+        //notifyObservers(this.toString());
 
     }
 
@@ -215,7 +223,7 @@ public class Match extends Observable implements MatchDataInterface {
     //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
     //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
     //the current player's entrance
-    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException{
+    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException, NoMoreStudentsException {
         try {
 
             if (chosenCloud < totalPlayersNum && chosenCloud >= 0 && !(getCloudByID(chosenCloud).equals(new Cloud(chosenCloud))))
@@ -224,7 +232,20 @@ public class Match extends Observable implements MatchDataInterface {
                 throw new WrongCloudNumberException("This cloud doesn't exist");
             //setChanged();
             //notifyObservers(this);
-        }catch (StudentIDAlreadyExistingException e){
+
+
+            if(!setNextCurrDashboard()){
+                setDashboardOrder();
+                choicePhase=new CardChoice(showCurrentPlayerDashboard().showCards());
+                refillClouds();
+            }else
+                choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+
+            notifyMatchObservers();
+
+
+
+        }catch (StudentIDAlreadyExistingException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
@@ -252,20 +273,34 @@ public class Match extends Observable implements MatchDataInterface {
         return currentPlayerDashboard.showCards();
     }
 
-    public void chooseCard(Card chosenCard) throws CardNotFoundException, NoMoreCardException{
+    public void chooseCard(Card chosenCard) throws CardNotFoundException, NoMoreCardException, CardAlreadyPlayedException {
+
+        for (Dashboard d: dashboardsCollection) {
+            if ( dashboardsCollection.indexOf(d) < dashboardsCollection.indexOf(currentPlayerDashboard) ) {
+                if ( chosenCard.equals(d.getCurrentCard()))
+                   throw new CardAlreadyPlayedException("This card has already been chosen by another player");
+            }
+        }
+
         currentPlayerDashboard.playChosenCard(chosenCard);
 
         if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
             throw new NoMoreCardException("It's the last turn");
         }
 
-        //setChanged();
-        //notifyObservers(this);
+
+        if(!setNextCurrDashboard()){
+            setDashboardOrder();
+            choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+        }else
+            choicePhase=new CardChoice(showCurrentPlayerDashboard().showCards());
+
+        notifyMatchObservers();
 
     }
 
-    //this method must be fixed
-    public void addPlayer(String nickname, String towerColor, String wizard) throws WrongDataplayerException, WrongColorException, MaxNumberException {
+
+    public void addPlayer(String nickname, String towerColor, String wizard) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
         if (dashboardsCollection.size() < totalPlayersNum) {
 
             if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {
@@ -285,9 +320,9 @@ public class Match extends Observable implements MatchDataInterface {
                     if (player.getTowerColor().toString().equals(towerColor))
                         throw new WrongDataplayerException("This tower color has been already chosen");
                 }
-            } else{
+            } else {
                 for (Dashboard player : dashboardsCollection) {
-                    if (player.getTowerColor().toString().equals(towerColor) && TowerColor.valueOf(towerColor).getCounter()==2)
+                    if (player.getTowerColor().toString().equals(towerColor) && TowerColor.valueOf(towerColor).getCounter() == 2)
                         throw new WrongDataplayerException("This tower color has been already chosen");
                 }
             }
@@ -303,19 +338,20 @@ public class Match extends Observable implements MatchDataInterface {
                 TowerColor.valueOf(towerColor).counterplus();
             }
 
-            if(totalPlayersNum==dashboardsCollection.size()) {
+            if (totalPlayersNum == dashboardsCollection.size()) {
                 initializeAllEntrance();
-                //SPOSTATI DOPO REFILL CLOUD
-                //setChanged();
-                //notifyObservers(this.toString());
+                choicePhase = new CardChoice(currentPlayerDashboard.showCards());
+                refillClouds();
+                setChanged();
+                notifyObservers((MatchDataInterface) this);
             }
-
 
 
             if (dashboardsCollection.size() == 1) {
                 currentPlayerDashboard = dashboardsCollection.get(0);
             }
-        }else throw new MaxNumberException("Max players number reached...");
+        } else throw new MaxNumberException("Max players number reached...");
+
     }
 
     private void setTowersNum() {
@@ -337,6 +373,11 @@ public class Match extends Observable implements MatchDataInterface {
 
     //ZAMBO
 
+    public void notifyMatchObservers() {
+        setChanged();
+        notifyObservers((MatchDataInterface)this);
+    }
+
     public int getISLANDSNUM() {
         return ISLANDSNUM;
     }
@@ -351,19 +392,28 @@ public class Match extends Observable implements MatchDataInterface {
     //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
     public void moveStudentFromEntranceToDR( Student studentToBeMoved ) throws NoMasterException, WrongColorException {
         Student tmpStudent;
+
+
         try {
             tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
             this.currentPlayerDashboard.moveToDR(tmpStudent);
             checkAndMoveMasters();
 
-            setChanged();
-            notifyObservers(this.toString());
+
         }
         catch ( MaxNumberException | StudentIDAlreadyExistingException | InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
         }
 
+        if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
+            choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
 
+            counterMoveStudents++;
+        }else {
+            choicePhase = new MoveMotherNatureChoice();
+            counterMoveStudents=0;
+        }
+        notifyMatchObservers();
     }
 
     //Useless, we use only indexes to chose Island
@@ -392,9 +442,17 @@ public class Match extends Observable implements MatchDataInterface {
             else {
                 this.islands.get(chosenIslandPosition).addStudent(currentPlayerDashboard.removeStudentFromEntrance(chosenStudent));
 
-                setChanged();
-                notifyObservers(this.toString());
             }
+
+            if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
+                choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+
+                counterMoveStudents++;
+            }else {
+                choicePhase = new MoveMotherNatureChoice();
+                counterMoveStudents=0;
+            }
+            notifyMatchObservers();
         }
         catch (InexistentStudentException | NullPointerException e ) {
             System.out.println(e.getMessage());
@@ -412,8 +470,8 @@ public class Match extends Observable implements MatchDataInterface {
             currentPlayerPosition++;
             this.currentPlayerDashboard = dashboardsCollection.get(currentPlayerPosition);
 
-            setChanged();
-            notifyObservers(this.toString());
+            //setChanged();
+            //notifyObservers(this.toString());
             return true;
             //Views are notified only if another Player has to play the turn, the first player is notified in the setDashboardOrder() method
         }
@@ -437,8 +495,8 @@ public class Match extends Observable implements MatchDataInterface {
         }
         this.currentPlayerDashboard = dashboardsCollection.get(0);
 
-        setChanged();
-        notifyObservers(this.toString());
+        //setChanged();
+        //notifyObservers(this.toString());
     }
 
     public void initializeAllEntrance(){
@@ -488,7 +546,6 @@ public class Match extends Observable implements MatchDataInterface {
     public String toString() {
         String outputString = "";
 
-
         for ( Dashboard d : dashboardsCollection ) {
             outputString = outputString.concat(d.toString()+"Card played by " + d.getPlayer().getNickname() + ": " + d.getCurrentCard().toString() + "\n");
         }
@@ -506,32 +563,62 @@ public class Match extends Observable implements MatchDataInterface {
         return outputString;
     }
 
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    @Override
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    @Override
+    public Choice getChoice() {
+        return choicePhase;
+    }
+
     //Only for test
     public HashMap<Color, Master> getMasters () {
         return new HashMap<Color, Master>(mastersMap);
+    }
+
+    public List<String> showAllPlayersNickname() {
+        ArrayList<String> NicknamesList = new ArrayList<>(0);
+
+        for ( Dashboard d : dashboardsCollection ) {
+            NicknamesList.add(d.getPlayer().getNickname());
+        }
+
+        return NicknamesList;
     }
 
     //END ZAMBO
 
     //Start Vaia
     public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
-        if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0){
-            int positionTmp = currentIsland;
-            islands.get(positionTmp).setMotherNature(false);
-            for (int i = 0; i < posizioni; i++){
-                positionTmp = nextIsland(positionTmp);
-            }
-            currentIsland = positionTmp;
-            islands.get(currentIsland).setMotherNature(true);
-            changeTowerColorOnIsland();
+        try {
+            if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
+                int positionTmp = currentIsland;
+                islands.get(positionTmp).setMotherNature(false);
+                for (int i = 0; i < posizioni; i++) {
+                    positionTmp = nextIsland(positionTmp);
+                }
+                currentIsland = positionTmp;
+                islands.get(currentIsland).setMotherNature(true);
+                changeTowerColorOnIsland();
 
-            if(totalNumIslands <= 3)
-                throw new FinishedGameIslandException("Island Num <= 3, game is over");
+                if (totalNumIslands <= 3)
+                    throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
-            setChanged();
-            notifyObservers(this.toString());
+                //setChanged();
+                //notifyObservers(this.toString());
+
+                choicePhase = new CloudChoice();
+                notifyMatchObservers();
+            } else throw new MaxNumberException("Cannot move mother nature that far");
+        }catch (Exceptions e){
+            e.manageException(this);
         }
-        else throw new MaxNumberException("Cannot move mother nature that far");
     }
 
     public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
@@ -581,14 +668,14 @@ public class Match extends Observable implements MatchDataInterface {
         try{if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
             mergeIsland(nextIslandTmp);}
         catch (NoTowerException e){
-            ((NoTowerException) e).printStackTrace();
+            //((NoTowerException) e).printStackTrace();
         }
         try{
             if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
                 mergeIsland(previousIslandTmp);
         }
         catch (NoTowerException e){
-            ((NoTowerException) e).printStackTrace();
+            //((NoTowerException) e).printStackTrace();
         }
     }
 //

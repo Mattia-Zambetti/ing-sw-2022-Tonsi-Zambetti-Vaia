@@ -1,6 +1,8 @@
 package model;
 
-public class Tower {
+import java.io.Serializable;
+
+public class Tower  implements Serializable {
     private final TowerColor color;
     private final int id;
 

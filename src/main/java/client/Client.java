@@ -1,7 +1,16 @@
 package client;
 
 
-import view.choice.*;
+import model.MatchDataInterface;
+import model.Player;
+import view.choice.Choice;
+import view.choice.NamePlayerChoice;
+import model.MatchDataInterface;
+import model.Player;
+import view.choice.CardChoice;
+import view.choice.Choice;
+import view.choice.DataPlayerChoice;
+import view.choice.StartingMatchChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,12 +24,16 @@ public class Client implements Runnable{
     private final String ip;
     private Choice actualToDoChoice;
 
+    private MatchDataInterface matchView;
+
     private Socket clientSocket;
 
-
+    private Player player = new Player("none");
 
     private boolean isActive=true;
-    private boolean isChoiceTime;
+    private volatile boolean isChoiceTime;
+
+    private boolean matchCompletelyCreated = false;
 
     public Client(String ip, int port){
         this.port=port;
@@ -64,7 +77,17 @@ public class Client implements Runnable{
                             writeUser.println("please wait...");
                             writeUser.flush();
                         } else {
+
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
+
+                            if(actualToDoChoice instanceof DataPlayerChoice)
+                                player=((DataPlayerChoice) actualToDoChoice).getPlayer();
+
+                            if(isChoiceTime) {
+                                writeUser.println(actualToDoChoice);
+                                writeUser.flush();
+                            }
+
                             if(!isChoiceTime) {
                                 outputStream.writeObject(actualToDoChoice);
                                 outputStream.flush();
@@ -86,18 +109,53 @@ public class Client implements Runnable{
         PrintWriter writeUser=new PrintWriter(System.out);
         ObjectInputStream readSocket=new ObjectInputStream(clientSocket.getInputStream());
 
+
         Thread t= new Thread(new Runnable() {
             @Override
             public void run() {
+
+
+
                 while(isActive) {
                     try {
+
                         Object obj = readSocket.readObject();
-                        writeUser.println(obj);
-                        writeUser.flush();
-                        if (obj instanceof Choice) {
+
+                        if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
-                            actualToDoChoice = (Choice) obj;
+                            actualToDoChoice = s;
+                            writeUser.println(actualToDoChoice);
+                            writeUser.flush();
+                            while (isChoiceTime) {
+                            }
                         }
+                        else if(obj instanceof MatchDataInterface){
+
+                            matchView=(MatchDataInterface) obj;
+                            actualToDoChoice = matchView.getChoice();
+                            if (actualToDoChoice instanceof CardChoice)
+                                matchCompletelyCreated = true;
+                            if(matchCompletelyCreated)
+                                writeUser.println(matchView);
+
+
+                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player)){
+                                writeUser.println(matchView.getErrorMessage());
+                                writeUser.println(matchView.getChoice().toString());
+                                writeUser.flush();
+                                isChoiceTime = true;
+                            }
+
+
+
+                        }
+
+
+                        /*if(matchView.showCurrentPlayer().equals(player)) {
+                            isChoiceTime = true;
+                            actualToDoChoice = matchView.getChoice();
+                            writeUser.println(actualToDoChoice);
+                        }*/
 
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();

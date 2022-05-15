@@ -3,7 +3,6 @@ package server;
 import controller.Controller;
 import model.*;
 import view.RemoteView;
-import view.choice.NamePlayerChoice;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -23,18 +22,19 @@ public class Server implements Runnable {
 
     private ExecutorService executor;
     private List<Connection> connections;
+    private List<RemoteView> remoteViewList = new ArrayList<>();
 
     private int totalPlayerNumber;
     private int matchType;
 
-    private Map<Connection, Player> waitingRoom;
+    private HashSet<Connection> waitingRoom;
 
 
     public Server() {
         try {
-            executor = Executors.newFixedThreadPool(4);
+            executor = Executors.newFixedThreadPool(128);
             connections = new ArrayList<>();
-            waitingRoom = new HashMap<>();
+            waitingRoom = new HashSet<>();
             serverSocket = new ServerSocket(PORT);
             nicknames= new HashSet<>();
         } catch (IOException e) {
@@ -70,7 +70,7 @@ public class Server implements Runnable {
 
                 System.out.println("Connection number: "+ connections.size());
 
-                clientConnection.createConnection();
+                executor.submit(clientConnection);
 
 
 
@@ -92,17 +92,17 @@ public class Server implements Runnable {
         this.matchType = matchType;
     }
 
-    public synchronized void lobby(Connection c, NamePlayerChoice dataPlayerChoice) {
-
-        List<RemoteView> remoteViewList = new ArrayList<>();
-        boolean isExpertMatch = false;
+    public synchronized void lobby(Connection c) {
         Match match = null;
-        waitingRoom.put(c, dataPlayerChoice.getPlayer());
+        waitingRoom.add(c);
+
 
         if (waitingRoom.size() == totalPlayerNumber) {
 
+
+
             for (Connection connection : connections) {
-                remoteViewList.add(new RemoteView(waitingRoom.get(connection), connection));
+                remoteViewList.add(new RemoteView(connection));
             }
 
             switch (matchType) {
@@ -111,45 +111,30 @@ public class Server implements Runnable {
                     break;
                 case 2:
                     match = new ExpertMatch(totalPlayerNumber);
-                    isExpertMatch = true;
                     break;
             }
 
-            Controller controller = new Controller(match, remoteViewList, isExpertMatch);
+            Controller controller = new Controller(match);
 
-            //MatchView matchView = new MatchView();
-
-            if (match != null)
-            //    match.addObserver(matchView);
+            if (match != null) {
                 for (RemoteView remoteView : remoteViewList) {
-                    //La matchView serve semplicemente per rendere il Match invisibile alle RemoteView, di modo che esse non possano modificarlo in nessun caso
                     match.addObserver(remoteView);
                     remoteView.addObserver(controller);
+                    remoteView.getConnection().addObserver(remoteView);
+                    System.out.println("Starting match");
+
                 }
-            else {
+                match.notifyMatchObservers();
+            }else {
                 System.out.println("Error, match not created");
                 return;
             }
-
-            System.out.println("Starting match");
-
-            controller.startMatch();
 
             waitingRoom.clear();
             nicknames.clear();
         }
     }
 
-    public Thread matchExecution(Controller controller){
-        Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                controller.startMatch();
-            }
-        });
-        thread.start();
-        return thread;
-    }
 }
 
     /*

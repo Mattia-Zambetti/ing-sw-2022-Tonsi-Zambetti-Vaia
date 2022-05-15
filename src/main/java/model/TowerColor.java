@@ -1,6 +1,8 @@
 package model;
 
-public enum TowerColor {
+import java.io.Serializable;
+
+public enum TowerColor  implements Serializable {
     WHITE, BLACK, GREY;
 
     private int counter=0;

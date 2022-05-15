@@ -1,14 +1,13 @@
 package model.exception;
 
-import view.RemoteView;
-import view.choice.Choice;
+import model.*;
 
 public class StudentIDAlreadyExistingException extends Exceptions{
     public StudentIDAlreadyExistingException(String errorMessage){
         super(errorMessage);
     }
 
-    public void manageException(RemoteView remoteView, Choice choice){
+    public void manageException(Match match){
         this.printStackTrace();
     }
 }

@@ -5,7 +5,6 @@ import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
 import model.exception.NoMoreCardException;
 import model.exception.WrongCloudNumberException;
-import view.RemoteView;
 
 public class StartingMatchChoice extends Choice{
     private int totalPlayersNumMatch;
@@ -38,11 +37,6 @@ public class StartingMatchChoice extends Choice{
     }
 
     @Override
-    public String toString() {
-        return "You are the first player, choose the number of players(from 2 to 4): ";
-    }
-
-    @Override
     public boolean setChoiceParam(String input) {
         if(isItAnInt(input)) {
             switch (getNumChoice()) {
@@ -51,9 +45,6 @@ public class StartingMatchChoice extends Choice{
                             Integer.parseInt(input) <= Match.getMAXPLAYERSNUM()) {
                         setTotalPlayersNumMatch(Integer.parseInt(input));
                         choicePlusPlus();
-                        System.out.println("Insert the match type:\n" +
-                                "1. Normal match\n" +
-                                "2. Expert match");
                     } else
                         System.out.println("Error in the player number insertion, please give a number from 2 to 4");
                     return true;
@@ -62,11 +53,8 @@ public class StartingMatchChoice extends Choice{
                         setMatchType(Integer.parseInt(input));
                         System.out.println("Waiting other players... ");
                         return false;
-                    } else
-                        System.out.println("This match type doesn't exist, please try again :\n" +
-                                "1. Normal match\n" +
-                                "2. Expert match");
-
+                    }else
+                        return true;
 
             }
         }
@@ -74,9 +62,26 @@ public class StartingMatchChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
         //QUESTO IN ReALTA' NON DEVE ESSERE MAI CHIAMATO, almeno per ora
     }
+
+    @Override
+    public String toString() {
+        String OutputString = "";
+        switch (getNumChoice()) {
+            case 0:
+                OutputString = "You are the first player, choose the number of players(from 2 to 4): ";
+                break;
+            case 1:
+                OutputString = "Insert the match type:\n" +
+                        "1. Normal match\n" +
+                        "2. Expert match";
+                break;
+        }
+        return OutputString;
+    }
+
 
     public int getTotalNumMatchType(){
         return TOTAL_NUM_MATCH_TYPE;

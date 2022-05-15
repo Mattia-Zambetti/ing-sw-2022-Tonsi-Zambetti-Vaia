@@ -3,20 +3,12 @@ package view.choice;
 import model.Match;
 import model.Player;
 import model.exception.*;
-import model.figureCards.*;
-import view.RemoteView;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class NamePlayerChoice extends Choice{
-
-    private String name;
-    Set<String> nicknamesAlreadyChosen;
-
-    public NamePlayerChoice(Set<String> nicknames){
-        nicknamesAlreadyChosen=new HashSet<>(nicknames);
-    }
+public class NamePlayerChoice {//extends Choice{
+/*
     @Override
     public boolean setChoiceParam(String input) {
         if (nicknamesAlreadyChosen.contains(input)) {
@@ -32,12 +24,12 @@ public class NamePlayerChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match, RemoteView remoteView) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException, SameInfluenceException {
-        //NON UTILIZZATO
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException, SameInfluenceException {
+        match.addPlayer(name);
     }
 
     @Override
     public String toString(){
         return  "Insert your name: ";
-    }
+    }*/
 }

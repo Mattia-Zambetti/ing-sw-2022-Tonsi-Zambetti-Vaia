@@ -2,7 +2,9 @@ package model.figureCards;
 
 import model.ExpertMatchInterface;
 
-public class Knight extends FigureCard {
+import java.io.Serializable;
+
+public class Knight extends FigureCard  implements Serializable {
     private static final int PRICECARD = 2;
 
     public Knight() {

@@ -6,10 +6,11 @@ import model.exception.StudentIDAlreadyExistingException;
 import model.exception.WrongColorException;
 import graphicAssets.*;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DiningRoom {
+public class DiningRoom implements Serializable {
     private static final int DINING_ROOM_DIM = 10;
     private final Set<Student> students;
     private final Color roomColor;
