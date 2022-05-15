@@ -30,8 +30,13 @@ public class DataPlayerChoice extends Choice{
                 numChoice++;
                 return true;
             case 1:
+                int maxNumberChoosableTowers;
+                if(playerNum == 2 || playerNum == 4)
+                    maxNumberChoosableTowers = 2;
+                else
+                    maxNumberChoosableTowers = 3;
                 if(isItAnInt(input)){
-                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) <= playerNum) {
+                    if(Integer.parseInt(input)>0 && Integer.parseInt(input) <= maxNumberChoosableTowers) {
                         towerColor = (Integer.parseInt(input)-1);
                         numChoice++;
                     }
@@ -81,7 +86,6 @@ public class DataPlayerChoice extends Choice{
                             counter++;
                         }
                     }
-
                 } else if (playerNum == 3) {
                     for (TowerColor t : TowerColor.values()) {
                         OutputString.append("\n" + counter + ") " + t.toString());

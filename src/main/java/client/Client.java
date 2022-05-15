@@ -138,14 +138,11 @@ public class Client implements Runnable{
                             if(matchCompletelyCreated)
                                 writeUser.println(matchView);
 
-
-                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player)){
+                            writeUser.println(matchView.getErrorMessage());
+                            writeUser.println(matchView.getChoice().toString());
+                            writeUser.flush();
+                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player))
                                 isChoiceTime = true;
-                                writeUser.println(matchView.getErrorMessage());
-                                writeUser.println(matchView.getChoice().toString());
-                                writeUser.flush();
-                            }
-
 
 
                         }
