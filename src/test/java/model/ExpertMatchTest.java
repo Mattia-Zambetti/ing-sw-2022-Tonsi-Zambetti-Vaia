@@ -50,7 +50,7 @@ public class ExpertMatchTest implements Observer {
     }
 
     @Test
-    private void creationOfTheRightCard(FigureCard figureCardWanted) throws MaxNumberException, WrongDataplayerException, WrongColorException {
+    private void creationOfTheRightCard(FigureCard figureCardWanted) throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         do {
             expertMatch = new ExpertMatch(2);
 
@@ -68,7 +68,7 @@ public class ExpertMatchTest implements Observer {
     //it tests if the centaur card is correctly played when it's called and if it throws the exception if it's called
     //two times in the same turn
     @Test
-    void centaurTest() throws FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, MaxNumberException, WrongDataplayerException, WrongColorException {
+    void centaurTest() throws FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         figureCardTest = new Centaur();
 
         creationOfTheRightCard(figureCardTest);
@@ -136,19 +136,20 @@ public class ExpertMatchTest implements Observer {
     }
 
     @Test
-    void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, NoIslandException, NoMoreCardException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, SameInfluenceException, FinishedGameIslandException, CardAlreadyPlayedException {
+    void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, NoIslandException, NoMoreCardException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, SameInfluenceException, FinishedGameIslandException, NoMoreStudentsException {
         creationOfTheRightCard(new Postman());
 
         ((ExpertMatch)expertMatch).playFigureCard(new Postman());
 
-        expertMatch.chooseCard(new Card(5,3,1));
+        expertMatch.chooseCard(new Card(6,3,6));
+        expertMatch.chooseCard(new Card(10,5,10));
         expertMatch.moveMotherNature(5);
         expertMatch.moveMotherNature(3);
         assertThrows(MaxNumberException.class, ()-> expertMatch.moveMotherNature(5));
     }
 
     @Test
-    void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException, NoMoreCardException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException {
+    void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException, NoMoreCardException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoMoreStudentsException {
         creationOfTheRightCard(new Knight());
 
         //Knight call:
@@ -178,6 +179,8 @@ public class ExpertMatchTest implements Observer {
 
         expertMatch.addIslandsTowers(1,expertMatch.removeTowersFromDashboard(1,1));
         expertMatch.chooseCard(new Card(5,5,2));
+        expertMatch.chooseCard(new Card(10,5,10));
+
         expertMatch.moveMotherNature(1);
         expertMatch.changeTowerColorOnIsland();
         assertEquals(TowerColor.WHITE,  expertMatch.getTowerColorFromIsland(1));

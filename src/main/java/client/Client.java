@@ -3,6 +3,10 @@ package client;
 
 import model.MatchDataInterface;
 import model.Player;
+import view.choice.Choice;
+import view.choice.NamePlayerChoice;
+import model.MatchDataInterface;
+import model.Player;
 import view.choice.CardChoice;
 import view.choice.Choice;
 import view.choice.DataPlayerChoice;
@@ -86,6 +90,7 @@ public class Client implements Runnable{
 
                             if(!isChoiceTime) {
                                 outputStream.writeObject(actualToDoChoice);
+                                outputStream.flush();
                             }
                         }
                     }catch (IllegalStateException e){

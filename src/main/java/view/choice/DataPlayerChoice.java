@@ -4,6 +4,10 @@ import model.Match;
 import model.Player;
 import model.TowerColor;
 import model.Wizard;
+import model.exception.MaxNumberException;
+import model.exception.NoMoreStudentsException;
+import model.exception.WrongColorException;
+import model.exception.WrongDataplayerException;
 
 public class DataPlayerChoice extends Choice{
 
@@ -54,7 +58,7 @@ public class DataPlayerChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match) {
+    public void manageUpdate(Match match) throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
         match.addPlayer(name,TowerColor.values()[towerColor].toString(), Wizard.values()[wizard].toString());
     }
 

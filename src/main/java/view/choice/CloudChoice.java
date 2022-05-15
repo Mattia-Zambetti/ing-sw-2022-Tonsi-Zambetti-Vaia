@@ -1,10 +1,7 @@
 package view.choice;
 
 import model.Match;
-import model.exception.CardNotFoundException;
-import model.exception.MaxNumberException;
-import model.exception.NoMoreCardException;
-import model.exception.WrongCloudNumberException;
+import model.exception.*;
 
 public class CloudChoice extends Choice{
     private int chosenCloudID;
@@ -34,7 +31,7 @@ public class CloudChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, NoMoreStudentsException {
         match.moveStudentsFromCloudToEntrance(this.getChosenCloudID());
     }
 }
