@@ -1,8 +1,8 @@
 package server;
 
 
-import view.choice.Choice;
-import view.choice.StartingMatchChoice;
+import controller.choice.Choice;
+import controller.choice.StartingMatchChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

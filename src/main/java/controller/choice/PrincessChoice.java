@@ -1,4 +1,4 @@
-package view.choice;
+package controller.choice;
 
 import model.ExpertMatch;
 import model.Match;

@@ -1,8 +1,7 @@
 package view;
 
 import model.MatchDataInterface;
-import model.*;
-import view.choice.Choice;
+import controller.choice.Choice;
 
 import java.util.*;
 

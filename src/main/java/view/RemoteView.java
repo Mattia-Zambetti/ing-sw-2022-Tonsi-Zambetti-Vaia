@@ -1,10 +1,9 @@
 package view;
 
 import model.MatchDataInterface;
-import model.Player;
 import model.figureCards.FigureCard;
 import server.Connection;
-import view.choice.Choice;
+import controller.choice.Choice;
 
 import java.util.Observable;
 import java.util.Observer;

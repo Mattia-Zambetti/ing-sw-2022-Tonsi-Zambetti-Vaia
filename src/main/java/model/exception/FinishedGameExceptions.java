@@ -3,7 +3,6 @@ package model.exception;
 import model.*;
 
 import view.RemoteView;
-import view.choice.Choice;
 
 import java.util.Map;
 
