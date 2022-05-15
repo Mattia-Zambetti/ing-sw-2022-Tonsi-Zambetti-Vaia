@@ -10,9 +10,7 @@ import java.util.*;
 
 //TODO ERRORI DA RIMUOVERE:
 /*
-    -Il numero di studenti da muovere dipende dal numero di giocatori (NUMSTUDENTSMOVE errato)
-    -Non viene segnalato errore se si gioca la stessa carta
-    -Le isole non vengono unite (il metodo checkNearbyIsland non viene mai utilizzato)
+    -Il metodo checkNearByIsland lancia eccezione se non ci sono torri
     -Se si collegano altri due giocatori dopo che si sono collegati i primi due viene creato un nuovo match e iniziato, quello prima termina
     -La choice per inserire i Dati del giocatore puó essere inviata due volte dallo stesso Client (problema a riga 139 Client)
 */

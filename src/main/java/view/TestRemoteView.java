@@ -1,9 +1,7 @@
 package view;
 
 import model.MatchDataInterface;
-import model.Player;
-import model.figureCards.FigureCard;
-import server.Connection;
+import model.*;
 import view.choice.Choice;
 
 import java.util.*;
@@ -30,7 +28,7 @@ public class TestRemoteView extends RemoteView {
     public synchronized void update(Observable o, Object arg) {
         if(o instanceof MatchDataInterface){
             if ( arg instanceof MatchDataInterface)
-                currentMatch = (MatchDataInterface) arg;
+                currentMatch = (MatchDataInterface)arg;
         }
     }
 

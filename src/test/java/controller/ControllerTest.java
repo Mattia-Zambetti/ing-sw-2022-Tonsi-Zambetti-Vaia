@@ -20,8 +20,8 @@ public class ControllerTest {
 
     Match match;
     Controller controller;
-    RemoteView testRemoteView1;
-    RemoteView testRemoteView2;
+    TestRemoteView testRemoteView1;
+    TestRemoteView testRemoteView2;
 
     @BeforeEach void init() {
 
@@ -39,40 +39,103 @@ public class ControllerTest {
         testRemoteView1.addObserver(controller);
         testRemoteView2.addObserver(controller);
 
-
+        match.notifyMatchObservers();
     }
 
     @Test
     void matchTest() {
-        Choice addPlayerChoice = new DataPlayerChoice(2);
-        assertTrue(addPlayerChoice.setChoiceParam("Player1"));
-        assertTrue(addPlayerChoice.setChoiceParam("1"));
-        assertFalse(addPlayerChoice.setChoiceParam("1"));
-        ((TestRemoteView)testRemoteView1).setChangedForObservers();
-        testRemoteView1.notifyObservers(addPlayerChoice);
-        addPlayerChoice = new DataPlayerChoice(2);
-        addPlayerChoice.setChoiceParam("Player2");
-        addPlayerChoice.setChoiceParam("2");
-        addPlayerChoice.setChoiceParam("2");
-        ((TestRemoteView)testRemoteView2).setChangedForObservers();
-        testRemoteView2.notifyObservers(addPlayerChoice);
+        Choice toDoChoice;
+        assertTrue( match.getChoice() instanceof DataPlayerChoice);
+        toDoChoice = new DataPlayerChoice(2);
+        System.out.println(toDoChoice);
+        assertTrue(toDoChoice.setChoiceParam("Player1"));
+        System.out.println(toDoChoice);
+        assertTrue(toDoChoice.setChoiceParam("1"));
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("1"));
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
+        toDoChoice = new DataPlayerChoice(2);
+        System.out.println(toDoChoice);
+        toDoChoice.setChoiceParam("Player2");
+        System.out.println(toDoChoice);
+        toDoChoice.setChoiceParam("2");
+        System.out.println(toDoChoice);
+        toDoChoice.setChoiceParam("2");
+        testRemoteView2.setChangedForObservers();
+        testRemoteView2.notifyObservers(toDoChoice);
 
-        assertEquals(match.showAllPlayersNickname().size(), 2);
+        assertEquals(2, match.showAllPlayersNickname().size());
         assertTrue( match.getChoice() instanceof CardChoice );
 
-        assertFalse(match.getChoice().setChoiceParam("1"));
+        toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("1"));
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
+        toDoChoice = testRemoteView2.getCurrentMatch().getChoice();
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("1"));
+        testRemoteView2.setChangedForObservers();
+        testRemoteView2.notifyObservers(toDoChoice);
+        assertTrue( match.getChoice() instanceof CardChoice );
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("3"));
+        testRemoteView2.setChangedForObservers();
+        testRemoteView2.notifyObservers(toDoChoice);
 
+        assertTrue( match.getChoice() instanceof MoveStudentChoice );
+        assertEquals( match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Player1");
 
+        toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        System.out.println(toDoChoice);
+        assertTrue(toDoChoice.setChoiceParam("1"));
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("1"));
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
+        toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        System.out.println(toDoChoice);
+        assertTrue(toDoChoice.setChoiceParam("1"));
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("1"));
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
+        toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        System.out.println(toDoChoice);
+        assertTrue(toDoChoice.setChoiceParam("1"));
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("1"));
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
 
+        assertTrue( match.getChoice() instanceof MoveMotherNatureChoice );
+
+        toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("75"));
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
+        assertTrue( match.getChoice() instanceof MoveMotherNatureChoice );
+        System.out.println(toDoChoice);
+        assertFalse(toDoChoice.setChoiceParam("1"));
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
+
+        assertTrue( match.getChoice() instanceof CloudChoice );
+        toDoChoice.toString();
+
+        toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        System.out.println(toDoChoice);
+        assertTrue(toDoChoice.setChoiceParam("aa"));
+        assertFalse(toDoChoice.setChoiceParam("1")); //VIENE LANCIATA ECCEZIONE SUL FATTO CHE NON CI SIANO TORI SULL'ISOLA, ERRATO
+        testRemoteView1.setChangedForObservers();
+        testRemoteView1.notifyObservers(toDoChoice);
+
+        assertEquals( match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Player2");
+        assertTrue( match.getChoice() instanceof MoveStudentChoice );
 
     }
 
-    /*
-    @Test
-    void startMatchTest() {
-        controller.startMatch();
-
-        assertEquals(TowerColor.WHITE, normalMatch2P. )
-    }*/
 
 }
