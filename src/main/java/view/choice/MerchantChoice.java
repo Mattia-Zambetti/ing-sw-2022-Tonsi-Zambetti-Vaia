@@ -2,6 +2,7 @@ package view.choice;
 
 import model.ExpertMatch;
 import model.Match;
+import model.Student;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.Merchant;
@@ -51,6 +52,11 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
     }
 
     public String toString(){
-        return "Choose the student you want to move:";
+        StringBuilder tmp = new StringBuilder();
+        int counter = 1;
+        tmp.append("Choose the student you want to move: ");
+        for (Student s : Merchant.getStudentsOnCard())
+            tmp.append("\n" +counter + ") "+ s.toString());
+        return tmp.toString();
     }
 }

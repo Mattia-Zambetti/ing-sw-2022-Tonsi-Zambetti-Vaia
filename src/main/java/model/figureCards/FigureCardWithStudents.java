@@ -44,7 +44,7 @@ public abstract class FigureCardWithStudents extends FigureCard implements Seria
         return true;
     }
 
-    public Set<Student> getStudentsOnCard(){
+    public static Set<Student> getStudentsOnCard(){
         return new HashSet<>(studentsOnCard);
     }
 
