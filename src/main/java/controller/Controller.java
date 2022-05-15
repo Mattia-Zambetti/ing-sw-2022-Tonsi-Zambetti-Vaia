@@ -1,10 +1,10 @@
 package controller;
 
+import controller.choice.Choice;
 import model.Match;
-import model.Player;
 import model.exception.*;
 import view.RemoteView;
-import view.choice.*;
+import controller.*;
 
 import java.util.*;
 
@@ -27,7 +27,7 @@ public class Controller implements Observer {
     @Override
     public synchronized void update(Observable o, Object arg) {
         if (o instanceof RemoteView) {
-            if ( arg instanceof Choice ) {
+            if ( arg instanceof Choice) {
                 try {
                     ((Choice) arg).manageUpdate(match);
                 } catch (Exceptions e) {

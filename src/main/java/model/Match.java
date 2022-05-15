@@ -1,9 +1,10 @@
 //Tonsi, Zambo,Vaia
 package model;
 
+import controller.*;
+import controller.choice.*;
 import model.figureCards.NoMoreBlockCardsException;
 import model.exception.*;
-import view.choice.*;
 
 import java.io.Serializable;
 import java.util.*;

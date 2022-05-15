@@ -1,18 +1,12 @@
 package controller;
 
-import client.Client;
+import controller.*;
+import controller.choice.*;
 import model.*;
-import server.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import view.*;
-import view.choice.*;
-
-import java.io.IOException;
-import java.io.StringBufferInputStream;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import controller.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,7 +78,7 @@ public class ControllerTest {
         testRemoteView2.setChangedForObservers();
         testRemoteView2.notifyObservers(toDoChoice);
 
-        assertTrue( match.getChoice() instanceof MoveStudentChoice );
+        assertTrue( match.getChoice() instanceof MoveStudentChoice);
         assertEquals( match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Player1");
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
@@ -109,7 +103,7 @@ public class ControllerTest {
         testRemoteView1.setChangedForObservers();
         testRemoteView1.notifyObservers(toDoChoice);
 
-        assertTrue( match.getChoice() instanceof MoveMotherNatureChoice );
+        assertTrue( match.getChoice() instanceof MoveMotherNatureChoice);
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
         System.out.println(toDoChoice);
@@ -122,7 +116,7 @@ public class ControllerTest {
         testRemoteView1.setChangedForObservers();
         testRemoteView1.notifyObservers(toDoChoice);
 
-        assertTrue( match.getChoice() instanceof CloudChoice );
+        assertTrue( match.getChoice() instanceof CloudChoice);
         toDoChoice.toString();
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();

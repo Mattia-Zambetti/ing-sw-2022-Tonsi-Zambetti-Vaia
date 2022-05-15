@@ -2,9 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.*;
-import view.choice.*;
-import view.*;
-import model.*;
+
+import controller.choice.Choice;
 
 public interface MatchDataInterface extends Serializable {
 

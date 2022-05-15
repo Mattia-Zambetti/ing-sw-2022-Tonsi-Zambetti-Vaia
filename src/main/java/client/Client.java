@@ -3,14 +3,10 @@ package client;
 
 import model.MatchDataInterface;
 import model.Player;
-import view.choice.Choice;
-import view.choice.NamePlayerChoice;
-import model.MatchDataInterface;
-import model.Player;
-import view.choice.CardChoice;
-import view.choice.Choice;
-import view.choice.DataPlayerChoice;
-import view.choice.StartingMatchChoice;
+import controller.choice.Choice;
+import controller.choice.CardChoice;
+import controller.choice.DataPlayerChoice;
+import controller.choice.StartingMatchChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
