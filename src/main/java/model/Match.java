@@ -24,7 +24,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
-    private static int counterMoveStudents=0;
+    private int counterMoveStudents=0;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
     private final int ISLANDSNUM=12;
@@ -668,14 +668,14 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         try{if(islands.get(nextIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
             mergeIsland(nextIslandTmp);}
         catch (NoTowerException e){
-            ((NoTowerException) e).printStackTrace();
+            //((NoTowerException) e).printStackTrace();
         }
         try{
             if(islands.get(previousIslandTmp).getTowerColor() == islands.get(currentIsland).getTowerColor())
                 mergeIsland(previousIslandTmp);
         }
         catch (NoTowerException e){
-            ((NoTowerException) e).printStackTrace();
+            //((NoTowerException) e).printStackTrace();
         }
     }
 //

@@ -21,7 +21,6 @@ public class MatchTest {
 
     @BeforeEach void init() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         match=new NormalMatch(PLAYERSNUM);
-
         assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1");
         assertEquals(1, match.getCurrentPlayersNum());
@@ -39,6 +38,7 @@ public class MatchTest {
         this.students[2].add(student);
         student = new Student(2, Color.YELLOW);
         this.students[4].add(student);
+
     }
 
 
