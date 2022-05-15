@@ -23,7 +23,7 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
         switch (numChoice){
             case 0:
                 if(isItAnInt(input)){
-                    chosenStudent = Integer.parseInt(input);
+                    chosenStudent = Integer.parseInt(input) - 1;
                     try{
                         setChosenStudent();
                     }catch (IndexOutOfBoundsException e) {
@@ -31,16 +31,17 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
                         return true;
                     }
                     numChoice++;
-                    System.out.println("Insert the island position where you want to put it on");
+                    System.out.println("Insert the island position where you want to put it on:");
                 }
                 return true;
 
             case 1:
                 if(isItAnInt(input)){
                     chosenIslandID = Integer.parseInt(input);
-                    numChoice++;
+                    //numChoice++;
+                    return false;
                 }
-                return false;
+                return true;
         }
 
         return false;
