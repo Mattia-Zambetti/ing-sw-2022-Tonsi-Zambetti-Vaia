@@ -4,7 +4,7 @@ import controller.choice.Choice;
 import model.Match;
 import model.exception.*;
 import view.RemoteView;
-import view.choice.*;
+import controller.*;
 
 import java.util.*;
 

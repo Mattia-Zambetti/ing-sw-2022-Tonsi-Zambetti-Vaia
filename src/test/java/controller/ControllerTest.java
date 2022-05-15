@@ -1,11 +1,12 @@
 package controller;
 
+import controller.*;
 import controller.choice.*;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import view.*;
-import view.choice.*;
+import controller.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +60,7 @@ public class ControllerTest {
         testRemoteView2.notifyObservers(toDoChoice);
 
         assertEquals(2, match.showAllPlayersNickname().size());
-        assertTrue( match.getChoice() instanceof CardChoice);
+        assertTrue( match.getChoice() instanceof CardChoice );
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
         System.out.println(toDoChoice);

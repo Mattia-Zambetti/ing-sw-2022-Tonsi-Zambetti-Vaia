@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.*;
 
 import controller.choice.Choice;
-import view.choice.*;
 
 public interface MatchDataInterface extends Serializable {
 
