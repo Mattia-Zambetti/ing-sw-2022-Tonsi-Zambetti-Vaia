@@ -27,6 +27,7 @@ public class Island implements Serializable {
             students[i] = new ArrayList<Student>(0);
     }
 
+    //TODO da testare
     public Island(Island island) {
         this.isMotherNature=island.isMotherNature;
         this.position=island.position;

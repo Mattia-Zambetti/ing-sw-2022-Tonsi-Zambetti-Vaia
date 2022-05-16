@@ -1,15 +1,9 @@
 package client;
 
 
-import controller.choice.CardChoice;
-import controller.choice.Choice;
-import controller.choice.DataPlayerChoice;
-import controller.choice.StartingMatchChoice;
-import model.MatchDataInterface;
-import model.Message.Message;
-import model.Player;
 import controller.choice.*;
 import model.MatchDataInterface;
+import model.Message.Message;
 import model.Player;
 
 import java.io.IOException;
@@ -181,12 +175,6 @@ public class Client implements Runnable{
 
                         }
 
-
-                        /*if(matchView.showCurrentPlayer().equals(player)) {
-                            isChoiceTime = true;
-                            actualToDoChoice = matchView.getChoice();
-                            writeUser.println(actualToDoChoice);
-                        }*/
 
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();

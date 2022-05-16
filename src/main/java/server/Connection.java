@@ -36,20 +36,6 @@ public class Connection extends Observable implements Runnable{
         }
     }
 
-    /*public Choice sendAndReceive(Object obj){
-        try {
-
-            writeOut.writeObject(obj);
-            writeOut.flush();
-            return (Choice) scannerIn.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
-
     public void run (){
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
@@ -72,10 +58,6 @@ public class Connection extends Observable implements Runnable{
                 server.lobby(this);
 
 
-                /*choice = new NamePlayerChoice(server.getNicknameSet());
-                send(choice);
-                choice = (Choice) scannerIn.readObject();
-                server.addNickname(((NamePlayerChoice) choice).getPlayer().getNickname());*/
 
             while(isActive) {
                 o = scannerIn.readObject();
@@ -93,64 +75,4 @@ public class Connection extends Observable implements Runnable{
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
- /*
-
-    private String name;
-    private boolean active = true;
-
-
-
-    private synchronized boolean isActive(){
-        return active;
-    }
-
-
-
-    public void asyncSend(final String message){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                send(message);
-            }
-        }).start();
-    }
-
-
-
-    private void close(){
-        closeConnection();
-        System.out.println("Deregistering client...");
-        server.deregisterConnection(this);
-        System.out.println("Done!");
-    }
-
-    @Override
-    public void run() {
-        try{
-            in = new Scanner(socket.getInputStream());
-            out = new PrintWriter(socket.getOutputStream());
-            send("Welcome! What's your name?");
-            name = in.nextLine();
-            server.lobby(this, name);
-            while(isActive()){
-                String read = in.nextLine();
-                notify(read);
-            }
-        } catch(IOException e){
-            System.err.println(e.getMessage());
-        } finally {
-            close();
-        }
-    }*/
 }

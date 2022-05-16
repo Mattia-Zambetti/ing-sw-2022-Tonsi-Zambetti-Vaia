@@ -19,7 +19,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         super(totalPlayersNum);
         centaurEffect =false;
 
-        figureCards=new ArrayList<FigureCard>();
+        figureCards=new ArrayList<>();
 
 
         try {
@@ -214,8 +214,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
     }
 
-
-
     public void placeForbiddenCards(int islandToSetForbidden) throws NoIslandException, NoMoreBlockCardsException {
         if(islandPositions.contains((Integer) islandToSetForbidden)){
             islands.get(islandToSetForbidden).setForbidden(true);
@@ -224,9 +222,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         else throw new NoIslandException("Insert an island that exists");
     }
 
-    public int getPostManValue(){
-        return postManValue;
-    }
 
     public void blockColorForInfluence(Color color){
         colorBlocked = color.ordinal();
@@ -238,7 +233,5 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public void addCoinToCurrPlayer(){
         currentPlayerDashboard.addCoin();
     }
-
-
 
 }

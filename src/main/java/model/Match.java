@@ -80,7 +80,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
-
+    //TODO da testare
     public Match(Match match){
 
         this.islands = new ArrayList<>();

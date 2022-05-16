@@ -1,9 +1,8 @@
 package view;
 
 import model.MatchDataInterface;
-import controller.choice.Choice;
 
-import java.util.*;
+import java.util.Observable;
 
 public class TestRemoteView extends RemoteView {
 
@@ -14,10 +13,6 @@ public class TestRemoteView extends RemoteView {
         super(null);
     }
 
-    public void notifyChoice( Choice c ) {
-        setChanged();
-        notifyObservers(c);
-    }
 
     public MatchDataInterface getCurrentMatch() {
         return currentMatch;

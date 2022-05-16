@@ -36,21 +36,6 @@ public class Deck implements Serializable {
     }
 
 
-
-
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void counterplus(){
-        counter++;
-    }
-
-    public void resetCounter(){
-        counter=0;
-    }
-
     //TESTED
     //It allows to set the card played from the current player, it returns an exception
     //with the absence of the card in the deck. You can give a cloned card as the param
