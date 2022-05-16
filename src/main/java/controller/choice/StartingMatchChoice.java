@@ -83,8 +83,4 @@ public class StartingMatchChoice extends Choice{
     }
 
 
-    public int getTotalNumMatchType(){
-        return TOTAL_NUM_MATCH_TYPE;
-    }
-
 }

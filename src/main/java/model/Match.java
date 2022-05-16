@@ -305,7 +305,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
 
     public void addPlayer(String nickname, String towerColor, String wizard, int id) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
-        ((DataPlayerChoice)choicePhase).setPossessor(id);
+        if(choicePhase instanceof DataPlayerChoice)
+            ((DataPlayerChoice)choicePhase).setPossessor(id);
         if (dashboardsCollection.size() < totalPlayersNum) {
 
             if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {

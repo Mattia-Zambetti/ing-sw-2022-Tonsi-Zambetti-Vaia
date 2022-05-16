@@ -36,6 +36,10 @@ public class DataPlayerChoice extends Choice{
         this.possessor = possessor;
     }
 
+    public int getNumChoice() {
+        return numChoice;
+    }
+
     @Override
     public boolean setChoiceParam(String input) {
 
