@@ -20,6 +20,10 @@ public class Player implements Serializable {
         this.buddy= buddy;
     }
 
+    public Player getBuddy() {
+        return buddy;
+    }
+
     public String getNickname() {
         return nickname;
     }

@@ -70,6 +70,7 @@ public class Dashboard implements Serializable {
 
 
     public ArrayList<Tower> removeTowers ( int numberOfTower ) throws NegativeNumberOfTowerException {
+
         int newTowersNumber = this.towersCollection.size() - numberOfTower;
         if ( newTowersNumber < 0 )
             throw new NegativeNumberOfTowerException("Insufficient number of tower");
