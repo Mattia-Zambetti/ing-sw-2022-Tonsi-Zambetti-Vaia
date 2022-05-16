@@ -616,6 +616,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
     public void notifyEndMatch() {
+        setChanged();
         notifyObservers( new MatchEndedMessage(getWinnerPlayers()));
     }
 
@@ -623,12 +624,31 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         matchFinishedAtEndOfRound = true;
     }
 
-    public void calculateWinners() {
-        int maxTowerOnIslands;
-        TowerColor colorOfMaxTower;
+    public void calculateWinner(){
+        int maxTowerOnIslands = 0;
+        TowerColor maxTowerColor = null;
+        HashMap<TowerColor, Integer> colorByTowerMap = new HashMap<>();
 
-        for( Integer i: islandPositions) {
+        for ( TowerColor t: TowerColor.values() )
+            colorByTowerMap.put(t,0);
 
+        try {
+            for( Integer i: islandPositions) {
+                if ( islands.get(i).getTowerNum() != 0 )
+                    colorByTowerMap.put( islands.get(i).getTowerColor(), colorByTowerMap.get(islands.get(i).getTowerColor())+1 );
+            }
+        } catch( NoTowerException e ) {
+            e.printStackTrace();
+        }
+
+        for ( TowerColor t: colorByTowerMap.keySet()  ) {
+            if ( colorByTowerMap.get(t) > maxTowerOnIslands )
+                maxTowerColor = t;
+        }
+
+        for ( Dashboard d: dashboardsCollection ) {
+            if ( d.getTowerColor() == maxTowerColor )
+                winnerPlayers.add(d.getPlayer());
         }
 
     }
@@ -653,14 +673,16 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 if (totalNumIslands <= 3)
                     throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
-                //setChanged();
-                //notifyObservers(this.toString());
+                if (matchFinishedAtEndOfRound)
+                    throw new FinishedGameEndTurnException("Game over");
 
                 choicePhase = new CloudChoice();
                 notifyMatchObservers();
             } else throw new MaxNumberException("Cannot move mother nature that far");
         }catch (Exceptions e){
             e.manageException(this);
+        } catch (FinishedGameEndTurnException e) {
+            e.printStackTrace();
         }
     }
 

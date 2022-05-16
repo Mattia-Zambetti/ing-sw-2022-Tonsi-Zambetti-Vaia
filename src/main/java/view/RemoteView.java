@@ -1,5 +1,6 @@
 package view;
 
+import controller.MatchEndedMessage;
 import model.MatchDataInterface;
 import model.figureCards.FigureCard;
 import server.Connection;

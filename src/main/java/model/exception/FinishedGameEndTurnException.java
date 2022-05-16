@@ -10,7 +10,7 @@ public class FinishedGameEndTurnException extends FinishedGameExceptions{
 
     @Override
     public void manageException(Match match) {
-        //match.calculateWinner();
+        match.calculateWinner();
         match.notifyEndMatch();
     }
 }
