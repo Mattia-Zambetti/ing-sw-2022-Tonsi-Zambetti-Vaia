@@ -31,6 +31,7 @@ public abstract class FigureCard implements Serializable {
         return cardId == that.cardId;
     }
 
+    //TODO DA TESTARE
     @Override
     public int hashCode() {
         return cardId;

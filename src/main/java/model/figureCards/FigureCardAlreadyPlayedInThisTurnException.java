@@ -3,7 +3,7 @@ package model.figureCards;
 import model.exception.Exceptions;
 import model.*;
 
-
+//TODO SERVE??
 public class FigureCardAlreadyPlayedInThisTurnException extends Exceptions {
     public FigureCardAlreadyPlayedInThisTurnException(String message) {
         super(message);

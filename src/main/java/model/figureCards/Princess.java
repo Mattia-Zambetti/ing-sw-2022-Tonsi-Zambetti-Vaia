@@ -1,6 +1,5 @@
 package model.figureCards;
 import model.Bag;
-import model.exception.NoMoreStudentsException;
 
 import java.io.Serializable;
 
@@ -17,9 +16,7 @@ public class Princess extends FigureCardWithStudents  implements Serializable {
         cardId=7;
         maxTakeStudentsNum=MAXTAKESTUDENTSNUM;
     }
-    public void addStudent() throws NoMoreStudentsException {
-        studentsOnCard.add(Bag.removeStudent());
-    }
+
     @Override
     public String toString() {
         return "I'm the princess, I've got "+studentsOnCard.size()+" students";

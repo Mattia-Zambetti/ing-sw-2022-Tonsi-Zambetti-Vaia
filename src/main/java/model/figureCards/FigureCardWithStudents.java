@@ -48,6 +48,7 @@ public abstract class FigureCardWithStudents extends FigureCard implements Seria
         return new HashSet<>(studentsOnCard);
     }
 
+    //TODO DA TESTARE
     public static Student getStudentsOnCardByInt(int studentChosen){
         return studentsOnCard.stream().toList().get(studentChosen);
     }
