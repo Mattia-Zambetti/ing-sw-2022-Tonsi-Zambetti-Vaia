@@ -1,4 +1,4 @@
-//Tonsi, Zambo,Vaia
+//Tonsi, Zambo, Vaia
 package model;
 
 import controller.choice.*;
@@ -20,8 +20,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     private int totalPlayersNum;
     protected int currentIsland;
 
-    private int totalNumIslands; //TODO questo attributo non modifica nulla, penso debba essere
-                                //TODO usato per capire se la partita è finita
+    private int totalNumIslands;
     protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
@@ -73,7 +72,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
                 initializeMasters();
 
-                choicePhase = new DataPlayerChoice(totalPlayersNum);
+
 
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException | NoMoreStudentsException e){
@@ -114,6 +113,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //TONSI
 
+
+    public void setChoicePhase(Choice choicePhase) {
+        this.choicePhase = choicePhase;
+    }
 
     public Player showCurrentPlayer() {
         try{
@@ -302,6 +305,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
 
     public void addPlayer(String nickname, String towerColor, String wizard, int id) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
+        ((DataPlayerChoice)choicePhase).setPossessor(id);
         if (dashboardsCollection.size() < totalPlayersNum) {
 
             if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {

@@ -23,6 +23,11 @@ public class DataPlayerChoice extends Choice{
         playerNum = totalPlayersNum;
     }
 
+    public DataPlayerChoice(int totalPlayersNum, int idPossessor) {
+        playerNum = totalPlayersNum;
+        possessor=idPossessor;
+    }
+
     public int getPossessor() {
         return possessor;
     }

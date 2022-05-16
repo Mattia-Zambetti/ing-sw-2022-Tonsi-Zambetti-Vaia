@@ -1,6 +1,7 @@
 package server;
 
 import controller.Controller;
+import controller.choice.DataPlayerChoice;
 import model.*;
 import view.RemoteView;
 
@@ -121,10 +122,14 @@ public class Server implements Runnable {
                     match.addObserver(remoteView);
                     remoteView.addObserver(controller);
                     remoteView.getConnection().addObserver(remoteView);
-                    System.out.println("Starting match");
+
 
                 }
-                match.notifyMatchObservers();
+                System.out.println("Starting match");
+                for(int i=1; i<=totalPlayerNumber; i++){
+                    match.setChoicePhase( new DataPlayerChoice(totalPlayerNumber, i));
+                    match.notifyMatchObservers();
+                }
             }else {
                 System.out.println("Error, match not created");
                 return;

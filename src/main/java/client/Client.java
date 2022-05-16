@@ -34,7 +34,8 @@ public class Client implements Runnable{
 
     private boolean matchCompletelyCreated = false;
 
-    private int flag=0;
+    private boolean isChanged=false;
+
 
     public Client(String ip, int port){
 
@@ -93,9 +94,6 @@ public class Client implements Runnable{
 
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
 
-                            if(actualToDoChoice instanceof DataPlayerChoice) {
-                                ((DataPlayerChoice) actualToDoChoice).setPossessor(idThis);
-                            }
 
                             if(isChoiceTime) {
                                 writeUser.println(actualToDoChoice);
@@ -150,21 +148,28 @@ public class Client implements Runnable{
                         else if(obj instanceof MatchDataInterface){
 
                             matchView=(MatchDataInterface) obj;
-                            actualToDoChoice = matchView.getChoice();
+
+                            if(!(matchView.getChoice() instanceof DataPlayerChoice) ||(matchView.getChoice() instanceof DataPlayerChoice && ((DataPlayerChoice) matchView.getChoice()).getPossessor()==idThis)) {
+                                actualToDoChoice = matchView.getChoice();
+                                isChanged=true;
+                            }
+
+
                             if (actualToDoChoice instanceof CardChoice)
                                 matchCompletelyCreated = true;
                             if(matchCompletelyCreated)
                                 writeUser.println(matchView);
 
 
-                            if((actualToDoChoice instanceof DataPlayerChoice && (((DataPlayerChoice) actualToDoChoice).getPossessor()==0
-                                    || ((DataPlayerChoice) actualToDoChoice).getPossessor()==idThis))
+                            if((actualToDoChoice instanceof DataPlayerChoice && isChanged)
                                     ||(!(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player)) ) {
                                 writeUser.println(matchView.getErrorMessage());
                                 writeUser.println(matchView.getChoice().toString());
                                 writeUser.flush();
+                                isChanged=false;
                                 isChoiceTime = true;
                             }
+
                         }
 
 
