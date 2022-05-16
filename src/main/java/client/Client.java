@@ -1,6 +1,13 @@
 package client;
 
 
+import controller.choice.CardChoice;
+import controller.choice.Choice;
+import controller.choice.DataPlayerChoice;
+import controller.choice.StartingMatchChoice;
+import model.MatchDataInterface;
+import model.Message.Message;
+import model.Player;
 import controller.choice.*;
 import model.MatchDataInterface;
 import model.Player;
@@ -13,6 +20,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client implements Runnable{
+
+    private int idThis;
     private final int port;
     private final String ip;
     private Choice actualToDoChoice;
@@ -28,19 +37,32 @@ public class Client implements Runnable{
 
     private boolean matchCompletelyCreated = false;
 
+    private boolean isChanged=false;
+
+
     public Client(String ip, int port){
         this.port=port;
         this.ip=ip;
         isChoiceTime=false;
     }
 
+    public int getIdThis() {
+        return idThis;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setIdThis(int idThis) {
+        this.idThis = idThis;
+    }
 
     @Override
     public void run() {
 
         try {
             clientSocket = new Socket(ip, port);
-            System.out.println("You are in the lobby");
 
             Thread threadUser= this.readingFromUser();
             Thread threadSocket= this.readingFromSocket();
@@ -74,8 +96,6 @@ public class Client implements Runnable{
 
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
 
-                            if(actualToDoChoice instanceof DataPlayerChoice)
-                                player=((DataPlayerChoice) actualToDoChoice).getPlayer();
 
                             if(isChoiceTime) {
                                 if(actualToDoChoice instanceof JesterChoice)
@@ -122,6 +142,10 @@ public class Client implements Runnable{
 
                         Object obj = readSocket.readObject();
 
+                        if(obj instanceof Message){
+                            ((Message)obj).manageMessage(Client.this);
+                        }
+
                         if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
                             actualToDoChoice = s;
@@ -133,21 +157,27 @@ public class Client implements Runnable{
                         else if(obj instanceof MatchDataInterface){
 
                             matchView=(MatchDataInterface) obj;
-                            actualToDoChoice = matchView.getChoice();
+
+                            if(!(matchView.getChoice() instanceof DataPlayerChoice) ||(matchView.getChoice() instanceof DataPlayerChoice && ((DataPlayerChoice) matchView.getChoice()).getPossessor()==idThis)) {
+                                actualToDoChoice = matchView.getChoice();
+                                isChanged=true;
+                            }
+
+
                             if (actualToDoChoice instanceof CardChoice)
                                 matchCompletelyCreated = true;
                             if(matchCompletelyCreated)
                                 writeUser.println(matchView);
 
 
-                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player)){
+                            if((actualToDoChoice instanceof DataPlayerChoice && isChanged)
+                                    ||(!(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player)) ) {
                                 writeUser.println(matchView.getErrorMessage());
                                 writeUser.println(matchView.getChoice().toString());
                                 writeUser.flush();
+                                isChanged=false;
                                 isChoiceTime = true;
                             }
-
-
 
                         }
 

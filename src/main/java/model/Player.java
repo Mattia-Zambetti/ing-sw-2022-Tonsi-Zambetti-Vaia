@@ -40,5 +40,7 @@ public class Player implements Serializable {
     public int hashCode() {
         return Objects.hash(nickname);
     }
+
+
 }
 

@@ -64,10 +64,8 @@ public class MoveStudentChoice extends Choice{
                 return toStringWhereToMove();
             case 2:
                 return "Insert on which island you want to put the "+ studentsOnEntrance.get(chosenStudent-1);
-
         }
         return "error";
-
     }
 
 

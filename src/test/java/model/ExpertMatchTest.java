@@ -56,11 +56,11 @@ public class ExpertMatchTest implements Observer {
 
         }while(!(((ExpertMatch)expertMatch).showFigureCardsInGame()).contains(figureCardWanted));
 
-        expertMatch.addPlayer("Tonsi", "BLACK", "WIZARD1");
+        expertMatch.addPlayer("Tonsi", "BLACK", "WIZARD1",1);
         ((ExpertMatch) expertMatch).addCoinToCurrPlayer();
         ((ExpertMatch) expertMatch).addCoinToCurrPlayer();
 
-        expertMatch.addPlayer("Zambo", "WHITE", "WIZARD2");
+        expertMatch.addPlayer("Zambo", "WHITE", "WIZARD2",2);
     }
 
 

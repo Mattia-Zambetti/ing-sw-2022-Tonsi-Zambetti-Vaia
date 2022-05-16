@@ -1,10 +1,10 @@
-//Tonsi, Zambo,Vaia
+//Tonsi, Zambo, Vaia
 package model;
 
-import controller.*;
 import controller.choice.*;
-import model.figureCards.NoMoreBlockCardsException;
+import model.Message.PlayerSuccessfullyCreated;
 import model.exception.*;
+import model.figureCards.NoMoreBlockCardsException;
 
 import java.io.Serializable;
 import java.util.*;
@@ -20,8 +20,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     private int totalPlayersNum;
     protected int currentIsland;
 
-    private int totalNumIslands; //TODO questo attributo non modifica nulla, penso debba essere
-                                //TODO usato per capire se la partita è finita
+    private int totalNumIslands;
     protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
@@ -73,7 +72,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
                 initializeMasters();
 
-                choicePhase = new DataPlayerChoice(totalPlayersNum);
+
 
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException | NoMoreStudentsException e){
@@ -114,6 +113,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //TONSI
 
+
+    public void setChoicePhase(Choice choicePhase) {
+        this.choicePhase = choicePhase;
+    }
 
     public Player showCurrentPlayer() {
         try{
@@ -301,7 +304,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
 
-    public void addPlayer(String nickname, String towerColor, String wizard) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
+    public void addPlayer(String nickname, String towerColor, String wizard, int id) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
+        if(choicePhase instanceof DataPlayerChoice)
+            ((DataPlayerChoice)choicePhase).setPossessor(id);
         if (dashboardsCollection.size() < totalPlayersNum) {
 
             if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {
@@ -331,20 +336,25 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
             if (totalPlayersNum < MAXPLAYERSNUM) {
                 dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+                setChanged();
+                notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
             } else if (dashboardsCollection.size() == 0 || dashboardsCollection.size() == 2) {
                 dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 TowerColor.valueOf(towerColor).counterplus();
+                setChanged();
+                notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
             } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
                 dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 TowerColor.valueOf(towerColor).counterplus();
+                setChanged();
+                notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
             }
 
             if (totalPlayersNum == dashboardsCollection.size()) {
                 initializeAllEntrance();
                 choicePhase = new CardChoice(currentPlayerDashboard.showCards());
                 refillClouds();
-                setChanged();
-                notifyObservers((MatchDataInterface) this);
+                notifyMatchObservers();
             }
 
 
@@ -583,11 +593,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return new HashMap<Color, Master>(mastersMap);
     }
 
-    public List<String> showAllPlayersNickname() {
-        ArrayList<String> NicknamesList = new ArrayList<>(0);
+    public List<Player> showAllPlayers() {
+        ArrayList<Player> NicknamesList = new ArrayList<>(0);
 
         for ( Dashboard d : dashboardsCollection ) {
-            NicknamesList.add(d.getPlayer().getNickname());
+            NicknamesList.add(d.getPlayer());
         }
 
         return NicknamesList;
