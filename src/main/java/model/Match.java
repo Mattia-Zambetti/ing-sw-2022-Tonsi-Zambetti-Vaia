@@ -1,10 +1,10 @@
 //Tonsi, Zambo,Vaia
 package model;
 
-import controller.*;
 import controller.choice.*;
-import model.figureCards.NoMoreBlockCardsException;
+import model.Message.PlayerSuccessfullyCreated;
 import model.exception.*;
+import model.figureCards.NoMoreBlockCardsException;
 
 import java.io.Serializable;
 import java.util.*;
@@ -301,7 +301,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
 
-    public void addPlayer(String nickname, String towerColor, String wizard) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
+    public void addPlayer(String nickname, String towerColor, String wizard, int id) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
         if (dashboardsCollection.size() < totalPlayersNum) {
 
             if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {
@@ -331,20 +331,25 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
             if (totalPlayersNum < MAXPLAYERSNUM) {
                 dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+                setChanged();
+                notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
             } else if (dashboardsCollection.size() == 0 || dashboardsCollection.size() == 2) {
                 dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 TowerColor.valueOf(towerColor).counterplus();
+                setChanged();
+                notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
             } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
                 dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 TowerColor.valueOf(towerColor).counterplus();
+                setChanged();
+                notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
             }
 
             if (totalPlayersNum == dashboardsCollection.size()) {
                 initializeAllEntrance();
                 choicePhase = new CardChoice(currentPlayerDashboard.showCards());
                 refillClouds();
-                setChanged();
-                notifyObservers((MatchDataInterface) this);
+                notifyMatchObservers();
             }
 
 
@@ -583,11 +588,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return new HashMap<Color, Master>(mastersMap);
     }
 
-    public List<String> showAllPlayersNickname() {
-        ArrayList<String> NicknamesList = new ArrayList<>(0);
+    public List<Player> showAllPlayers() {
+        ArrayList<Player> NicknamesList = new ArrayList<>(0);
 
         for ( Dashboard d : dashboardsCollection ) {
-            NicknamesList.add(d.getPlayer().getNickname());
+            NicknamesList.add(d.getPlayer());
         }
 
         return NicknamesList;

@@ -11,6 +11,8 @@ import model.exception.WrongDataplayerException;
 
 public class DataPlayerChoice extends Choice{
 
+
+    private int possessor=0;
     private String name;
     private int wizard, numChoice = 0;
     private int towerColor;
@@ -19,6 +21,14 @@ public class DataPlayerChoice extends Choice{
 
     public DataPlayerChoice(int totalPlayersNum) {
         playerNum = totalPlayersNum;
+    }
+
+    public int getPossessor() {
+        return possessor;
+    }
+
+    public void setPossessor(int possessor) {
+        this.possessor = possessor;
     }
 
     @Override
@@ -64,7 +74,7 @@ public class DataPlayerChoice extends Choice{
 
     @Override
     public void manageUpdate(Match match) throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
-        match.addPlayer(name,TowerColor.values()[towerColor].toString(), Wizard.values()[wizard].toString());
+        match.addPlayer(name,TowerColor.values()[towerColor].toString(), Wizard.values()[wizard].toString(),possessor);
     }
 
     @Override

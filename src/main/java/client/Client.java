@@ -1,12 +1,13 @@
 package client;
 
 
-import model.MatchDataInterface;
-import model.Player;
-import controller.choice.Choice;
 import controller.choice.CardChoice;
+import controller.choice.Choice;
 import controller.choice.DataPlayerChoice;
 import controller.choice.StartingMatchChoice;
+import model.MatchDataInterface;
+import model.Message.Message;
+import model.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,6 +17,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client implements Runnable{
+
+    private int idThis;
     private final int port;
     private final String ip;
     private Choice actualToDoChoice;
@@ -24,26 +27,40 @@ public class Client implements Runnable{
 
     private Socket clientSocket;
 
-    private Player player = new Player("none");
+    private Player player;
 
     private boolean isActive=true;
     private volatile boolean isChoiceTime;
 
     private boolean matchCompletelyCreated = false;
 
+    private int flag=0;
+
     public Client(String ip, int port){
+
+        player = new Player("none");
         this.port=port;
         this.ip=ip;
         isChoiceTime=false;
     }
 
+    public int getIdThis() {
+        return idThis;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setIdThis(int idThis) {
+        this.idThis = idThis;
+    }
 
     @Override
     public void run() {
 
         try {
             clientSocket = new Socket(ip, port);
-            System.out.println("You are in the lobby");
 
             Thread threadUser= this.readingFromUser();
             Thread threadSocket= this.readingFromSocket();
@@ -76,8 +93,9 @@ public class Client implements Runnable{
 
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
 
-                            if(actualToDoChoice instanceof DataPlayerChoice)
-                                player=((DataPlayerChoice) actualToDoChoice).getPlayer();
+                            if(actualToDoChoice instanceof DataPlayerChoice) {
+                                ((DataPlayerChoice) actualToDoChoice).setPossessor(idThis);
+                            }
 
                             if(isChoiceTime) {
                                 writeUser.println(actualToDoChoice);
@@ -117,6 +135,10 @@ public class Client implements Runnable{
 
                         Object obj = readSocket.readObject();
 
+                        if(obj instanceof Message){
+                            ((Message)obj).manageMessage(Client.this);
+                        }
+
                         if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
                             actualToDoChoice = s;
@@ -135,15 +157,14 @@ public class Client implements Runnable{
                                 writeUser.println(matchView);
 
 
-                            if(actualToDoChoice instanceof DataPlayerChoice || matchView.showCurrentPlayer().equals(player)){
+                            if((actualToDoChoice instanceof DataPlayerChoice && (((DataPlayerChoice) actualToDoChoice).getPossessor()==0
+                                    || ((DataPlayerChoice) actualToDoChoice).getPossessor()==idThis))
+                                    ||(!(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player)) ) {
                                 writeUser.println(matchView.getErrorMessage());
                                 writeUser.println(matchView.getChoice().toString());
                                 writeUser.flush();
                                 isChoiceTime = true;
                             }
-
-
-
                         }
 
 

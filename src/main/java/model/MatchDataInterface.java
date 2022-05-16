@@ -1,9 +1,9 @@
 package model;
 
-import java.io.Serializable;
-import java.util.*;
-
 import controller.choice.Choice;
+
+import java.io.Serializable;
+import java.util.List;
 
 public interface MatchDataInterface extends Serializable {
 
@@ -16,5 +16,5 @@ public interface MatchDataInterface extends Serializable {
 
     String getErrorMessage();
 
-    List<String> showAllPlayersNickname();
+    List<Player> showAllPlayers();
 }

@@ -22,7 +22,7 @@ public class MatchTest {
     @BeforeEach void init() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         match=new NormalMatch(PLAYERSNUM);
         assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
-        match.addPlayer("Vaia", "BLACK", "WIZARD1");
+        match.addPlayer("Vaia", "BLACK", "WIZARD1",1);
         assertEquals(1, match.getCurrentPlayersNum());
         this.students = new ArrayList[5];
 
@@ -45,30 +45,30 @@ public class MatchTest {
 
     @Test
     void maxPlayersThrowsException() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
-        match.addPlayer("Island", "WHITE", "WIZARD2");
-        assertThrows(MaxNumberException.class,()->match.addPlayer("Tonsi","GREEN", "WIZARD3"));
+        match.addPlayer("Island", "WHITE", "WIZARD2",1);
+        assertThrows(MaxNumberException.class,()->match.addPlayer("Tonsi","GREEN", "WIZARD3",2));
         assertEquals(PLAYERSNUM, match.getCurrentPlayersNum());
     }
 
     @Test
     void addPlayersMatchFourPlayersTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         match=new NormalMatch(4);
-        assertThrows(WrongColorException.class, ()->match.addPlayer("Vaia", "GREY", "WIZARD1"));
-        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
-        match.addPlayer("Island", "BLACK", "WIZARD3");
-        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Zambo", "BLACK", "WIZARD1"));
-        match.addPlayer("Vaia", "WHITE", "WIZARD1");
-        match.addPlayer("Zambo", "WHITE", "WIZARD4");
+        assertThrows(WrongColorException.class, ()->match.addPlayer("Vaia", "GREY", "WIZARD1",1));
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2",2);
+        match.addPlayer("Island", "BLACK", "WIZARD3",3);
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Zambo", "BLACK", "WIZARD1",4));
+        match.addPlayer("Vaia", "WHITE", "WIZARD1",5);
+        match.addPlayer("Zambo", "WHITE", "WIZARD4",6);
 
-        assertThrows(MaxNumberException.class,()->match.addPlayer("Cugola", "WHITE", "WIZARD5"));
+        assertThrows(MaxNumberException.class,()->match.addPlayer("Cugola", "WHITE", "WIZARD5",7));
     }
 
     @Test
     void sameDataExceptionAddPlayers() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
-        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Tonsi", "BLACK", "WIZARD2"));
-        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Vaia", "WHITE", "WIZARD2"));
-        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Tonsi", "WHITE", "WIZARD1"));
-        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Tonsi", "BLACK", "WIZARD2",1));
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Vaia", "WHITE", "WIZARD2",2));
+        assertThrows(WrongDataplayerException.class,()->match.addPlayer("Tonsi", "WHITE", "WIZARD1",3));
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2",4);
     }
 
     //It tests if it's possible to create a Match with the wrong number of players
@@ -86,8 +86,8 @@ public class MatchTest {
     void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, NoMoreStudentsException, NoMasterException {
         Match tmp=new NormalMatch(PLAYERSNUM);
 
-        tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
-        tmp.addPlayer("Tonsi", "WHITE","WIZARD2");
+        tmp.addPlayer("Vaia", "BLACK", "WIZARD1",1);
+        tmp.addPlayer("Tonsi", "WHITE","WIZARD2",2);
         tmp.refillClouds();
 
 
@@ -110,7 +110,7 @@ public class MatchTest {
     // (and with,that is a possible error) on the clouds
     @Test
     void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException, NoMoreStudentsException, WrongCloudNumberException, WrongDataplayerException, WrongColorException, InexistentStudentException, NoMasterException {
-        match.addPlayer("Tonsi","WHITE", "WIZARD2");
+        match.addPlayer("Tonsi","WHITE", "WIZARD2",1);
 
         System.out.println(match.toStringStudentsOnCloud());
 
@@ -153,7 +153,7 @@ public class MatchTest {
         Card tmp=new Card(1,1,1);
         Card tmp2=new Card(10,5,10);
 
-        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2",1);
 
         assertTrue(match.showCards().contains(tmp));
         match.chooseCard(tmp);
@@ -271,7 +271,7 @@ public class MatchTest {
 
     @Test
     void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreCardException, CardNotFoundException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoMoreStudentsException, WrongDataplayerException, WrongColorException, CardAlreadyPlayedException {
-        match.addPlayer("Tonsi","WHITE", "WIZARD2");
+        match.addPlayer("Tonsi","WHITE", "WIZARD2",1);
 
         assertEquals(true, match.checkMotherNatureOnIsland(0));
         match.chooseCard(new Card(5,10,5));
@@ -427,7 +427,7 @@ public class MatchTest {
 
         HashSet<Card> playerCards;
 
-        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2",1);
 
         //playerCards = (HashSet<Card>) match.showCurrentPlayerDashboard().showCards();
         match.chooseCard(new Card(3,2,3));
@@ -444,9 +444,9 @@ public class MatchTest {
 
         match=new NormalMatch(3);
 
-        match.addPlayer("Vaia", "BLACK", "WIZARD1");
-        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
-        match.addPlayer("SamboIsland", "GREY", "WIZARD3");
+        match.addPlayer("Vaia", "BLACK", "WIZARD1",1);
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2",2);
+        match.addPlayer("SamboIsland", "GREY", "WIZARD3",3);
 
         match.chooseCard(new Card(3,2,3));
 
@@ -470,10 +470,10 @@ public class MatchTest {
 
         match=new NormalMatch(4);
 
-        match.addPlayer("Vaia", "BLACK", "WIZARD1");
-        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
-        match.addPlayer("SamboIsland", "WHITE", "WIZARD3");
-        match.addPlayer("Cugola", "WHITE", "WIZARD4");
+        match.addPlayer("Vaia", "BLACK", "WIZARD1",1);
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2",2);
+        match.addPlayer("SamboIsland", "WHITE", "WIZARD3",3);
+        match.addPlayer("Cugola", "WHITE", "WIZARD4",4);
 
         match.chooseCard(new Card(7,3,7));
 
@@ -501,7 +501,7 @@ public class MatchTest {
         System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RESET);
         //System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_BLACK_BACKGROUND);
         //System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
-        match.addPlayer("Tonsi", "WHITE", "WIZARD2");
+        match.addPlayer("Tonsi", "WHITE", "WIZARD2",1);
 
         match.initializeAllEntrance();
 
@@ -542,8 +542,8 @@ public class MatchTest {
 
         match=new NormalMatch(PLAYERSNUM);
 
-        match.addPlayer("Vaia", "WHITE", "WIZARD1");
-        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+        match.addPlayer("Vaia", "WHITE", "WIZARD1",1);
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2",2);
 
         List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
         Student studentToMove = studentsInEntrance.get(0);
@@ -569,8 +569,8 @@ public class MatchTest {
 
         match=new ExpertMatch(PLAYERSNUM);
 
-        match.addPlayer("Vaia", "WHITE", "WIZARD1");
-        match.addPlayer("Tonsi", "BLACK", "WIZARD2");
+        match.addPlayer("Vaia", "WHITE", "WIZARD1",1);
+        match.addPlayer("Tonsi", "BLACK", "WIZARD2",2);
 
         ((ExpertMatch)match).setCentaurEffect(true);
 
@@ -592,8 +592,8 @@ public class MatchTest {
     @Test
     void matchToStringTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
         match=new NormalMatch(PLAYERSNUM);
-        match.addPlayer("Island", "BLACK", "WIZARD1");
-        match.addPlayer("Tower", "WHITE", "WIZARD2");
+        match.addPlayer("Island", "BLACK", "WIZARD1",1);
+        match.addPlayer("Tower", "WHITE", "WIZARD2",3);
         match.refillClouds();
 
         System.out.println(match);

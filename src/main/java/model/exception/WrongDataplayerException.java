@@ -3,6 +3,8 @@ package model.exception;
 import model.*;
 
 public class WrongDataplayerException extends Exceptions {
+
+
     public WrongDataplayerException(String errorMessage) {
         super(errorMessage);
     }

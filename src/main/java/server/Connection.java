@@ -3,6 +3,7 @@ package server;
 
 import controller.choice.Choice;
 import controller.choice.StartingMatchChoice;
+import model.Message.RegistrationConfirmed;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -57,13 +58,16 @@ public class Connection extends Observable implements Runnable{
             Object o;
 
 
+            writeOut.writeObject(new RegistrationConfirmed(server.getConnectionsSize()));
 
-                if (server.getConnectionsSize() == 1) {
-                    choice = new StartingMatchChoice();
-                    send(choice);
-                    Choice startChoice = (Choice) scannerIn.readObject();
-                    server.setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
-                }
+            if (server.getConnectionsSize() == 1) {
+                choice = new StartingMatchChoice();
+                send(choice);
+                Choice startChoice = (Choice) scannerIn.readObject();
+                server.setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
+            }
+
+
 
                 server.lobby(this);
 
