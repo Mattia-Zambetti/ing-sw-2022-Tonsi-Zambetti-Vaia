@@ -33,7 +33,7 @@ public class Controller implements Observer {
                 } catch (Exceptions e) {
                     e.manageException(match);
                 } catch (FinishedGameExceptions e) { //Finished game exceptions
-                    //e.manageException(remoteViewMap);
+                    e.manageException(match);
                 }
             }
         }

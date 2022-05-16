@@ -39,6 +39,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     private Choice choicePhase;
 
+    private boolean matchFinishedAtEndOfRound;
+    private List<Player> winnerPlayers;
+
     //TESTED
     public Match(int totalPlayersNum) {
         try {
@@ -74,6 +77,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 initializeMasters();
 
                 choicePhase = new DataPlayerChoice(totalPlayersNum);
+
+                matchFinishedAtEndOfRound = false;
+                winnerPlayers = new ArrayList<>();
 
             } else throw new MaxNumberException("A match can have only from 2 to 4 players");
         }catch (MaxNumberException | NoMoreStudentsException e){
@@ -194,12 +200,14 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //TESTED
     //it is used at the start of a round to refill every cloud
     //with new students from the bag
-    public void refillClouds() throws NoMoreStudentsException {
+    public void refillClouds(){
         for (Cloud c : clouds) {
             try {
                 c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
             } catch (AlreadyFilledCloudException | MaxNumberException e) {
                 System.out.println(e.getMessage());
+            } catch ( NoMoreStudentsException e ) {
+                setMatchFinishedAtEndOfRound();
             }
         }
 
@@ -224,7 +232,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
     //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
     //the current player's entrance
-    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException, NoMoreStudentsException {
+    public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException, FinishedGameEndTurnException, NoMoreStudentsException {
         try {
 
             if (chosenCloud < totalPlayersNum && chosenCloud >= 0 && !(getCloudByID(chosenCloud).equals(new Cloud(chosenCloud))))
@@ -236,7 +244,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
 
             if(!setNextCurrDashboard()){
-                setDashboardOrder();
+                if ( matchFinishedAtEndOfRound )
+                    throw new FinishedGameEndTurnException("Game ended");
                 choicePhase=new CardChoice(showCurrentPlayerDashboard().showCards());
                 refillClouds();
             }else
@@ -274,7 +283,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return currentPlayerDashboard.showCards();
     }
 
-    public void chooseCard(Card chosenCard) throws CardNotFoundException, NoMoreCardException, CardAlreadyPlayedException {
+    public void chooseCard(Card chosenCard) throws CardNotFoundException, CardAlreadyPlayedException {
 
         for (Dashboard d: dashboardsCollection) {
             if ( dashboardsCollection.indexOf(d) < dashboardsCollection.indexOf(currentPlayerDashboard) ) {
@@ -286,7 +295,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         currentPlayerDashboard.playChosenCard(chosenCard);
 
         if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
-            throw new NoMoreCardException("It's the last turn");
+            setMatchFinishedAtEndOfRound();
         }
 
 
@@ -376,7 +385,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     public void notifyMatchObservers() {
         setChanged();
-        notifyObservers((MatchDataInterface)this);
+        notifyObservers(this);
     }
 
     public int getISLANDSNUM() {
@@ -592,6 +601,39 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
         return NicknamesList;
     }
+
+
+
+    public void setCurrentPlayerWinners() {
+        if ( totalPlayersNum == 4 ) {
+            winnerPlayers.add(currentPlayerDashboard.getPlayer());
+            winnerPlayers.add(currentPlayerDashboard.getPlayer().getBuddy());
+        }
+    }
+
+    public List<Player> getWinnerPlayers() {
+        return winnerPlayers;
+    }
+
+    public void notifyEndMatch() {
+        notifyObservers( new MatchEndedMessage(getWinnerPlayers()));
+    }
+
+    public void setMatchFinishedAtEndOfRound() {
+        matchFinishedAtEndOfRound = true;
+    }
+
+    public void calculateWinners() {
+        int maxTowerOnIslands;
+        TowerColor colorOfMaxTower;
+
+        for( Integer i: islandPositions) {
+
+        }
+
+    }
+
+
 
     //END ZAMBO
 

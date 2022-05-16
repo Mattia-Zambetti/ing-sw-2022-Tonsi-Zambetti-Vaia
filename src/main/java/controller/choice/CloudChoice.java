@@ -31,7 +31,7 @@ public class CloudChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, NoMoreStudentsException {
+    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, NoMoreStudentsException, FinishedGameEndTurnException {
         match.moveStudentsFromCloudToEntrance(this.getChosenCloudID());
     }
 }

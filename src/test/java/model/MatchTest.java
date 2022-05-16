@@ -83,7 +83,7 @@ public class MatchTest {
     //it tests the presence of a wrong choice (or not) into
     // the parameters of the moveStudentsFromCloudToEntrance's method
     @Test
-    void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, NoMoreStudentsException, NoMasterException {
+    void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, NoMoreStudentsException, NoMasterException, FinishedGameEndTurnException {
         Match tmp=new NormalMatch(PLAYERSNUM);
 
         tmp.addPlayer("Vaia", "BLACK", "WIZARD1");
@@ -109,7 +109,7 @@ public class MatchTest {
     //It tests if the method refillClouds() correctly by refilling without students
     // (and with,that is a possible error) on the clouds
     @Test
-    void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException, NoMoreStudentsException, WrongCloudNumberException, WrongDataplayerException, WrongColorException, InexistentStudentException, NoMasterException {
+    void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException, NoMoreStudentsException, WrongCloudNumberException, WrongDataplayerException, WrongColorException, InexistentStudentException, NoMasterException, FinishedGameEndTurnException {
         match.addPlayer("Tonsi","WHITE", "WIZARD2");
 
         System.out.println(match.toStringStudentsOnCloud());
