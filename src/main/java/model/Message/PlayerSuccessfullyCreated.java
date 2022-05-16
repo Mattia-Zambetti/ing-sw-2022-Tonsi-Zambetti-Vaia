@@ -17,4 +17,8 @@ public class PlayerSuccessfullyCreated extends Message{
         }
 
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
