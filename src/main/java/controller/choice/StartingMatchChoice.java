@@ -3,7 +3,6 @@ package controller.choice;
 import model.Match;
 import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
-import model.exception.NoMoreCardException;
 import model.exception.WrongCloudNumberException;
 
 public class StartingMatchChoice extends Choice{
@@ -62,7 +61,7 @@ public class StartingMatchChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException {
+    public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException {
         //QUESTO IN ReALTA' NON DEVE ESSERE MAI CHIAMATO, almeno per ora
     }
 

@@ -1,4 +1,4 @@
-package controller;
+package model.Message;
 
 import model.Player;
 

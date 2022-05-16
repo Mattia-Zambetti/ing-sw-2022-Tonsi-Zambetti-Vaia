@@ -1,6 +1,7 @@
 //Tonsi, Zambo, Vaia
 package model;
 
+import model.Message.MatchEndedMessage;
 import controller.choice.*;
 import model.Message.PlayerSuccessfullyCreated;
 import model.exception.*;

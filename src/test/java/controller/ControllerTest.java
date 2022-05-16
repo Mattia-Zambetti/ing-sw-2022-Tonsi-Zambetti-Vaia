@@ -5,7 +5,6 @@ import model.Match;
 import model.NormalMatch;
 import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
-import model.exception.NoMoreCardException;
 import model.exception.WrongCloudNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -213,7 +212,7 @@ public class ControllerTest {
     }
 
     @Test
-    void StartingMatchChoiceTest() throws NoMoreCardException, WrongCloudNumberException, MaxNumberException, CardNotFoundException {
+    void StartingMatchChoiceTest() throws WrongCloudNumberException, MaxNumberException, CardNotFoundException {
         StartingMatchChoice choice=new StartingMatchChoice();
 
         System.out.println(choice);

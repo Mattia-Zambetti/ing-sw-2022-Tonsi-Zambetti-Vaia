@@ -122,11 +122,11 @@ public class ExpertMatchTest implements Observer {
         //princess call:
         ((ExpertMatch)expertMatch).playFigureCard(new Princess());
 
-        creationOfTheRightCard(new Witch());
+        creationOfTheRightCard(new GrannyGrass());
         expertMatch.addObserver(this);
 
         //Granny grass call:
-        ((ExpertMatch)expertMatch).playFigureCard(new Witch());
+        ((ExpertMatch)expertMatch).playFigureCard(new GrannyGrass());
 
         creationOfTheRightCard(new MushroomCollector());
         expertMatch.addObserver(this);
@@ -136,7 +136,7 @@ public class ExpertMatchTest implements Observer {
     }
 
     @Test
-    void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, NoIslandException, NoMoreCardException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, SameInfluenceException, FinishedGameIslandException, NoMoreStudentsException, CardAlreadyPlayedException {
+    void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, NoIslandException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, SameInfluenceException, FinishedGameIslandException, NoMoreStudentsException, CardAlreadyPlayedException {
         creationOfTheRightCard(new Postman());
 
         ((ExpertMatch)expertMatch).playFigureCard(new Postman());
@@ -149,7 +149,7 @@ public class ExpertMatchTest implements Observer {
     }
 
     @Test
-    void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException, NoMoreCardException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoMoreStudentsException, CardAlreadyPlayedException {
+    void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NegativeNumberOfTowerException, NoMoreBlockCardsException, NoIslandException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoMoreStudentsException, CardAlreadyPlayedException {
         creationOfTheRightCard(new Knight());
 
         //Knight call:
@@ -293,7 +293,7 @@ public class ExpertMatchTest implements Observer {
             }
         }
 
-        else if(o instanceof ExpertMatch && arg instanceof Witch){
+        else if(o instanceof ExpertMatch && arg instanceof GrannyGrass){
             System.out.println(arg);
             try{
             Master masterR = new Master(Color.RED);

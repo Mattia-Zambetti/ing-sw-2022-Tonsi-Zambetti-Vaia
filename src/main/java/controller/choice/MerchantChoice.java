@@ -53,7 +53,7 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
     }
 
     @Override
-    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException {
+    public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException {
         ((ExpertMatch)match).takeStudentsOnFigureCard(this.getChosenStudent(),this.getChosenIslandID());
     }
 

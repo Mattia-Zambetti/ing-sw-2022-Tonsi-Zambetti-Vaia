@@ -4,12 +4,12 @@ import model.ExpertMatchInterface;
 
 import java.io.Serializable;
 
-public class Witch extends FigureCard  implements Serializable {
+public class GrannyGrass extends FigureCard  implements Serializable {
     private static final int PRICECARD = 2;
     private static int blockCard = 4;
 
 
-    public Witch() {
+    public GrannyGrass() {
         setPrice(PRICECARD);
         cardId=8;
     }
@@ -20,14 +20,14 @@ public class Witch extends FigureCard  implements Serializable {
     }
 
     public static void removeBlockCard() throws NoMoreBlockCardsException{
-        if(Witch.blockCard > 0)
-            Witch.blockCard--;
+        if(GrannyGrass.blockCard > 0)
+            GrannyGrass.blockCard--;
         else throw new NoMoreBlockCardsException("Block Cards finished");
     }
 
     public static void addBlockCard() throws NoMoreBlockCardsException{
-        if(Witch.blockCard < 4)
-            Witch.blockCard++;
+        if(GrannyGrass.blockCard < 4)
+            GrannyGrass.blockCard++;
         else throw new NoMoreBlockCardsException("Too many block cards");
     }
 

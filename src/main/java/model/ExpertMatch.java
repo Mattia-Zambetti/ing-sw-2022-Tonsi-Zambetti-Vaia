@@ -37,8 +37,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                     figureCards.add(new Princess());
                 } else if (randomInt == 6 && !figureCards.contains(new MushroomCollector())) {
                     figureCards.add(new MushroomCollector());
-                } else if (randomInt == 7 && !figureCards.contains(new Witch())) {
-                    figureCards.add(new Witch());
+                } else if (randomInt == 7 && !figureCards.contains(new GrannyGrass())) {
+                    figureCards.add(new GrannyGrass());
                 } else if (randomInt == 8 && !figureCards.contains(new Centaur())) {
                     figureCards.add(new Centaur());
                 }
@@ -74,7 +74,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             if(!islands.get(currentIsland).checkForbidden())
                 changeTowerColorOnIsland();
             else{
-                Witch.addBlockCard();
+                GrannyGrass.addBlockCard();
                 islands.get(currentIsland).setForbidden(false);
             }
 
@@ -217,7 +217,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public void placeForbiddenCards(int islandToSetForbidden) throws NoIslandException, NoMoreBlockCardsException {
         if(islandPositions.contains((Integer) islandToSetForbidden)){
             islands.get(islandToSetForbidden).setForbidden(true);
-            Witch.removeBlockCard();
+            GrannyGrass.removeBlockCard();
         }
         else throw new NoIslandException("Insert an island that exists");
     }

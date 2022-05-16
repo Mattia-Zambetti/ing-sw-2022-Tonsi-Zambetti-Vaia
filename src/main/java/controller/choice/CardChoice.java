@@ -4,7 +4,6 @@ import model.Card;
 import model.Match;
 import model.exception.CardAlreadyPlayedException;
 import model.exception.CardNotFoundException;
-import model.exception.NoMoreCardException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +54,7 @@ public class CardChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, CardAlreadyPlayedException {
+    public void manageUpdate(Match match) throws CardNotFoundException, CardAlreadyPlayedException {
         match.chooseCard(this.getChosenCard());
     }
 }
