@@ -2,7 +2,7 @@ package model.Message;
 
 import client.Client;
 
-public class RegistrationConfirmed extends Message{
+public class RegistrationConfirmed extends ConfirmationMessage {
     public RegistrationConfirmed(int id) {
         super(id);
     }

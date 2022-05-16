@@ -3,7 +3,7 @@ package model.Message;
 import client.Client;
 import model.Player;
 
-public class PlayerSuccessfullyCreated extends Message{
+public class PlayerSuccessfullyCreated extends ConfirmationMessage {
     private Player player;
     public PlayerSuccessfullyCreated(Player player, int id) {
         super(id);

@@ -1,11 +1,12 @@
 package model.Message;
 
+import client.Client;
 import model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchEndedMessage {
+public class MatchEndedMessage implements Message{
 
     List<Player> winners;
 
@@ -14,4 +15,8 @@ public class MatchEndedMessage {
         this.winners.addAll(winners);
     }
 
+    @Override
+    public void manageMessage(Client client) {
+
+    }
 }
