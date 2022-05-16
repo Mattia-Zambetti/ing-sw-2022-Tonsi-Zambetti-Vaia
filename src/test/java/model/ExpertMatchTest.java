@@ -196,8 +196,8 @@ public class ExpertMatchTest implements Observer {
             extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(0));
 
             try {
-                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Merchant)arg, 1);
-                assertThrows(InexistentStudentException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Merchant)arg, 1));
+                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, 1);
+                assertThrows(InexistentStudentException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, 1));
 
                 assertFalse(((Merchant)arg).getStudentsOnCard().containsAll(extractionTest));
                 assertEquals( ((Merchant)arg).getStudentsNumOnCard(),((Merchant)arg).getStudentsOnCard().size());
@@ -205,7 +205,7 @@ public class ExpertMatchTest implements Observer {
                 extractionTest.clear();
                 extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(1));
                 extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(2));
-                assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Merchant)arg, 1));
+                assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, 1));
 
             } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException | NoIslandException e) {
                 e.printStackTrace();
@@ -220,17 +220,17 @@ public class ExpertMatchTest implements Observer {
 
             studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
 
-            assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg,studentFromEntranceTest ));
+            assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest,studentFromEntranceTest ));
 
             extractionTest.add(((Jester)arg).getStudentsOnCard().stream().toList().get(0));
 
             try {
-                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, studentFromEntranceTest);
+                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, studentFromEntranceTest);
 
                 studentFromEntranceTest.clear();
                 studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
 
-                assertThrows(InexistentStudentException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, studentFromEntranceTest));
+                assertThrows(InexistentStudentException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, studentFromEntranceTest));
 
                 assertFalse(((Jester)arg).getStudentsOnCard().containsAll(extractionTest));
                 assertEquals(((Jester)arg).getStudentsNumOnCard(),((Jester)arg).getStudentsOnCard().size());
@@ -245,7 +245,7 @@ public class ExpertMatchTest implements Observer {
                 studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(2));
                 studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(3));
 
-                assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Jester)arg, studentFromEntranceTest));
+                assertThrows(MaxNumberException.class,()->((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, studentFromEntranceTest));
 
                 Set<Student> extractionTest2 = new HashSet<>();
                 extractionTest2.add(((Jester)arg).getStudentsOnCard().stream().toList().get(3));
@@ -257,7 +257,7 @@ public class ExpertMatchTest implements Observer {
                 studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(2));
                 studentFromEntranceTest.add(expertMatch.showCurrentPlayerDashboard().showEntrance().stream().toList().get(3));
 
-                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest2, (Jester)arg, studentFromEntranceTest);
+                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest2, studentFromEntranceTest);
 
                 assertFalse(((Jester)arg).getStudentsOnCard().containsAll(extractionTest2));
                 assertEquals(((Jester)arg).getStudentsNumOnCard(),((Jester)arg).getStudentsOnCard().size());
@@ -276,8 +276,8 @@ public class ExpertMatchTest implements Observer {
             extractionTest.add(((Princess) arg).getStudentsOnCard().stream().toList().get(0));
 
             try {
-                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg);
-                assertThrows(InexistentStudentException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg));
+                ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest);
+                assertThrows(InexistentStudentException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest));
 
                 assertFalse(((Princess) arg).getStudentsOnCard().containsAll(extractionTest));
                 assertEquals(((Princess) arg).getStudentsNumOnCard(), ((Princess) arg).getStudentsOnCard().size());
@@ -286,7 +286,7 @@ public class ExpertMatchTest implements Observer {
                 extractionTest.add(((Princess) arg).getStudentsOnCard().stream().toList().get(0));
                 extractionTest.add(((Princess) arg).getStudentsOnCard().stream().toList().get(1));
 
-                assertThrows(MaxNumberException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest, (Princess) arg));
+                assertThrows(MaxNumberException.class, () -> ((ExpertMatch) expertMatch).takeStudentsOnFigureCard(extractionTest));
 
             } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException e) {
                 e.printStackTrace();

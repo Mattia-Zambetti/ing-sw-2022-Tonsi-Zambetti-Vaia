@@ -13,20 +13,18 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
         return blockedColor;
     }
 
-    public void setBlockedColor(String blockedColor){
-        this.blockedColor = Color.valueOf(blockedColor);
+    public void setBlockedColor(int blockedColor){
+        this.blockedColor = Color.values()[blockedColor];
     }
 
     @Override
     public boolean setChoiceParam(String input) {
         try {
-            setBlockedColor(input);
+            if(isItAnInt(input))
+                setBlockedColor(Integer.parseInt(input) - 1);
             return false;
-        }catch (IllegalArgumentException e){
-            System.out.println("You must choose one of this color: ");
-            for (Color c: Color.values()){
-                System.out.println(" - "+c.toString());
-            }
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("Colore non trovato: ");
             return true;
         }
     }
@@ -34,5 +32,16 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
     @Override
     public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException {
         ((ExpertMatch)match).blockColorForInfluence(this.getBlockedColor());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder tmp = new StringBuilder();
+        int counter = 1;
+        tmp.append("Please choose the color you want to block: ");
+        for (Color c: Color.values()){
+            tmp.append( counter + ") "+c.toString());
+        }
+        return tmp.toString();
     }
 }

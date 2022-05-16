@@ -1,5 +1,6 @@
 package model.figureCards;
 import model.Bag;
+import model.exception.NoMoreStudentsException;
 
 import java.io.Serializable;
 
@@ -19,10 +20,14 @@ public class Merchant extends FigureCardWithStudents  implements Serializable {
         maxTakeStudentsNum=MAXTAKESTUDENTSNUM;
     }
 
+    public void addStudent() throws NoMoreStudentsException {
+        studentsOnCard.add(Bag.removeStudent());
+    }
+
 
     @Override
     public String toString() {
-        return "I'm the merchant, I've got "+studentsOnCard.size()+" students";
+        return "I'm the merchant, I've got "+ studentsOnCard.size()+" students";
     }
 
 

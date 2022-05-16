@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class ExpertMatch extends Match implements ExpertMatchInterface, Serializable {
-    private final Set<FigureCard> figureCards;
+    private final List<FigureCard> figureCards;
     private static boolean centaurEffect;
     private int postManValue = 0;
     private int colorBlocked = -1;
@@ -19,7 +19,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         super(totalPlayersNum);
         centaurEffect =false;
 
-        figureCards=new HashSet<>();
+        figureCards=new ArrayList<FigureCard>();
 
 
         try {
@@ -169,37 +169,49 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
     //There's three overloading methods to manage figure with students different operations:
 
-    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Merchant figureCard, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException, NoIslandException {
-        if(islandPositions.contains(islandPosition))
-        if (figureCard.takeStudents(chosenStudents)) {
-            islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
-        }
-        else throw new NoIslandException("That island doesn't exists");
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException, NoIslandException {
+            for (FigureCard f : figureCards){
+                if (f instanceof Merchant){
+                    if (((Merchant) f).takeStudents(chosenStudents)) {
+                        islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
+                     }
+                 }
+             }
     }
 
-    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Jester figureCard, Set<Student> studentsFromEntrance)
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Set<Student> studentsFromEntrance)
             throws MaxNumberException, InexistentStudentException,
             StudentIDAlreadyExistingException, NoMoreStudentsException {
 
         if(chosenStudents.size()==studentsFromEntrance.size() &&
                 currentPlayerDashboard.showEntrance().containsAll(studentsFromEntrance)) {
-            if (figureCard.takeStudents(chosenStudents)) {
-                //TODO METODO ZAMBO, per adesso gestito con foreach
-                for (Student student : studentsFromEntrance)
-                    currentPlayerDashboard.removeStudentFromEntrance(student);
-                currentPlayerDashboard.moveToEntrance(chosenStudents);
-                figureCard.refillStudents(studentsFromEntrance);
+            for (FigureCard f : figureCards){
+                if(f instanceof Jester){
+                    if (((Jester)f).takeStudents(chosenStudents)) {
+                        for (Student student : studentsFromEntrance)
+                            currentPlayerDashboard.removeStudentFromEntrance(student);
+                        currentPlayerDashboard.moveToEntrance(chosenStudents);
+                        ((Jester)f).refillStudents(studentsFromEntrance);
+                    }
+                }
             }
+
         }else throw new MaxNumberException("Wrong parameters for this method(taking students from the jester)...");
     }
 
 
 
 
-    public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Princess figureCard) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
-        if (figureCard.takeStudents(chosenStudents)) {
-            currentPlayerDashboard.moveToDR(chosenStudents);
-        }
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
+       for (FigureCard f : figureCards)
+       {
+           if (f instanceof Princess){
+               if (((Princess)f).takeStudents(chosenStudents)) {
+                   currentPlayerDashboard.moveToDR(chosenStudents);
+               }
+           }
+       }
+
     }
 
 

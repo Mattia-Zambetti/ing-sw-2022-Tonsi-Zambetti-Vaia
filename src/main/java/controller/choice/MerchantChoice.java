@@ -7,8 +7,10 @@ import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.Merchant;
 
+import java.util.List;
+
 public class MerchantChoice extends FigureCardWithStudentsChoice {
-    private int chosenIslandID, numChoice = 0;
+    private int chosenIslandID, numChoice = 0, islandPositionSize;
 
     public int getChosenIslandID() {
         return chosenIslandID;
@@ -38,7 +40,10 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
             case 1:
                 if(isItAnInt(input)){
                     chosenIslandID = Integer.parseInt(input);
-                    //numChoice++;
+                    if(chosenIslandID < 0 && chosenIslandID >= islandPositionSize) {
+                        System.out.println("Island not found, please try again:");
+                        return true;
+                    }
                     return false;
                 }
                 return true;
@@ -49,15 +54,25 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
 
     @Override
     public void manageUpdate(Match match) throws NoMoreCardException, CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoIslandException {
-        ((ExpertMatch)match).takeStudentsOnFigureCard(this.getChosenStudent(), (Merchant) this.getFigureCardPlayed(),this.getChosenIslandID());
+        ((ExpertMatch)match).takeStudentsOnFigureCard(this.getChosenStudent(),this.getChosenIslandID());
     }
 
-    public String toString(){
+    public String toString(){return "";}
+    public String toString(List<Integer> islandPositions){
         StringBuilder tmp = new StringBuilder();
+        islandPositionSize = islandPositions.size();
         int counter = 1;
-        tmp.append("Choose the student you want to move: ");
-        for (Student s : Merchant.getStudentsOnCard())
-            tmp.append("\n" +counter + ") "+ s.toString());
+        switch (numChoice){
+            case 0:
+                tmp.append("Choose the student you want to move: ");
+                for (Student s : Merchant.getStudentsOnCard())
+                    tmp.append("\n" +counter + ") "+ s.toString());
+                break;
+            case 1:
+                tmp.append("Choose the island where you want to put it on:");
+                for (int i = 0; i < islandPositions.size(); i++)
+                    tmp.append(i + ") Island");
+        }
         return tmp.toString();
     }
 }

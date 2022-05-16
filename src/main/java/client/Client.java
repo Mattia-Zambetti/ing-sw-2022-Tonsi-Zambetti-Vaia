@@ -1,12 +1,9 @@
 package client;
 
 
+import controller.choice.*;
 import model.MatchDataInterface;
 import model.Player;
-import controller.choice.Choice;
-import controller.choice.CardChoice;
-import controller.choice.DataPlayerChoice;
-import controller.choice.StartingMatchChoice;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -74,17 +71,25 @@ public class Client implements Runnable{
                             writeUser.flush();
                         } else {
 
+
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
 
                             if(actualToDoChoice instanceof DataPlayerChoice)
                                 player=((DataPlayerChoice) actualToDoChoice).getPlayer();
 
                             if(isChoiceTime) {
-                                writeUser.println(actualToDoChoice);
+                                if(actualToDoChoice instanceof JesterChoice)
+                                    writeUser.println(((JesterChoice) actualToDoChoice).toString(matchView.showCurrentPlayerDashboard().showEntrance()));
+                                else if(actualToDoChoice instanceof GrannyGrassChoice)
+                                    writeUser.println(((GrannyGrassChoice)actualToDoChoice).toString(matchView.getIslandPositions()));
+                                else if(actualToDoChoice instanceof MerchantChoice)
+                                    writeUser.println(((MerchantChoice)actualToDoChoice).toString(matchView.getIslandPositions()));
+                                else
+                                    writeUser.println(actualToDoChoice);
                                 writeUser.flush();
                             }
 
-                            if(!isChoiceTime) {
+                            else {
                                 outputStream.writeObject(actualToDoChoice);
                                 outputStream.flush();
                             }

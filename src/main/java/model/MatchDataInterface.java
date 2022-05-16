@@ -10,6 +10,8 @@ public interface MatchDataInterface extends Serializable {
     @Override
     String toString();
 
+    Dashboard showCurrentPlayerDashboard();
+    List<Integer> getIslandPositions();
     Choice getChoice();
 
     Player showCurrentPlayer();
