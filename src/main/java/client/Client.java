@@ -4,6 +4,7 @@ package client;
 import controller.choice.*;
 import model.MatchDataInterface;
 import model.Message.ConfirmationMessage;
+import model.Message.Message;
 import model.Player;
 
 import java.io.IOException;
@@ -145,8 +146,8 @@ public class Client implements Runnable{
 
                         Object obj = readSocket.readObject();
 
-                        if(obj instanceof ConfirmationMessage){
-                            ((ConfirmationMessage)obj).manageMessage(Client.this);
+                        if(obj instanceof Message){
+                            ((Message)obj).manageMessage(Client.this);
                         }
 
                         if ( obj instanceof StartingMatchChoice s) {

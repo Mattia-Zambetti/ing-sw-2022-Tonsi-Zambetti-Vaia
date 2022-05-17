@@ -600,6 +600,7 @@ public class MatchTest {
 
     }
 
+    //This test checks that a player win the Game when ends all his towers in a match with 2 player
     @Test
     void endMatchTowerFinishedTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException {
         match = new Match(2);
@@ -633,6 +634,30 @@ public class MatchTest {
         assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
         assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
 
+    }
+
+    //This test checks if a player win the Game when there are only 3 group of islands
+    @Test
+    void endMatch3IslandTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException {
+        match = new Match(2);
+        match.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match.addPlayer("2", "WHITE", "WIZARD2", 2);
+
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "1");
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.islands.get(0).addStudent(new Student(500, Color.RED));
+        match.islands.get(6).addStudent(new Student(501, Color.RED));
+
+        match.dashboardsCollection.get(0).playChosenCard(new Card(10, 5, 10));
+
+        for ( int i=0; i<4; i++ ) {
+            match.moveMotherNature(1);
+        }
 
     }
 
