@@ -19,7 +19,7 @@ public class Princess extends FigureCardWithStudents  implements Serializable {
 
     @Override
     public String toString() {
-        return "I'm the princess, I've got "+studentsOnCard.size()+" students";
+        return "Princess card";
     }
 
 

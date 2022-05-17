@@ -18,7 +18,7 @@ public class MushroomCollector extends FigureCard  implements Serializable {
 
     @Override
     public String toString() {
-        return "I'm the mushroom collector";
+        return "Mushroom collector card";
     }
 
 

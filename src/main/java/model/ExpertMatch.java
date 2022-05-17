@@ -1,5 +1,6 @@
 package model;
 
+import controller.choice.CloudChoice;
 import model.figureCards.*;
 import model.exception.*;
 
@@ -50,6 +51,17 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
     //OVERRIDED FROM MATCH
 
+
+    @Override
+    public String toString() {
+        int i=1;
+        StringBuilder res= new StringBuilder(super.toString());
+        for(FigureCard f: figureCards)
+            res.append(i++).append(".").append(f).append("\n");
+
+        return res.toString();
+    }
+
     @Override
     public boolean setNextCurrDashboard(){
         centaurEffect=false;
@@ -62,30 +74,42 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
     @Override
-    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
-        if(posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue && posizioni > 0){
-            int positionTmp = currentIsland;
-            islands.get(positionTmp).setMotherNature(false);
-            for (int i = 0; i < posizioni; i++){
-                positionTmp = nextIsland(positionTmp);
-            }
-            currentIsland = positionTmp;
-            islands.get(currentIsland).setMotherNature(true);
-            if(!islands.get(currentIsland).checkForbidden())
-                changeTowerColorOnIsland();
-            else{
-                GrannyGrass.addBlockCard();
-                islands.get(currentIsland).setForbidden(false);
-            }
+    public void moveMotherNature(int posizioni) throws NegativeNumberOfTowerException, FinishedGameIslandException {
+        try {
+            if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue && posizioni > 0) {
+                int positionTmp = currentIsland;
+                islands.get(positionTmp).setMotherNature(false);
+                for (int i = 0; i < posizioni; i++) {
+                    positionTmp = nextIsland(positionTmp);
+                }
+                currentIsland = positionTmp;
+                islands.get(currentIsland).setMotherNature(true);
+                if (!islands.get(currentIsland).checkForbidden())
+                    changeTowerColorOnIsland();
+                else {
+                    GrannyGrass.addBlockCard();
+                    islands.get(currentIsland).setForbidden(false);
+                }
 
-            if(getISLANDSNUM() <= 3)
-                throw new FinishedGameIslandException("Island num <= 3, game over");
+                if (getISLANDSNUM() <= 3)
+                    throw new FinishedGameIslandException("Island num <= 3, game over");
 
-            setChanged();
-            notifyObservers(this.toString());
+                if (super.totalNumIslands <= 3)
+                    throw new FinishedGameIslandException("Island Num <= 3, game is over");
+
+                if (matchFinishedAtEndOfRound)
+                    throw new FinishedGameEndTurnException("Game over");
+
+                choicePhase = new CloudChoice();
+                notifyMatchObservers();
+            } else throw new MaxNumberException("Cannot move Mother nature that far");
+
+            postManValue = 0;
+        }catch (Exceptions e){
+            e.manageException(this);
+        } catch (FinishedGameEndTurnException e) {
+            e.printStackTrace();
         }
-        else throw new MaxNumberException("Cannot move Mother nature that far");
-        postManValue = 0;
     }
 
 
@@ -170,13 +194,13 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     //There's three overloading methods to manage figure with students different operations:
 
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents, int islandPosition) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException, NoIslandException {
-            for (FigureCard f : figureCards){
-                if (f instanceof Merchant){
-                    if (((Merchant) f).takeStudents(chosenStudents)) {
-                        islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
-                     }
-                 }
-             }
+        for (FigureCard f : figureCards) {
+            if (f instanceof Merchant) {
+                if (((Merchant) f).takeStudents(chosenStudents)) {
+                    islands.get(islandPosition).addStudent(chosenStudents.stream().toList().get(0));
+                }
+            }
+        }
     }
 
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Set<Student> studentsFromEntrance)
@@ -203,8 +227,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
 
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
-       for (FigureCard f : figureCards)
-       {
+       for (FigureCard f : figureCards) {
            if (f instanceof Princess){
                if (((Princess)f).takeStudents(chosenStudents)) {
                    currentPlayerDashboard.moveToDR(chosenStudents);
@@ -233,5 +256,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public void addCoinToCurrPlayer(){
         currentPlayerDashboard.addCoin();
     }
+
+
 
 }

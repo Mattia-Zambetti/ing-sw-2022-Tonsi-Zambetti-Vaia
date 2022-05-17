@@ -34,7 +34,7 @@ public class GrannyGrass extends FigureCard  implements Serializable {
 
     @Override
     public String toString() {
-        return "I'm the witch";
+        return "Granny grass card";
     }
 
 

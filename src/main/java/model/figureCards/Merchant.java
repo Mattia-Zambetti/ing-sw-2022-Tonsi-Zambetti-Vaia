@@ -22,7 +22,7 @@ public class Merchant extends FigureCardWithStudents  implements Serializable {
 
     @Override
     public String toString() {
-        return "I'm the merchant, I've got "+ studentsOnCard.size()+" students";
+        return "Merchant card";
     }
 
 

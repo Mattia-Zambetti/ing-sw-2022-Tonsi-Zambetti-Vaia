@@ -41,7 +41,7 @@ public class Jester extends FigureCardWithStudents implements Serializable {
 
     @Override
     public String toString() {
-        return "I'm the jester, I've got "+studentsOnCard.size()+" students";
+        return "Jester card";
     }
 
 }

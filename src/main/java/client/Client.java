@@ -160,8 +160,10 @@ public class Client implements Runnable{
 
                             if (actualToDoChoice instanceof CardChoice)
                                 matchCompletelyCreated = true;
-                            if(matchCompletelyCreated)
+                            if(matchCompletelyCreated) {
                                 writeUser.println(matchView);
+                                writeUser.flush();
+                            }
 
 
                             if((actualToDoChoice instanceof DataPlayerChoice && isChanged)

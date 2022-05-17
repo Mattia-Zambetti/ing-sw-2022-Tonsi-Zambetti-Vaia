@@ -23,7 +23,7 @@ public class Centaur extends FigureCard implements Serializable {
 
     @Override
     public String toString() {
-        return "I'm the centaur";
+        return "Centaur card";
     }
 
 }

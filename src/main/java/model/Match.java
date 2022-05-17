@@ -21,7 +21,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     private int totalPlayersNum;
     protected int currentIsland;
 
-    private int totalNumIslands;
+    protected int totalNumIslands;
     protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
@@ -37,9 +37,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     private static final int MAXPLAYERSNUM=4;
     private static final int MINPLAYERSNUM=2;
 
-    private Choice choicePhase;
+    protected Choice choicePhase;
 
-    private boolean matchFinishedAtEndOfRound;
+    protected boolean matchFinishedAtEndOfRound;
     private List<Player> winnerPlayers;
 
     //TESTED
