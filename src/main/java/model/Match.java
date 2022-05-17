@@ -637,33 +637,53 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     public void calculateWinner(){
         int maxTowerOnIslands = 0;
+        int maxNumOfMaster = 0;
         TowerColor maxTowerColor = null;
-        HashMap<TowerColor, Integer> colorByTowerMap = new HashMap<>();
+        ArrayList<TowerColor> maxTowerColorList = new ArrayList<>(0);
+        HashMap<TowerColor, Integer> towerNumByColor = new HashMap<>();
 
         for ( TowerColor t: TowerColor.values() )
-            colorByTowerMap.put(t,0);
+            towerNumByColor.put(t,0);
 
         try {
             for( Integer i: islandPositions) {
+
                 if ( islands.get(i).getTowerNum() != 0 )
-                    colorByTowerMap.put( islands.get(i).getTowerColor(), colorByTowerMap.get(islands.get(i).getTowerColor())+1 );
+                    towerNumByColor.put( islands.get(i).getTowerColor(), ( towerNumByColor.get(islands.get(i).getTowerColor()) )+(islands.get(i).getTowerNum()) );
             }
         } catch( NoTowerException e ) {
             e.printStackTrace();
         }
 
-        for ( TowerColor t: colorByTowerMap.keySet()  ) {
-            if ( colorByTowerMap.get(t) > maxTowerOnIslands )
-                maxTowerColor = t;
+        for ( TowerColor t: towerNumByColor.keySet()  ) {
+            if ( towerNumByColor.get(t) == maxTowerOnIslands ) {
+                maxTowerColorList.add(t);
+            }
+            else if ( towerNumByColor.get(t) > maxTowerOnIslands ) {
+                maxTowerOnIslands=towerNumByColor.get(t);
+                maxTowerColorList.clear();
+                maxTowerColorList.add(t);
+            }
         }
 
-        for ( Dashboard d: dashboardsCollection ) {
-            if ( d.getTowerColor() == maxTowerColor )
-                winnerPlayers.add(d.getPlayer());
+        //used when the number of towers on islands is the same for more than one towerColor
+        if ( maxTowerColorList.size()==1 ) {
+            for ( Dashboard d: dashboardsCollection ) {
+                if ( d.getTowerColor() == maxTowerColorList.get(0) )
+                    winnerPlayers.add(d.getPlayer());
+            }
+        } else {
+            for ( Dashboard d: dashboardsCollection) {
+                if ( maxTowerColorList.contains(d.getTowerColor()) && d.getMastersList().size()>maxNumOfMaster )
+                    maxNumOfMaster=d.getMastersList().size();
+            }
+            for ( Dashboard d: dashboardsCollection) {
+                if ( maxTowerColorList.contains(d.getTowerColor()) && d.getMastersList().size()==maxNumOfMaster )
+                    winnerPlayers.add(d.getPlayer());
+            }
         }
 
     }
-
 
 
     //END ZAMBO
