@@ -615,10 +615,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
 
 
-    public void setCurrentPlayerWinners() {
-        if ( totalPlayersNum == 4 ) {
-            winnerPlayers.add(currentPlayerDashboard.getPlayer());
-            winnerPlayers.add(currentPlayerDashboard.getPlayer().getBuddy());
+    public void setWinnerPlayerByTowerColor(TowerColor t) {
+        for ( Dashboard d : dashboardsCollection ) {
+            if ( d.getTowerColor().equals(t))
+                winnerPlayers.add(d.getPlayer());
         }
     }
 

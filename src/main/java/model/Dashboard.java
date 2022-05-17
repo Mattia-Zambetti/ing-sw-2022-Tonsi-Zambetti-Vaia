@@ -73,7 +73,7 @@ public class Dashboard implements Serializable {
 
         int newTowersNumber = this.towersCollection.size() - numberOfTower;
         if ( newTowersNumber <= 0 )
-            throw new NoMoreTowerException("Insufficient number of tower");
+            throw new NoMoreTowerException("Insufficient number of tower", towerColor);
 
         ArrayList<Tower> tmp = new ArrayList<>(0);
         for ( int i=0; i<numberOfTower; i++) {

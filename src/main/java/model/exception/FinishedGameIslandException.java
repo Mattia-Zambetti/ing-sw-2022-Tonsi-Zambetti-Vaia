@@ -9,7 +9,7 @@ public class FinishedGameIslandException extends FinishedGameExceptions{
 
     @Override
     public void manageException(Match match) {
-        match.setCurrentPlayerWinners();
+        match.calculateWinner();
         match.notifyEndMatch();
     }
 }

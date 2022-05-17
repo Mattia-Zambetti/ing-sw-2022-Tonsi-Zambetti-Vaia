@@ -600,6 +600,42 @@ public class MatchTest {
 
     }
 
+    @Test
+    void endMatchTowerFinishedTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException {
+        match = new Match(2);
+        match.addPlayer("1", "BLACK", "WIZARD1",1);
+        match.addPlayer("2", "WHITE", "WIZARD2",2);
+
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "1");
+
+        for ( Color k : Color.values() ) {
+            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.islands.get(0).addStudent(new Student(500, Color.RED));
+        match.islands.get(6).addStudent(new Student(501, Color.RED));
+
+        match.dashboardsCollection.get(0).playChosenCard(new Card(10, 5, 10));
+
+        do {
+            match.moveMotherNature(1);
+        }while(match.dashboardsCollection.get(0).getTowersNum()>1);
+
+        assertThrows(NoMoreTowerException.class,()->match.moveMotherNature(1));
+
+        try {
+            match.moveMotherNature(1);
+        } catch ( NoMoreTowerException e ) {
+            e.manageException(match);
+        }
+
+        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
+        assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
+
+
+    }
+
     //End Test Zambo
 
 }
