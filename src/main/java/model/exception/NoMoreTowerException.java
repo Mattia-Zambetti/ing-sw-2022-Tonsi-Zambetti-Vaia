@@ -2,8 +2,8 @@ package model.exception;
 
 import model.*;
 
-public class NegativeNumberOfTowerException extends FinishedGameExceptions{
-    public NegativeNumberOfTowerException(String errorMessage){
+public class NoMoreTowerException extends FinishedGameExceptions{
+    public NoMoreTowerException(String errorMessage){
         super(errorMessage);
     }
 
