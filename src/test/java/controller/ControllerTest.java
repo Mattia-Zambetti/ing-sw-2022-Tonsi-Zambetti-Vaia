@@ -1,11 +1,12 @@
 package controller;
 
 import controller.choice.*;
+import model.ExpertMatch;
 import model.Match;
 import model.NormalMatch;
-import model.exception.CardNotFoundException;
-import model.exception.MaxNumberException;
-import model.exception.WrongCloudNumberException;
+import model.exception.*;
+import model.figureCards.FigureCard;
+import model.figureCards.Merchant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import view.TestRemoteView;
@@ -234,6 +235,21 @@ public class ControllerTest {
 
         assertEquals(1, choice.getMatchType());
         assertEquals(2, choice.getTotalPlayersNumMatch());
+    }
+
+
+    @Test
+    private void creationOfTheRightCard(FigureCard figureCardWanted) throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
+        do {
+            match = new ExpertMatch(2);
+
+        }while(!(((ExpertMatch)match).showFigureCardsInGame()).contains(figureCardWanted));
+
+        match.addPlayer("Tonsi", "BLACK", "WIZARD1",1);
+        ((ExpertMatch) match).addCoinToCurrPlayer();
+        ((ExpertMatch) match).addCoinToCurrPlayer();
+
+        match.addPlayer("Zambo", "WHITE", "WIZARD2",2);
     }
 
 

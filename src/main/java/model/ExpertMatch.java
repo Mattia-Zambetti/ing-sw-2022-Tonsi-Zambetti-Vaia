@@ -74,7 +74,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
     @Override
-    public void moveMotherNature(int posizioni) throws NegativeNumberOfTowerException, FinishedGameIslandException {
+    public void moveMotherNature(int posizioni) throws FinishedGameIslandException, NoIslandException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, NoMoreBlockCardsException, MaxNumberException {
         try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue && posizioni > 0) {
                 int positionTmp = currentIsland;
@@ -105,9 +105,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             } else throw new MaxNumberException("Cannot move Mother nature that far");
 
             postManValue = 0;
-        }catch (Exceptions e){
-            e.manageException(this);
         } catch (FinishedGameEndTurnException e) {
+            e.printStackTrace();
+        } catch (NoMoreTowerException e) {
             e.printStackTrace();
         }
     }
