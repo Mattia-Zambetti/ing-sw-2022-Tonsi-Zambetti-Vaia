@@ -3,10 +3,11 @@ package model.Message;
 import client.Client;
 import model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchEndedMessage implements Message{
+public class MatchEndedMessage implements Message, Serializable {
 
     List<Player> winners;
 

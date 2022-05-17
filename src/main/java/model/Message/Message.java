@@ -2,7 +2,9 @@ package model.Message;
 
 import client.Client;
 
-public interface Message {
+import java.io.Serializable;
+
+public interface Message{
 
     void manageMessage(Client client);
 }

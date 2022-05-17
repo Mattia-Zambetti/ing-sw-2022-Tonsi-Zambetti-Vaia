@@ -42,7 +42,7 @@ public class DashboardTest{
 
     //This test checks all methods used to add, remove and get information about towers in the dashboard without exception
     @Test
-    void BasicTowersMethodTest () throws NegativeNumberOfTowerException, MaxNumberOfTowerPassedException, TowerIDAlreadyExistingException {
+    void BasicTowersMethodTest () throws NoMoreTowerException, MaxNumberOfTowerPassedException, TowerIDAlreadyExistingException {
 
         ArrayList<Tower> tmp, tmp2;
 
@@ -61,7 +61,7 @@ public class DashboardTest{
 
     //This test checks that exceptions are thrown by addTowers method in dashboard
     @Test
-    void AddTowersMethodExceptionsTest () throws NegativeNumberOfTowerException {
+    void AddTowersMethodExceptionsTest () throws NoMoreTowerException {
 
         ArrayList<Tower> towerList;
 
@@ -95,7 +95,7 @@ public class DashboardTest{
     @Test
     void RemoveTowersMethodExceptionsTest () {
 
-        assertThrows(NegativeNumberOfTowerException.class,()->dashboard.removeTowers(10));
+        assertThrows(NoMoreTowerException.class,()->dashboard.removeTowers(10));
 
     }
 
