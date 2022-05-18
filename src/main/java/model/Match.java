@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.*;
 public class Match extends Observable implements MatchDataInterface, Serializable {
     protected List<Island> islands;
-    private List<Cloud> clouds;
+    protected List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     protected Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
@@ -187,7 +187,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //it's used to take the students from the bag and
     //put them into the cloud number "cloudNum"
     private Set<Student> pullStudentsFromCloud(int cloudNum) throws WrongCloudNumberException {
-        if (cloudNum < totalPlayersNum && cloudNum >= 0 && !(getCloudByID(cloudNum).equals(new Cloud(cloudNum)))) {
+        if (cloudNum < totalPlayersNum && cloudNum >= 0 ) {
             return getCloudByID(cloudNum).takeStudents();
         }
         throw new WrongCloudNumberException("wrong cloud's number");
@@ -220,26 +220,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     }
 
-    //ONLY FOR TEST
-    public void refillCloudsNoNotify() throws NoMoreStudentsException {
-        for (Cloud c : clouds) {
-            try {
-                c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
-            } catch (AlreadyFilledCloudException | MaxNumberException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-    }
-
     //TESTED
-    //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
-    //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
-    //the current player's entrance
+    //the param chosenCLoud require to contains the choice starting from 0, the method
+    //takes the students from the cloud "chosenCloud" to the current player's entrance
     public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException, FinishedGameEndTurnException, NoMoreStudentsException {
         try {
 
-            if (chosenCloud < totalPlayersNum && chosenCloud >= 0 && !(getCloudByID(chosenCloud).equals(new Cloud(chosenCloud))))
+            if (chosenCloud < totalPlayersNum && chosenCloud >= 0 )
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
@@ -689,7 +676,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException, FinishedGameEndTurnException {
         try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
                 int positionTmp = currentIsland;
@@ -704,16 +691,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 if (totalNumIslands <= 3)
                     throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
-                if (matchFinishedAtEndOfRound)
-                    throw new FinishedGameEndTurnException("Game over");
-
                 choicePhase = new CloudChoice();
                 notifyMatchObservers();
             } else throw new MaxNumberException("Cannot move mother nature that far");
         }catch (Exceptions e){
             e.manageException(this);
-        } catch (FinishedGameEndTurnException e) {
-            e.printStackTrace();
         }
     }
 
