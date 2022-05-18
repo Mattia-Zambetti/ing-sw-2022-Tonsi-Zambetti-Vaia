@@ -4,12 +4,12 @@ import model.Match;
 import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
+import server.Server;
 
 public class StartingMatchChoice extends Choice{
     private int totalPlayersNumMatch;
     private int matchType;
     private int numChoice=0;
-    private final static int TOTAL_NUM_MATCH_TYPE=2;
 
     public int getMatchType() {
         return matchType;
@@ -45,14 +45,15 @@ public class StartingMatchChoice extends Choice{
                         setTotalPlayersNumMatch(Integer.parseInt(input));
                         choicePlusPlus();
                     } else
-                        System.out.println("Error in the player number insertion, please give a number from 2 to 4");
+                        System.out.println(getRedString("Error in the player number insertion, please give a number from 2 to 4"));
                     return true;
                 case 1:
-                    if (Integer.parseInt(input) <= TOTAL_NUM_MATCH_TYPE && Integer.parseInt(input) > 0) {
+                    if (Integer.parseInt(input) <= Server.getTOTAL_NUM_MATCH_TYPE() && Integer.parseInt(input) > 0) {
                         setMatchType(Integer.parseInt(input));
                         System.out.println("Waiting other players... ");
                         return false;
                     }else
+                        System.out.println(getRedString("There are only "+Server.getTOTAL_NUM_MATCH_TYPE()+" types of match, " )+ retryMessage());
                         return true;
 
             }

@@ -1,5 +1,6 @@
 package controller.choice;
 
+import graphicAssets.CLIgraphicsResources;
 import model.Match;
 import model.Player;
 import model.TowerColor;
@@ -60,7 +61,7 @@ public class DataPlayerChoice extends Choice{
                         numChoice++;
                     }
                     else
-                        System.out.println("Error try again with another number");
+                        System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RED+"Error try again with another number"+ CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
                 }
                 return true;
             case 2:
@@ -70,7 +71,7 @@ public class DataPlayerChoice extends Choice{
                         return false;
                     }
                     else{
-                        System.out.println("Error try again with another number");
+                        System.out.println(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RED+"Error try again with another number"+ CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
                         return true;
                     }
                 }

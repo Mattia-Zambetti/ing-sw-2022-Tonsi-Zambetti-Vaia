@@ -442,9 +442,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     public void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
         try {
             if ( !islandPositions.contains(chosenIslandPosition) )
-                throw new NoIslandException("chosenIslandPosition out of bound, moveStudentFromEntranceToIsland failed");
+                throw new NoIslandException("Chosen island doesn't exist, operation failed, please try again");
             if ( this.islands.get(chosenIslandPosition) == null )
-                throw new NoIslandException("Island at chosenIslandPosition is null, moveStudentFromEntranceToIsland failed");
+                throw new NoIslandException("Chosen island is null, please try again");
             else {
                 this.islands.get(chosenIslandPosition).addStudent(currentPlayerDashboard.removeStudentFromEntrance(chosenStudent));
 

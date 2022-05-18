@@ -46,9 +46,9 @@ public class CardChoice extends Choice{
         if(isItAnInt(input)) {
             if(availableCards.get(Integer.parseInt(input))!=null) {
                 setChosenCard(Integer.parseInt(input));
-                System.out.println("You choose "+ getChosenCard()+" succesfully");
+                System.out.println(getRedString("You choose "+ getChosenCard()+" successfully"));
                 return false;
-            }else System.out.println("This card isn't in you deck, "+retryMessage());
+            }else System.out.println(getRedString("This card isn't in you deck, ")+retryMessage());
         }
         return true;
     }
