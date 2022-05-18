@@ -1,6 +1,7 @@
 //Tonsi, Zambo, Vaia
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.Message.MatchEndedMessage;
 import controller.choice.*;
 import model.Message.PlayerSuccessfullyCreated;
@@ -190,7 +191,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         if (cloudNum < totalPlayersNum && cloudNum >= 0 && !(getCloudByID(cloudNum).equals(new Cloud(cloudNum)))) {
             return getCloudByID(cloudNum).takeStudents();
         }
-        throw new WrongCloudNumberException("wrong cloud's number");
+        throw new WrongCloudNumberException("Cloud has already been chosen");
     }
 
     private Cloud getCloudByID(int ID) throws WrongCloudNumberException {
@@ -198,7 +199,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             if ( c.getID() == ID )
                 return c;
         }
-        throw new WrongCloudNumberException("wrong cloud's number");
+        throw new WrongCloudNumberException("Wrong cloud's number");
     }
 
     //TESTED
@@ -215,22 +216,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             }
         }
 
-        //setChanged();
-        //notifyObservers(this.toString());
-
     }
 
-    //ONLY FOR TEST
-    public void refillCloudsNoNotify() throws NoMoreStudentsException {
-        for (Cloud c : clouds) {
-            try {
-                c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
-            } catch (AlreadyFilledCloudException | MaxNumberException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-    }
 
     //TESTED
     //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
@@ -239,12 +226,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException, FinishedGameEndTurnException, NoMoreStudentsException {
         try {
 
-            if (chosenCloud < totalPlayersNum && chosenCloud >= 0 && !(getCloudByID(chosenCloud).equals(new Cloud(chosenCloud))))
+            if (chosenCloud < totalPlayersNum && chosenCloud >= 0)
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
-            //setChanged();
-            //notifyObservers(this);
 
 
             if(!setNextCurrDashboard()){
@@ -569,6 +554,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
         for ( Dashboard d : dashboardsCollection ) {
             outputString = outputString.concat(d.toString()+"Card played by " + d.getPlayer().getNickname() + ": " + d.getCurrentCard().toString() + "\n");
+            if(this instanceof ExpertMatch){
+                outputString=outputString.concat("Player coins number: "+ d.getCoinsNumber()+"\n");
+            }
         }
 
         for ( int i : islandPositions ) {
@@ -585,7 +573,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
     public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+        StringBuilder res=new StringBuilder(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RED);
+        res.append(errorMessage).append(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
+        this.errorMessage=res.toString();
     }
 
     @Override

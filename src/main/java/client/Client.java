@@ -34,6 +34,7 @@ public class Client implements Runnable{
     private boolean isChanged=false;
 
 
+
     public Client(String ip, int port){
         this.port=port;
         this.ip=ip;

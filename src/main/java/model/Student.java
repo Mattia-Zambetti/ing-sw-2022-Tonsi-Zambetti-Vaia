@@ -1,6 +1,8 @@
 // Zambo
 package model;
 
+import graphicAssets.CLIgraphicsResources;
+
 import java.io.Serializable;
 
 public final class Student implements Serializable {
@@ -42,7 +44,7 @@ public final class Student implements Serializable {
 
     @Override
     public String toString(){
-        return color.toString()+" student";
+        return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(color)+ " " + color.toString() + " student" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR;
     }
 
 

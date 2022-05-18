@@ -8,7 +8,6 @@ import model.exception.WrongCloudNumberException;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class Cloud  implements Serializable {
@@ -65,7 +64,7 @@ public class Cloud  implements Serializable {
             if (students.size() == getStudentsNumOnCloud())
                 studentsOnCloud.addAll(new HashSet<>(students));
             else throw new MaxNumberException("Wrong size of the set to refill the clouds");
-        }else throw new AlreadyFilledCloudException("there's a cloud that has already been filled");
+        }else throw new AlreadyFilledCloudException("There's a cloud that has already been filled");
     }
 
     public int getID() {

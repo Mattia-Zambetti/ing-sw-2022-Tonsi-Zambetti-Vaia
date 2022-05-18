@@ -1,6 +1,7 @@
 package model;
 
 import controller.choice.CloudChoice;
+import graphicAssets.CLIgraphicsResources;
 import model.figureCards.*;
 import model.exception.*;
 
@@ -56,8 +57,17 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public String toString() {
         int i=1;
         StringBuilder res= new StringBuilder(super.toString());
+
+        StringBuilder res2=new StringBuilder();
+
+        res2.append("\nCharacter cards in this game:\n");
         for(FigureCard f: figureCards)
-            res.append(i++).append(".").append(f).append("\n");
+            res2.append(i++).append(".").append(f).append("\n");
+
+        res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_YELLOW);
+        res2.append("\nPRESS THE COMMAND \"F\" TO PLAY A CHARACTER CARD(you can do this only in your turn)\n");
+        res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
+        res.append(res2);
 
         return res.toString();
     }
