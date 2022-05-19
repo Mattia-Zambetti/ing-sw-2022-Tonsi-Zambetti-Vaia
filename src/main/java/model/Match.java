@@ -659,7 +659,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NegativeNumberOfTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
                 int positionTmp = currentIsland;
@@ -687,7 +687,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
-    public void mergeIsland(int islandToBeMerged) throws NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void mergeIsland(int islandToBeMerged) throws NoMoreTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
         studentsToBeMergedTmp = islands.get(islandToBeMerged).getStudents();
@@ -727,7 +727,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return tmp;
     }
 
-    public void checkNearbyIslands() throws NoTowerException, NoIslandException, NegativeNumberOfTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
+    public void checkNearbyIslands() throws NoTowerException, NoIslandException, NoMoreTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
         previousIslandTmp = previousIsland(currentIsland);
@@ -796,13 +796,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return dashboardsCollection.get(dasboardInfluencer);
     }
 
-    public ArrayList<Tower> removeTowersFromDashboard(int dashboard, int towersToRemove) throws NegativeNumberOfTowerException {
+    public ArrayList<Tower> removeTowersFromDashboard(int dashboard, int towersToRemove) throws NoMoreTowerException {
         return dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
     }
 
     //TODO NegativeNumberOfTowerException non bisogna fare printStackTrace ma va ritornata al controller che segnala che la partita è finita e ha vinto il giocatore che ha finito le torri
     //TODO SameInfluenceException mai sollevata
-    public void changeTowerColorOnIsland() throws SameInfluenceException, CardNotFoundException, NegativeNumberOfTowerException, NoTowerException, InvalidNumberOfTowers, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NoListOfSameColoredTowers {
+    public void changeTowerColorOnIsland() throws SameInfluenceException, CardNotFoundException, NoMoreTowerException, NoTowerException, InvalidNumberOfTowers, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NoListOfSameColoredTowers {
         //try{
         try{Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
         int towersNum = 0;

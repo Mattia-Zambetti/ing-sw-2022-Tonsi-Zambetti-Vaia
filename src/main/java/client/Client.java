@@ -49,8 +49,17 @@ public class Client implements Runnable{
         this.player = player;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void setIdThis(int idThis) {
         this.idThis = idThis;
+    }
+    public void printToCLI( String s ) {
+        PrintWriter writeUser=new PrintWriter(System.out);
+        writeUser.println(s);
+        writeUser.flush();
     }
 
     @Override
@@ -161,11 +170,10 @@ public class Client implements Runnable{
 
                             if (actualToDoChoice instanceof CardChoice)
                                 matchCompletelyCreated = true;
-                            if(matchCompletelyCreated){
+                            if(matchCompletelyCreated) {
                                 writeUser.println(matchView);
                                 writeUser.flush();
                             }
-
 
 
                             if((actualToDoChoice instanceof DataPlayerChoice && isChanged)
@@ -191,4 +199,5 @@ public class Client implements Runnable{
         t.start();
         return t;
     }
+
 }
