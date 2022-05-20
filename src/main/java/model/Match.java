@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.*;
 public class Match extends Observable implements MatchDataInterface, Serializable {
     protected List<Island> islands;
-    protected List<Cloud> clouds;
+    private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     protected Dashboard currentPlayerDashboard;
     private HashMap<Color, Master> mastersMap;
@@ -206,6 +206,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //with new students from the bag
     public void refillClouds(){
         for (Cloud c : clouds) {
+            c.setCloudNotChosen();
             try {
                 c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
             } catch (AlreadyFilledCloudException | MaxNumberException e) {

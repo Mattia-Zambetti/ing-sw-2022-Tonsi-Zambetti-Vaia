@@ -226,4 +226,12 @@ public class Dashboard implements Serializable {
         return OutputString;
     }
 
+    /*@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dashboard d))
+            return false;
+        return player.equals(d.getPlayer());
+    }*/
+
 }

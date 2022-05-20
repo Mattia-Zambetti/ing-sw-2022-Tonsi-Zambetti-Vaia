@@ -44,6 +44,10 @@ public class Cloud  implements Serializable {
         return studentsNumOnCloud;
     }
 
+    public void setCloudNotChosen() {
+        cloudAlreadyChosen=false;
+    }
+
     //It returns the students on this cloud in a Set and it removes them from it.
     //It throws an exception if the cloud is empty
     public Set<Student> takeStudents() throws WrongCloudNumberException {
@@ -65,11 +69,7 @@ public class Cloud  implements Serializable {
                     throw new MaxNumberException("Wrong parameter in refilling cloud's operation");
                 }
             }
-            if (students.size() == getStudentsNumOnCloud()) {
-                studentsOnCloud.addAll(new HashSet<>(students));
-                cloudAlreadyChosen = false;
-            }
-            else throw new MaxNumberException("Wrong size of the set to refill the clouds");
+            studentsOnCloud.addAll(new HashSet<>(students));
         }else throw new AlreadyFilledCloudException("there's a cloud that has already been filled");
     }
 
