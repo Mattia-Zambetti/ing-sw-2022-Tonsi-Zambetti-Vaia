@@ -26,7 +26,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     protected final List<Integer> islandPositions = new ArrayList<>();
     private int towersNum;
 
-    private int counterMoveStudents=0;
+    protected int counterMoveStudents=0;
 
     //utile definire tanti attributi così per avere codice facilmente modificabile
     private final int ISLANDSNUM=12;
