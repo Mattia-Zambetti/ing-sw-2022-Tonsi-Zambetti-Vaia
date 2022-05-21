@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class FigureCardWithStudents extends FigureCard implements Serializable {
-    protected static Set<Student> studentsOnCard;
+    protected Set<Student> studentsOnCard;
     protected int studentsNumOnCard;
     protected int maxTakeStudentsNum;
 
@@ -44,12 +44,12 @@ public abstract class FigureCardWithStudents extends FigureCard implements Seria
         return true;
     }
 
-    public static Set<Student> getStudentsOnCard(){
+    public Set<Student> getStudentsOnCard(){
         return new HashSet<>(studentsOnCard);
     }
 
     //TODO DA TESTARE
-    public static Student getStudentsOnCardByInt(int studentChosen){
+    public Student getStudentsOnCardByInt(int studentChosen){
         return studentsOnCard.stream().toList().get(studentChosen);
     }
 

@@ -1,6 +1,7 @@
 package controller.choice;
 
 import model.Match;
+import model.MatchDataInterface;
 import model.exception.*;
 
 public class CloudChoice extends Choice{
@@ -18,7 +19,7 @@ public class CloudChoice extends Choice{
     }
 
     @Override
-    public String toString() {
+    public String toString(MatchDataInterface match) {
         return "Insert cloud number you want to take: ";
     }
 
@@ -27,6 +28,7 @@ public class CloudChoice extends Choice{
         if(isItAnInt(input))
             setChosenCloudID(Integer.parseInt(input));
         else return true;
+        completed = true;
         return false;
     }
 

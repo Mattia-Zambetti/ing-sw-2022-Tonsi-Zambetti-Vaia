@@ -1,6 +1,7 @@
 package controller.choice;
 
 import model.Match;
+import model.MatchDataInterface;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.NoMoreBlockCardsException;
@@ -20,6 +21,7 @@ public class MoveMotherNatureChoice extends Choice{
     public boolean setChoiceParam(String input) {
         if(isItAnInt(input)) {
             setMovement(Integer.parseInt(input));
+            completed = true;
             return false;
         }
         return true;
@@ -31,7 +33,7 @@ public class MoveMotherNatureChoice extends Choice{
     }
 
     @Override
-    public String toString() {
+    public String toString(MatchDataInterface match) {
         return "Insert the number of mother nature movement you want to do: " ;
     }
 }

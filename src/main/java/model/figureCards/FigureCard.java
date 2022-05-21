@@ -1,6 +1,7 @@
 //Tonsi
 package model.figureCards;
 
+import controller.choice.Choice;
 import model.ExpertMatchInterface;
 
 import java.io.Serializable;
@@ -8,6 +9,12 @@ import java.io.Serializable;
 public abstract class FigureCard implements Serializable {
     protected int price;
     protected int cardId;
+
+    public Choice actualChoice;
+
+    public Choice getActualChoice() {
+        return actualChoice;
+    }
 
     public void pricePlusPlus() {
         this.price++;

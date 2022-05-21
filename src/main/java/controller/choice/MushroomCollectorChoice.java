@@ -3,6 +3,7 @@ package controller.choice;
 import model.Color;
 import model.ExpertMatch;
 import model.Match;
+import model.MatchDataInterface;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 
@@ -22,6 +23,7 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
         try {
             if(isItAnInt(input))
                 setBlockedColor(Integer.parseInt(input) - 1);
+            completed = true;
             return false;
         }catch (IndexOutOfBoundsException e){
             System.out.println("Colore non trovato: ");
@@ -35,12 +37,13 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
     }
 
     @Override
-    public String toString() {
+    public String toString(MatchDataInterface match) {
         StringBuilder tmp = new StringBuilder();
         int counter = 1;
         tmp.append("Please choose the color you want to block: ");
         for (Color c: Color.values()){
-            tmp.append( counter + ") "+c.toString());
+            tmp.append("\n"+ counter + ") "+c.toString());
+            counter++;
         }
         return tmp.toString();
     }

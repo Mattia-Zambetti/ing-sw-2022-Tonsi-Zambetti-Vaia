@@ -2,6 +2,7 @@ package controller.choice;
 
 import model.Card;
 import model.Match;
+import model.MatchDataInterface;
 import model.exception.CardAlreadyPlayedException;
 import model.exception.CardNotFoundException;
 
@@ -31,9 +32,8 @@ public class CardChoice extends Choice{
         return availableCards.get(chosenCard);
     }
 
-
     @Override
-    public String toString() {
+    public String toString(MatchDataInterface match) {
         StringBuilder string=new StringBuilder("Choose a card id from your deck:\n");
         for (Card c:availableCards.values()) {
             string.append(c.toString()+"\n");
@@ -47,6 +47,7 @@ public class CardChoice extends Choice{
             if(availableCards.get(Integer.parseInt(input))!=null) {
                 setChosenCard(Integer.parseInt(input));
                 System.out.println("You choose "+ getChosenCard()+" succesfully");
+                completed = true;
                 return false;
             }else System.out.println("This card isn't in you deck, "+retryMessage());
         }

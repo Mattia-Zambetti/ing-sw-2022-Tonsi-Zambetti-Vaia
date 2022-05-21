@@ -1,5 +1,6 @@
 package model;
 
+import controller.Controller;
 import controller.choice.CloudChoice;
 import model.figureCards.*;
 import model.exception.*;
@@ -128,9 +129,11 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
     public void playFigureCard(FigureCard card) throws CardNotFoundException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
         if(figureCards.contains(card)){
+            card = figureCards.get(figureCards.indexOf(card));
             currentPlayerDashboard.removeCoin(card.getPrice());
             figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).playCard(this);
             card.pricePlusPlus();
+            notifyMatchObservers();
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
 
@@ -143,6 +146,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     @Override
     public void setIsKnight() {
         currentPlayerDashboard.setKnight(true);
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
     }
 
     @Override
@@ -181,13 +186,13 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
 
     public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCard){
-        this.setChanged();
-        notifyObservers(figureCard); //TODO vedremo se basta così
+        choicePhase = figureCard.getActualChoice();
+        notifyMatchObservers();
     }
 
     public void notifyIslandFigureCard(FigureCard figureCard){
-        this.setChanged();
-        notifyObservers(figureCard); //TODO METTERE APPOSTO
+        choicePhase = figureCard.getActualChoice();
+        notifyMatchObservers();
     }
 
 
@@ -201,6 +206,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                 }
             }
         }
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
     }
 
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents, Set<Student> studentsFromEntrance)
@@ -219,7 +226,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                     }
                 }
             }
-
+            setChoicePhase(Controller.getTmpChoice());
+            notifyMatchObservers();
         }else throw new MaxNumberException("Wrong parameters for this method(taking students from the jester)...");
     }
 
@@ -234,13 +242,16 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                }
            }
        }
-
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
     }
 
     public void placeForbiddenCards(int islandToSetForbidden) throws NoIslandException, NoMoreBlockCardsException {
         if(islandPositions.contains((Integer) islandToSetForbidden)){
             islands.get(islandToSetForbidden).setForbidden(true);
             GrannyGrass.removeBlockCard();
+            setChoicePhase(Controller.getTmpChoice());
+            notifyMatchObservers();
         }
         else throw new NoIslandException("Insert an island that exists");
     }
@@ -249,6 +260,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public void blockColorForInfluence(Color color){
         colorBlocked = color.ordinal();
         color.lockColor();
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
     }
 
 

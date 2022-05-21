@@ -1,5 +1,6 @@
 package model.figureCards;
 
+import controller.choice.JesterChoice;
 import model.Bag;
 import model.Student;
 import model.exception.MaxNumberException;
@@ -20,6 +21,7 @@ public class Jester extends FigureCardWithStudents implements Serializable {
         setStudentsOnCard(Bag.removeStudents(studentsNumOnCard));
         cardId=2;
         maxTakeStudentsNum=MAXTAKESTUDENTSNUM;
+        actualChoice = new JesterChoice(this);
     }
 
 
