@@ -2,15 +2,21 @@ package controller.choice;
 
 import model.ExpertMatch;
 import model.Match;
+import model.MatchDataInterface;
 import model.Student;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
+import model.figureCards.FigureCardWithStudents;
 import model.figureCards.Merchant;
 
 import java.util.List;
 
 public class MerchantChoice extends FigureCardWithStudentsChoice {
     private int chosenIslandID, numChoice = 0, islandPositionSize;
+
+    public MerchantChoice(FigureCardWithStudents figureCardWithStudents) {
+        super(figureCardWithStudents);
+    }
 
     public int getChosenIslandID() {
         return chosenIslandID;
@@ -44,11 +50,12 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
                         System.out.println("Island not found, please try again:");
                         return true;
                     }
+                    completed = true;
                     return false;
                 }
                 return true;
         }
-
+        completed = true;
         return false;
     }
 
@@ -58,20 +65,22 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
     }
 
     public String toString(){return "";}
-    public String toString(List<Integer> islandPositions){
+    public String toString(MatchDataInterface match){
         StringBuilder tmp = new StringBuilder();
-        islandPositionSize = islandPositions.size();
+        islandPositionSize = match.getIslandPositions().size();
         int counter = 1;
         switch (numChoice){
             case 0:
                 tmp.append("Choose the student you want to move: ");
-                for (Student s : Merchant.getStudentsOnCard())
+                for (Student s : figureCardWithStudents.getStudentsOnCard()){
                     tmp.append("\n" +counter + ") "+ s.toString());
+                    counter++;
+                }
                 break;
             case 1:
                 tmp.append("Choose the island where you want to put it on:");
-                for (int i = 0; i < islandPositions.size(); i++)
-                    tmp.append(i + ") Island");
+                for (int i = 0; i < match.getIslandPositions().size(); i++)
+                    tmp.append("\n" + i + ") Island");
         }
         return tmp.toString();
     }

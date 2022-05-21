@@ -1,5 +1,6 @@
 package model.figureCards;
 
+import controller.choice.GrannyGrassChoice;
 import model.ExpertMatchInterface;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ public class GrannyGrass extends FigureCard  implements Serializable {
     public GrannyGrass() {
         setPrice(PRICECARD);
         cardId=8;
+        actualChoice = new GrannyGrassChoice();
     }
 
 

@@ -5,6 +5,7 @@ import model.Match;
 import model.Player;
 import model.TowerColor;
 import model.Wizard;
+import model.*;
 import model.exception.MaxNumberException;
 import model.exception.NoMoreStudentsException;
 import model.exception.WrongColorException;
@@ -68,6 +69,7 @@ public class DataPlayerChoice extends Choice{
                 if(isItAnInt(input)){
                     if(Integer.parseInt(input)>0 && Integer.parseInt(input) <= Wizard.values().length ) {
                         wizard = Integer.parseInt(input)-1;
+                        completed = true;
                         return false;
                     }
                     else{
@@ -78,7 +80,7 @@ public class DataPlayerChoice extends Choice{
                 else
                     return true;
         }
-
+        completed = true;
         return false;
     }
 
@@ -88,7 +90,7 @@ public class DataPlayerChoice extends Choice{
     }
 
     @Override
-    public String toString() {
+    public String toString(MatchDataInterface match) {
 
         StringBuilder OutputString = new StringBuilder();
         int counter = 1;

@@ -1,4 +1,5 @@
 package model.figureCards;
+import controller.choice.MerchantChoice;
 import model.Bag;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public class Merchant extends FigureCardWithStudents  implements Serializable {
         setStudentsOnCard(Bag.removeStudents(studentsNumOnCard));
         cardId=4;
         maxTakeStudentsNum=MAXTAKESTUDENTSNUM;
+        actualChoice = new MerchantChoice(this);
     }
 
 

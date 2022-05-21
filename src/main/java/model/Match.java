@@ -6,6 +6,7 @@ import model.Message.MatchEndedMessage;
 import controller.choice.*;
 import model.Message.PlayerSuccessfullyCreated;
 import model.exception.*;
+import model.figureCards.FigureCard;
 import model.figureCards.NoMoreBlockCardsException;
 
 import java.io.Serializable;
@@ -603,6 +604,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return NicknamesList;
     }
 
+    @Override
+    public List<FigureCard> showFigureCardsInGame() {
+        return null;
+    }
 
 
     public void setCurrentPlayerWinners() {

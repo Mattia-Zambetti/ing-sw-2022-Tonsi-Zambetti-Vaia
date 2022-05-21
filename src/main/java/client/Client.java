@@ -2,6 +2,7 @@ package client;
 
 
 import controller.choice.*;
+import model.ExpertMatch;
 import model.MatchDataInterface;
 import model.Message.ConfirmationMessage;
 import model.Player;
@@ -11,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Client implements Runnable{
@@ -28,11 +31,15 @@ public class Client implements Runnable{
 
     private boolean isActive=true;
     private volatile boolean isChoiceTime;
+    private boolean figureCardNotPlayed = true;
 
     private boolean matchCompletelyCreated = false;
 
+    Choice actualToDoChoiceQueue;
+
     private boolean isChanged=false;
 
+    private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
 
 
     public Client(String ip, int port){
@@ -97,23 +104,26 @@ public class Client implements Runnable{
                             writeUser.flush();
                         } else {
 
+                            if(allowedCommands.contains(input) && matchView instanceof ExpertMatch && !(actualToDoChoice instanceof  FigureCardActionChoice) && !(actualToDoChoice instanceof  CardChoice) && !(actualToDoChoice instanceof  DataPlayerChoice) && figureCardNotPlayed){
+                                Choice figureCardChoice = new FigureCardPlayedChoice(matchView.showFigureCardsInGame());
+                                actualToDoChoiceQueue = actualToDoChoice;
+                                actualToDoChoice = figureCardChoice;
+                                figureCardNotPlayed = false;
+                                outputStream.writeObject(actualToDoChoiceQueue);
+                                outputStream.flush();
+                            }
 
                             isChoiceTime=actualToDoChoice.setChoiceParam(input);
 
 
                             if(isChoiceTime) {
-                                if(actualToDoChoice instanceof JesterChoice)
-                                    writeUser.println(((JesterChoice) actualToDoChoice).toString(matchView.showCurrentPlayerDashboard().showEntrance()));
-                                else if(actualToDoChoice instanceof GrannyGrassChoice)
-                                    writeUser.println(((GrannyGrassChoice)actualToDoChoice).toString(matchView.getIslandPositions()));
-                                else if(actualToDoChoice instanceof MerchantChoice)
-                                    writeUser.println(((MerchantChoice)actualToDoChoice).toString(matchView.getIslandPositions()));
-                                else
-                                    writeUser.println(actualToDoChoice);
+                                writeUser.println(actualToDoChoice.toString(matchView));
                                 writeUser.flush();
                             }
 
                             else {
+                                if(actualToDoChoice instanceof CloudChoice)
+                                    figureCardNotPlayed = true;
                                 outputStream.writeObject(actualToDoChoice);
                                 outputStream.flush();
                             }
@@ -153,7 +163,7 @@ public class Client implements Runnable{
                         if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
                             actualToDoChoice = s;
-                            writeUser.println(actualToDoChoice);
+                            writeUser.println(actualToDoChoice.toString(matchView));
                             writeUser.flush();
                             while (isChoiceTime) {
                             }
@@ -179,7 +189,7 @@ public class Client implements Runnable{
                             if((actualToDoChoice instanceof DataPlayerChoice && isChanged)
                                     ||(!(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player)) ) {
                                 writeUser.println(matchView.getErrorMessage());
-                                writeUser.println(matchView.getChoice().toString());
+                                writeUser.println(matchView.getChoice().toString(matchView));
                                 writeUser.flush();
                                 isChanged=false;
                                 isChoiceTime = true;

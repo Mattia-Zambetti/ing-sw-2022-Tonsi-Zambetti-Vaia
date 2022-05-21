@@ -2,6 +2,7 @@ package controller.choice;
 
 import graphicAssets.CLIgraphicsResources;
 import model.Match;
+import model.MatchDataInterface;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.NoMoreBlockCardsException;
@@ -12,9 +13,13 @@ public abstract class Choice implements Serializable {
 
     private static final long serialVersionUID =445345454;
 
+    public boolean completed = false;
+
     public abstract boolean setChoiceParam(String input);
 
     public abstract void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoMoreBlockCardsException, NoIslandException, SameInfluenceException, WrongDataplayerException, NoMasterException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException, FinishedGameEndTurnException;
+
+    public abstract String toString(MatchDataInterface match);
 
 
     public boolean isItAnInt(String input){

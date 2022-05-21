@@ -1,6 +1,7 @@
 package controller.choice;
 
 import model.Match;
+import model.MatchDataInterface;
 import model.Student;
 import model.exception.*;
 
@@ -52,7 +53,7 @@ public class MoveStudentChoice extends Choice{
     }
 
     @Override
-    public String toString() {
+    public String toString(MatchDataInterface match) {
         switch (numChoice){
             case 0:
                 StringBuilder stringBuilder=new StringBuilder("Insert which student you want to take:\n");
@@ -106,6 +107,7 @@ public class MoveStudentChoice extends Choice{
                         choiceplus();
                         if (possiblePlace[0].equals(getWhereToMove())) {
                             System.out.println("You choose to move in " + possiblePlace[whereToMove - 1] + " the " + studentsOnEntrance.get(chosenStudent - 1));
+                            completed = true;
                             return false;
                         }
 
@@ -114,6 +116,7 @@ public class MoveStudentChoice extends Choice{
 
                 case 2:
                     setIslandID(Integer.parseInt(input));
+                    completed = true;
                     return false;
             }
         }

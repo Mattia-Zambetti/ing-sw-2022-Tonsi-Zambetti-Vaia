@@ -1,4 +1,5 @@
 package model.figureCards;
+import controller.choice.PrincessChoice;
 import model.Bag;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class Princess extends FigureCardWithStudents  implements Serializable {
         setStudentsOnCard(Bag.removeStudents(studentsNumOnCard));
         cardId=7;
         maxTakeStudentsNum=MAXTAKESTUDENTSNUM;
+        actualChoice = new PrincessChoice(this);
     }
 
     @Override

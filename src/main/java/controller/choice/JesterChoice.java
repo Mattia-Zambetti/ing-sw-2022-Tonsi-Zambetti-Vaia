@@ -6,10 +6,13 @@ import model.MatchDataInterface;
 import model.Student;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
+import model.figureCards.FigureCardWithStudents;
 import model.figureCards.Jester;
 import model.figureCards.Merchant;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class JesterChoice extends FigureCardWithStudentsChoice {
@@ -17,8 +20,13 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
     int numStudentsToMove, numStudentsToMove1, studentToMove;
     public int numChoice = 0;
 
-    Set<Student> studentsInEntrance;
+    List<Student> studentsInEntrance;
     private Set<Student> studentsFromEntrance;
+
+    public JesterChoice(FigureCardWithStudents figureCardWithStudents) {
+        super(figureCardWithStudents);
+        studentsFromEntrance = new HashSet<>();
+    }
 
     public Set<Student> getStudentsFromEntrance() {
         return new HashSet<>(studentsFromEntrance);
@@ -35,8 +43,9 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
             switch (numChoice){
                 case 0:
                     if(isItAnInt(input)){
-                        numStudentsToMove1 = numStudentsToMove = Integer.parseInt(input);
-                        if(numStudentsToMove > 0 || numStudentsToMove <= 3){
+                        numStudentsToMove1 = Integer.parseInt(input);
+                        numStudentsToMove = Integer.parseInt(input);
+                        if(numStudentsToMove > 0 && numStudentsToMove <= 3){
                             numChoice++;
                         }
                         else
@@ -48,8 +57,8 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
                     if(isItAnInt(input)){
                         studentToMove = Integer.parseInt(input) - 1;
                         try{
-                            if(!chosenStudents.contains(Jester.getStudentsOnCardByInt(studentToMove))){
-                                chosenStudents.add(Jester.getStudentsOnCardByInt(studentToMove));
+                            if(!chosenStudents.contains(figureCardWithStudents.getStudentsOnCardByInt(studentToMove))){
+                                chosenStudents.add(figureCardWithStudents.getStudentsOnCardByInt(studentToMove));
                                 numStudentsToMove --;
                             }
                             else
@@ -67,8 +76,8 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
                     if(isItAnInt(input)){
                         studentToMove = Integer.parseInt(input) - 1;
                         try{
-                            if(!chosenStudents.contains(Jester.getStudentsOnCardByInt(studentToMove))){
-                                studentsFromEntrance.add(studentsInEntrance.stream().toList().get(studentToMove));
+                            if(!studentsFromEntrance.contains(studentsInEntrance.get(studentToMove))){
+                                studentsFromEntrance.add(studentsInEntrance.get(studentToMove));
                                 numStudentsToMove1 --;
                             }
                             else
@@ -78,12 +87,15 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
                             System.out.println("No student found at that index, try again:");
                             return true;
                         }
-                        if(numStudentsToMove1 == 0)
+                        if(numStudentsToMove1 == 0){
+                            completed = true;
                             return false;
+                        }
+
                     }
                     return true;
             }
-
+            completed = true;
             return false;
         }
 
@@ -93,10 +105,9 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
         ((ExpertMatch)match).takeStudentsOnFigureCard( this.getChosenStudent(), this.getStudentsFromEntrance());
     }
 
-    public String toString(){return " ";}
-    public String toString(Set<Student> studentsInEntrance){
+    public String toString(MatchDataInterface match){
         StringBuilder tmp = new StringBuilder();
-        this.studentsInEntrance = studentsInEntrance;
+        this.studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
         int counter = 1;
         switch (numChoice){
             case 0:
@@ -104,7 +115,7 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
                 break;
             case 1:
                 tmp.append("Choose the student you want to move: ");
-                for (Student s : Jester.getStudentsOnCard()){
+                for (Student s : figureCardWithStudents.getStudentsOnCard()){
                     if(!chosenStudents.contains(s))
                         tmp.append("\n" + counter + ") "+ s.toString());
                     counter++;

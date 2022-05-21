@@ -1,5 +1,7 @@
 package model.figureCards;
 
+import controller.choice.MerchantChoice;
+import controller.choice.MushroomCollectorChoice;
 import model.ExpertMatchInterface;
 
 import java.io.Serializable;
@@ -9,6 +11,7 @@ public class MushroomCollector extends FigureCard  implements Serializable {
     public MushroomCollector(){
         setPrice(PRICECARD);
         cardId=5;
+        actualChoice = new MushroomCollectorChoice();
     }
 
 

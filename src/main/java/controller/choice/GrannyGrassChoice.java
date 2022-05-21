@@ -2,6 +2,7 @@ package controller.choice;
 
 import model.ExpertMatch;
 import model.Match;
+import model.MatchDataInterface;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.NoMoreBlockCardsException;
@@ -28,6 +29,7 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
                 System.out.println("Island not found, try again:");
                 return true;
             }
+            completed = true;
             return false;
         }
         return true;
@@ -38,16 +40,15 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
         ((ExpertMatch)match).placeForbiddenCards(this.getBlockedIslanID());
     }
 
-    @Override
-    public String toString(){
-        return "";
-    }
-    public String toString(List<Integer> islandPositions){
+
+    public String toString(MatchDataInterface match){
         StringBuilder tmp = new StringBuilder();
-        islandPositionSize = islandPositions.size();
+        islandPositionSize = match.getIslandPositions().size();
         tmp.append("Choose the Island you want to block: ");
-        for(int i = 0;i < islandPositions.size(); i++)
-            tmp.append(i + ") island");
-        return "";
+        for(int i = 0;i < match.getIslandPositions().size(); i++){
+            tmp.append("\n"+ i + ") island");
+        }
+
+        return tmp.toString();
     }
 }

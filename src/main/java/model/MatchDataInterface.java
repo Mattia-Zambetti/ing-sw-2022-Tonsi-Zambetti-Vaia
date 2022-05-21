@@ -1,6 +1,7 @@
 package model;
 
 import controller.choice.Choice;
+import model.figureCards.FigureCard;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,4 +20,6 @@ public interface MatchDataInterface extends Serializable {
     String getErrorMessage();
 
     List<Player> showAllPlayers();
+
+    List<FigureCard> showFigureCardsInGame();
 }

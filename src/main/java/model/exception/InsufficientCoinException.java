@@ -9,6 +9,8 @@ public class InsufficientCoinException extends Exceptions{
     }
 
     public void manageException(Match match){
-        //remoteView.sendError("You don't have enough coins");
+        match.setErrorMessage("You don't have enough coins");
+        match.notifyMatchObservers();
+        match.setErrorMessage("");
     }
 }

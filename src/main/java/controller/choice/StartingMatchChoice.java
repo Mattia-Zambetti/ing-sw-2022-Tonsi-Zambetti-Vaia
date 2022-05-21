@@ -1,6 +1,7 @@
 package controller.choice;
 
 import model.Match;
+import model.MatchDataInterface;
 import model.exception.CardNotFoundException;
 import model.exception.MaxNumberException;
 import model.exception.WrongCloudNumberException;
@@ -51,6 +52,7 @@ public class StartingMatchChoice extends Choice{
                     if (Integer.parseInt(input) <= Server.getTOTAL_NUM_MATCH_TYPE() && Integer.parseInt(input) > 0) {
                         setMatchType(Integer.parseInt(input));
                         System.out.println("Waiting other players... ");
+                        completed = true;
                         return false;
                     }else
                         System.out.println(getRedString("There are only "+Server.getTOTAL_NUM_MATCH_TYPE()+" types of match, " )+ retryMessage());
@@ -67,7 +69,7 @@ public class StartingMatchChoice extends Choice{
     }
 
     @Override
-    public String toString() {
+    public String toString(MatchDataInterface match) {
         String OutputString = "";
         switch (getNumChoice()) {
             case 0:

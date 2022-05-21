@@ -18,10 +18,15 @@ import java.util.*;
 
 public class Controller implements Observer {
     private final Match match;
+    private static Choice tmpChoice;
     private static final int NUMSTUDENTSMOVE=3;
 
     public Controller(Match match){
         this.match=match;
+    }
+
+    public static Choice getTmpChoice() {
+        return tmpChoice;
     }
 
     @Override
@@ -29,7 +34,13 @@ public class Controller implements Observer {
         if (o instanceof RemoteView) {
             if ( arg instanceof Choice) {
                 try {
-                    ((Choice) arg).manageUpdate(match);
+                    if(((Choice) arg).completed){
+                        System.out.println("ciao");
+                        ((Choice) arg).manageUpdate(match);
+                        System.out.println("arrivederci");
+                    }
+                    else
+                        tmpChoice = (Choice)arg;
                 } catch (Exceptions e) {
                     e.manageException(match);
                 } catch (FinishedGameExceptions e) { //Finished game exceptions
