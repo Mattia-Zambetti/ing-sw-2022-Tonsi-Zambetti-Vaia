@@ -28,14 +28,14 @@ public class Server implements Runnable {
     private int totalPlayerNumber;
     private int matchType;
 
-    private HashSet<Connection> waitingRoom;
+    private HashSet<Connection> playersConnections;
 
 
     public Server() {
         try {
             executor = Executors.newFixedThreadPool(128);
             connections = new ArrayList<>();
-            waitingRoom = new HashSet<>();
+            playersConnections = new HashSet<>();
             serverSocket = new ServerSocket(PORT);
             nicknames = new HashSet<>();
         } catch (IOException e) {
@@ -81,10 +81,10 @@ public class Server implements Runnable {
 
     public synchronized void lobby(Connection c) {
         Match match = null;
-        waitingRoom.add(c);
+        playersConnections.add(c);
 
 
-        if (waitingRoom.size() == totalPlayerNumber) {
+        if (playersConnections.size() == totalPlayerNumber) {
 
 
 
@@ -121,8 +121,19 @@ public class Server implements Runnable {
                 return;
             }
 
-            waitingRoom.clear();
-            nicknames.clear();
+            //Actually the server maintains all the connections in the waiting room, so, when a connection is interrupted, all others connections are closed
+            //waitingRoom.clear();
+            //nicknames.clear();
+        }
+    }
+
+    public synchronized void deregisterConnection(Connection c){
+        connections.remove(c);
+        for ( Connection connection : playersConnections ) {
+            if ( connection!=c ) {
+                connection.closeConnection();
+                playersConnections.remove(connection);
+            }
         }
     }
 

@@ -36,6 +36,27 @@ public class Connection extends Observable implements Runnable{
         }
     }
 
+    public synchronized void closeConnection() {
+        send("One player logged off, connection closed");
+        try{
+            clientSocket.close();
+        }catch (IOException e){
+            System.err.println(e.getMessage());
+        }
+        isActive = false;
+    }
+
+    private void close(){
+        closeConnection();
+        System.out.println("Deregistering all connections");
+        server.deregisterConnection(this);
+        System.out.println("Done!");
+    }
+
+    private synchronized boolean isActive() {
+        return isActive;
+    }
+
     public void run (){
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
@@ -55,11 +76,11 @@ public class Connection extends Observable implements Runnable{
 
 
 
-                server.lobby(this);
+            server.lobby(this);
 
 
 
-            while(isActive) {
+            while(isActive()) {
                 o = scannerIn.readObject();
                 if (o instanceof Choice) {
                     choice = (Choice) o;
@@ -67,12 +88,11 @@ public class Connection extends Observable implements Runnable{
                     notifyObservers(choice);
                 }
             }
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            close();
         }
-
-
     }
 
 }
