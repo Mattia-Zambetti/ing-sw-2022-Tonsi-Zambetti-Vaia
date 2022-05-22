@@ -807,64 +807,67 @@ public class MatchTest {
 
     }
 
+    //This test checks that the Match ends correctly when there are no more students in the bag
     @Test
     void studentsFinishedEndOfMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameEndTurnException, NoMasterException, CardAlreadyPlayedException {
-        match = new Match(2);
-        match.addPlayer("1", "BLACK", "WIZARD1", 1);
-        match.addPlayer("2", "WHITE", "WIZARD2", 2);
+        Bag.restoreBag();
+        Match match2 = new Match(2);
+        match2.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match2.addPlayer("2", "WHITE", "WIZARD2", 2);
         boolean exception = false;
 
-        match.chooseCard(new Card(10, 5, 10));
-        match.chooseCard(new Card(9, 5, 9));
+        match2.chooseCard(new Card(10, 5, 10));
+        match2.chooseCard(new Card(9, 5, 9));
 
         for (Color k : Color.values()) {
-            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
-            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+            match2.dashboardsCollection.get(0).insertMaster(match2.getMasters().get(k));
+            assertTrue(match2.dashboardsCollection.get(0).haveMaster(k));
         }
 
         for ( int j = 0; j<3; j++ )
-            match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
-        match.moveStudentsFromCloudToEntrance(0);
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.moveStudentsFromCloudToEntrance(0);
         for ( int j = 0; j<3; j++ )
-            match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
-        match.moveStudentsFromCloudToEntrance(1);
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.moveStudentsFromCloudToEntrance(1);
 
         for( int i=0; i<16; i++) {
             try {
                 for ( int j = 0; j<3; j++ )
-                    match.moveStudentFromEntranceToIsland(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
-                match.moveStudentsFromCloudToEntrance(0);
+                    match2.moveStudentFromEntranceToIsland(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
+                match2.moveStudentsFromCloudToEntrance(0);
                 for ( int j = 0; j<3; j++ )
-                    match.moveStudentFromEntranceToIsland(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
-                match.moveStudentsFromCloudToEntrance(1);
+                    match2.moveStudentFromEntranceToIsland(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
+                match2.moveStudentsFromCloudToEntrance(1);
             } catch ( WrongCloudNumberException e ) {
                 System.out.println(e);
             }
         }
 
         for ( int j = 0; j<3; j++ )
-            match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
-        match.setNextCurrDashboard();
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.setNextCurrDashboard();
         for ( int j = 0; j<3; j++ )
-            match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
-        match.setNextCurrDashboard();
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.setNextCurrDashboard();
 
-        match.moveMotherNature(1);
+        match2.moveMotherNature(1);
 
         try {
-            match.moveStudentsFromCloudToEntrance(0);
-            match.moveStudentsFromCloudToEntrance(1);
+            match2.moveStudentsFromCloudToEntrance(0);
+            match2.moveStudentsFromCloudToEntrance(1);
         } catch ( FinishedGameEndTurnException e ) {
             exception = true;
-            e.manageException(match);
+            e.manageException(match2);
         }
 
         assertTrue(exception);
-        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
-        assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
+        assertTrue(match2.getWinnerPlayers().contains(match2.dashboardsCollection.get(0).getPlayer()));
+        assertFalse(match2.getWinnerPlayers().contains(match2.dashboardsCollection.get(1).getPlayer()));
 
     }
 
+    //This test checks that the Match ends correctly when a player finishes his cards
     @Test
     void cardFinishedEndOfMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, WrongCloudNumberException, NoMasterException {
         match = new Match(2);

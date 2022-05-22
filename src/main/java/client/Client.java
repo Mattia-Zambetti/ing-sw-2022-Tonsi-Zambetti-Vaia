@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Client implements Runnable{
@@ -89,7 +90,7 @@ public class Client implements Runnable{
             @Override
             public void run() {
                 String input;
-                while (isActive) {
+                while (isActive()) {
                     try {
                         input=readUser.nextLine();
                         if (!isChoiceTime) {
@@ -141,7 +142,7 @@ public class Client implements Runnable{
 
 
 
-                while(isActive) {
+                while(isActive()) {
                     try {
 
                         Object obj = readSocket.readObject();
@@ -190,14 +191,28 @@ public class Client implements Runnable{
 
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (IOException | NoSuchElementException e) {
+                        System.out.println("A player has quit the game");
                         isActive = false;
+                    } finally {
+                        writeUser.close();
+                        try {
+                            readSocket.close();
+                            clientSocket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        //Completare chiusura socket e scanner
                     }
                 }
             }
         });
         t.start();
         return t;
+    }
+
+    private synchronized boolean isActive() {
+        return isActive;
     }
 
 }
