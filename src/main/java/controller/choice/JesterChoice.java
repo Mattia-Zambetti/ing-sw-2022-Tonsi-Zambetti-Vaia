@@ -7,10 +7,7 @@ import model.Student;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.FigureCardWithStudents;
-import model.figureCards.Jester;
-import model.figureCards.Merchant;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,7 +46,7 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
                             numChoice++;
                         }
                         else
-                            System.out.println("The number must be between 1 and 3, please try again:");
+                            System.out.println(getRedString("The number must be between 1 and 3, please try again:"));
                     }
                     return true;
 
@@ -62,10 +59,10 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
                                 numStudentsToMove --;
                             }
                             else
-                                System.out.println("Student already chosen, try again with another student:");
+                                System.out.println(getRedString("Student already chosen, try again with another student:"));
                         }
                         catch (IndexOutOfBoundsException e) {
-                            System.out.println("No student found at that index, try again:");
+                            System.out.println(getRedString("No student found at that index, try again:"));
                             return true;
                         }
                         if(numStudentsToMove == 0)
@@ -81,10 +78,10 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
                                 numStudentsToMove1 --;
                             }
                             else
-                                System.out.println("Student already chosen, try again with another student:");
+                                System.out.println(getRedString("Student already chosen, try again with another student:"));
                         }
                         catch (IndexOutOfBoundsException e) {
-                            System.out.println("No student found at that index, try again:");
+                            System.out.println(getRedString("No student found at that index, try again:"));
                             return true;
                         }
                         if(numStudentsToMove1 == 0){

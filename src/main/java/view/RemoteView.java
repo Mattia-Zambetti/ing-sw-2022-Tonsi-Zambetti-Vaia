@@ -1,7 +1,6 @@
 package view;
 
 import model.MatchDataInterface;
-import model.figureCards.FigureCard;
 import server.Connection;
 
 import java.util.Observable;
@@ -26,9 +25,6 @@ public class RemoteView extends Observable implements Observer {
     public synchronized void update(Observable o, Object arg) {
         if(o instanceof MatchDataInterface){
             connection.send(arg);
-        }else if (arg instanceof FigureCard) {
-            setChanged();
-            notifyObservers(arg);
         }
         else if(o instanceof Connection && o==connection){
             setChanged();

@@ -7,9 +7,6 @@ import model.Student;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.FigureCardWithStudents;
-import model.figureCards.Merchant;
-
-import java.util.List;
 
 public class MerchantChoice extends FigureCardWithStudentsChoice {
     private int chosenIslandID, numChoice = 0, islandPositionSize;
@@ -35,7 +32,7 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
                     try{
                         setChosenStudent();
                     }catch (IndexOutOfBoundsException e) {
-                        System.out.println("No student found at that index, try again:");
+                        System.out.println(getRedString("No student found at that index try again:"));
                         return true;
                     }
                     numChoice++;
@@ -47,7 +44,7 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
                 if(isItAnInt(input)){
                     chosenIslandID = Integer.parseInt(input);
                     if(chosenIslandID < 0 && chosenIslandID >= islandPositionSize) {
-                        System.out.println("Island not found, please try again:");
+                        System.out.println(getRedString("Island not found, please try again:"));
                         return true;
                     }
                     completed = true;

@@ -68,7 +68,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             res2.append(i++).append(".").append(f).append("\n");
 
         res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_YELLOW);
-        res2.append("\nPRESS THE COMMAND \"F\" TO PLAY A CHARACTER CARD(you can do this only in your turn)\n");
+        res2.append("\nPRESS THE COMMAND \"f\" TO PLAY A CHARACTER CARD(you can do this only in your turn)\n");
         res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
         res.append(res2);
 

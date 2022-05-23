@@ -3,7 +3,10 @@ package controller.choice;
 import model.ExpertMatch;
 import model.Match;
 import model.MatchDataInterface;
-import model.exception.*;
+import model.exception.CardNotFoundException;
+import model.exception.InsufficientCoinException;
+import model.exception.MaxNumberException;
+import model.exception.WrongCloudNumberException;
 import model.figureCards.FigureCard;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 
@@ -46,7 +49,7 @@ public class FigureCardPlayedChoice extends Choice{
             if(Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= 3)
                 setChosenFigureCard(Integer.parseInt(input)-1);
             else{
-                System.out.println("Please insert an existing Figure Card: ");
+                System.out.println(getRedString("Please insert an existing character card"));
                 return true;
             }
             completed = true;

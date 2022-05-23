@@ -1,12 +1,14 @@
 package controller;
 
 import controller.choice.Choice;
+import controller.choice.DataPlayerChoice;
 import model.Match;
-import model.exception.*;
+import model.exception.Exceptions;
+import model.exception.FinishedGameExceptions;
 import view.RemoteView;
-import controller.*;
 
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
 //TODO ERRORI DA RIMUOVERE:
 /*
@@ -32,18 +34,18 @@ public class Controller implements Observer {
     @Override
     public synchronized void update(Observable o, Object arg) {
         if (o instanceof RemoteView) {
-            if ( arg instanceof Choice) {
+            if ( (arg instanceof Choice
+                    && ((Choice) arg).getSendingPlayer().getNickname().equals(match.showCurrentPlayer().getNickname()))
+                    || arg instanceof DataPlayerChoice) {
                 try {
                     if(((Choice) arg).completed){
-                        System.out.println("ciao");
                         ((Choice) arg).manageUpdate(match);
-                        System.out.println("arrivederci");
                     }
                     else
                         tmpChoice = (Choice)arg;
                 } catch (Exceptions e) {
                     e.manageException(match);
-                } catch (FinishedGameExceptions e) { //Finished game exceptions
+                } catch (FinishedGameExceptions e) {
                     e.manageException(match);
                 }
             }

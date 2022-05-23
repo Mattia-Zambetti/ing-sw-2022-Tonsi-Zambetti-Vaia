@@ -7,8 +7,6 @@ import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.NoMoreBlockCardsException;
 
-import java.util.List;
-
 public class GrannyGrassChoice extends FigureCardActionChoice{
     private int blockedIslanID, islandPositionSize;
 
@@ -26,7 +24,7 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
             if(Integer.parseInt(input) >= 0 && Integer.parseInt(input) < islandPositionSize)
             setBlockedIslanID(Integer.parseInt(input));
             else {
-                System.out.println("Island not found, try again:");
+                System.out.println(getRedString("Island not found, try again:"));
                 return true;
             }
             completed = true;

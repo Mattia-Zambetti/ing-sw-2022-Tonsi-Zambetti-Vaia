@@ -26,7 +26,7 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
             completed = true;
             return false;
         }catch (IndexOutOfBoundsException e){
-            System.out.println("Colore non trovato: ");
+            System.out.println(getRedString("Colour not found, ")+retryMessage());
             return true;
         }
     }
