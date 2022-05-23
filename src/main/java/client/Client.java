@@ -156,8 +156,6 @@ public class Client implements Runnable{
                             actualToDoChoice = s;
                             writeUser.println(actualToDoChoice);
                             writeUser.flush();
-                            while (isChoiceTime) {
-                            }
                         }
                         else if(obj instanceof MatchDataInterface){
 
@@ -192,9 +190,9 @@ public class Client implements Runnable{
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException | NoSuchElementException e) {
-                        System.out.println("A player has quit the game");
+                        e.printStackTrace();
                         isActive = false;
-                    } finally {
+                    } /*finally {
                         writeUser.close();
                         try {
                             readSocket.close();
@@ -203,7 +201,7 @@ public class Client implements Runnable{
                             e.printStackTrace();
                         }
                         //Completare chiusura socket e scanner
-                    }
+                    }*/
                 }
             }
         });

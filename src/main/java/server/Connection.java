@@ -3,6 +3,7 @@ package server;
 
 import controller.choice.Choice;
 import controller.choice.StartingMatchChoice;
+import model.Message.PlayerDisconnectedMessage;
 import model.Message.RegistrationConfirmed;
 
 import java.io.IOException;
@@ -37,16 +38,16 @@ public class Connection extends Observable implements Runnable{
     }
 
     public synchronized void closeConnection() {
-        send("One player logged off, connection closed");
+        isActive = false;
+        send(new PlayerDisconnectedMessage());
         try{
             clientSocket.close();
         }catch (IOException e){
             System.err.println(e.getMessage());
         }
-        isActive = false;
     }
 
-    private void close(){
+    private void closeAllConnections(){
         closeConnection();
         System.out.println("Deregistering all connections");
         server.deregisterConnection(this);
@@ -88,10 +89,11 @@ public class Connection extends Observable implements Runnable{
                     notifyObservers(choice);
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
+            System.out.println("Connection closed by the client");
+            closeAllConnections();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            close();
         }
     }
 
