@@ -234,11 +234,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
 
 
-    public void takeStudentsOnFigureCard(Set<Student> chosenStudents) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException {
+    public void takeStudentsOnFigureCard(Set<Student> chosenStudents) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException, NoMasterException {
        for (FigureCard f : figureCards) {
            if (f instanceof Princess){
                if (((Princess)f).takeStudents(chosenStudents)) {
                    currentPlayerDashboard.moveToDR(chosenStudents);
+                   checkAndMoveMasters();
                }
            }
        }

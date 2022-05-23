@@ -8,11 +8,13 @@ import model.exception.MaxNumberException;
 import model.exception.NoMoreStudentsException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class FigureCardWithStudents extends FigureCard implements Serializable {
-    protected Set<Student> studentsOnCard;
+    protected List<Student> studentsOnCard;
     protected int studentsNumOnCard;
     protected int maxTakeStudentsNum;
 
@@ -23,7 +25,7 @@ public abstract class FigureCardWithStudents extends FigureCard implements Seria
 
     protected void setStudentsOnCard(Set<Student> studentsToCard) throws Exception {
         if(studentsToCard.size()==studentsNumOnCard)
-            this.studentsOnCard = new HashSet<>(studentsToCard);
+            this.studentsOnCard = new ArrayList<>(studentsToCard);
         else throw new Exception("Wrong students number on a figure card...");
     }
 
@@ -44,13 +46,13 @@ public abstract class FigureCardWithStudents extends FigureCard implements Seria
         return true;
     }
 
-    public Set<Student> getStudentsOnCard(){
-        return new HashSet<>(studentsOnCard);
+    public List<Student> getStudentsOnCard(){
+        return new ArrayList<>(studentsOnCard);
     }
 
     //TODO DA TESTARE
     public Student getStudentsOnCardByInt(int studentChosen){
-        return studentsOnCard.stream().toList().get(studentChosen);
+        return studentsOnCard.get(studentChosen);
     }
 
     @Override

@@ -290,6 +290,8 @@ public class ExpertMatchTest implements Observer {
 
             } catch (MaxNumberException | InexistentStudentException | StudentIDAlreadyExistingException | WrongColorException | NoMoreStudentsException e) {
                 e.printStackTrace();
+            } catch (NoMasterException e) {
+                throw new RuntimeException(e);
             }
         }
 
