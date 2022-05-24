@@ -1,7 +1,6 @@
 package controller;
 
 import controller.choice.Choice;
-import controller.choice.DataPlayerChoice;
 import model.Match;
 import model.exception.Exceptions;
 import model.exception.FinishedGameExceptions;
@@ -34,9 +33,7 @@ public class Controller implements Observer {
     @Override
     public synchronized void update(Observable o, Object arg) {
         if (o instanceof RemoteView) {
-            if ( (arg instanceof Choice
-                    && ((Choice) arg).getSendingPlayer().getNickname().equals(match.showCurrentPlayer().getNickname()))
-                    || arg instanceof DataPlayerChoice) {
+            if ( (arg instanceof Choice)) {
                 try {
                     if(((Choice) arg).completed){
                         ((Choice) arg).manageUpdate(match);

@@ -44,7 +44,7 @@ public final class Student implements Serializable {
 
     @Override
     public String toString(){
-        return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(color)+ " " + color.toString() + " student" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR;
+        return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(color) + color.toString() + " student" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR;
     }
 
 

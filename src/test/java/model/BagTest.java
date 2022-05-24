@@ -37,12 +37,15 @@ public class BagTest {
         assertEquals(5, Bag.removeStudents(5).size());
         assertEquals(Bag.getINITIALSTUDENTS()*5-5, Bag.getStudentsNum());
 
-        String tmp=Bag.removeStudent().toString();
-        assertTrue(tmp.equals("YELLOW student") ||
-                tmp.equals("RED student") ||
-                tmp.equals("BLUE student") ||
-                tmp.equals("PINK student") ||
-                tmp.equals("GREEN student"));
+        Student tmp=Bag.removeStudent();
+
+        System.out.println(tmp);
+
+        assertTrue(tmp.getColor().equals(new Student(1,Color.RED).getColor()) ||
+                tmp.getColor().equals(Color.PINK) ||
+                tmp.getColor().equals(Color.YELLOW) ||
+                tmp.getColor().equals(Color.BLUE) ||
+                tmp.getColor().equals(Color.GREEN));
     }
 
     //It tests the excepition return in the removeStudent's method

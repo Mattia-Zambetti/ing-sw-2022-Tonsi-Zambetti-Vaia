@@ -27,7 +27,7 @@ public class CLIgraphicsResources {
         public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
         public static final String ANSI_LIGHT_CYAN_BACKGROUND = "\u001B[106m";
 
-        public static final String TEXT_COLOR = ANSI_WHITE;
+        public static final String TEXT_COLOR = ANSI_LIGHT_GREY;
 
         public static String getTextColor(Color c) {
             return switch (c) {

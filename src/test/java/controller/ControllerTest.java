@@ -1,12 +1,12 @@
 package controller;
 
 import controller.choice.*;
+import graphicAssets.CLIgraphicsResources;
 import model.ExpertMatch;
 import model.Match;
 import model.NormalMatch;
 import model.exception.*;
 import model.figureCards.FigureCard;
-import model.figureCards.Merchant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import view.TestRemoteView;
@@ -21,7 +21,7 @@ public class ControllerTest {
     TestRemoteView testRemoteView1;
     TestRemoteView testRemoteView2;
 
-    @BeforeEach void init() {
+    @BeforeEach void init() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
 
         //initServer();
 
@@ -41,6 +41,7 @@ public class ControllerTest {
             match.setChoicePhase( new DataPlayerChoice(TOTALPLAYERSNUMBER, i));
             match.notifyMatchObservers();
         }
+
     }
 
     @Test
@@ -143,7 +144,7 @@ public class ControllerTest {
         assertEquals( match.showCurrentPlayerDashboard().getPlayer().getNickname(), "Player2");
         assertTrue( match.getChoice() instanceof MoveStudentChoice );
 
-        assertEquals("please try again",toDoChoice.retryMessage());
+        assertEquals(CLIgraphicsResources.getStringColor("please try again",CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RED),toDoChoice.retryMessage());
     }
 
 
