@@ -82,6 +82,7 @@ class CloudTest {
         try {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
+            cloudTest.setCloudNotChosen();
 
         } catch (MaxNumberException|WrongCloudNumberException e) {
             System.out.println(e.getMessage());

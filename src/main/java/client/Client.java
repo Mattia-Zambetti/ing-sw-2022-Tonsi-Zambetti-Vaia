@@ -6,6 +6,7 @@ import controller.choice.*;
 import model.ExpertMatch;
 import model.MatchDataInterface;
 import model.Message.ConfirmationMessage;
+import model.Message.Message;
 import model.Player;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Client implements Runnable{
@@ -97,7 +99,7 @@ public class Client implements Runnable{
             @Override
             public void run() {
                 String input;
-                while (isActive) {
+                while (isActive()) {
                     try {
                         input=readUser.nextLine();
                         if (!isChoiceTime) {
@@ -157,13 +159,13 @@ public class Client implements Runnable{
 
 
 
-                while(isActive) {
+                while(isActive()) {
                     try {
 
                         Object obj = readSocket.readObject();
 
-                        if(obj instanceof ConfirmationMessage){
-                            ((ConfirmationMessage)obj).manageMessage(Client.this);
+                        if(obj instanceof Message){
+                            ((Message)obj).manageMessage(Client.this);
                         }
 
                         if ( obj instanceof StartingMatchChoice s) {
@@ -204,14 +206,28 @@ public class Client implements Runnable{
 
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (IOException | NoSuchElementException e) {
+                        e.printStackTrace();
                         isActive = false;
-                    }
+                    } /*finally {
+                        writeUser.close();
+                        try {
+                            readSocket.close();
+                            clientSocket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        //Completare chiusura socket e scanner
+                    }*/
                 }
             }
         });
         t.start();
         return t;
+    }
+
+    private synchronized boolean isActive() {
+        return isActive;
     }
 
 }
