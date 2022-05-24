@@ -102,18 +102,18 @@ public class Client implements Runnable{
             public void run() {
                 String input;
                 input=readUser.nextLine();
-                while (isActive()) {
-                    try {
+                try {
+                    while (isActive()) {
                         if (!isChoiceTime) {
                             writeUser.println("Please wait your turn...");
                             writeUser.flush();
                         } else {
 
-                            if(allowedCommands.contains(input)
+                            if (allowedCommands.contains(input)
                                     && matchView instanceof ExpertMatch
-                                    && !(actualToDoChoice instanceof  FigureCardActionChoice)
-                                    && !(actualToDoChoice instanceof  CardChoice)
-                                    && !(actualToDoChoice instanceof  DataPlayerChoice) && figureCardNotPlayed){
+                                    && !(actualToDoChoice instanceof FigureCardActionChoice)
+                                    && !(actualToDoChoice instanceof CardChoice)
+                                    && !(actualToDoChoice instanceof DataPlayerChoice) && figureCardNotPlayed) {
                                 Choice figureCardChoice = new FigureCardPlayedChoice(matchView.showFigureCardsInGame());
                                 actualToDoChoiceQueue = actualToDoChoice;
                                 actualToDoChoice = figureCardChoice;
@@ -121,8 +121,7 @@ public class Client implements Runnable{
                                 actualToDoChoiceQueue.setSendingPlayer(player);
                                 outputStream.writeObject(actualToDoChoiceQueue);
                                 outputStream.flush();
-                            }
-                            else { //Attenti a luiiiii
+                            } else { //Attenti a luiiiii
 
                                 isChoiceTime = actualToDoChoice.setChoiceParam(input);
                             }
@@ -138,19 +137,19 @@ public class Client implements Runnable{
                                 outputStream.flush();
                             }
                         }
-                        input=readUser.nextLine();
-                    }catch (IllegalStateException e){
+                        input = readUser.nextLine();
+                    }
+                }catch (IllegalStateException e){
+                    e.printStackTrace();
+                }catch (IOException e){
+                    e.printStackTrace();
+                } finally {
+                    writeUser.close();
+                    readUser.close();
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
                         e.printStackTrace();
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    } finally {
-                        writeUser.close();
-                        readUser.close();
-                        try {
-                            outputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
@@ -170,8 +169,8 @@ public class Client implements Runnable{
 
 
 
-                while(isActive()) {
-                    try {
+                try {
+                    while(isActive()) {
 
                         Object obj = readSocket.readObject();
 
@@ -213,19 +212,17 @@ public class Client implements Runnable{
                             }
 
                         }
-
-
-                    } catch (ClassNotFoundException e) {
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException | NoSuchElementException e) {
+                    e.printStackTrace();
+                } finally {
+                    writeUser.close();
+                    try {
+                        readSocket.close();
+                    } catch (IOException e) {
                         e.printStackTrace();
-                    } catch (IOException | NoSuchElementException e) {
-                        e.printStackTrace();
-                    } finally {
-                        writeUser.close();
-                        try {
-                            readSocket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
