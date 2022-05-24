@@ -9,6 +9,8 @@ public interface ExpertMatchInterface extends Serializable {
 
     void setPostManValue();
 
+    void setIsFarmer();
+
     void setIsKnight();
 
     void setCentaurEffect(boolean centaurEffect);
