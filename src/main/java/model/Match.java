@@ -630,16 +630,23 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         matchFinishedAtEndOfRound = true;
     }
 
+
+    /**
+     * This method calculates which {@code Player} is the winner (based on the number of towers on islands)
+     * and save it in {@code winnerPlayer} list.
+     */
     public void calculateWinner(){
         int maxTowerOnIslands = 0;
         int maxNumOfMaster = 0;
-        TowerColor maxTowerColor = null;
         ArrayList<TowerColor> maxTowerColorList = new ArrayList<>(0);
         HashMap<TowerColor, Integer> towerNumByColor = new HashMap<>();
 
+        //Initialize num of tower on island to 0 for each color
         for ( TowerColor t: TowerColor.values() )
             towerNumByColor.put(t,0);
 
+
+        //Add tower for each color analyzing all islands
         try {
             for( Integer i: islandPositions) {
 
@@ -650,6 +657,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             e.printStackTrace();
         }
 
+        //All towerColor which have the major number of towers on islands are saved in maxTowerColorList
+        //This is necessary because more than one towerColor could be the one that determine the winner
         for ( TowerColor t: towerNumByColor.keySet()  ) {
             if ( towerNumByColor.get(t) == maxTowerOnIslands ) {
                 maxTowerColorList.add(t);
@@ -661,7 +670,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             }
         }
 
-        //used when the number of towers on islands is the same for more than one towerColor
+        //Used when the number of towers on islands is the same for more than one towerColor
         if ( maxTowerColorList.size()==1 ) {
             for ( Dashboard d: dashboardsCollection ) {
                 if ( d.getTowerColor() == maxTowerColorList.get(0) )

@@ -66,10 +66,12 @@ public class Client implements Runnable{
     public void setIdThis(int idThis) {
         this.idThis = idThis;
     }
+
     public void printToCLI( String s ) {
         PrintWriter writeUser=new PrintWriter(System.out);
         writeUser.println(s);
         writeUser.flush();
+        writeUser.close();
     }
 
     @Override
@@ -99,9 +101,9 @@ public class Client implements Runnable{
             @Override
             public void run() {
                 String input;
+                input=readUser.nextLine();
                 while (isActive()) {
                     try {
-                        input=readUser.nextLine();
                         if (!isChoiceTime) {
                             writeUser.println("Please wait your turn...");
                             writeUser.flush();
@@ -136,10 +138,19 @@ public class Client implements Runnable{
                                 outputStream.flush();
                             }
                         }
+                        input=readUser.nextLine();
                     }catch (IllegalStateException e){
-                        isActive=false;
+                        e.printStackTrace();
                     }catch (IOException e){
                         e.printStackTrace();
+                    } finally {
+                        writeUser.close();
+                        readUser.close();
+                        try {
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -207,17 +218,15 @@ public class Client implements Runnable{
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException | NoSuchElementException e) {
-                        isActive = false;
-                    } /*finally {
+                        e.printStackTrace();
+                    } finally {
                         writeUser.close();
                         try {
                             readSocket.close();
-                            clientSocket.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        //Completare chiusura socket e scanner
-                    }*/
+                    }
                 }
             }
         });
@@ -227,6 +236,19 @@ public class Client implements Runnable{
 
     private synchronized boolean isActive() {
         return isActive;
+    }
+
+    private synchronized void setActive( boolean active) {
+        isActive=active;
+    }
+
+    public void closeConnection() {
+        setActive(false);
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

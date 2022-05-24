@@ -810,25 +810,27 @@ public class MatchTest {
     //This test checks that the Match ends correctly when there are no more students in the bag
     @Test
     void studentsFinishedEndOfMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameEndTurnException, NoMasterException, CardAlreadyPlayedException {
-        Bag.restoreBag();
         Match match2 = new Match(2);
         match2.addPlayer("1", "BLACK", "WIZARD1", 1);
         match2.addPlayer("2", "WHITE", "WIZARD2", 2);
         boolean exception = false;
 
-        match2.chooseCard(new Card(10, 5, 10));
-        match2.chooseCard(new Card(9, 5, 9));
+        assertEquals(match2.dashboardsCollection.get(0).getPlayer().getNickname(), "1");
+        assertEquals(match2.dashboardsCollection.get(1).getPlayer().getNickname(), "2");
 
         for (Color k : Color.values()) {
             match2.dashboardsCollection.get(0).insertMaster(match2.getMasters().get(k));
             assertTrue(match2.dashboardsCollection.get(0).haveMaster(k));
         }
 
+        match2.chooseCard(new Card(9, 5, 9));
+        match2.chooseCard(new Card(10, 5, 10));
+
         for ( int j = 0; j<3; j++ )
             match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
         match2.moveStudentsFromCloudToEntrance(0);
         for ( int j = 0; j<3; j++ )
-            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+            match2.moveStudentFromEntranceToIsland(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
         match2.moveStudentsFromCloudToEntrance(1);
 
         for( int i=0; i<16; i++) {
@@ -848,7 +850,7 @@ public class MatchTest {
             match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
         match2.setNextCurrDashboard();
         for ( int j = 0; j<3; j++ )
-            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+            match2.moveStudentFromEntranceToIsland(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
         match2.setNextCurrDashboard();
 
         match2.moveMotherNature(1);
@@ -862,8 +864,8 @@ public class MatchTest {
         }
 
         assertTrue(exception);
-        assertTrue(match2.getWinnerPlayers().contains(match2.dashboardsCollection.get(0).getPlayer()));
-        assertFalse(match2.getWinnerPlayers().contains(match2.dashboardsCollection.get(1).getPlayer()));
+        assertTrue(match2.getWinnerPlayers().contains(new Player("1")));
+        assertFalse(match2.getWinnerPlayers().contains(new Player("2")));
 
     }
 
@@ -889,7 +891,7 @@ public class MatchTest {
             match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
         match.setNextCurrDashboard();
         for ( int j = 0; j<3; j++ )
-            match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+            match.moveStudentFromEntranceToIsland(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
         match.setNextCurrDashboard();
 
         try {
