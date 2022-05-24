@@ -207,7 +207,6 @@ public class Client implements Runnable{
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException | NoSuchElementException e) {
-                        e.printStackTrace();
                         isActive = false;
                     } /*finally {
                         writeUser.close();

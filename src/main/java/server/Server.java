@@ -140,10 +140,12 @@ public class Server implements Runnable {
 
     public synchronized void deregisterConnection(Connection c){
         connections.remove(c);
+        playersConnections.remove(c);
         for ( Connection connection : playersConnections ) {
             if ( connection!=c ) {
                 connection.closeConnection();
                 playersConnections.remove(connection);
+                connections.remove(connection);
             }
         }
     }

@@ -33,7 +33,7 @@ public class Connection extends Observable implements Runnable{
             writeOut.flush();
             writeOut.reset();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("You tried to send an object to a connection already closed");
         }
     }
 
@@ -41,14 +41,23 @@ public class Connection extends Observable implements Runnable{
         isActive = false;
         send(new PlayerDisconnectedMessage());
         try{
+            scannerIn.close();
+            writeOut.close();
             clientSocket.close();
         }catch (IOException e){
-            System.err.println(e.getMessage());
+            System.out.println("Error closing others clients' socket\n"+e.getMessage());
         }
     }
 
-    private void closeAllConnections(){
-        closeConnection();
+    private synchronized void closeAllConnections(){
+        isActive=false;
+        try{
+            scannerIn.close();
+            writeOut.close();
+            clientSocket.close();
+        }catch (IOException e){
+            System.out.println("Error closing the socket\n"+e.getMessage());
+        }
         System.out.println("Deregistering all connections");
         server.deregisterConnection(this);
         System.out.println("Done!");
@@ -90,7 +99,7 @@ public class Connection extends Observable implements Runnable{
                 }
             }
         } catch (IOException e) {
-            System.out.println("Connection closed by the client");
+            System.out.println("Connection closed");
             closeAllConnections();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
