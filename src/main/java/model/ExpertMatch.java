@@ -1,9 +1,7 @@
 package model;
 
 import controller.Controller;
-import controller.choice.CloudChoice;
-import controller.choice.MoveMotherNatureChoice;
-import controller.choice.MoveStudentChoice;
+import controller.choice.*;
 import graphicAssets.CLIgraphicsResources;
 import model.figureCards.*;
 import model.exception.*;
@@ -68,6 +66,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             res2.append(i++).append(".").append(f).append("\n");
 
         res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_YELLOW);
+        if(!(choicePhase instanceof FigureCardActionChoice)
+                && !(choicePhase instanceof CardChoice)
+                && !(choicePhase instanceof  DataPlayerChoice))
         res2.append("\nPRESS THE COMMAND \"f\" TO PLAY A CHARACTER CARD(you can do this only in your turn)\n");
         res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
         res.append(res2);
