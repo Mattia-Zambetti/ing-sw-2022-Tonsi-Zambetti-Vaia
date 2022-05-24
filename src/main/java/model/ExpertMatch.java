@@ -2,6 +2,9 @@ package model;
 
 import controller.Controller;
 import controller.choice.CloudChoice;
+import controller.choice.MoveMotherNatureChoice;
+import controller.choice.MoveStudentChoice;
+import graphicAssets.CLIgraphicsResources;
 import model.figureCards.*;
 import model.exception.*;
 
@@ -57,8 +60,17 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public String toString() {
         int i=1;
         StringBuilder res= new StringBuilder(super.toString());
+
+        StringBuilder res2=new StringBuilder();
+
+        res2.append("\nCharacter cards in this game:\n");
         for(FigureCard f: figureCards)
-            res.append(i++).append(".").append(f).append("\n");
+            res2.append(i++).append(".").append(f).append("\n");
+
+        res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_YELLOW);
+        res2.append("\nPRESS THE COMMAND \"f\" TO PLAY A CHARACTER CARD(you can do this only in your turn)\n");
+        res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
+        res.append(res2);
 
         return res.toString();
     }
@@ -178,6 +190,31 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         if (exception)
             throw new SameInfluenceException("No change needed in current island -- Same influence");
         return dashboardsCollection.get(dasboardInfluencer);
+    }
+
+    @Override
+    public void moveStudentFromEntranceToDR( Student studentToBeMoved ) throws NoMasterException, WrongColorException {
+        Student tmpStudent;
+        try {
+            tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance( studentToBeMoved );
+            this.currentPlayerDashboard.moveToDR(tmpStudent);
+            checkAndMoveMasters();
+            if(currentPlayerDashboard.getStudentsNumInDR(studentToBeMoved.getColor()) % 3 == 0)
+                currentPlayerDashboard.addCoin();
+        }
+        catch ( MaxNumberException | StudentIDAlreadyExistingException | InexistentStudentException | NullPointerException e ) {
+            System.out.println(e.getMessage());
+        }
+
+        if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
+            choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+
+            counterMoveStudents++;
+        }else {
+            choicePhase = new MoveMotherNatureChoice();
+            counterMoveStudents=0;
+        }
+        notifyMatchObservers();
     }
 
     public List<FigureCard> showFigureCardsInGame(){

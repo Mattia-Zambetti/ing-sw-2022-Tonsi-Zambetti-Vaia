@@ -1,6 +1,7 @@
 package model.Message;
 
 import client.Client;
+import graphicAssets.CLIgraphicsResources;
 import model.Player;
 
 public class PlayerSuccessfullyCreated extends ConfirmationMessage {
@@ -13,7 +14,7 @@ public class PlayerSuccessfullyCreated extends ConfirmationMessage {
     public void manageMessage(Client client){
         if(client.getIdThis()== getId()) {
             client.setPlayer(player);
-            System.out.println("Player confirmed, get ready for the match");
+            System.out.println(CLIgraphicsResources.getStringColor("Player confirmed, get ready for the match",CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_GREEN));
         }
 
     }

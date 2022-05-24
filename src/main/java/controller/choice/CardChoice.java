@@ -1,5 +1,6 @@
 package controller.choice;
 
+import graphicAssets.CLIgraphicsResources;
 import model.Card;
 import model.Match;
 import model.MatchDataInterface;
@@ -46,10 +47,10 @@ public class CardChoice extends Choice{
         if(isItAnInt(input)) {
             if(availableCards.get(Integer.parseInt(input))!=null) {
                 setChosenCard(Integer.parseInt(input));
-                System.out.println("You choose "+ getChosenCard()+" succesfully");
+                System.out.println(CLIgraphicsResources.getStringColor("You choose "+ getChosenCard()+" successfully", CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_GREEN));
                 completed = true;
                 return false;
-            }else System.out.println("This card isn't in you deck, "+retryMessage());
+            }else System.out.println(getRedString("This card isn't in you deck, ")+retryMessage());
         }
         return true;
     }

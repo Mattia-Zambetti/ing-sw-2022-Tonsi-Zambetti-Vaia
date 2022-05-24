@@ -1,11 +1,14 @@
 // Zambo
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 
 import java.io.Serializable;
-import java.util.*;
-import graphicAssets.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Dashboard implements Serializable {
     private final Entrance entrance;

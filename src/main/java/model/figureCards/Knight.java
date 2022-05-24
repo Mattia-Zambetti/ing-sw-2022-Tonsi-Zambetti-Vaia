@@ -18,7 +18,7 @@ public class Knight extends FigureCard  implements Serializable {
 
     @Override
     public String toString() {
-        return "Knight card";
+        return "Knight card"+super.toString();
     }
 
 }

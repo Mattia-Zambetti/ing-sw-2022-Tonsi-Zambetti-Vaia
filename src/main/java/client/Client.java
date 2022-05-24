@@ -1,5 +1,6 @@
 package client;
 
+//non va bene, il match viene mostrato due volte spesso, e la princess non modifica effettivamente il match
 
 import controller.choice.*;
 import model.ExpertMatch;
@@ -40,6 +41,7 @@ public class Client implements Runnable{
     private boolean isChanged=false;
 
     private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
+
 
     public Client(String ip, int port){
         this.port=port;
@@ -99,30 +101,35 @@ public class Client implements Runnable{
                     try {
                         input=readUser.nextLine();
                         if (!isChoiceTime) {
-                            writeUser.println("please wait...");
+                            writeUser.println("Please wait your turn...");
                             writeUser.flush();
                         } else {
 
-                            if(allowedCommands.contains(input) && matchView instanceof ExpertMatch && !(actualToDoChoice instanceof  FigureCardActionChoice) && !(actualToDoChoice instanceof  CardChoice) && !(actualToDoChoice instanceof  DataPlayerChoice) && figureCardNotPlayed){
+                            if(allowedCommands.contains(input)
+                                    && matchView instanceof ExpertMatch
+                                    && !(actualToDoChoice instanceof  FigureCardActionChoice)
+                                    && !(actualToDoChoice instanceof  CardChoice)
+                                    && !(actualToDoChoice instanceof  DataPlayerChoice) && figureCardNotPlayed){
                                 Choice figureCardChoice = new FigureCardPlayedChoice(matchView.showFigureCardsInGame());
                                 actualToDoChoiceQueue = actualToDoChoice;
                                 actualToDoChoice = figureCardChoice;
                                 figureCardNotPlayed = false;
+                                actualToDoChoiceQueue.setSendingPlayer(player);
                                 outputStream.writeObject(actualToDoChoiceQueue);
                                 outputStream.flush();
                             }
+                            else { //Attenti a luiiiii
 
-                            isChoiceTime=actualToDoChoice.setChoiceParam(input);
-
-
-                            if(isChoiceTime) {
-                                writeUser.println(actualToDoChoice.toString(matchView));
-                                writeUser.flush();
+                                isChoiceTime = actualToDoChoice.setChoiceParam(input);
                             }
 
-                            else {
-                                if(actualToDoChoice instanceof CloudChoice)
+                            if (isChoiceTime) {
+                                writeUser.println(actualToDoChoice.toString(matchView));
+                                writeUser.flush();
+                            } else {
+                                if (actualToDoChoice instanceof CloudChoice)
                                     figureCardNotPlayed = true;
+                                actualToDoChoice.setSendingPlayer(player);
                                 outputStream.writeObject(actualToDoChoice);
                                 outputStream.flush();
                             }
@@ -164,8 +171,6 @@ public class Client implements Runnable{
                             actualToDoChoice = s;
                             writeUser.println(actualToDoChoice.toString(matchView));
                             writeUser.flush();
-                            while (isChoiceTime) {
-                            }
                         }
                         else if(obj instanceof MatchDataInterface){
 

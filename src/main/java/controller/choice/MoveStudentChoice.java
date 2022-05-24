@@ -66,7 +66,7 @@ public class MoveStudentChoice extends Choice{
             case 2:
                 return "Insert on which island you want to put the "+ studentsOnEntrance.get(chosenStudent-1);
         }
-        return "error";
+        return getRedString("error");
     }
 
 
@@ -84,7 +84,7 @@ public class MoveStudentChoice extends Choice{
             this.whereToMove=whereToMove;
             return true;
         }catch (IndexOutOfBoundsException e){
-            System.out.println("You must choose one of these options, "+retryMessage());
+            System.out.println(getRedString("You must choose one of these options, ")+retryMessage());
             return false;
         }
     }
@@ -100,7 +100,7 @@ public class MoveStudentChoice extends Choice{
                 case 0:
                     if (setChosenStudent(Integer.parseInt(input))) {
                         choiceplus();
-                    } else System.out.println("You must choose one of these options, " + retryMessage());
+                    } else System.out.println(getRedString("You must choose one of these options, ")+ retryMessage());
                     break;
                 case 1:
                     if (setWhereToMove(Integer.parseInt(input))) {

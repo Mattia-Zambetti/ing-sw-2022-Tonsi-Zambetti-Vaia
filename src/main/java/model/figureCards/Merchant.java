@@ -24,7 +24,7 @@ public class Merchant extends FigureCardWithStudents  implements Serializable {
 
     @Override
     public String toString() {
-        return "Merchant card";
+        return "Merchant card"+super.toString();
     }
 
 

@@ -27,8 +27,13 @@ public class Server implements Runnable {
 
     private int totalPlayerNumber;
     private int matchType;
-
     private HashSet<Connection> waitingRoom;
+
+    //STATICS:
+
+    private static final int TOTAL_NUM_MATCH_TYPE=2;
+
+
 
 
     public Server() {
@@ -41,6 +46,11 @@ public class Server implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static int getTOTAL_NUM_MATCH_TYPE() {
+        return TOTAL_NUM_MATCH_TYPE;
     }
 
 

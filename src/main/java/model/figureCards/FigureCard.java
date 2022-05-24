@@ -43,4 +43,12 @@ public abstract class FigureCard implements Serializable {
     public int hashCode() {
         return cardId;
     }
+
+    @Override
+    public String toString() {
+        if(getPrice()==1) {
+            return "(price: " + getPrice() + " coin)";
+        }else
+            return "(price: " + getPrice() + " coins)";
+    }
 }

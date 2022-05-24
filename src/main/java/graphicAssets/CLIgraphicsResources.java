@@ -38,6 +38,15 @@ public class CLIgraphicsResources {
                 case PINK -> ANSI_PURPLE;
             };
         }
+
+
+
+    }
+    public static String getStringColor(String normalString, String color){
+        StringBuilder res=new StringBuilder(color);
+        res.append(normalString);
+        res.append(ColorCLIgraphicsResources.TEXT_COLOR);
+        return res.toString();
     }
 
 }

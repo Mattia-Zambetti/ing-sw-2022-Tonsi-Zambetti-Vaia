@@ -1,9 +1,7 @@
 package controller.choice;
 
 import model.Student;
-import model.figureCards.FigureCard;
 import model.figureCards.FigureCardWithStudents;
-import model.figureCards.Merchant;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,11 +13,11 @@ public abstract class FigureCardWithStudentsChoice extends FigureCardActionChoic
     public FigureCardWithStudentsChoice(FigureCardWithStudents figureCardWithStudents){
         this.figureCardWithStudents = figureCardWithStudents;
     }
-    //FigureCardWithStudents thisFigureCard;
-    protected Set chosenStudents = new HashSet<>();
+
+    protected Set<Student> chosenStudents = new HashSet<>();
 
     public Set<Student> getChosenStudent() {
-        return chosenStudents;
+        return new HashSet<>(chosenStudents);
     }
 
     public void setChosenStudent() {

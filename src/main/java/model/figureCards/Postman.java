@@ -18,6 +18,6 @@ public class Postman extends FigureCard implements Serializable {
 
     @Override
     public String toString() {
-        return "Postman card";
+        return "Postman card"+super.toString();
     }
 }

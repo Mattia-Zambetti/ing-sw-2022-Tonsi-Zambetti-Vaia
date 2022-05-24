@@ -7,10 +7,6 @@ import model.Student;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.FigureCardWithStudents;
-import model.figureCards.Merchant;
-import model.figureCards.Princess;
-
-import java.util.List;
 
 public class PrincessChoice extends FigureCardWithStudentsChoice{
     public PrincessChoice(FigureCardWithStudents figureCardWithStudents) {
@@ -28,11 +24,10 @@ public class PrincessChoice extends FigureCardWithStudentsChoice{
             }
 
             else
-                System.out.println("Student not found, please try again:");
+                System.out.println(getRedString("Student not found, please try again:"));
             return true;
         }
-        completed = true;
-        return false;
+        return true;
     }
 
     @Override
@@ -45,7 +40,7 @@ public class PrincessChoice extends FigureCardWithStudentsChoice{
         int counter = 1;
                 tmp.append("Choose the student you want to move to your Dining Room: ");
                 for (Student s : figureCardWithStudents.getStudentsOnCard()){
-                    tmp.append("\n" +counter + ") "+ s.toString());
+                    tmp.append("\n").append(counter).append(") ").append(s.toString());
                     counter++;
                 }
 
