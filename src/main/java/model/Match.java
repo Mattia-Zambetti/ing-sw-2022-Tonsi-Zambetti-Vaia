@@ -16,7 +16,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     private List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     protected Dashboard currentPlayerDashboard;
-    private HashMap<Color, Master> mastersMap;
+    protected HashMap<Color, Master> mastersMap;
 
     private String errorMessage = "";
 

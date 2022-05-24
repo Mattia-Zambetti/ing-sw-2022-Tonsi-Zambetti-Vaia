@@ -19,6 +19,7 @@ public class Dashboard implements Serializable {
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
     private int coin;
+    private boolean cookEffect;
     private boolean isKnight = false; //per effetto carta personaggio
     private static final int MAX_NUM_OF_TOWER = 8;
     private Player player;
@@ -43,6 +44,7 @@ public class Dashboard implements Serializable {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //At the start of a match it is always one
         this.isKnight = false;
+        this.cookEffect = false;
         this.player = new Player(playerNickname);
     }
 
@@ -57,12 +59,21 @@ public class Dashboard implements Serializable {
         this.mastersList = new HashMap<>(dashboardToCopy.mastersList);
         this.coin = dashboardToCopy.coin;
         this.isKnight = dashboardToCopy.isKnight;
+        this.cookEffect = dashboardToCopy.cookEffect;
         this.player = dashboardToCopy.player;
     }
 
     //Restituisce il numero di torri presenti nella dashboard
     public int getTowersNum() {
         return this.towersCollection.size();
+    }
+
+    public boolean isFarmerEffect() {
+        return cookEffect;
+    }
+
+    public void setFarmerEffect(boolean cookEffect) {
+        this.cookEffect = cookEffect;
     }
 
     //Restituisce il colore delle torri

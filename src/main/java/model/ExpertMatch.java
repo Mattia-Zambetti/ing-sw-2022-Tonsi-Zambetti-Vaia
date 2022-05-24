@@ -11,11 +11,12 @@ import java.util.*;
 
 public class ExpertMatch extends Match implements ExpertMatchInterface, Serializable {
     private final List<FigureCard> figureCards;
+
     private static boolean centaurEffect;
     private int postManValue = 0;
     private int colorBlocked = -1;
 
-    private static final int FIGURECARDSTOTALNUM=8;
+    private static final int FIGURECARDSTOTALNUM=9;
     private static final int FIGURECARDSINGAME=3;
 
     public ExpertMatch(int totalPlayersNum) {
@@ -27,7 +28,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
-                int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM +1);
+                int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM + 1);
+                //figureCards.add(figureCardsAvaiable.remove(randomInt-1));
                 if (randomInt == 1 && !figureCards.contains(new Knight())) {
                     figureCards.add(new Knight());
                 } else if (randomInt == 2 && !figureCards.contains(new Jester())) {
@@ -44,6 +46,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                     figureCards.add(new GrannyGrass());
                 } else if (randomInt == 8 && !figureCards.contains(new Centaur())) {
                     figureCards.add(new Centaur());
+                } else if (randomInt == 9 && !figureCards.contains(new Farmer())) {
+                    figureCards.add(new Farmer());
                 }
             }
         }catch (Exception e){
@@ -150,6 +154,38 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
 
+    public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
+        Dashboard maxStudentDashboard = null; //TODO NULL NONONONONONO
+        Dashboard dashboardWithMaster = null;
+        int maxStudents;
+        for ( Color c: Color.values() ) {
+            maxStudents = 0;
+            maxStudentDashboard = null;
+            dashboardWithMaster = null;
+            for ( Dashboard d: dashboardsCollection ) {
+                if ( d.haveMaster(c) ) {
+                    dashboardWithMaster = d;
+                    maxStudents = d.getStudentsNumInDR(c);
+                }
+            }
+            for ( Dashboard d: dashboardsCollection ) {
+                if(d.isFarmerEffect())
+                    if(d.getStudentsNumInDR(c)==maxStudents && maxStudents != 0)
+                        maxStudentDashboard = d;
+
+                else if ( d.getStudentsNumInDR(c)>maxStudents ) {
+                    maxStudents = d.getStudentsNumInDR(c);
+                    maxStudentDashboard = d;
+                }
+            }
+            if ( maxStudentDashboard!=null && dashboardWithMaster==null ) {
+                maxStudentDashboard.insertMaster(mastersMap.remove(c));
+            }
+            else if ( maxStudentDashboard!=null && dashboardWithMaster!=maxStudentDashboard ) {
+                maxStudentDashboard.insertMaster(dashboardWithMaster.removeMaster(c));
+            }
+        }
+    }
 
     @Override
     public void setPostManValue() {
@@ -159,6 +195,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     @Override
     public void setIsKnight() {
         currentPlayerDashboard.setKnight(true);
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
+    }
+
+    public void setIsFarmer() {
+        currentPlayerDashboard.setFarmerEffect(true);
         setChoicePhase(Controller.getTmpChoice());
         notifyMatchObservers();
     }
