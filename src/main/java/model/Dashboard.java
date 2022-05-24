@@ -41,7 +41,7 @@ public class Dashboard implements Serializable {
         this.towerColor = colorOfTower;
         this.deck = new Deck(chosenWizard);
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
-        this.coin = 100; //At the start of a match it is always one
+        this.coin = 1; //At the start of a match it is always one
         this.isKnight = false;
         this.player = new Player(playerNickname);
     }

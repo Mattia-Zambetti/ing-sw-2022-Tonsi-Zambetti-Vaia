@@ -87,7 +87,7 @@ public class ExpertMatchTest implements Observer {
 
         assertThrows(FigureCardAlreadyPlayedInThisTurnException.class, ()->((ExpertMatch)expertMatch).playFigureCard(figureCardTest));
 
-        assertEquals(4, figureCardTest.getPrice());
+        assertEquals(3, figureCardTest.getPrice());
         assertEquals(0, expertMatch.showCurrentPlayerDashboard().getCoinsNumber());
 
 

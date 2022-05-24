@@ -145,7 +145,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             card = figureCards.get(figureCards.indexOf(card));
             currentPlayerDashboard.removeCoin(card.getPrice());
             figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).playCard(this);
-            card.pricePlusPlus();
+            figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).pricePlusPlus();
             notifyMatchObservers();
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
