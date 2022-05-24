@@ -25,7 +25,7 @@ public class MatchEndedMessage implements Message, Serializable {
             outputString = "YOU WON!";
         else {
             for ( Player p : winners )
-                outputString = outputString.concat(p + " ");
+                outputString = outputString.concat(p.getNickname() + " ");
             outputString = outputString.concat(" WON THE GAME!");
         }
 

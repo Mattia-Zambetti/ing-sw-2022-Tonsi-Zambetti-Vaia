@@ -238,7 +238,7 @@ public class MatchTest {
     }
 
     @Test
-    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NoMoreTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException {
+    void changeTowerColorOnIsland() throws SameInfluenceException, NoTowerException, CardNotFoundException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NoMoreTowerException, NoIslandException, NoMoreBlockCardsException, MaxNumberException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, CardAlreadyPlayedException, FinishedGameEndTurnException {
         Dashboard dashboard0 = new Dashboard(6,TowerColor.GREY,Wizard.WIZARD1,"Rebecca",1);
         Dashboard dashboard1 = new Dashboard(6,TowerColor.BLACK,Wizard.WIZARD1,"Rebecco",2);
         Master masterR = new Master(Color.RED);
@@ -270,7 +270,7 @@ public class MatchTest {
     }
 
     @Test
-    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, CardNotFoundException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoMoreStudentsException, WrongDataplayerException, WrongColorException, CardAlreadyPlayedException {
+    void TestMoveMotherNature() throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, CardNotFoundException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoMoreStudentsException, WrongDataplayerException, WrongColorException, CardAlreadyPlayedException, FinishedGameEndTurnException {
         match.addPlayer("Tonsi","WHITE", "WIZARD2",1);
 
         assertEquals(true, match.checkMotherNatureOnIsland(0));
@@ -597,6 +597,312 @@ public class MatchTest {
         match.refillClouds();
 
         System.out.println(match);
+
+    }
+
+    //This test checks that a player win the Game when ends all his towers in a match with 2 player
+    @Test
+    void endMatchTowerFinishedTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, FinishedGameEndTurnException {
+        match = new Match(2);
+        match.addPlayer("1", "BLACK", "WIZARD1",1);
+        match.addPlayer("2", "WHITE", "WIZARD2",2);
+        boolean exception = false;
+
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer().getNickname(), "1");
+
+        for ( Color k : Color.values() ) {
+            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.islands.get(0).addStudent(new Student(500, Color.RED));
+        match.islands.get(6).addStudent(new Student(501, Color.RED));
+
+        match.dashboardsCollection.get(0).playChosenCard(new Card(10, 5, 10));
+
+        do {
+            match.moveMotherNature(1);
+        }while(match.dashboardsCollection.get(0).getTowersNum()>1);
+
+        try {
+            match.moveMotherNature(1);
+        } catch ( NoMoreTowerException e ) {
+            exception = true;
+            e.manageException(match);
+        }
+
+        assertTrue(exception);
+
+        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
+        assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
+
+    }
+
+    //This test checks that player win the game when there are only 3 group of islands, and both players have the same number of tower on islands
+    @Test
+    void endMatch3IslandSameTowerTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, FinishedGameEndTurnException {
+        match = new Match(2);
+        match.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match.addPlayer("2", "WHITE", "WIZARD2", 2);
+        boolean exception = false;
+
+        assertEquals(match.dashboardsCollection.get(0).getPlayer().getNickname(), "1");
+        assertEquals(match.dashboardsCollection.get(1).getPlayer().getNickname(), "2");
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.islands.get(0).addStudent(new Student(500, Color.RED));
+        match.islands.get(6).addStudent(new Student(501, Color.RED));
+
+        match.dashboardsCollection.get(0).playChosenCard(new Card(10, 5, 10));
+
+        for ( int i=0; i<4; i++ ) {
+            match.moveMotherNature(1);
+        }
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(1).insertMaster(match.dashboardsCollection.get(0).removeMaster(k));
+            assertTrue(match.dashboardsCollection.get(1).haveMaster(k));
+        }
+
+        for ( int i=0; i<6; i++ ) {
+            match.moveMotherNature(1);
+        }
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.dashboardsCollection.get(1).removeMaster(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.moveMotherNature(1);
+
+        try {
+            match.moveMotherNature(1);
+        } catch ( FinishedGameIslandException e ) {
+            exception = true;
+            e.manageException(match);
+        }
+
+        assertTrue(exception);
+        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
+        assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
+
+
+
+    }
+
+    //This test checks that player win the game when there are only 3 group of islands, and he has the major number of Towers on islands
+    @Test
+    void endMatch3IslandTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, FinishedGameEndTurnException {
+        match = new Match(2);
+        match.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match.addPlayer("2", "WHITE", "WIZARD2", 2);
+        boolean exception = false;
+
+        assertEquals(match.dashboardsCollection.get(0).getPlayer().getNickname(), "1");
+        assertEquals(match.dashboardsCollection.get(1).getPlayer().getNickname(), "2");
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.islands.get(0).addStudent(new Student(500, Color.RED));
+        match.islands.get(6).addStudent(new Student(501, Color.RED));
+
+        match.dashboardsCollection.get(0).playChosenCard(new Card(10, 5, 10));
+
+        for ( int i=0; i<2; i++ ) {
+            match.moveMotherNature(1);
+        }
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(1).insertMaster(match.dashboardsCollection.get(0).removeMaster(k));
+            assertTrue(match.dashboardsCollection.get(1).haveMaster(k));
+        }
+
+        for ( int i=0; i<7; i++ ) {
+            match.moveMotherNature(1);
+        }
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.dashboardsCollection.get(1).removeMaster(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.moveMotherNature(1);
+        match.moveMotherNature(1);
+
+        try {
+            match.moveMotherNature(1);
+        } catch ( FinishedGameIslandException e ) {
+            exception = true;
+            e.manageException(match);
+        }
+
+        assertTrue(exception);
+        assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
+        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
+
+    }
+
+    //This test checks that both players with same number of tower and same number of masters win the game when there are only 3 group of islands
+    @Test
+    void endMatch3IslandDrawTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, FinishedGameEndTurnException {
+        match = new Match(2);
+        match.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match.addPlayer("2", "WHITE", "WIZARD2", 2);
+        boolean exception = false;
+
+        assertEquals(match.dashboardsCollection.get(0).getPlayer().getNickname(), "1");
+        assertEquals(match.dashboardsCollection.get(1).getPlayer().getNickname(), "2");
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.islands.get(0).addStudent(new Student(500, Color.RED));
+        match.islands.get(6).addStudent(new Student(501, Color.RED));
+
+        match.dashboardsCollection.get(0).playChosenCard(new Card(10, 5, 10));
+
+        for ( int i=0; i<4; i++ ) {
+            match.moveMotherNature(1);
+        }
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(1).insertMaster(match.dashboardsCollection.get(0).removeMaster(k));
+            assertTrue(match.dashboardsCollection.get(1).haveMaster(k));
+        }
+
+        for ( int i=0; i<6; i++ ) {
+            match.moveMotherNature(1);
+        }
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.dashboardsCollection.get(1).removeMaster(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        match.moveMotherNature(1);
+
+        match.dashboardsCollection.get(1).insertMaster(match.dashboardsCollection.get(0).removeMaster(Color.GREEN));
+        match.dashboardsCollection.get(1).insertMaster(match.dashboardsCollection.get(0).removeMaster(Color.BLUE));
+        match.dashboardsCollection.get(0).removeMaster(Color.PINK);
+
+        try {
+            match.moveMotherNature(1);
+        } catch ( FinishedGameIslandException e ) {
+            exception = true;
+            e.manageException(match);
+        }
+
+        assertTrue(exception);
+        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
+        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
+
+    }
+
+    //This test checks that the Match ends correctly when there are no more students in the bag
+    @Test
+    void studentsFinishedEndOfMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameEndTurnException, NoMasterException, CardAlreadyPlayedException {
+        Bag.restoreBag();
+        Match match2 = new Match(2);
+        match2.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match2.addPlayer("2", "WHITE", "WIZARD2", 2);
+        boolean exception = false;
+
+        match2.chooseCard(new Card(10, 5, 10));
+        match2.chooseCard(new Card(9, 5, 9));
+
+        for (Color k : Color.values()) {
+            match2.dashboardsCollection.get(0).insertMaster(match2.getMasters().get(k));
+            assertTrue(match2.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        for ( int j = 0; j<3; j++ )
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.moveStudentsFromCloudToEntrance(0);
+        for ( int j = 0; j<3; j++ )
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.moveStudentsFromCloudToEntrance(1);
+
+        for( int i=0; i<16; i++) {
+            try {
+                for ( int j = 0; j<3; j++ )
+                    match2.moveStudentFromEntranceToIsland(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
+                match2.moveStudentsFromCloudToEntrance(0);
+                for ( int j = 0; j<3; j++ )
+                    match2.moveStudentFromEntranceToIsland(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0), 0);
+                match2.moveStudentsFromCloudToEntrance(1);
+            } catch ( WrongCloudNumberException e ) {
+                System.out.println(e);
+            }
+        }
+
+        for ( int j = 0; j<3; j++ )
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.setNextCurrDashboard();
+        for ( int j = 0; j<3; j++ )
+            match2.moveStudentFromEntranceToDR(match2.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match2.setNextCurrDashboard();
+
+        match2.moveMotherNature(1);
+
+        try {
+            match2.moveStudentsFromCloudToEntrance(0);
+            match2.moveStudentsFromCloudToEntrance(1);
+        } catch ( FinishedGameEndTurnException e ) {
+            exception = true;
+            e.manageException(match2);
+        }
+
+        assertTrue(exception);
+        assertTrue(match2.getWinnerPlayers().contains(match2.dashboardsCollection.get(0).getPlayer()));
+        assertFalse(match2.getWinnerPlayers().contains(match2.dashboardsCollection.get(1).getPlayer()));
+
+    }
+
+    //This test checks that the Match ends correctly when a player finishes his cards
+    @Test
+    void cardFinishedEndOfMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, WrongCloudNumberException, NoMasterException {
+        match = new Match(2);
+        match.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match.addPlayer("2", "WHITE", "WIZARD2", 2);
+        boolean exception = false;
+
+        for ( int i=1; i<=10; i++ ) {
+            match.chooseCard(new Card(10, 5, i));
+            match.chooseCard(new Card(10, 5, ((i+1)%10)+1 ) );
+        }
+
+        for (Color k : Color.values()) {
+            match.dashboardsCollection.get(0).insertMaster(match.getMasters().get(k));
+            assertTrue(match.dashboardsCollection.get(0).haveMaster(k));
+        }
+
+        for ( int j = 0; j<3; j++ )
+            match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match.setNextCurrDashboard();
+        for ( int j = 0; j<3; j++ )
+            match.moveStudentFromEntranceToDR(match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0));
+        match.setNextCurrDashboard();
+
+        try {
+            match.moveStudentsFromCloudToEntrance(0);
+            match.moveStudentsFromCloudToEntrance(1);
+        } catch ( FinishedGameEndTurnException e ) {
+            exception = true;
+            e.manageException(match);
+        }
+
+        assertTrue(exception);
+        assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
+        assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
 
     }
 

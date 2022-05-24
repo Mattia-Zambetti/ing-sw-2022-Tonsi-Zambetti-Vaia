@@ -8,12 +8,14 @@ import model.exception.WrongCloudNumberException;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Cloud  implements Serializable {
     private final Set<Student> studentsOnCloud;
     private static int studentsNumOnCloud;
     private final int ID;
+    private boolean cloudAlreadyChosen;
 
     //Every cloud is created by receiving a Set of students, it launches a MaxNumberException
     //if the studentsFromBag size isn't the same of the students number on the cloud
@@ -30,6 +32,7 @@ public class Cloud  implements Serializable {
             this.studentsOnCloud.add(new Student(student));
         }
         this.ID = cloud.ID;
+        cloudAlreadyChosen = false;
     }
 
 
@@ -41,12 +44,17 @@ public class Cloud  implements Serializable {
         return studentsNumOnCloud;
     }
 
+    public void setCloudNotChosen() {
+        cloudAlreadyChosen=false;
+    }
+
     //It returns the students on this cloud in a Set and it removes them from it.
     //It throws an exception if the cloud is empty
     public Set<Student> takeStudents() throws WrongCloudNumberException {
-        if(studentsOnCloud.size()>0) {
+        if(!cloudAlreadyChosen) {
             Set<Student> tmpstudents = new HashSet<>(studentsOnCloud);
             studentsOnCloud.clear();
+            cloudAlreadyChosen = true;
             return tmpstudents;
         }else throw new WrongCloudNumberException("Cloud has already been chosen");
     }
@@ -61,9 +69,7 @@ public class Cloud  implements Serializable {
                     throw new MaxNumberException("Wrong parameter in refilling cloud's operation");
                 }
             }
-            if (students.size() == getStudentsNumOnCloud())
-                studentsOnCloud.addAll(new HashSet<>(students));
-            else throw new MaxNumberException("Wrong size of the set to refill the clouds");
+            studentsOnCloud.addAll(new HashSet<>(students));
         }else throw new AlreadyFilledCloudException("There's a cloud that has already been filled");
     }
 

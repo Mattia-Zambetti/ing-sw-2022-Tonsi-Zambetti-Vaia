@@ -189,10 +189,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //it's used to take the students from the bag and
     //put them into the cloud number "cloudNum"
     private Set<Student> pullStudentsFromCloud(int cloudNum) throws WrongCloudNumberException {
-        if (cloudNum < totalPlayersNum && cloudNum >= 0 && !(getCloudByID(cloudNum).equals(new Cloud(cloudNum)))) {
+        if (cloudNum < totalPlayersNum && cloudNum >= 0 ) {
             return getCloudByID(cloudNum).takeStudents();
         }
-        throw new WrongCloudNumberException("Cloud has already been chosen");
+        throw new WrongCloudNumberException("wrong cloud's number");
     }
 
     private Cloud getCloudByID(int ID) throws WrongCloudNumberException {
@@ -208,6 +208,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //with new students from the bag
     public void refillClouds(){
         for (Cloud c : clouds) {
+            c.setCloudNotChosen();
             try {
                 c.refillCloud(Bag.removeStudents(Cloud.getStudentsNumOnCloud()));
             } catch (AlreadyFilledCloudException | MaxNumberException e) {
@@ -221,13 +222,12 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
 
     //TESTED
-    //the param chosenCLoud require to contains the choice starting from 1(NOT 0), the method
-    //takes the students from the cloud "chosenCloud"(STARTING FROM POSITION NUMBER 1) to
-    //the current player's entrance
+    //the param chosenCLoud require to contains the choice starting from 0, the method
+    //takes the students from the cloud "chosenCloud" to the current player's entrance
     public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException, FinishedGameEndTurnException, NoMoreStudentsException {
         try {
 
-            if (chosenCloud < totalPlayersNum && chosenCloud >= 0)
+            if (chosenCloud < totalPlayersNum && chosenCloud >= 0 )
                 currentPlayerDashboard.moveToEntrance(pullStudentsFromCloud(chosenCloud));
             else
                 throw new WrongCloudNumberException("This cloud doesn't exist");
@@ -610,10 +610,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
 
-    public void setCurrentPlayerWinners() {
-        if ( totalPlayersNum == 4 ) {
-            winnerPlayers.add(currentPlayerDashboard.getPlayer());
-            winnerPlayers.add(currentPlayerDashboard.getPlayer().getBuddy());
+    public void setWinnerPlayerByTowerColor(TowerColor t) {
+        for ( Dashboard d : dashboardsCollection ) {
+            if ( d.getTowerColor().equals(t))
+                winnerPlayers.add(d.getPlayer());
         }
     }
 
@@ -632,39 +632,59 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     public void calculateWinner(){
         int maxTowerOnIslands = 0;
+        int maxNumOfMaster = 0;
         TowerColor maxTowerColor = null;
-        HashMap<TowerColor, Integer> colorByTowerMap = new HashMap<>();
+        ArrayList<TowerColor> maxTowerColorList = new ArrayList<>(0);
+        HashMap<TowerColor, Integer> towerNumByColor = new HashMap<>();
 
         for ( TowerColor t: TowerColor.values() )
-            colorByTowerMap.put(t,0);
+            towerNumByColor.put(t,0);
 
         try {
             for( Integer i: islandPositions) {
+
                 if ( islands.get(i).getTowerNum() != 0 )
-                    colorByTowerMap.put( islands.get(i).getTowerColor(), colorByTowerMap.get(islands.get(i).getTowerColor())+1 );
+                    towerNumByColor.put( islands.get(i).getTowerColor(), ( towerNumByColor.get(islands.get(i).getTowerColor()) )+(islands.get(i).getTowerNum()) );
             }
         } catch( NoTowerException e ) {
             e.printStackTrace();
         }
 
-        for ( TowerColor t: colorByTowerMap.keySet()  ) {
-            if ( colorByTowerMap.get(t) > maxTowerOnIslands )
-                maxTowerColor = t;
+        for ( TowerColor t: towerNumByColor.keySet()  ) {
+            if ( towerNumByColor.get(t) == maxTowerOnIslands ) {
+                maxTowerColorList.add(t);
+            }
+            else if ( towerNumByColor.get(t) > maxTowerOnIslands ) {
+                maxTowerOnIslands=towerNumByColor.get(t);
+                maxTowerColorList.clear();
+                maxTowerColorList.add(t);
+            }
         }
 
-        for ( Dashboard d: dashboardsCollection ) {
-            if ( d.getTowerColor() == maxTowerColor )
-                winnerPlayers.add(d.getPlayer());
+        //used when the number of towers on islands is the same for more than one towerColor
+        if ( maxTowerColorList.size()==1 ) {
+            for ( Dashboard d: dashboardsCollection ) {
+                if ( d.getTowerColor() == maxTowerColorList.get(0) )
+                    winnerPlayers.add(d.getPlayer());
+            }
+        } else {
+            for ( Dashboard d: dashboardsCollection) {
+                if ( maxTowerColorList.contains(d.getTowerColor()) && d.getMastersList().size()>maxNumOfMaster )
+                    maxNumOfMaster=d.getMastersList().size();
+            }
+            for ( Dashboard d: dashboardsCollection) {
+                if ( maxTowerColorList.contains(d.getTowerColor()) && d.getMastersList().size()==maxNumOfMaster )
+                    winnerPlayers.add(d.getPlayer());
+            }
         }
 
     }
 
 
-
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException, FinishedGameEndTurnException {
         try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
                 int positionTmp = currentIsland;
@@ -679,16 +699,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 if (totalNumIslands <= 3)
                     throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
-                if (matchFinishedAtEndOfRound)
-                    throw new FinishedGameEndTurnException("Game over");
-
                 choicePhase = new CloudChoice();
                 notifyMatchObservers();
             } else throw new MaxNumberException("Cannot move mother nature that far");
         }catch (Exceptions e){
             e.manageException(this);
-        } catch (FinishedGameEndTurnException e) {
-            e.printStackTrace();
         }
     }
 
