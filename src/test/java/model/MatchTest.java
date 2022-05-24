@@ -564,30 +564,6 @@ public class MatchTest {
         }
     }
 
-    @Test
-    void ExpertMatchIslandToStringTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, CardNotFoundException, NoMoreStudentsException, CardAlreadyPlayedException {
-
-        match=new ExpertMatch(PLAYERSNUM);
-
-        match.addPlayer("Vaia", "WHITE", "WIZARD1",1);
-        match.addPlayer("Tonsi", "BLACK", "WIZARD2",2);
-
-        ((ExpertMatch)match).setCentaurEffect(true);
-
-        List<Student> studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
-        Student studentToMove = studentsInEntrance.get(0);
-        System.out.println(studentToMove.toString());
-        match.moveStudentFromEntranceToDR(studentToMove);
-        match.checkAndMoveMasters();
-        //assertTrue(match.showCurrentPlayerDashboard().haveMaster(studentToMove.getColor()));
-
-        match.chooseCard(new Card(3,2,3));
-        match.chooseCard(new Card(10,5,10));
-
-        for ( Island i : match.islands ) {
-            System.out.println(i);
-        }
-    }
 
     @Test
     void matchToStringTest() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
