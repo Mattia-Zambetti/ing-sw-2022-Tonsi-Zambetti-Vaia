@@ -8,10 +8,12 @@ import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.NoMoreBlockCardsException;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public abstract class Choice implements Serializable {
 
+    @Serial
     private static final long serialVersionUID =445345454;
 
     private Player sendingPlayer;

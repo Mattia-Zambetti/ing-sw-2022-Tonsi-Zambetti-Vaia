@@ -1,8 +1,13 @@
 package server;
 
 import controller.Controller;
+import controller.choice.Choice;
 import controller.choice.DataPlayerChoice;
-import model.*;
+import controller.choice.StartingMatchChoice;
+import model.ExpertMatch;
+import model.Match;
+import model.Message.RegistrationConfirmed;
+import model.NormalMatch;
 import view.RemoteView;
 
 import java.io.IOException;
@@ -16,16 +21,16 @@ public class Server implements Runnable {
     private static final int PORT = 12345;
 
 
-    private static Set<String> nicknames;
+    private static int idClient=0;
 
 
     private ServerSocket serverSocket;
 
     private ExecutorService executor;
-    private List<Connection> connections;
+    private Queue<Connection> waitingConnections;
     private List<RemoteView> remoteViewList = new ArrayList<>();
 
-    private int totalPlayerNumber;
+    private int totalPlayerNumber=0;
     private int matchType;
 
     private HashSet<Connection> playersConnections;
@@ -40,10 +45,9 @@ public class Server implements Runnable {
     public Server() {
         try {
             executor = Executors.newFixedThreadPool(128);
-            connections = new ArrayList<>();
+            waitingConnections =new ArrayDeque<>();
             playersConnections = new HashSet<>();
             serverSocket = new ServerSocket(PORT);
-            nicknames = new HashSet<>();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,6 +59,14 @@ public class Server implements Runnable {
     }
 
 
+    public void initNewMatch() throws IOException, ClassNotFoundException {
+        for(int i=0; i<waitingConnections.size(); i++){
+            Connection c=waitingConnections.peek();
+            c.setActive(true);
+            lobby(c);
+        }
+    }
+
     @Override
     public void run() {
         do {
@@ -62,13 +74,15 @@ public class Server implements Runnable {
                 Socket clientSocket = serverSocket.accept();
 
 
-                Connection clientConnection = new Connection(clientSocket, this);
+                Connection clientConnection = new Connection(clientSocket, this, ++idClient);
 
-                connections.add(clientConnection);
-
-                System.out.println("Connection number: "+ connections.size());
+                System.out.println("Connection number: "+ (waitingConnections.size()+1));
 
                 executor.submit(clientConnection);
+
+                waitingConnections.add(clientConnection);
+
+
 
 
 
@@ -80,74 +94,79 @@ public class Server implements Runnable {
     }
 
 
-
-    public synchronized int getConnectionsSize() {
-        return connections.size();
-    }
-
-    public synchronized void setMatchParams(int totalPlayerNumber, int matchType){
+    public void setMatchParams(int totalPlayerNumber, int matchType){
         this.totalPlayerNumber = totalPlayerNumber;
         this.matchType = matchType;
     }
 
-    public synchronized void lobby(Connection c) {
+    public synchronized void lobby(Connection c) throws IOException, ClassNotFoundException {
         Match match = null;
-        playersConnections.add(c);
+        Choice choice;
 
+        if(waitingConnections.peek().equals(c)) {
+            c.send(new RegistrationConfirmed(c.getId()));
 
-        if (playersConnections.size() == totalPlayerNumber) {
-
-
-
-            for (Connection connection : connections) {
-                remoteViewList.add(new RemoteView(connection));
+            if (playersConnections.size() == 0) {
+                choice = new StartingMatchChoice();
+                c.send(choice);
+                Choice startChoice = (Choice) c.readObject();
+                setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
             }
 
-            switch (matchType) {
-                case 1:
-                    match = new NormalMatch(totalPlayerNumber);
-                    break;
-                case 2:
-                    match = new ExpertMatch(totalPlayerNumber);
-                    break;
+            if (playersConnections.size() <= totalPlayerNumber) {
+                c.setActive(true);
+                playersConnections.add(c);
+                waitingConnections.remove();
             }
 
-            Controller controller = new Controller(match);
+            if (playersConnections.size() == totalPlayerNumber) {
 
-            if (match != null) {
-                for (RemoteView remoteView : remoteViewList) {
-                    match.addObserver(remoteView);
-                    remoteView.addObserver(controller);
-                    remoteView.getConnection().addObserver(remoteView);
-
-
+                for (Connection connection : playersConnections) {
+                    remoteViewList.add(new RemoteView(connection));
                 }
-                System.out.println("Starting match");
-                for(int i=1; i<=totalPlayerNumber; i++){
-                    match.setChoicePhase( new DataPlayerChoice(totalPlayerNumber, i));
-                    match.notifyMatchObservers();
-                }
-            }else {
-                System.out.println("Error, match not created");
-                return;
-            }
 
-            //Actually the server maintains all the connections in the waiting room, so, when a connection is interrupted, all others connections are closed
-            //waitingRoom.clear();
-            //nicknames.clear();
+                switch (matchType) {
+                    case 1:
+                        match = new NormalMatch(totalPlayerNumber);
+                        break;
+                    case 2:
+                        match = new ExpertMatch(totalPlayerNumber);
+                        break;
+                }
+
+                Controller controller = new Controller(match);
+
+                if (match != null) {
+                    for (RemoteView remoteView : remoteViewList) {
+                        match.addObserver(remoteView);
+                        remoteView.addObserver(controller);
+                        remoteView.getConnection().addObserver(remoteView);
+                    }
+
+
+                    System.out.println("Starting match");
+                    for (Connection connection : playersConnections) {
+                        match.setChoicePhase(new DataPlayerChoice(totalPlayerNumber, connection.getId()));
+                        match.notifyMatchObservers();
+                    }
+                } else {
+                    System.out.println("Error, match not created");
+                }
+
+                //Actually the server maintains all the connections in the waiting room, so, when a connection is interrupted, all others connections are closed
+                //waitingRoom.clear();
+                //nicknames.clear();
+            }
         }
     }
 
-    public synchronized void deregisterConnection(Connection c){
-        connections.remove(c);
+    public synchronized void deregisterConnections(Connection c) throws IOException, ClassNotFoundException {
         playersConnections.remove(c);
         for ( Connection connection : playersConnections ) {
-            if ( connection!=c ) {
-                connection.closeConnection();
-                playersConnections.remove(connection);
-                connections.remove(connection);
-            }
+            connection.closeConnection();
+            playersConnections.remove(connection);
         }
+        initNewMatch();
     }
 
 }

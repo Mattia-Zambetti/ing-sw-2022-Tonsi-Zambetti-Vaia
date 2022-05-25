@@ -2,9 +2,14 @@ package model.Message;
 
 import client.Client;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-public interface Message extends Serializable{
+public abstract class Message implements Serializable{
 
-    void manageMessage(Client client);
+    @Serial
+    private static final long serialVersionUID =445345453;
+
+    public abstract void manageMessage(Client client);
+
 }

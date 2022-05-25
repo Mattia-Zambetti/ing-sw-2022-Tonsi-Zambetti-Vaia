@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchEndedMessage implements Message, Serializable {
+public class MatchEndedMessage extends Message implements Serializable {
 
     List<Player> winners;
 

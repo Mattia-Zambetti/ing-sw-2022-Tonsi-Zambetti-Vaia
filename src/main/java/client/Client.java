@@ -5,7 +5,6 @@ package client;
 import controller.choice.*;
 import model.ExpertMatch;
 import model.MatchDataInterface;
-import model.Message.ConfirmationMessage;
 import model.Message.Message;
 import model.Player;
 
