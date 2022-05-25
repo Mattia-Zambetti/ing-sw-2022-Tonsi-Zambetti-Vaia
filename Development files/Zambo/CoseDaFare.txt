@@ -1,5 +1,4 @@
--Metodo removeStudentsFromEntrance
--Override metodo moveStudentFromEntranceToDR in expertMatch per monete
--Spostare checkAndMoveStudent in match dopo spostamento studenti
--Togliere wrongColorxception dove inutile
--Sistemare ordine giocatore in senso orario quando giocano le carte
+Errori chiusura connection:
+-Il client che sta creando la partita non termina se l'altro si disconnette
+-Controllare caso chiusura connessione di ulteriore client una volta che la partita è già iniziata (un client esterno alla partita non deve far
+ terminare tutti gli altri)

@@ -30,5 +30,6 @@ public class MatchEndedMessage extends Message implements Serializable {
         }
 
         client.printToCLI(outputString);
+        client.closeConnection();
     }
 }

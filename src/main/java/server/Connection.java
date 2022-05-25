@@ -85,6 +85,7 @@ public class Connection extends Observable implements Runnable{
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
 
+
             server.lobby(this);
 
 
@@ -108,6 +109,8 @@ public class Connection extends Observable implements Runnable{
                 ex.printStackTrace();
             }
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
