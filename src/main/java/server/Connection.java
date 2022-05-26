@@ -37,40 +37,54 @@ public class Connection extends Observable implements Runnable{
         return scannerIn.readObject();
     }
 
-    public void send(Object obj){
+    public void send(Object obj) throws IOException {
+        writeOut.writeObject(obj);
+        writeOut.flush();
+        writeOut.reset();
+    }
+
+    public void sendAndClose(Object obj){
+        setActive(false);
         try {
             writeOut.writeObject(obj);
             writeOut.flush();
             writeOut.reset();
+            closeThisConnection();
         } catch (IOException e) {
             System.out.println("You tried to send an object to a connection already closed");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     public synchronized void closeConnection() {
         isActive = false;
-        send(new PlayerDisconnectedMessage());
         try{
+            send(new PlayerDisconnectedMessage());
+            System.out.println("Closing connection "+getId()+" in the Server side");
             scannerIn.close();
             writeOut.close();
             clientSocket.close();
+            System.out.println("Connection "+getId()+" correctly closed");
         }catch (IOException e){
             System.out.println("Error closing others clients' socket\n"+e.getMessage());
         }
     }
 
-    private synchronized void closeThisConnection() throws IOException, ClassNotFoundException {
+    public synchronized void closeThisConnection() throws IOException, ClassNotFoundException {
         isActive=false;
         try{
+            System.out.println("Closing connection "+getId()+" in the Server side");
             scannerIn.close();
             writeOut.close();
             clientSocket.close();
+            System.out.println("Connection "+getId()+" correctly closed");
         }catch (IOException e){
-            System.out.println("Error closing the socket\n"+e.getMessage());
+            System.out.println("Error closing the connection: "+e.getMessage());
         }
     }
 
-    public void setActive(boolean active) {
+    public synchronized void setActive(boolean active) {
         isActive = active;
     }
 
@@ -98,12 +112,12 @@ public class Connection extends Observable implements Runnable{
                 }
             }
         } catch (IOException e) {
-            System.out.println("Connection closed");
+            System.out.println("Connection "+getId()+" closed from Client");
             try {
-                System.out.println("Deregistering all connections");
-                closeThisConnection();
-                server.deregisterConnections(this);
-                System.out.println("Done!");
+                if ( isActive() ) {
+                    closeThisConnection();
+                    server.deregisterConnections(this);
+                }
 
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();

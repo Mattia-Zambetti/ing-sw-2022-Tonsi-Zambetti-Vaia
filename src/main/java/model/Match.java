@@ -817,8 +817,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
                 exception = false;
             }
-            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
-                exception = true;
+            //Useless exception
+            //else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+                //exception = true;
         }
         if (exception)
             throw new SameInfluenceException("No change needed in current island");

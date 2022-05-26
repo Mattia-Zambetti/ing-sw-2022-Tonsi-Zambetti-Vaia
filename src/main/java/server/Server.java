@@ -61,11 +61,8 @@ public class Server implements Runnable {
 
 
     public void initNewMatch() throws IOException, ClassNotFoundException, InterruptedException {
-        for(int i=0; i<waitingConnections.size(); i++){
-            Connection c=waitingConnections.peek();
-            c.setActive(true);
-            lobby(c);
-        }
+        totalPlayerNumber=0;
+        remoteViewList.clear();
     }
 
     @Override
@@ -77,7 +74,7 @@ public class Server implements Runnable {
 
                 Connection clientConnection = new Connection(clientSocket, this, ++idClient);
 
-                System.out.println("Connection number: "+ (waitingConnections.size()+1));
+                System.out.println("Connection number: "+ idClient);
 
                 executor.submit(clientConnection);
 
@@ -110,24 +107,47 @@ public class Server implements Runnable {
         }
 
         if (playersConnections.size() == 0) {
-            choice = new StartingMatchChoice();
-            c.send(choice);
-            Choice startChoice = (Choice) c.readObject();
-            setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
-        }
-        if (playersConnections.size() < totalPlayerNumber) {
             c.send(new RegistrationConfirmed(c.getId()));
             c.setActive(true);
             playersConnections.add(c);
-            waitingConnections.remove();
+            waitingConnections.remove(c);
+            choice = new StartingMatchChoice();
+            c.send(choice);
+            try {
+                Choice startChoice = (Choice) c.readObject();
+                setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
+            } catch ( IOException e ) {
+                //In case the first player disconnect before setting match parameters, then the exception is caught immediately, so the others connections
+                //waiting to enter the match can start a new match setting new parameters, right after the first connection terminate the lobby method.
+                // If the IOException was thrown, then others connections would have entered the lobby method before the first (closed) connection
+                // has been removed from playersConnection, causing them to be refused from the server like the lobby was full.
+                System.out.println("Connection "+c.getId()+" closed from Client");
+                c.closeThisConnection();
+                playersConnections.remove(c);
+            }
+        }
+        else if (playersConnections.size() < totalPlayerNumber) {
+            try {
+                c.send(new RegistrationConfirmed(c.getId()));
+                c.setActive(true);
+                playersConnections.add(c);
+                waitingConnections.remove(c);
+            } catch ( IOException e ) {
+                System.out.println("Connection "+c.getId()+" closed from Client");
+                c.closeThisConnection();
+                waitingConnections.remove(c);
+                notifyAll();
+            }
         } else {
             c.send(new FullLobbyMessage());
+            c.closeThisConnection();
             waitingConnections.remove(c);
             notifyAll();
             return;
         }
 
-        if (playersConnections.size() == totalPlayerNumber) {
+        //Need to check if totalPlayerNumber is different from zero because the lobby method could reach this point after the first player has disconnected
+        if (playersConnections.size() == totalPlayerNumber  && totalPlayerNumber!=0 ) {
             for (Connection connection : playersConnections) {
                 remoteViewList.add(new RemoteView(connection));
             }
@@ -166,11 +186,14 @@ public class Server implements Runnable {
     }
 
     public synchronized void deregisterConnections(Connection c) throws IOException, ClassNotFoundException {
+        System.out.println("Unregistering and closing all others connections");
         playersConnections.remove(c);
         for ( Connection connection : playersConnections ) {
             connection.closeConnection();
-            playersConnections.remove(connection);
         }
+        playersConnections.clear();
+        //Bisogna gestire la chiusura delle connessioni non in partita
+        System.out.println("Done!");
         try {
             initNewMatch();
         } catch (InterruptedException e) {
