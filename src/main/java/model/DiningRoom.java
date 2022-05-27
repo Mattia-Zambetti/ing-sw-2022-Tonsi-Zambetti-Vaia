@@ -44,6 +44,17 @@ public class DiningRoom implements Serializable {
         students.add( newStudent );
     }
 
+    public void removeStudent(Student student) throws StudentIDAlreadyExistingException{
+        if(students.contains(student))
+            students.remove(student);
+        else throw new StudentIDAlreadyExistingException("error");
+
+    }
+
+    public Set<Student> getStudents() {
+        return new HashSet<>(students);
+    }
+
     public static int getDiningRoomDim() {
         return DINING_ROOM_DIM;
     }
