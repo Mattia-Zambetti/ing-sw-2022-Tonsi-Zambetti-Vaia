@@ -16,7 +16,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     private int postManValue = 0;
     private int colorBlocked = -1;
 
-    private static final int FIGURECARDSTOTALNUM=9;
+    private static final int FIGURECARDSTOTALNUM=12;
     private static final int FIGURECARDSINGAME=3;
 
     public ExpertMatch(int totalPlayersNum) {
@@ -25,6 +25,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         figureCards=new ArrayList<>();
 
+        //figureCards.add(new Thief());
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
@@ -48,6 +49,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                     figureCards.add(new Centaur());
                 } else if (randomInt == 9 && !figureCards.contains(new Farmer())) {
                     figureCards.add(new Farmer());
+                }else if (randomInt == 10 && !figureCards.contains(new Minstrel())) {
+                    figureCards.add(new Minstrel());
+                }else if (randomInt == 11 && !figureCards.contains(new Herald())) {
+                    figureCards.add(new Herald());
+                }else if (randomInt == 12 && !figureCards.contains(new Thief())) {
+                    figureCards.add(new Thief());
                 }
             }
         }catch (Exception e){
@@ -84,6 +91,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public boolean setNextCurrDashboard(){
         centaurEffect=false;
         Island.setCentaurEffect(centaurEffect);
+        if(currentPlayerDashboard.isFarmerEffect())
+            currentPlayerDashboard.setFarmerEffect(false);
         if(colorBlocked != -1){
             Color.values()[colorBlocked].unlockColor();
             colorBlocked = -1;
@@ -139,6 +148,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         return centaurEffect;
     }
 
+
     public void setCentaurEffect(boolean centaurEffect) {
         this.centaurEffect = centaurEffect;
         Island.setCentaurEffect(centaurEffect);
@@ -154,29 +164,34 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
 
+
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
         Dashboard maxStudentDashboard = null; //TODO NULL NONONONONONO
         Dashboard dashboardWithMaster = null;
+        Dashboard dashboardWithSameNum = null;
         int maxStudents;
         for ( Color c: Color.values() ) {
             maxStudents = 0;
-            maxStudentDashboard = null;
-            dashboardWithMaster = null;
             for ( Dashboard d: dashboardsCollection ) {
                 if ( d.haveMaster(c) ) {
-                    dashboardWithMaster = d;
-                    maxStudents = d.getStudentsNumInDR(c);
-                }
-            }
-            for ( Dashboard d: dashboardsCollection ) {
-                if(d.isFarmerEffect())
-                    if(d.getStudentsNumInDR(c)==maxStudents && maxStudents != 0)
+                    if(maxStudentDashboard == null)
                         maxStudentDashboard = d;
-
+                    dashboardWithMaster = d;
+                    if(maxStudents < d.getStudentsNumInDR(c)){
+                        maxStudents = d.getStudentsNumInDR(c);
+                        maxStudentDashboard = d;
+                    }
+                    else if(maxStudents == d.getStudentsNumInDR(c) && !maxStudentDashboard.isFarmerEffect() && maxStudentDashboard != dashboardWithMaster){
+                        maxStudents = d.getStudentsNumInDR(c);
+                        maxStudentDashboard = d;
+                    }
+                }
                 else if ( d.getStudentsNumInDR(c)>maxStudents ) {
                     maxStudents = d.getStudentsNumInDR(c);
                     maxStudentDashboard = d;
                 }
+                else if(d.getStudentsNumInDR(c)==maxStudents && d.isFarmerEffect())
+                    maxStudentDashboard = d;
             }
             if ( maxStudentDashboard!=null && dashboardWithMaster==null ) {
                 maxStudentDashboard.insertMaster(mastersMap.remove(c));
@@ -184,7 +199,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             else if ( maxStudentDashboard!=null && dashboardWithMaster!=maxStudentDashboard ) {
                 maxStudentDashboard.insertMaster(dashboardWithMaster.removeMaster(c));
             }
+            else if (maxStudents == 0 && dashboardWithMaster!= null)
+                mastersMap.put(c,dashboardWithMaster.removeMaster(c));
+            dashboardWithMaster=null;
+            maxStudentDashboard = null;
         }
+
     }
 
     @Override
@@ -252,7 +272,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
             choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
-
             counterMoveStudents++;
         }else {
             choicePhase = new MoveMotherNatureChoice();
@@ -265,13 +284,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         return new ArrayList<>(figureCards);
     }
 
-
-    public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCard){
-        choicePhase = figureCard.getActualChoice();
-        notifyMatchObservers();
-    }
-
-    public void notifyIslandFigureCard(FigureCard figureCard){
+    public void notifyFigureCard(FigureCard figureCard){
         choicePhase = figureCard.getActualChoice();
         notifyMatchObservers();
     }
@@ -313,8 +326,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
 
-
-
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException, NoMasterException {
        for (FigureCard f : figureCards) {
            if (f instanceof Princess){
@@ -328,6 +339,21 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         notifyMatchObservers();
     }
 
+    public void switchStudents(List<Student> fromEntrance, List<Student> fromDr) throws InexistentStudentException, MaxNumberException, StudentIDAlreadyExistingException, WrongColorException, NoMasterException {
+        for(int i = 0; i < fromEntrance.size(); i++){
+            currentPlayerDashboard.removeStudentFromEntrance(fromEntrance.get(i));
+            currentPlayerDashboard.removeInDRbyStudentColor(fromDr.get(i));
+            currentPlayerDashboard.moveToDR(fromEntrance.get(i));
+            currentPlayerDashboard.addStudentToEntrance(fromDr.get(i));
+            checkAndMoveMasters();
+        }
+        if(Controller.getTmpChoice() instanceof MoveStudentChoice)
+            choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+        else
+            setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
+    }
+
     public void placeForbiddenCards(int islandToSetForbidden) throws NoIslandException, NoMoreBlockCardsException {
         if(islandPositions.contains((Integer) islandToSetForbidden)){
             islands.get(islandToSetForbidden).setForbidden(true);
@@ -338,10 +364,30 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         else throw new NoIslandException("Insert an island that exists");
     }
 
+    public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException {
+        int tmp = currentIsland;
+        currentIsland = chosenIsland;
+        changeTowerColorOnIsland();
+        currentIsland = tmp;
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
+    }
+
 
     public void blockColorForInfluence(Color color){
         colorBlocked = color.ordinal();
         color.lockColor();
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
+    }
+
+    public void removeStudentsPerColor(Color color,int numStudentToRemove) throws WrongColorException, MaxNumberException, StudentIDAlreadyExistingException, NoMasterException {
+        Set<Student> tmp = new HashSet<>();
+        for(Dashboard d : dashboardsCollection){
+            tmp.addAll(d.removeStudentFromDRbyColor(color,numStudentToRemove));
+        }
+        Bag.addStudents(tmp);
+        checkAndMoveMasters();
         setChoicePhase(Controller.getTmpChoice());
         notifyMatchObservers();
     }

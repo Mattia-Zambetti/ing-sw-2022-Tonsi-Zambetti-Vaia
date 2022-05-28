@@ -9,7 +9,6 @@ import model.exception.NoMoreStudentsException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -57,7 +56,7 @@ public abstract class FigureCardWithStudents extends FigureCard implements Seria
 
     @Override
     public void playCard(ExpertMatchInterface expertMatchInterface){
-        expertMatchInterface.notifyStudentsOnFigureCard(this);
+        expertMatchInterface.notifyFigureCard(this);
     }
 
     public int getStudentsNumOnCard() {

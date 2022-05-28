@@ -1,6 +1,5 @@
 package model.figureCards;
 
-import controller.choice.MerchantChoice;
 import controller.choice.MushroomCollectorChoice;
 import model.ExpertMatchInterface;
 
@@ -16,7 +15,7 @@ public class MushroomCollector extends FigureCard  implements Serializable {
 
 
     public void playCard(ExpertMatchInterface expertMatchInterface){
-        expertMatchInterface.notifyIslandFigureCard(this);
+        expertMatchInterface.notifyFigureCard(this);
     }
 
     @Override

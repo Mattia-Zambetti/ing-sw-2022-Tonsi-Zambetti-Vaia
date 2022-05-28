@@ -5,10 +5,7 @@ import graphicAssets.CLIgraphicsResources;
 import model.exception.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class Dashboard implements Serializable {
     private final Entrance entrance;
@@ -19,7 +16,7 @@ public class Dashboard implements Serializable {
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
     private int coin;
-    private boolean cookEffect;
+    private boolean farmerEffect;
     private boolean isKnight = false; //per effetto carta personaggio
     private static final int MAX_NUM_OF_TOWER = 8;
     private Player player;
@@ -44,7 +41,7 @@ public class Dashboard implements Serializable {
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
         this.coin = 1; //At the start of a match it is always one
         this.isKnight = false;
-        this.cookEffect = false;
+        this.farmerEffect = false;
         this.player = new Player(playerNickname);
     }
 
@@ -59,7 +56,7 @@ public class Dashboard implements Serializable {
         this.mastersList = new HashMap<>(dashboardToCopy.mastersList);
         this.coin = dashboardToCopy.coin;
         this.isKnight = dashboardToCopy.isKnight;
-        this.cookEffect = dashboardToCopy.cookEffect;
+        this.farmerEffect = dashboardToCopy.farmerEffect;
         this.player = dashboardToCopy.player;
     }
 
@@ -69,11 +66,11 @@ public class Dashboard implements Serializable {
     }
 
     public boolean isFarmerEffect() {
-        return cookEffect;
+        return farmerEffect;
     }
 
-    public void setFarmerEffect(boolean cookEffect) {
-        this.cookEffect = cookEffect;
+    public void setFarmerEffect(boolean farmerEffect) {
+        this.farmerEffect = farmerEffect;
     }
 
     //Restituisce il colore delle torri
@@ -142,6 +139,46 @@ public class Dashboard implements Serializable {
             this.DiningRoomsList.get(student.getColor()).insertStudent(student);
         else
             throw new WrongColorException("Color not found during the insertion of student in DR");
+    }
+
+    public void addStudentToEntrance(Student student) throws MaxNumberException, StudentIDAlreadyExistingException {
+        entrance.insertStudent(student);
+    }
+
+    public List<Student> showDiningRoom(){
+        Set<Student> tmp = new HashSet<>();
+        for(Color c : Color.values())
+            tmp.addAll(DiningRoomsList.get(c).getStudents());
+        return tmp.stream().toList();
+    }
+
+    public void removeInDRbyStudentColor(Student student) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
+        if ( this.DiningRoomsList.containsKey(student.getColor()) )
+            this.DiningRoomsList.get(student.getColor()).removeStudent(student);
+        else
+            throw new WrongColorException("Color not found during the insertion of student in DR,zambo");
+    }
+
+    public Set<Student> removeStudentFromDRbyColor(Color color,int studentsToRemove) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
+        Set<Student> tmp;
+        Student studentToBag;
+        tmp =DiningRoomsList.get(color).getStudents();
+        Set<Student> tmpToAddToBag = new HashSet<>();
+        if(tmp.size() < studentsToRemove){
+            for(Student s: tmp){
+                studentToBag = this.DiningRoomsList.get(color).removeStudentByColor();
+                if(studentToBag != null)
+                    tmpToAddToBag.add(studentToBag);
+            }
+        }
+        else{
+            for (int i = 0; i < studentsToRemove; i++){
+                studentToBag = this.DiningRoomsList.get(color).removeStudentByColor();
+                if(studentToBag != null)
+                    tmpToAddToBag.add(studentToBag);
+            }
+        }
+        return tmpToAddToBag;
     }
 
     public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {
