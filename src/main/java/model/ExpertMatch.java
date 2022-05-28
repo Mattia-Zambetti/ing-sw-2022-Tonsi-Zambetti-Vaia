@@ -224,8 +224,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                 influenceTmp = influenceTmp1;
                 exception = false;
             }
-            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
-                exception = true;
+            //useless exception
+            //else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+            //    exception = true;
             knightEffect = 0;
         }
         if(currentPlayerDashboard.hasKnightPrivilege())
@@ -350,6 +351,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public void addCoinToCurrPlayer(){
         currentPlayerDashboard.addCoin();
     }
+
 
 
 

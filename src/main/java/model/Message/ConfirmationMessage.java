@@ -4,7 +4,7 @@ import client.Client;
 
 import java.io.Serializable;
 
-public abstract class ConfirmationMessage implements Serializable, Message {
+public abstract class ConfirmationMessage extends Message implements Serializable {
     private int id;
 
     public ConfirmationMessage(int id){

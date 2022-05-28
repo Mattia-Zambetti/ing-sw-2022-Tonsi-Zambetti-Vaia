@@ -2,9 +2,7 @@ package server;
 
 
 import controller.choice.Choice;
-import controller.choice.StartingMatchChoice;
 import model.Message.PlayerDisconnectedMessage;
-import model.Message.RegistrationConfirmed;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,39 +17,75 @@ public class Connection extends Observable implements Runnable{
     private ObjectOutputStream writeOut;
     private final Server server;
 
-    private boolean isActive=true;
+    private boolean isActive=false;
+
+    private int id;
 
 
-    public Connection(Socket socket, Server server) throws IOException {
+    public Connection(Socket socket, Server server, int id) throws IOException {
         this.clientSocket=socket;
         this.server=server;
+        this.id=id;
     }
 
-    public void send(Object obj){
+
+    public int getId() {
+        return id;
+    }
+
+    public Object readObject() throws IOException, ClassNotFoundException {
+        return scannerIn.readObject();
+    }
+
+    public void send(Object obj) throws IOException {
+        writeOut.writeObject(obj);
+        writeOut.flush();
+        writeOut.reset();
+    }
+
+    public void sendAndClose(Object obj){
+        setActive(false);
         try {
             writeOut.writeObject(obj);
             writeOut.flush();
             writeOut.reset();
+            closeThisConnection();
         } catch (IOException e) {
+            System.out.println("You tried to send an object to a connection already closed");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public synchronized void closeConnection() {
         isActive = false;
-        send(new PlayerDisconnectedMessage());
         try{
+            send(new PlayerDisconnectedMessage());
+            System.out.println("Closing connection "+getId()+" in the Server side");
+            scannerIn.close();
+            writeOut.close();
             clientSocket.close();
+            System.out.println("Connection "+getId()+" correctly closed");
         }catch (IOException e){
-            System.err.println(e.getMessage());
+            System.out.println("Error closing others clients' socket\n"+e.getMessage());
         }
     }
 
-    private void closeAllConnections(){
-        closeConnection();
-        System.out.println("Deregistering all connections");
-        server.deregisterConnection(this);
-        System.out.println("Done!");
+    public synchronized void closeThisConnection() throws IOException, ClassNotFoundException {
+        isActive=false;
+        try{
+            System.out.println("Closing connection "+getId()+" in the Server side");
+            scannerIn.close();
+            writeOut.close();
+            clientSocket.close();
+            System.out.println("Connection "+getId()+" correctly closed");
+        }catch (IOException e){
+            System.out.println("Error closing the connection: "+e.getMessage());
+        }
+    }
+
+    public synchronized void setActive(boolean active) {
+        isActive = active;
     }
 
     private synchronized boolean isActive() {
@@ -59,26 +93,14 @@ public class Connection extends Observable implements Runnable{
     }
 
     public void run (){
+        Object o;
+        Choice choice;
         try {
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
-            Choice choice;
-            Object o;
-
-
-            writeOut.writeObject(new RegistrationConfirmed(server.getConnectionsSize()));
-
-            if (server.getConnectionsSize() == 1) {
-                choice = new StartingMatchChoice();
-                send(choice);
-                Choice startChoice = (Choice) scannerIn.readObject();
-                server.setMatchParams(((StartingMatchChoice) startChoice).getTotalPlayersNumMatch(), ((StartingMatchChoice) startChoice).getMatchType());
-            }
-
 
 
             server.lobby(this);
-
 
 
             while(isActive()) {
@@ -90,9 +112,19 @@ public class Connection extends Observable implements Runnable{
                 }
             }
         } catch (IOException e) {
-            System.out.println("Connection closed by the client");
-            closeAllConnections();
+            System.out.println("Connection "+getId()+" closed from Client");
+            try {
+                if ( isActive() ) {
+                    closeThisConnection();
+                    server.deregisterConnections(this);
+                }
+
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
