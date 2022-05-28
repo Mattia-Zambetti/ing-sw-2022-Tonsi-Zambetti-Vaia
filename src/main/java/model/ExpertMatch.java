@@ -16,7 +16,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     private int postManValue = 0;
     private int colorBlocked = -1;
 
-    private static final int FIGURECARDSTOTALNUM=11;
+    private static final int FIGURECARDSTOTALNUM=12;
     private static final int FIGURECARDSINGAME=3;
 
     public ExpertMatch(int totalPlayersNum) {
@@ -25,7 +25,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         figureCards=new ArrayList<>();
 
-        figureCards.add(new Thief());
+        //figureCards.add(new Thief());
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
