@@ -101,8 +101,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
     @Override
-    public void moveMotherNature(int posizioni) throws FinishedGameIslandException, NoIslandException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, NoMoreBlockCardsException, MaxNumberException {
-        try {
+    public void moveMotherNature(int posizioni) throws FinishedGameIslandException, NoMoreTowerException, NoIslandException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, NoMoreBlockCardsException, MaxNumberException {
+        //try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() + postManValue && posizioni > 0) {
                 int positionTmp = currentIsland;
                 islands.get(positionTmp).setMotherNature(false);
@@ -118,25 +118,14 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                     islands.get(currentIsland).setForbidden(false);
                 }
 
-                if (getISLANDSNUM() <= 3)
-                    throw new FinishedGameIslandException("Island num <= 3, game over");
-
-                if (super.totalNumIslands <= 3)
-                    throw new FinishedGameIslandException("Island Num <= 3, game is over");
-
-                if (matchFinishedAtEndOfRound)
-                    throw new FinishedGameEndTurnException("Game over");
-
                 choicePhase = new CloudChoice();
                 notifyMatchObservers();
             } else throw new MaxNumberException("Cannot move Mother nature that far");
 
             postManValue = 0;
-        } catch (FinishedGameEndTurnException e) {
-            e.printStackTrace();
-        } catch (NoMoreTowerException e) {
-            e.printStackTrace();
-        }
+        /*} catch (Exceptions e){
+            e.manageException(this);
+        }*/
     }
 
 
@@ -364,7 +353,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         else throw new NoIslandException("Insert an island that exists");
     }
 
-    public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException {
+    public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         int tmp = currentIsland;
         currentIsland = chosenIsland;
         changeTowerColorOnIsland();

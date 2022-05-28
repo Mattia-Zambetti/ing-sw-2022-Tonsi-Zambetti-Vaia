@@ -214,7 +214,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             } catch (AlreadyFilledCloudException | MaxNumberException e) {
                 System.out.println(e.getMessage());
             } catch ( NoMoreStudentsException e ) {
-                setMatchFinishedAtEndOfRound();
+                e.manageException(this);
             }
         }
 
@@ -693,8 +693,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //END ZAMBO
 
     //Start Vaia
-    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException, FinishedGameEndTurnException {
-        try {
+    public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
+        //try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
                 int positionTmp = currentIsland;
                 islands.get(positionTmp).setMotherNature(false);
@@ -705,15 +705,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 islands.get(currentIsland).setMotherNature(true);
                 changeTowerColorOnIsland();
 
-                if (totalNumIslands <= 3)
-                    throw new FinishedGameIslandException("Island Num <= 3, game is over");
 
                 choicePhase = new CloudChoice();
                 notifyMatchObservers();
             } else throw new MaxNumberException("Cannot move mother nature that far");
-        }catch (Exceptions e){
+        /*}catch (Exceptions e){
             e.manageException(this);
-        }
+        }*/
     }
 
     public void mergeIsland(int islandToBeMerged) throws NoMoreTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
@@ -829,7 +827,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
     }
 
-    public void changeTowerColorOnIsland() throws SameInfluenceException, CardNotFoundException, NoMoreTowerException, NoTowerException, InvalidNumberOfTowers, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NoListOfSameColoredTowers {
+    public void changeTowerColorOnIsland() throws SameInfluenceException, CardNotFoundException, NoMoreTowerException, NoTowerException, InvalidNumberOfTowers, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NoListOfSameColoredTowers, FinishedGameIslandException {
         //try{
         try{Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
         int towersNum = 0;
@@ -846,6 +844,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             }
         }
             checkNearbyIslands();
+            if (totalNumIslands <= 3)
+                throw new FinishedGameIslandException("Island Num <= 3, game is over");
+
         }
         catch (SameInfluenceException e){
             //no changes needed on this island

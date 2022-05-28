@@ -262,7 +262,8 @@ public class MatchTest {
         assertEquals(TowerColor.GREY,  match.getTowerColorFromIsland(0));
         match.addIslandsTowers(1,tmpTowers);
         match.removeTowersFromDashboard(0,1);
-        match.chooseCard(new Card(5,5,2));
+        match.chooseCard(new Card(5,5,5));
+        match.chooseCard(new Card(3,5,3));
         Island.setCentaurEffect(false);
         match.moveMotherNature(1);
         //match.changeTowerColorOnIsland();
