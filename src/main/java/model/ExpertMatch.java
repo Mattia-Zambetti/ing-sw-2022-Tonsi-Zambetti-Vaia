@@ -244,9 +244,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                 influenceTmp = influenceTmp1;
                 exception = false;
             }
-            //useless exception
-            //else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
-            //    exception = true;
+
+            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+               exception = true;
             knightEffect = 0;
         }
         if(currentPlayerDashboard.hasKnightPrivilege())

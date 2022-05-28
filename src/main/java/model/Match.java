@@ -817,9 +817,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
                 exception = false;
             }
-            //Useless exception
-            //else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
-                //exception = true;
+            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+                exception = true;
         }
         if (exception)
             throw new SameInfluenceException("No change needed in current island");
@@ -830,8 +829,6 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
     }
 
-    //TODO NegativeNumberOfTowerException non bisogna fare printStackTrace ma va ritornata al controller che segnala che la partita è finita e ha vinto il giocatore che ha finito le torri
-    //TODO SameInfluenceException mai sollevata
     public void changeTowerColorOnIsland() throws SameInfluenceException, CardNotFoundException, NoMoreTowerException, NoTowerException, InvalidNumberOfTowers, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NoListOfSameColoredTowers {
         //try{
         try{Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
@@ -844,20 +841,18 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 if(dashboardsCollection.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
                     towersNum = islands.get(currentIsland).getTowerNum();
                     dashboardsCollection.get(i).addTowers(islands.get(currentIsland).removeTowers());
-                    //towersNum = islands.get(currentIsland).getTowerNum();
                     islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
                 }
             }
         }
             checkNearbyIslands();
         }
-        catch (SameInfluenceException e){System.out.println(e.getMessage());} catch (NoIslandException e) {
+        catch (SameInfluenceException e){
+            //no changes needed on this island
+        }
+        catch (NoIslandException e) {
             e.printStackTrace();
         }
-
-        // }
-       // catch (NoTowerException | NegativeNumberOfTowerException | InvalidNumberOfTowers | NoListOfSameColoredTowers |
-         //      MaxNumberOfTowerPassedException | TowerIDAlreadyExistingException e){System.out.println(e.getMessage());}
     }
     // END VAIA
 }
