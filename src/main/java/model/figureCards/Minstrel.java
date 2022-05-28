@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Minstrel extends FigureCard  implements Serializable {
 
-    private static final int PRICECARD=1;
+    private static int PRICECARD=1;
 
 
     public Minstrel() throws Exception {
