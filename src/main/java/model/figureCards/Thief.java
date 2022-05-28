@@ -1,31 +1,30 @@
 package model.figureCards;
-import controller.choice.MinstrelChoice;
+
+import controller.choice.HeraldChoice;
+import controller.choice.ThiefChoice;
 import model.ExpertMatchInterface;
 
 import java.io.Serializable;
 
-public class Minstrel extends FigureCard  implements Serializable {
+public class Thief extends FigureCard implements Serializable {
+    private static final int PRICECARD=3;
 
-    private static final int PRICECARD=1;
 
 
-    public Minstrel() throws Exception {
+    public Thief(){
         setPrice(PRICECARD);
-        cardId=12;
-        actualChoice = new MinstrelChoice();
+        cardId=9;
+        actualChoice = new ThiefChoice();
     }
 
 
-    @Override
     public void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException {
         expertMatchInterface.notifyFigureCard(this);
     }
 
     @Override
     public String toString() {
-        return "Minstrel card"+super.toString();
+        return "Thief card"+ super.toString();
     }
-
-
 
 }

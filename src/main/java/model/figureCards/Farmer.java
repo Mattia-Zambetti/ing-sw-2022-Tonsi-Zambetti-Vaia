@@ -9,7 +9,7 @@ public class Farmer extends FigureCard implements Serializable {
 
     public Farmer(){
         setPrice(PRICECARD);
-        cardId=1;
+        cardId=10;
     }
 
     public void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException {

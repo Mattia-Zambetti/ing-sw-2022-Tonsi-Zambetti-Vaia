@@ -10,23 +10,15 @@ import model.figureCards.NoMoreBlockCardsException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GrannyGrassChoice extends FigureCardActionChoice{
-    private int blockedIslanID;
+public class HeraldChoice extends FigureCardActionChoice{
+    private int chosenIsland;
     private List<Integer> islandPositionTmp = new ArrayList<>();
-
-    public int getBlockedIslanID() {
-        return blockedIslanID;
-    }
-
-    public void setBlockedIslanID(int blockedIslanID) {
-        this.blockedIslanID = blockedIslanID;
-    }
 
     @Override
     public boolean setChoiceParam(String input) {
         if(isItAnInt(input)) {
             if(islandPositionTmp.contains(Integer.parseInt(input)))
-                setBlockedIslanID(Integer.parseInt(input));
+                chosenIsland = Integer.parseInt(input);
             else {
                 System.out.println(getRedString("Island not found, try again:"));
                 return true;
@@ -38,19 +30,18 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
     }
 
     @Override
-    public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoMoreBlockCardsException, NoIslandException {
-        ((ExpertMatch)match).placeForbiddenCards(this.getBlockedIslanID());
+    public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMoreStudentsException, StudentIDAlreadyExistingException, InexistentStudentException, WrongColorException, NoMoreBlockCardsException, NoIslandException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException {
+        ((ExpertMatch)match).calculateInfluenceOnChosenIsland(chosenIsland);
     }
 
 
     public String toString(MatchDataInterface match){
         StringBuilder tmp = new StringBuilder();
         islandPositionTmp = match.getIslandPositions();
-        tmp.append("Choose the Island you want to block: ");
+        tmp.append("Choose the Island where you want to calculate the influence: ");
         for(int i = 0;i < match.getIslandPositions().size(); i++){
             tmp.append("\n"+ match.getIslandPositions().get(i) + ") island");
         }
-
         return tmp.toString();
     }
 }

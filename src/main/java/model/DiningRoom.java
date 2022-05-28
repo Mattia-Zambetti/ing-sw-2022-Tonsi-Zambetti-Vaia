@@ -7,8 +7,8 @@ import model.exception.WrongColorException;
 import graphicAssets.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DiningRoom implements Serializable {
     private static final int DINING_ROOM_DIM = 10;
@@ -48,7 +48,16 @@ public class DiningRoom implements Serializable {
         if(students.contains(student))
             students.remove(student);
         else throw new StudentIDAlreadyExistingException("error");
+    }
 
+    public Student removeStudentByColor() throws StudentIDAlreadyExistingException{
+        List<Student> studentstmp= new ArrayList<>();
+        studentstmp = students.stream().toList();
+        if(studentstmp.size() > 0){
+            students.remove(studentstmp.get(0));
+            return studentstmp.get(0);
+        }
+        return null;
     }
 
     public Set<Student> getStudents() {

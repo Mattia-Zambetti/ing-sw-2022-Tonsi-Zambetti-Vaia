@@ -16,7 +16,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     private int postManValue = 0;
     private int colorBlocked = -1;
 
-    private static final int FIGURECARDSTOTALNUM=10;
+    private static final int FIGURECARDSTOTALNUM=11;
     private static final int FIGURECARDSINGAME=3;
 
     public ExpertMatch(int totalPlayersNum) {
@@ -25,6 +25,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         figureCards=new ArrayList<>();
 
+        figureCards.add(new Thief());
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
@@ -50,6 +51,10 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                     figureCards.add(new Farmer());
                 }else if (randomInt == 10 && !figureCards.contains(new Minstrel())) {
                     figureCards.add(new Minstrel());
+                }else if (randomInt == 11 && !figureCards.contains(new Herald())) {
+                    figureCards.add(new Herald());
+                }else if (randomInt == 12 && !figureCards.contains(new Thief())) {
+                    figureCards.add(new Thief());
                 }
             }
         }catch (Exception e){
@@ -86,6 +91,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public boolean setNextCurrDashboard(){
         centaurEffect=false;
         Island.setCentaurEffect(centaurEffect);
+        if(currentPlayerDashboard.isFarmerEffect())
+            currentPlayerDashboard.setFarmerEffect(false);
         if(colorBlocked != -1){
             Color.values()[colorBlocked].unlockColor();
             colorBlocked = -1;
@@ -141,6 +148,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         return centaurEffect;
     }
 
+
     public void setCentaurEffect(boolean centaurEffect) {
         this.centaurEffect = centaurEffect;
         Island.setCentaurEffect(centaurEffect);
@@ -160,23 +168,30 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
         Dashboard maxStudentDashboard = null; //TODO NULL NONONONONONO
         Dashboard dashboardWithMaster = null;
+        Dashboard dashboardWithSameNum = null;
         int maxStudents;
         for ( Color c: Color.values() ) {
             maxStudents = 0;
-            maxStudentDashboard = dashboardsCollection.get(0);
-            dashboardWithMaster = dashboardsCollection.get(0);
             for ( Dashboard d: dashboardsCollection ) {
                 if ( d.haveMaster(c) ) {
+                    if(maxStudentDashboard == null)
+                        maxStudentDashboard = d;
                     dashboardWithMaster = d;
-                    maxStudents = d.getStudentsNumInDR(c);
+                    if(maxStudents < d.getStudentsNumInDR(c)){
+                        maxStudents = d.getStudentsNumInDR(c);
+                        maxStudentDashboard = d;
+                    }
+                    else if(maxStudents == d.getStudentsNumInDR(c) && !maxStudentDashboard.isFarmerEffect() && maxStudentDashboard != dashboardWithMaster){
+                        maxStudents = d.getStudentsNumInDR(c);
+                        maxStudentDashboard = d;
+                    }
                 }
-            }
-            for ( Dashboard d: dashboardsCollection ) {
-
-                if ( d.getStudentsNumInDR(c)>maxStudents ) {
+                else if ( d.getStudentsNumInDR(c)>maxStudents ) {
                     maxStudents = d.getStudentsNumInDR(c);
                     maxStudentDashboard = d;
                 }
+                else if(d.getStudentsNumInDR(c)==maxStudents && d.isFarmerEffect())
+                    maxStudentDashboard = d;
             }
             if ( maxStudentDashboard!=null && dashboardWithMaster==null ) {
                 maxStudentDashboard.insertMaster(mastersMap.remove(c));
@@ -184,7 +199,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             else if ( maxStudentDashboard!=null && dashboardWithMaster!=maxStudentDashboard ) {
                 maxStudentDashboard.insertMaster(dashboardWithMaster.removeMaster(c));
             }
+            else if (maxStudents == 0 && dashboardWithMaster!= null)
+                mastersMap.put(c,dashboardWithMaster.removeMaster(c));
+            dashboardWithMaster=null;
+            maxStudentDashboard = null;
         }
+
     }
 
     @Override
@@ -251,7 +271,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         if(counterMoveStudents<chooseStudentsNumOnCLoud()-1){
             choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
-
             counterMoveStudents++;
         }else {
             choicePhase = new MoveMotherNatureChoice();
@@ -264,13 +283,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         return new ArrayList<>(figureCards);
     }
 
-
-    public void notifyStudentsOnFigureCard(FigureCardWithStudents figureCard){
-        choicePhase = figureCard.getActualChoice();
-        notifyMatchObservers();
-    }
-
-    public void notifyIslandFigureCard(FigureCard figureCard){
+    public void notifyFigureCard(FigureCard figureCard){
         choicePhase = figureCard.getActualChoice();
         notifyMatchObservers();
     }
@@ -333,8 +346,10 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             currentPlayerDashboard.addStudentToEntrance(fromDr.get(i));
             checkAndMoveMasters();
         }
-
-        setChoicePhase(Controller.getTmpChoice());
+        if(Controller.getTmpChoice() instanceof MoveStudentChoice)
+            choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
+        else
+            setChoicePhase(Controller.getTmpChoice());
         notifyMatchObservers();
     }
 
@@ -348,10 +363,30 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         else throw new NoIslandException("Insert an island that exists");
     }
 
+    public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException {
+        int tmp = currentIsland;
+        currentIsland = chosenIsland;
+        changeTowerColorOnIsland();
+        currentIsland = tmp;
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
+    }
+
 
     public void blockColorForInfluence(Color color){
         colorBlocked = color.ordinal();
         color.lockColor();
+        setChoicePhase(Controller.getTmpChoice());
+        notifyMatchObservers();
+    }
+
+    public void removeStudentsPerColor(Color color,int numStudentToRemove) throws WrongColorException, MaxNumberException, StudentIDAlreadyExistingException, NoMasterException {
+        Set<Student> tmp = new HashSet<>();
+        for(Dashboard d : dashboardsCollection){
+            tmp.addAll(d.removeStudentFromDRbyColor(color,numStudentToRemove));
+        }
+        Bag.addStudents(tmp);
+        checkAndMoveMasters();
         setChoicePhase(Controller.getTmpChoice());
         notifyMatchObservers();
     }

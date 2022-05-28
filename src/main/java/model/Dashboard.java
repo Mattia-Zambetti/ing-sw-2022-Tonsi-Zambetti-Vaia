@@ -39,7 +39,7 @@ public class Dashboard implements Serializable {
         this.towerColor = colorOfTower;
         this.deck = new Deck(chosenWizard);
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
-        this.coin = 1000; //At the start of a match it is always one
+        this.coin = 1; //At the start of a match it is always one
         this.isKnight = false;
         this.farmerEffect = false;
         this.player = new Player(playerNickname);
@@ -69,8 +69,8 @@ public class Dashboard implements Serializable {
         return farmerEffect;
     }
 
-    public void setFarmerEffect(boolean cookEffect) {
-        this.farmerEffect = cookEffect;
+    public void setFarmerEffect(boolean farmerEffect) {
+        this.farmerEffect = farmerEffect;
     }
 
     //Restituisce il colore delle torri
@@ -157,6 +157,28 @@ public class Dashboard implements Serializable {
             this.DiningRoomsList.get(student.getColor()).removeStudent(student);
         else
             throw new WrongColorException("Color not found during the insertion of student in DR,zambo");
+    }
+
+    public Set<Student> removeStudentFromDRbyColor(Color color,int studentsToRemove) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
+        Set<Student> tmp;
+        Student studentToBag;
+        tmp =DiningRoomsList.get(color).getStudents();
+        Set<Student> tmpToAddToBag = new HashSet<>();
+        if(tmp.size() < studentsToRemove){
+            for(Student s: tmp){
+                studentToBag = this.DiningRoomsList.get(color).removeStudentByColor();
+                if(studentToBag != null)
+                    tmpToAddToBag.add(studentToBag);
+            }
+        }
+        else{
+            for (int i = 0; i < studentsToRemove; i++){
+                studentToBag = this.DiningRoomsList.get(color).removeStudentByColor();
+                if(studentToBag != null)
+                    tmpToAddToBag.add(studentToBag);
+            }
+        }
+        return tmpToAddToBag;
     }
 
     public int getStudentsNumInDR ( Color drColor ) throws WrongColorException {

@@ -101,4 +101,7 @@ public class Bag  implements Serializable {
         bag=null;
         Bag.initialInstance();
     }
+    public static void addStudents(Set<Student> students){
+        studentsInBag.addAll(students);
+    }
 }

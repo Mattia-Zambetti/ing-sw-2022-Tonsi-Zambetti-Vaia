@@ -18,7 +18,7 @@ public class GrannyGrass extends FigureCard  implements Serializable {
 
 
     public void playCard(ExpertMatchInterface expertMatchInterface) {
-        expertMatchInterface.notifyIslandFigureCard(this);
+        expertMatchInterface.notifyFigureCard(this);
     }
 
     public static void removeBlockCard() throws NoMoreBlockCardsException{

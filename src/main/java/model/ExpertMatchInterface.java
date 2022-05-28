@@ -17,9 +17,9 @@ public interface ExpertMatchInterface extends Serializable {
 
     boolean isCentaurEffect();
 
-    void notifyStudentsOnFigureCard(FigureCardWithStudents figureCardWithStudents);
+    //void notifyFigureCard(FigureCardWithStudents figureCardWithStudents);
 
-    void notifyIslandFigureCard(FigureCard figureCard);
+    void notifyFigureCard(FigureCard figureCard);
 
 
 }
