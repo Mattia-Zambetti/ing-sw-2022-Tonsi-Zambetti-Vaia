@@ -122,11 +122,12 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //TONSI
 
-
+    /**it allows to set the actual phase in the turn by setting the choice(different choice= different phase)*/
     public void setChoicePhase(Choice choicePhase) {
         this.choicePhase = choicePhase;
     }
 
+    /**it returns a copy of the player in this turn (current player)*/
     public Player showCurrentPlayer() {
         try{
             return showCurrentPlayerDashboard().getPlayer();
@@ -135,26 +136,27 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
+    /** it returns the current players number in the match*/
     public int getCurrentPlayersNum() {
         return dashboardsCollection.size();
     }
 
-    //it returns the max number of players in a match
+    /**it returns the max number of players in a match*/
     public static int getMAXPLAYERSNUM() {
         return MAXPLAYERSNUM;
     }
 
-    //it returns the minimum number of players in a match
+    /**it returns the minimum number of players in a match*/
     public static int getMINPLAYERSNUM() {
         return MINPLAYERSNUM;
     }
 
-    //It's the player's number in this match
+    /**It returns the final players' number in this match(a match of totalPlayersNum players)*/
     public int getTotalPlayersNum() {
         return totalPlayersNum;
     }
 
-    //It returns the students number on the clouds, used in the constructor
+    /**It returns the students number on the clouds, used in the constructor*/
     public int chooseStudentsNumOnCLoud() {
         if(totalPlayersNum ==2){
             return STUDENTSONCLOUD2PLAYERS;
@@ -163,15 +165,15 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         else return STUDENTSONCLOUD4PLAYERS;
     }
 
-    //It's used in the constructor, it creates the clouds by using the player's number
+    /**It's used in the constructor, it creates the clouds by using the player's number*/
     private void initializeClouds() {
         for (int i = 0; i < totalPlayersNum; i++) {
             clouds.add(new Cloud(i));
         }
     }
 
-    //TESTED
-    //It's used in the constructor, it creates the islands
+    /**TESTED
+    *It's used in the constructor, it creates the islands*/
     private void initializeIslands() throws NoMoreStudentsException {
         boolean motherNature=true;
         currentIsland = 0;
@@ -185,9 +187,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
-    //TESTED
-    //it's used to take the students from the bag and
-    //put them into the cloud number "cloudNum"
+    /** TESTED
+    It's used to take the students from the bag and
+    *put them into the cloud number "cloudNum"*/
     private Set<Student> pullStudentsFromCloud(int cloudNum) throws WrongCloudNumberException {
         if (cloudNum < totalPlayersNum && cloudNum >= 0 ) {
             return getCloudByID(cloudNum).takeStudents();
@@ -203,9 +205,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         throw new WrongCloudNumberException("Wrong cloud's number");
     }
 
-    //TESTED
-    //it is used at the start of a round to refill every cloud
-    //with new students from the bag
+    /**TESTED
+    *It's used at the start of a round to refill every cloud
+    *with new students from the bag*/
     public void refillClouds(){
         for (Cloud c : clouds) {
             c.setCloudNotChosen();
@@ -221,9 +223,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
 
-    //TESTED
-    //the param chosenCLoud require to contains the choice starting from 0, the method
-    //takes the students from the cloud "chosenCloud" to the current player's entrance
+    /**TESTED
+    *The param chosenCLoud require to contain the choice starting from 0, the method
+    *takes the students from the cloud "chosenCloud" and put them into the current player entrance*/
     public void moveStudentsFromCloudToEntrance(int chosenCloud) throws WrongCloudNumberException, MaxNumberException, FinishedGameEndTurnException, NoMoreStudentsException {
         try {
 
@@ -251,8 +253,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
-    //SEMI TESTED
-    //it returns the string version of the clouds content
+    /** TESTED
+    *it returns the string version of the clouds content*/
     public String toStringStudentsOnCloud() {
         StringBuilder res = new StringBuilder();
         for (Cloud c : clouds) {
@@ -261,6 +263,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return res.toString();
     }
 
+    // TODO mai usato
     public List<Cloud> showClouds(){
         List<Cloud> res=new ArrayList<>();
         for (Cloud c:clouds) {
@@ -269,17 +272,25 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return res;
     }
 
+    /** it returns a copy of the cards in the current player's deck*/
     public Set<Card> showCards(){
         return currentPlayerDashboard.showCards();
     }
 
-    public void chooseCard(Card chosenCard) throws CardNotFoundException, CardAlreadyPlayedException {
 
+
+    public void chooseCard(Card chosenCard) throws CardNotFoundException, CardAlreadyPlayedException {
+        boolean isAlreadyPlayed=false;
         for (Dashboard d: dashboardsCollection) {
             if ( dashboardsCollection.indexOf(d) < dashboardsCollection.indexOf(currentPlayerDashboard) ) {
-                if ( chosenCard.equals(d.getCurrentCard()))
-                   throw new CardAlreadyPlayedException("This card has already been chosen by another player");
+                if ( chosenCard.equals(d.getCurrentCard())) {
+                    isAlreadyPlayed=true;
+                    break;
+                }
             }
+        }
+        if(isAlreadyPlayed && isThereAnotherCard()){
+            throw new CardAlreadyPlayedException("This card has already been chosen by another player");
         }
 
         currentPlayerDashboard.playChosenCard(chosenCard);
@@ -297,6 +308,16 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
         notifyMatchObservers();
 
+    }
+
+    public boolean isThereAnotherCard(){
+        for (Card c: currentPlayerDashboard.showCards()) {
+            for (int i=0; i<dashboardsCollection.indexOf(currentPlayerDashboard); i++) {
+                if(!(c.equals(dashboardsCollection.get(i).getCurrentCard())))
+                    return true;
+            }
+        }
+        return false;
     }
 
 
