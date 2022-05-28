@@ -6,7 +6,7 @@ import model.ExpertMatchInterface;
 import java.io.Serializable;
 
 public class GrannyGrass extends FigureCard  implements Serializable {
-    private static final int PRICECARD = 2;
+    private static int PRICECARD = 2;
     private static int blockCard = 4;
 
 

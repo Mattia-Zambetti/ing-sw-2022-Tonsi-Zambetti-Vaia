@@ -5,7 +5,7 @@ import model.ExpertMatchInterface;
 import java.io.Serializable;
 
 public class Farmer extends FigureCard implements Serializable {
-    private static final int PRICECARD=2;
+    private static int PRICECARD=2;
 
     public Farmer(){
         setPrice(PRICECARD);

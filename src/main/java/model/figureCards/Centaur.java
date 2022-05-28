@@ -5,7 +5,7 @@ import model.ExpertMatchInterface;
 import java.io.Serializable;
 
 public class Centaur extends FigureCard implements Serializable {
-    private static final int PRICECARD=3;
+    private static int PRICECARD=3;
 
 
 

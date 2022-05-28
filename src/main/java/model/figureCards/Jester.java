@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class Jester extends FigureCardWithStudents implements Serializable {
 
-    private static final int PRICECARD=1;
+    private static int PRICECARD=1;
     private static final int MAXTAKESTUDENTSNUM=3;
     private static final int STUDENTSNUMONCARD=6;
 
