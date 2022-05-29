@@ -42,6 +42,7 @@ public class MatchTest {
     }
 
 
+    //TONSI
 
     @Test
     void maxPlayersThrowsException() throws MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreStudentsException {
@@ -168,7 +169,7 @@ public class MatchTest {
     }
 
     @Test
-    void isThereAnotherCardTest() throws CardNotFoundException, CardAlreadyPlayedException, NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
+    void isThereAnotherCard2PlayersTest() throws CardNotFoundException, CardAlreadyPlayedException, NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
         match.addPlayer("Zambo", "WHITE", "WIZARD2", 2);
         for (Dashboard d: match.dashboardsCollection) {
             for(int i=1; i<= 9; i++) {
@@ -177,15 +178,43 @@ public class MatchTest {
             System.out.println(match.showCards().toString());
         }
         match.chooseCard(new Card(10,10,10));
+        match.chooseCard(new Card(10,10,10));
 
 
         assertEquals(0, match.dashboardsCollection.get(0).showCards().size());
 
     }
 
-    //End Tonsi
+    @Test
+    void isThereAnotherCard3PlayersTest() throws CardNotFoundException, CardAlreadyPlayedException, NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
+        Match matchTest= new NormalMatch(3);
+
+        matchTest.addPlayer("Island", "GREY", "WIZARD1", 1);
+        matchTest.addPlayer("Zambo", "WHITE", "WIZARD2", 2);
+        matchTest.addPlayer("Tonsi", "BLACK", "WIZARD3",3);
+
+        for (Dashboard d: matchTest.dashboardsCollection) {
+            for(int i=1; i<= 8; i++) {
+                d.playChosenCard(new Card(i, i, i));
+            }
+            System.out.println(matchTest.showCards().toString());
+        }
+        matchTest.chooseCard(new Card(10,10,10));
+        assertThrows(CardAlreadyPlayedException.class,()->matchTest.chooseCard(new Card(10,10,10)) );
+        matchTest.chooseCard(new Card(9,9,9));
+        matchTest.chooseCard(new Card(10,10,10));
+
+        assertEquals(1, matchTest.dashboardsCollection.get(0).showCards().size());
+
+        matchTest.chooseCard(new Card(10,10,10));
+        matchTest.chooseCard(new Card(9,9,9));
+
+    }
+
+    //End TONSI
 
     //Start Vaia
+
     //Testing if the returned Island is the correct one under every circumstance
     @Test
     void PreviousAndNextIslandTest() throws NoIslandException, NoMoreTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, FinishedGameIslandException {

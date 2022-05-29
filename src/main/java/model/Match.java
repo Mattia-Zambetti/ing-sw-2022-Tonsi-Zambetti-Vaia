@@ -311,11 +311,15 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
     public boolean isThereAnotherCard(){
+        boolean isFree=true;
         for (Card c: currentPlayerDashboard.showCards()) {
             for (int i=0; i<dashboardsCollection.indexOf(currentPlayerDashboard); i++) {
-                if(!(c.equals(dashboardsCollection.get(i).getCurrentCard())))
-                    return true;
+                if(c.equals(dashboardsCollection.get(i).getCurrentCard()))
+                    isFree=false;
             }
+            if(isFree)
+                return true;
+            isFree=true;
         }
         return false;
     }
