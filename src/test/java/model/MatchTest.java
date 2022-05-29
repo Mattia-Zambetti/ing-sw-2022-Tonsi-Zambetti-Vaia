@@ -71,7 +71,7 @@ public class MatchTest {
         match.addPlayer("Tonsi", "WHITE", "WIZARD2",4);
     }
 
-    //It tests if it's possible to create a Match with the wrong number of players
+    /**It tests if it's possible to create a Match with the wrong number of players*/
     @Test
     void TooManyPlayersException() {
         Match tmp1;
@@ -80,8 +80,8 @@ public class MatchTest {
     }
 
 
-    //it tests the presence of a wrong choice (or not) into
-    // the parameters of the moveStudentsFromCloudToEntrance's method
+    /**it tests the presence of a wrong choice (or not) into
+    * the parameters of the moveStudentsFromCloudToEntrance's method*/
     @Test
     void moveStudentsFromCloudParamWrongAndCorrect() throws MaxNumberException, WrongDataplayerException, WrongColorException, WrongCloudNumberException, NoMoreStudentsException, NoMasterException, FinishedGameEndTurnException {
         Match tmp=new NormalMatch(PLAYERSNUM);
@@ -106,8 +106,8 @@ public class MatchTest {
         assertThrows(WrongCloudNumberException.class,()->tmp.moveStudentsFromCloudToEntrance(PLAYERSNUM-1));
     }
 
-    //It tests if the method refillClouds() correctly by refilling without students
-    // (and with,that is a possible error) on the clouds
+    /**It tests if the method refillClouds() correctly by refilling without students
+    * (and with,that is a possible error) on the clouds*/
     @Test
     void refillCloudsTest() throws MaxNumberException, AlreadyFilledCloudException, NoMoreStudentsException, WrongCloudNumberException, WrongDataplayerException, WrongColorException, InexistentStudentException, NoMasterException, FinishedGameEndTurnException {
         match.addPlayer("Tonsi","WHITE", "WIZARD2",1);
@@ -140,7 +140,7 @@ public class MatchTest {
         assertEquals(studentsAndCloudsTest,match.toStringStudentsOnCloud());
     }
 
-    //It tests if the cards are returned and shown correctly(method used by the view)
+    /**It tests if the cards are returned and shown correctly(method used by the view)*/
     @Test
     void showCardsMethodDisplay(){
         for (Card c:match.showCards()) {
@@ -166,6 +166,24 @@ public class MatchTest {
 
 
     }
+
+    @Test
+    void isThereAnotherCardTest() throws CardNotFoundException, CardAlreadyPlayedException, NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
+        match.addPlayer("Zambo", "WHITE", "WIZARD2", 2);
+        for (Dashboard d: match.dashboardsCollection) {
+            for(int i=1; i<= 9; i++) {
+                d.playChosenCard(new Card(i, i, i));
+            }
+            System.out.println(match.showCards().toString());
+        }
+        match.chooseCard(new Card(10,10,10));
+
+
+        assertEquals(0, match.dashboardsCollection.get(0).showCards().size());
+
+    }
+
+    //End Tonsi
 
     //Start Vaia
     //Testing if the returned Island is the correct one under every circumstance
@@ -284,6 +302,7 @@ public class MatchTest {
         match.moveMotherNature(9);
         assertEquals(true, match.checkMotherNatureOnIsland(0));
     }
+
 
     //Test Zambo
 
