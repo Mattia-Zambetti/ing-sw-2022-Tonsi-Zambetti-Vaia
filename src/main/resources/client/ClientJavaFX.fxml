@@ -5,9 +5,9 @@
 <?import javafx.scene.shape.Circle?>
 
 
-<AnchorPane prefHeight="432.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientJavaFX">
+<AnchorPane prefHeight="432.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.AppGUI">
    <children>
-      <Circle fill="DODGERBLUE" layoutX="207.0" layoutY="223.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#010080" layoutX="207.0" layoutY="223.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
       <Button layoutX="72.0" layoutY="48.0" mnemonicParsing="false" text="Button" />
       <Button layoutX="365.0" layoutY="92.0" mnemonicParsing="false" text="Button" />
    </children>
