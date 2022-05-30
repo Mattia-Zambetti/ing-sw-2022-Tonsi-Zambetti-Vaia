@@ -18,32 +18,14 @@ public class ClientJavaFX extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("ClientJavaFX.fxml"));
             root = fxmlLoader.load();
-            // = FXMLLoader.load(getClass().getClassLoader().getResource("/ClientJavaFX.fxml"));
-            //Group root = new Group();
-            Scene scene = new Scene(root, 500, 500);
-            //Stage stage = new Stage();
+            Scene scene = new Scene(root);
 
+            primaryStage.setMaximized(true);
+            primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*String sceneFile = "../src/main/resources/client/ClientJavaFX.fxml";
-        Parent root = null;
-        URL url  = null;
-        try
-        {
-            url  = getClass().getResource( sceneFile );
-            root = FXMLLoader.load( url );
-            System.out.println( "  fxmlResource = " + sceneFile );
-        }
-        catch ( Exception ex )
-        {
-            System.out.println( "Exception on FXMLLoader.load()" );
-            System.out.println( "  * url: " + url );
-            System.out.println( "  * " + ex );
-            System.out.println( "    ----------------------------------------\n" );
-            //throw ex;
-        }*/
     }
 }
