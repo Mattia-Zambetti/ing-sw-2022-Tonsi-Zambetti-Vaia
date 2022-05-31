@@ -112,7 +112,7 @@ public class Connection extends Observable implements Runnable{
                 }
             }
         } catch (IOException e) {
-            System.out.println("Connection "+getId()+" closed from Client");
+            System.out.println("Connection "+getId()+" closed from ClientCLI");
             try {
                 if ( isActive() ) {
                     closeThisConnection();

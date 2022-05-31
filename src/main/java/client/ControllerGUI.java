@@ -1,9 +1,8 @@
 package client;
 
-import com.sun.javafx.scene.NodeEventDispatcher;
-import javafx.application.Platform;
+import controller.choice.Choice;
+import controller.choice.StartingMatchChoice;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,31 +11,29 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import controller.choice.*;
 import javafx.stage.Stage;
 import model.MatchDataInterface;
 
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ControllerGUI {
+public class ControllerGUI implements ControllerGUIInterface {
 
     @FXML
     private ImageView island1;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     @FXML
     private ChoiceBox<String> totalPlayerNumberChoiceBox;
 
-    private String[] totalPlayerNumChoices = {"2 players", "3 players", "4 players"};
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     private static ClientJavaFX client;
-
     public MatchDataInterface match;
+
+    private final String[] totalPlayerNumChoices = {"2 players", "3 players", "4 players"};
 
     public void setClient(ClientJavaFX c){
         client = c;
@@ -52,7 +49,7 @@ public class ControllerGUI {
     }
 
     @FXML
-    public void enterGameMethod(ActionEvent e) throws IOException {
+    public void enterGameMethod(ActionEvent e) {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         client.setParam("127.0.0.1", 12345);
@@ -62,11 +59,15 @@ public class ControllerGUI {
 
     public void switchScene(Choice choice) throws IOException {
         if(choice instanceof StartingMatchChoice) {
-            root = FXMLLoader.load(getClass().getResource("StartMatch.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
+            root = fxmlLoader.load();
+
             scene = new Scene(root);
-            stage.setFullScreen(true);
             stage.setMaximized(true);
+            stage.setFullScreen(true);
             stage.setScene(scene);
+            stage.show();
         }
     }
 

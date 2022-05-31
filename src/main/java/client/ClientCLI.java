@@ -1,15 +1,9 @@
 package client;
 
-import controller.choice.CardChoice;
-import controller.choice.Choice;
-import controller.choice.DataPlayerChoice;
-import controller.choice.StartingMatchChoice;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+//non va bene, il match viene mostrato due volte spesso, e la princess non modifica effettivamente il match
+
+import controller.choice.*;
+import model.ExpertMatch;
 import model.MatchDataInterface;
 import model.Message.Message;
 import model.Player;
@@ -22,14 +16,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
-
-public class ClientJavaFX extends Application implements Runnable,Client {
-
+public class ClientCLI implements Runnable, Client{
 
     private int idThis;
-    private int port;
-    private String ip;
+    private final int port;
+    private final String ip;
     private Choice actualToDoChoice;
 
     private MatchDataInterface matchView;
@@ -48,51 +41,10 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private boolean isChanged=false;
 
-    private ControllerGUIInterface controllerGUI;
-
-    private Parent root;
-
-    private FXMLLoader fxmlLoader;
-
     private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
 
-    @Override
-    public void start(Stage primaryStage) {
-        try {
-            fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));
-            root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            controllerGUI = fxmlLoader.getController();
-            ((ControllerGUI)controllerGUI).setClient(this);
 
-
-            primaryStage.setMaximized(true);
-            primaryStage.setFullScreen(true);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        try {
-            clientSocket = new Socket(ip, port);
-
-            Thread threadSocket= this.readingFromSocket();
-            threadSocket.join();
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    public void setParam(String ip, int port){
+    public ClientCLI(String ip, int port){
         this.port=port;
         this.ip=ip;
         isChoiceTime=false;
@@ -121,11 +73,94 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         writeUser.close();
     }
 
+    @Override
+    public void run() {
+
+        try {
+            clientSocket = new Socket(ip, port);
+
+            Thread threadUser= this.readingFromUser();
+            Thread threadSocket= this.readingFromSocket();
+            threadUser.join();
+            threadSocket.join();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    public Thread readingFromUser() throws IOException {
+        Scanner readUser= new Scanner(System.in);
+        PrintWriter writeUser=new PrintWriter(System.out);
+        ObjectOutputStream outputStream=new ObjectOutputStream(clientSocket.getOutputStream());
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String input;
+                input=readUser.nextLine();
+                try {
+                    while (isActive()) {
+                        if (!isChoiceTime) {
+                            writeUser.println("Please wait your turn...");
+                            writeUser.flush();
+                        } else {
+
+                            if (allowedCommands.contains(input)
+                                    && matchView instanceof ExpertMatch
+                                    && !(actualToDoChoice instanceof FigureCardActionChoice)
+                                    && !(actualToDoChoice instanceof CardChoice)
+                                    && !(actualToDoChoice instanceof DataPlayerChoice) && figureCardNotPlayed) {
+                                Choice figureCardChoice = new FigureCardPlayedChoice(matchView.showFigureCardsInGame());
+                                actualToDoChoiceQueue = actualToDoChoice;
+                                actualToDoChoice = figureCardChoice;
+                                figureCardNotPlayed = false;
+                                actualToDoChoiceQueue.setSendingPlayer(player);
+                                outputStream.writeObject(actualToDoChoiceQueue);
+                                outputStream.flush();
+                            } else { //Attenti a luiiiii
+
+                                isChoiceTime = actualToDoChoice.setChoiceParam(input);
+                            }
+
+                            if (isChoiceTime) {
+                                writeUser.println(actualToDoChoice.toString(matchView));
+                                writeUser.flush();
+                            } else {
+                                if (actualToDoChoice instanceof CloudChoice)
+                                    figureCardNotPlayed = true;
+                                actualToDoChoice.setSendingPlayer(player);
+                                outputStream.writeObject(actualToDoChoice);
+                                outputStream.flush();
+                            }
+                        }
+                        input = readUser.nextLine();
+                    }
+                }catch (IllegalStateException e){
+                    e.printStackTrace();
+                }catch (IOException e){
+                    e.printStackTrace();
+                } finally {
+                    writeUser.close();
+                    readUser.close();
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        t.start();
+        return t;
+    }
 
     public Thread readingFromSocket() throws IOException {
         PrintWriter writeUser=new PrintWriter(System.out);
         ObjectInputStream readSocket=new ObjectInputStream(clientSocket.getInputStream());
-        ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
 
         Thread t= new Thread(new Runnable() {
             @Override
@@ -138,35 +173,15 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
                         Object obj = readSocket.readObject();
 
-
                         if(obj instanceof Message){
-                            ((Message)obj).manageMessage(ClientJavaFX.this);
+                            ((Message)obj).manageMessage(ClientCLI.this);
                         }
 
                         if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
                             actualToDoChoice = s;
-
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        ((ControllerGUI)controllerGUI).switchScene(s);
-                                        fxmlLoader = new FXMLLoader();
-                                        fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
-                                        root = fxmlLoader.load();
-
-                                        controllerGUI = fxmlLoader.getController();
-                                        controllerGUI.setClient(ClientJavaFX.this);
-                                        ControllerGUIStartMatch.setChoice(((StartingMatchChoice)obj));
-
-                                    }catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-
-
+                            writeUser.println(actualToDoChoice.toString(matchView));
+                            writeUser.flush();
                         }
                         else if(obj instanceof MatchDataInterface){
 

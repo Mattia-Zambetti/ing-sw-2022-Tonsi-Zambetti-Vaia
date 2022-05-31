@@ -2,29 +2,22 @@ package client;
 
 import controller.choice.Choice;
 import controller.choice.DataPlayerChoice;
-import controller.choice.StartingMatchChoice;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.MatchDataInterface;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class ControllerGUIstartMatch extends ControllerGUI implements Initializable  {
+public class ControllerGUIStartMatch extends ControllerGUI implements Initializable, ControllerGUIInterface  {
 
     private Stage stage;
     private Scene scene;
@@ -41,14 +34,14 @@ public class ControllerGUIstartMatch extends ControllerGUI implements Initializa
 
     private static ClientJavaFX client;
 
-    public Choice choice;
+    private static Choice choice;
 
     public void setClient(ClientJavaFX c){
         client = c;
     }
 
-    public void setChoice(Choice choice){
-        this.choice = choice;
+    public static void setChoice(Choice choice){
+        ControllerGUIStartMatch.choice = choice;
     }
 
 
@@ -60,19 +53,27 @@ public class ControllerGUIstartMatch extends ControllerGUI implements Initializa
 
     @FXML
     public void submitValues(ActionEvent e){
-        String s = new String(""+totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2);
-        choice.setChoiceParam(s);
-        s = new String(""+matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1);
-        choice.setChoiceParam(s);
+
+                String s =""+totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2;
+                choice.setChoiceParam(s);
+                s = ""+matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1;
+                choice.setChoiceParam(s);
+
+
     }
 
     public void switchScene(Choice choice) throws IOException {
         if(choice instanceof DataPlayerChoice) {
-            root = FXMLLoader.load(getClass().getResource("StartMatch.fxml"));
+            //root = FXMLLoader.load(getClass().getResource("StartMatch.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
+            root = fxmlLoader.load();
+
             scene = new Scene(root);
             stage.setFullScreen(true);
             stage.setMaximized(true);
             stage.setScene(scene);
+            stage.show();
         }
     }
 

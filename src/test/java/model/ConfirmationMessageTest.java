@@ -1,6 +1,6 @@
 package model;
 
-import client.Client;
+import client.ClientCLI;
 import model.Message.ConfirmationMessage;
 import model.Message.PlayerSuccessfullyCreated;
 import model.Message.RegistrationConfirmed;
@@ -11,20 +11,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConfirmationMessageTest {
     ConfirmationMessage confirmationMessage;
-    Client client;
+    ClientCLI clientCLI;
 
     @BeforeEach
     void init(){
-        client=new Client("127.0.0.1", 12345);
+        clientCLI =new ClientCLI("127.0.0.1", 12345);
 
     }
 
     @Test
     void PlayerSuccessfullyCreatedTest(){
-        client.setIdThis(1);
+        clientCLI.setIdThis(1);
         confirmationMessage =new PlayerSuccessfullyCreated(new Player("Zambo"),1);
 
-        confirmationMessage.manageMessage(client);
+        confirmationMessage.manageMessage(clientCLI);
         assertEquals(new Player("Zambo"),((PlayerSuccessfullyCreated) confirmationMessage).getPlayer());
 
     }
@@ -33,7 +33,7 @@ public class ConfirmationMessageTest {
     void RegistrationConfirmedTest(){
         confirmationMessage =new RegistrationConfirmed(1);
 
-        confirmationMessage.manageMessage(client);
+        confirmationMessage.manageMessage(clientCLI);
         assertEquals(1,((RegistrationConfirmed) confirmationMessage).getId());
 
     }

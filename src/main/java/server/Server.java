@@ -121,7 +121,7 @@ public class Server implements Runnable {
                 //waiting to enter the match can start a new match setting new parameters, right after the first connection terminate the lobby method.
                 // If the IOException was thrown, then others connections would have entered the lobby method before the first (closed) connection
                 // has been removed from playersConnection, causing them to be refused from the server like the lobby was full.
-                System.out.println("Connection "+c.getId()+" closed from Client");
+                System.out.println("Connection "+c.getId()+" closed from ClientCLI");
                 c.closeThisConnection();
                 playersConnections.remove(c);
             }
@@ -133,7 +133,7 @@ public class Server implements Runnable {
                 playersConnections.add(c);
                 waitingConnections.remove(c);
             } catch ( IOException e ) {
-                System.out.println("Connection "+c.getId()+" closed from Client");
+                System.out.println("Connection "+c.getId()+" closed from ClientCLI");
                 c.closeThisConnection();
                 waitingConnections.remove(c);
                 notifyAll();

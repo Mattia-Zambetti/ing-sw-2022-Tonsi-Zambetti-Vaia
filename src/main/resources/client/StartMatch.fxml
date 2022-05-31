@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUIstartMatch">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUIStartMatch">
    <children>
       <ChoiceBox fx:id="totalPlayerNumberChoiceBox" layoutX="884.0" layoutY="280.0" prefWidth="150.0" />
       <Text layoutX="727.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the number of players for this match" wrappingWidth="465.4586181640625">
