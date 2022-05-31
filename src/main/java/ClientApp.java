@@ -20,7 +20,6 @@ public class ClientApp {
                 break;
             case 2:
                 ClientJavaFX clientGUI = new ClientJavaFX();
-                ControllerGUI.setClient(clientGUI);
                 Application.launch(ClientJavaFX.class);
                 break;
         }

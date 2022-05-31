@@ -61,19 +61,18 @@ public class ClientJavaFX extends Application implements Runnable {
             fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));
             root = fxmlLoader.load();
             Scene scene = new Scene(root);
+            controllerGUI = fxmlLoader.getController();
+            controllerGUI.setClient(this);
+
 
             primaryStage.setMaximized(true);
             primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);
             primaryStage.show();
-            ControllerGUI.setClient(this);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void setController(ControllerGUI controllerGUI){
-        this.controllerGUI = controllerGUI;
     }
 
     @Override
@@ -149,17 +148,10 @@ public class ClientJavaFX extends Application implements Runnable {
                             isChoiceTime = true;
                             actualToDoChoice = s;
                             controllerGUI.setMatch(matchView);
+                            System.out.println("Zambo non è capace");
 
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        controllerGUI.switchScene();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                            controllerGUI.switchScene(s);
+
 
                         }
                         else if(obj instanceof MatchDataInterface){

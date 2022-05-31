@@ -37,8 +37,8 @@ public class ControllerGUI {
 
     public MatchDataInterface match;
 
-    public static void setClient(ClientJavaFX client) {
-        ControllerGUI.client = client;
+    public void setClient(ClientJavaFX c){
+        client = c;
     }
 
     public void setMatch(MatchDataInterface match1){
@@ -59,8 +59,8 @@ public class ControllerGUI {
     }
 
 
-    public void switchScene() throws IOException {
-        if(match.getChoice() instanceof StartingMatchChoice) {
+    public void switchScene(Choice choice) throws IOException {
+        if(choice instanceof StartingMatchChoice) {
             root = FXMLLoader.load(getClass().getResource("StartMatch.fxml"));
             totalPlayerNumberChoiceBox.getItems().addAll(totalPlayerNumChoices);
             scene = new Scene(root);
