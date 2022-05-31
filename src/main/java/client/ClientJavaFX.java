@@ -5,6 +5,7 @@ import controller.choice.Choice;
 import controller.choice.DataPlayerChoice;
 import controller.choice.StartingMatchChoice;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Observable;
 
 
 public class ClientJavaFX extends Application implements Runnable {
@@ -47,6 +49,8 @@ public class ClientJavaFX extends Application implements Runnable {
 
     private boolean isChanged=false;
 
+    private ControllerGUI controllerGUI;
+
     private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
 
     @Override
@@ -54,7 +58,7 @@ public class ClientJavaFX extends Application implements Runnable {
         try {
             Parent root;
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("ClientJavaFX.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));
             root = fxmlLoader.load();
             Scene scene = new Scene(root);
 
@@ -62,9 +66,14 @@ public class ClientJavaFX extends Application implements Runnable {
             primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);
             primaryStage.show();
+            ControllerGUI.setClient(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setController(ControllerGUI controllerGUI){
+        this.controllerGUI = controllerGUI;
     }
 
     @Override
@@ -139,8 +148,19 @@ public class ClientJavaFX extends Application implements Runnable {
                         if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
                             actualToDoChoice = s;
-                            writeUser.println(actualToDoChoice.toString(matchView));
-                            writeUser.flush();
+                            controllerGUI.setMatch(matchView);
+
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        controllerGUI.switchScene();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
                         }
                         else if(obj instanceof MatchDataInterface){
 

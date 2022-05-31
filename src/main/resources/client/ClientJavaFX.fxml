@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #76c4ed;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUI">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="391.0" layoutY="129.0" nodeOrientation="INHERIT" onMouseClicked="#manageIsland1Clicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
+      <ImageView fx:id="island1" fitHeight="150.0" fitWidth="200.0" layoutX="389.0" layoutY="77.0" nodeOrientation="INHERIT" onMouseClicked="#manageIsland1Clicked" pickOnBounds="true" preserveRatio="true" scaleX="1.5" scaleY="1.5">
          <image>
             <Image url="@Images/Isola1.png" />
          </image>
