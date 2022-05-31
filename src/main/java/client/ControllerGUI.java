@@ -29,6 +29,7 @@ public class ControllerGUI {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    @FXML
     private ChoiceBox<String> totalPlayerNumberChoiceBox;
 
     private String[] totalPlayerNumChoices = {"2 players", "3 players", "4 players"};
@@ -62,7 +63,6 @@ public class ControllerGUI {
     public void switchScene(Choice choice) throws IOException {
         if(choice instanceof StartingMatchChoice) {
             root = FXMLLoader.load(getClass().getResource("StartMatch.fxml"));
-            totalPlayerNumberChoiceBox.getItems().addAll(totalPlayerNumChoices);
             scene = new Scene(root);
             stage.setFullScreen(true);
             stage.setMaximized(true);

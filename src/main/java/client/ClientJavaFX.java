@@ -16,6 +16,7 @@ import model.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
@@ -51,13 +52,16 @@ public class ClientJavaFX extends Application implements Runnable {
 
     private ControllerGUI controllerGUI;
 
+    private Parent root;
+
+    private FXMLLoader fxmlLoader;
+
     private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root;
-            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));
             root = fxmlLoader.load();
             Scene scene = new Scene(root);
@@ -82,6 +86,7 @@ public class ClientJavaFX extends Application implements Runnable {
 
             Thread threadSocket= this.readingFromSocket();
             threadSocket.join();
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -126,7 +131,7 @@ public class ClientJavaFX extends Application implements Runnable {
     public Thread readingFromSocket() throws IOException {
         PrintWriter writeUser=new PrintWriter(System.out);
         ObjectInputStream readSocket=new ObjectInputStream(clientSocket.getInputStream());
-
+        ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 
         Thread t= new Thread(new Runnable() {
             @Override
@@ -136,9 +141,9 @@ public class ClientJavaFX extends Application implements Runnable {
 
                 try {
                     while(isActive()) {
-
+                        System.out.println("Zambo");
                         Object obj = readSocket.readObject();
-
+                        System.out.println("Zamboricevuto");
                         //TODO
                         /*if(obj instanceof Message){
                             ((Message)obj).manageMessage(Client.this);
@@ -147,11 +152,28 @@ public class ClientJavaFX extends Application implements Runnable {
                         if ( obj instanceof StartingMatchChoice s) {
                             isChoiceTime = true;
                             actualToDoChoice = s;
-                            controllerGUI.setMatch(matchView);
-                            System.out.println("Zambo non è capace");
+                            //controllerGUI.setMatch(matchView);
 
-                            controllerGUI.switchScene(s);
-
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        controllerGUI.switchScene(s);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
+                                   // FXMLLoader.load(getClass().getResource("StartMatch.fxml"))
+                                    ControllerGUIstartMatch controllerGUI1 = fxmlLoader.getController();
+                                    controllerGUI1.setClient(ClientJavaFX.this);
+                                    controllerGUI1.setChoice(s);
+                                }
+                            });
 
                         }
                         else if(obj instanceof MatchDataInterface){
