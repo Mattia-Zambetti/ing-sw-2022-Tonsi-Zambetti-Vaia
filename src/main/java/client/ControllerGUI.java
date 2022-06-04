@@ -1,6 +1,7 @@
 package client;
 
 import controller.choice.Choice;
+import controller.choice.DataPlayerChoice;
 import controller.choice.StartingMatchChoice;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,6 +67,16 @@ public class ControllerGUI implements ControllerGUIInterface {
             scene = new Scene(root);
             stage.setMaximized(true);
             stage.setFullScreen(true);
+            stage.setScene(scene);
+            stage.show();
+        }else if ( choice instanceof DataPlayerChoice ) {
+
+            client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
+            root = client.getFxmlLoader().load();
+
+            scene = new Scene(root);
+            stage.setFullScreen(true);
+            stage.setMaximized(true);
             stage.setScene(scene);
             stage.show();
         }

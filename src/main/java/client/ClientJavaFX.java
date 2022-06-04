@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 
 public class ClientJavaFX extends Application implements Runnable,Client {
 
-
+    private final Object outputStreamLock = new Object();
     private int idThis;
     private int port;
     private String ip;
@@ -56,6 +56,10 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
 
+    public FXMLLoader getFxmlLoader() {
+        return fxmlLoader;
+    }
+
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -64,7 +68,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             root = fxmlLoader.load();
             Scene scene = new Scene(root);
             controllerGUI = fxmlLoader.getController();
-            ((ControllerGUI)controllerGUI).setClient(this);
+            controllerGUI.setClient(this);
 
 
             primaryStage.setMaximized(true);
@@ -83,7 +87,9 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             clientSocket = new Socket(ip, port);
 
             Thread threadSocket= this.readingFromSocket();
+            Thread outputThread= this.sendChoiceThread();
             threadSocket.join();
+            outputThread.join();
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -121,11 +127,61 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         writeUser.close();
     }
 
+    public Object getOutputStreamLock() {
+        return outputStreamLock;
+    }
+
+    public Thread sendChoiceThread() throws IOException {
+        ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+        Thread t= new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    while( isActive() ) {
+
+                        synchronized ( outputStreamLock ) {
+                            outputStreamLock.wait();
+                        }
+
+                        if ( isChoiceTime ) {
+                            if (actualToDoChoice instanceof StartingMatchChoice) {
+                                isChoiceTime=false;
+                                outputStream.writeObject(actualToDoChoice);
+                                outputStream.flush();
+                                outputStream.reset();
+                            }
+
+
+                        }
+
+
+                    }
+                } catch (IOException | NoSuchElementException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+        });
+        t.start();
+        return t;
+    }
+
 
     public Thread readingFromSocket() throws IOException {
         PrintWriter writeUser=new PrintWriter(System.out);
         ObjectInputStream readSocket=new ObjectInputStream(clientSocket.getInputStream());
-        ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+        //ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 
         Thread t= new Thread(new Runnable() {
             @Override
@@ -151,7 +207,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                 @Override
                                 public void run() {
                                     try {
-                                        ((ControllerGUI)controllerGUI).switchScene(s);
+                                        controllerGUI.switchScene(s);
                                         fxmlLoader = new FXMLLoader();
                                         fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
                                         root = fxmlLoader.load();
@@ -174,7 +230,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
                             if(!(matchView.getChoice() instanceof DataPlayerChoice) ||(matchView.getChoice() instanceof DataPlayerChoice && ((DataPlayerChoice) matchView.getChoice()).getPossessor()==idThis)) {
                                 actualToDoChoice = matchView.getChoice();
-                                isChanged=true;
+                                isChanged=true; //Used to check if the player who has to set his data is te correct one
                             }
 
 
@@ -185,15 +241,40 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                 writeUser.flush();
                             }
 
+                            if ( actualToDoChoice instanceof DataPlayerChoice && isChanged ) {
+                                System.out.println("DataPLayerChoice arrived");
+                                isChanged=false;
+                                isChoiceTime = true;
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            fxmlLoader = new FXMLLoader();
+                                            controllerGUI.switchScene(actualToDoChoice);
 
-                            if((actualToDoChoice instanceof DataPlayerChoice && isChanged)
+                                            controllerGUI = fxmlLoader.getController();
+                                            controllerGUI.setClient(ClientJavaFX.this);
+                                            ControllerGUIStartMatch.setChoice(actualToDoChoice);
+
+                                        }catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }else if ( !(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player) ) {
+                                System.out.println("MatchData arrivati");
+                                //Gestione match
+                            }
+
+
+                            /*if((actualToDoChoice instanceof DataPlayerChoice && isChanged)
                                     ||(!(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player)) ) {
                                 writeUser.println(matchView.getErrorMessage());
                                 writeUser.println(matchView.getChoice().toString(matchView));
                                 writeUser.flush();
                                 isChanged=false;
                                 isChoiceTime = true;
-                            }
+                            }*/
 
                         }
                     }

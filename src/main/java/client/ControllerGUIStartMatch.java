@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
@@ -49,25 +50,31 @@ public class ControllerGUIStartMatch extends ControllerGUI implements Initializa
     public void initialize(URL arg0, ResourceBundle arg1){
         totalPlayerNumberChoiceBox.getItems().addAll(totalPlayerNumChoices);
         matchTypeChoiceBox.getItems().addAll(matchTypeChoices);
+        totalPlayerNumberChoiceBox.setValue(totalPlayerNumChoices.get(0));
+        matchTypeChoiceBox.setValue(matchTypeChoices.get(0));
     }
 
     @FXML
     public void submitValues(ActionEvent e){
-
-                String s =""+totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2;
-                choice.setChoiceParam(s);
-                s = ""+matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1;
-                choice.setChoiceParam(s);
-
-
+        stage = (Stage)((Node) e.getSource()).getScene().getWindow();
+        String s =""+totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2;
+        choice.setChoiceParam(s);
+        s = ""+matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1;
+        choice.setChoiceParam(s);
+        synchronized ( client.getOutputStreamLock() ) {
+            client.getOutputStreamLock().notifyAll();
+        }
     }
 
+    @Override
     public void switchScene(Choice choice) throws IOException {
         if(choice instanceof DataPlayerChoice) {
-            //root = FXMLLoader.load(getClass().getResource("StartMatch.fxml"));
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
-            root = fxmlLoader.load();
+
+            client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
+            root = client.getFxmlLoader().load();
+            /*FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("PlayerDataScene.fxml"));
+            root = fxmlLoader.load();*/
 
             scene = new Scene(root);
             stage.setFullScreen(true);
