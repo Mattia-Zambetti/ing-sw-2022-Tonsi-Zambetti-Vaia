@@ -146,7 +146,8 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                         }
 
                         if ( isChoiceTime ) {
-                            if (actualToDoChoice instanceof StartingMatchChoice) {
+                            if (actualToDoChoice instanceof StartingMatchChoice
+                                    ||actualToDoChoice instanceof DataPlayerChoice) {
                                 isChoiceTime=false;
                                 outputStream.writeObject(actualToDoChoice);
                                 outputStream.flush();
@@ -254,7 +255,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
                                             controllerGUI = fxmlLoader.getController();
                                             controllerGUI.setClient(ClientJavaFX.this);
-                                            ControllerGUIStartMatch.setChoice(actualToDoChoice);
+                                            ControllerGUIPlayerData.setChoice(actualToDoChoice);
 
                                         }catch (IOException e) {
                                             e.printStackTrace();
