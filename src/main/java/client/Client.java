@@ -7,7 +7,7 @@ import java.io.IOException;
 public interface Client {
     Thread readingFromSocket() throws IOException;
 
-    void printToCLI( String s );
+    void printToScreen(String s );
 
     void closeConnection();
 

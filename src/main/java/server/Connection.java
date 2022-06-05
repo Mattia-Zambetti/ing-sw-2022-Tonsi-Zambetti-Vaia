@@ -3,6 +3,7 @@ package server;
 
 import controller.choice.Choice;
 import model.Message.PlayerDisconnectedMessage;
+import model.Message.WaitingMatchCreationMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -99,6 +100,9 @@ public class Connection extends Observable implements Runnable{
             writeOut=new ObjectOutputStream(clientSocket.getOutputStream());
             scannerIn=new ObjectInputStream(clientSocket.getInputStream());
 
+            if ( server.getPlayersConnectionNumber()>=1 ) {
+                send(new WaitingMatchCreationMessage());
+            }
 
             server.lobby(this);
 

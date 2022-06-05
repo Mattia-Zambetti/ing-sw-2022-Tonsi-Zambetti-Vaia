@@ -34,6 +34,10 @@ public abstract class Choice implements Serializable {
 
     public abstract String toString(MatchDataInterface match);
 
+    public boolean getChoiceCompleted() {
+        return completed;
+    }
+
 
     public boolean isItAnInt(String input){
         try{

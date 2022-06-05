@@ -202,4 +202,8 @@ public class Server implements Runnable {
         }
     }
 
+    public int getPlayersConnectionNumber() {
+        return playersConnections.size();
+    }
+
 }

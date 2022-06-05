@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -24,7 +25,7 @@ public class ControllerGUI implements ControllerGUIInterface {
     @FXML
     private ImageView island1;
     @FXML
-    private ChoiceBox<String> totalPlayerNumberChoiceBox;
+    private Label textBox;
 
 
     private Stage stage;
@@ -34,14 +35,8 @@ public class ControllerGUI implements ControllerGUIInterface {
     private static ClientJavaFX client;
     public MatchDataInterface match;
 
-    private final String[] totalPlayerNumChoices = {"2 players", "3 players", "4 players"};
-
     public void setClient(ClientJavaFX c){
         client = c;
-    }
-
-    public void setMatch(MatchDataInterface match1){
-        match = match1;
     }
 
     @FXML
@@ -53,8 +48,10 @@ public class ControllerGUI implements ControllerGUIInterface {
     public void enterGameMethod(ActionEvent e) {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-        client.setParam("127.0.0.1", 12345);
-        executor.submit(client);
+        if ( !client.isConnected() ) {
+            client.setParam("127.0.0.1", 12345);
+            executor.submit(client);
+        }
     }
 
 
@@ -80,6 +77,11 @@ public class ControllerGUI implements ControllerGUIInterface {
             stage.setScene(scene);
             stage.show();
         }
+    }
+
+    @Override
+    public void printMessageText(String s) {
+        textBox.setText(s);
     }
 
 }

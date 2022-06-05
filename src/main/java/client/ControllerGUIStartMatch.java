@@ -8,7 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,16 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerGUIStartMatch extends ControllerGUI implements Initializable, ControllerGUIInterface  {
+public class ControllerGUIStartMatch implements Initializable, ControllerGUIInterface  {
 
     private static Stage stage;
     private Scene scene;
     private Parent root;
     @FXML
     private ChoiceBox<String> totalPlayerNumberChoiceBox;
-
+    @FXML
+    private Button sendStartingMatchButton;
     @FXML
     private ChoiceBox<String> matchTypeChoiceBox;
+    @FXML
+    private Label textBox;
 
     private List<String> totalPlayerNumChoices = new ArrayList<>(){{add("2 players"); add("3 players"); add("4 players");}};
 
@@ -60,6 +65,9 @@ public class ControllerGUIStartMatch extends ControllerGUI implements Initializa
         choice.setChoiceParam(s);
         s = ""+matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1;
         choice.setChoiceParam(s);
+        textBox.setText("Match created. Waiting for other players...");
+        sendStartingMatchButton.setDisable(true);
+        sendStartingMatchButton.setStyle("-fx-background-color: #B0B0B0;");
         synchronized ( client.getOutputStreamLock() ) {
             client.getOutputStreamLock().notifyAll();
         }
@@ -81,6 +89,11 @@ public class ControllerGUIStartMatch extends ControllerGUI implements Initializa
             stage.setScene(scene);
             stage.show();
         }
+    }
+
+    @Override
+    public void printMessageText(String s) {
+        System.out.println(s);
     }
 
 }

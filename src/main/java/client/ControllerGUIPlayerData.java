@@ -20,4 +20,9 @@ public class ControllerGUIPlayerData implements ControllerGUIInterface {
 
     }
 
+    @Override
+    public void printMessageText(String s) {
+        System.out.println(s);
+    }
+
 }

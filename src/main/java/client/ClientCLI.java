@@ -66,11 +66,11 @@ public class ClientCLI implements Runnable, Client{
         this.idThis = idThis;
     }
 
-    public void printToCLI( String s ) {
+    public void printToScreen(String s ) {
         PrintWriter writeUser=new PrintWriter(System.out);
         writeUser.println(s);
         writeUser.flush();
-        writeUser.close();
+        //writeUser.close();
     }
 
     @Override

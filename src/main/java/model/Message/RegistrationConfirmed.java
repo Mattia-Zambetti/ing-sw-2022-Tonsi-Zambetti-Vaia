@@ -12,8 +12,7 @@ public class RegistrationConfirmed extends ConfirmationMessage {
     public void manageMessage(Client client) {
         if(client.getIdThis()==0){
             client.setIdThis(getId());
-            System.out.println(CLIgraphicsResources.getStringColor("Successfully connected to the lobby",CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_GREEN));
-
+            client.printToScreen(CLIgraphicsResources.getStringColor("Successfully connected to the lobby",CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_GREEN));
         }
     }
 }

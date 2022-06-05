@@ -81,6 +81,12 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         }
     }
 
+    public boolean isConnected() {
+        if ( clientSocket == null )
+            return false;
+        return clientSocket.isConnected();
+    }
+
     @Override
     public void run() {
         try {
@@ -120,11 +126,14 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         this.idThis = idThis;
     }
 
-    public void printToCLI( String s ) {
-        PrintWriter writeUser=new PrintWriter(System.out);
-        writeUser.println(s);
-        writeUser.flush();
-        writeUser.close();
+    public void printToScreen(String s ) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controllerGUI.printMessageText(s);
+            }
+        }
+        );
     }
 
     public Object getOutputStreamLock() {

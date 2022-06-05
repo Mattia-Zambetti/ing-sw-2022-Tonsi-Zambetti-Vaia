@@ -29,7 +29,7 @@ public class MatchEndedMessage extends Message implements Serializable {
             outputString = outputString.concat(" WON THE GAME!");
         }
 
-        client.printToCLI(outputString);
+        client.printToScreen(outputString);
         client.closeConnection();
     }
 }
