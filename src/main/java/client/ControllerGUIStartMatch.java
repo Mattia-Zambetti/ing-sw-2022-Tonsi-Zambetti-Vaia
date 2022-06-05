@@ -56,7 +56,7 @@ public class ControllerGUIStartMatch extends ControllerGUI implements Initializa
     @FXML
     public void submitValues(ActionEvent e){
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-        String s =""+totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2;
+        String s =""+(totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2);
         choice.setChoiceParam(s);
         s = ""+matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1;
         choice.setChoiceParam(s);
