@@ -1,11 +1,29 @@
 package client;
 
 import controller.choice.Choice;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public interface ControllerGUIInterface {
-    void setClient(ClientJavaFX c);
-    void switchScene(Choice choice) throws IOException;
-    void printMessageText(String s);
+public abstract class ControllerGUIInterface {
+    protected static ClientJavaFX client;
+    protected static Stage stage;
+    protected static Scene scene;
+    protected static Parent root;
+    protected static Choice choice;
+
+
+
+    public static void setChoice(Choice choice){
+        ControllerGUIInterface.choice = choice;
+    }
+
+    public static void setClient(ClientJavaFX client) {
+        ControllerGUIInterface.client = client;
+    }
+
+    public abstract void switchScene(Choice choice) throws IOException;
+    public abstract void printMessageText(String s);
 }

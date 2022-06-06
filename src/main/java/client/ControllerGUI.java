@@ -7,9 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,7 +18,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ControllerGUI implements ControllerGUIInterface {
+public class ControllerGUI extends ControllerGUIInterface {
 
     @FXML
     private ImageView island1;
@@ -28,16 +26,9 @@ public class ControllerGUI implements ControllerGUIInterface {
     private Label textBox;
 
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
-    private static ClientJavaFX client;
     public MatchDataInterface match;
 
-    public void setClient(ClientJavaFX c){
-        client = c;
-    }
+
 
     @FXML
     public void manageIsland1Clicked(MouseEvent e){

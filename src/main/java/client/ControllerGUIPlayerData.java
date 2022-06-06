@@ -6,8 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,13 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerGUIPlayerData implements Initializable,ControllerGUIInterface {
-    private static ClientJavaFX client;
-    private static Stage stage;
-    private Scene scene;
-    private Parent root;
+public class ControllerGUIPlayerData extends ControllerGUIInterface implements Initializable { private static Stage stage;
 
-    private static Choice choice;
+    private static boolean alreadyInsert=false;
 
     @FXML
     private TextField nickname;
@@ -35,13 +31,13 @@ public class ControllerGUIPlayerData implements Initializable,ControllerGUIInter
     @FXML
     private ChoiceBox<String> wizardTypeChoiceBox;
 
+    @FXML
+    private Button submit;
+
     private List<String> wizardTypeChoices = new ArrayList<>(){{add("WIZARD1"); add("WIZARD2"); add("WIZARD3");add("WIZARD4");}};
 
     private List<String> towerColorChoices =new ArrayList<>() {{add("WHITE"); add("BLACK");add("GREY");}};
 
-    public static void setChoice(Choice choice) {
-        ControllerGUIPlayerData.choice = choice;
-    }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
@@ -52,13 +48,8 @@ public class ControllerGUIPlayerData implements Initializable,ControllerGUIInter
     }
 
     @Override
-    public void setClient(ClientJavaFX c) {
-        client = c;
-    }
-
-    @Override
     public void switchScene(Choice choice) throws IOException {
-        if(choice instanceof DataPlayerChoice) {
+        if(choice instanceof DataPlayerChoice && !alreadyInsert) {
 
             client.getFxmlLoader().setLocation(getClass().getResource("GameScene.fxml"));
             root = client.getFxmlLoader().load();
@@ -68,6 +59,20 @@ public class ControllerGUIPlayerData implements Initializable,ControllerGUIInter
             stage.setMaximized(true);
             stage.setScene(scene);
             stage.show();
+        }else
+        {
+            client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
+            root = client.getFxmlLoader().load();
+            scene = new Scene(root);
+            stage.setScene(scene);
+
+            stage.setFullScreen(true);
+            stage.setMaximized(true);
+
+            stage.show();
+
+            submit.setDisable(false);
+
         }
     }
 
@@ -85,8 +90,11 @@ public class ControllerGUIPlayerData implements Initializable,ControllerGUIInter
         choice.setChoiceParam(s);
         s = new String(""+ (towerColorChoices.indexOf(towerColorChoiceBox.getValue())+1));
         choice.setChoiceParam(s);
+        submit.setDisable(true);
+        alreadyInsert=true;
         synchronized ( client.getOutputStreamLock() ) {
             client.getOutputStreamLock().notifyAll();
         }
+
     }
 }

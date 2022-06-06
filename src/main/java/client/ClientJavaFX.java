@@ -44,11 +44,10 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private boolean matchCompletelyCreated = false;
 
-    Choice actualToDoChoiceQueue;
 
     private boolean isChanged=false;
 
-    private ControllerGUIInterface controllerGUI;
+    private static ControllerGUIInterface controllerGUI;
 
     private Parent root;
 
@@ -263,8 +262,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                             controllerGUI.switchScene(actualToDoChoice);
 
                                             controllerGUI = fxmlLoader.getController();
-                                            controllerGUI.setClient(ClientJavaFX.this);
-                                            ControllerGUIPlayerData.setChoice(actualToDoChoice);
+                                            ControllerGUIInterface.setChoice(actualToDoChoice);
 
                                         }catch (IOException e) {
                                             e.printStackTrace();

@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -19,11 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerGUIStartMatch implements Initializable, ControllerGUIInterface  {
-
-    private static Stage stage;
-    private Scene scene;
-    private Parent root;
+public class ControllerGUIStartMatch extends ControllerGUIInterface implements Initializable  {
     @FXML
     private ChoiceBox<String> totalPlayerNumberChoiceBox;
     @FXML
@@ -37,17 +32,7 @@ public class ControllerGUIStartMatch implements Initializable, ControllerGUIInte
 
     private List<String> matchTypeChoices =new ArrayList<>() {{add("Normal match"); add("Expert match");}};
 
-    private static ClientJavaFX client;
 
-    private static Choice choice;
-
-    public void setClient(ClientJavaFX c){
-        client = c;
-    }
-
-    public static void setChoice(Choice choice){
-        ControllerGUIStartMatch.choice = choice;
-    }
 
 
     @Override

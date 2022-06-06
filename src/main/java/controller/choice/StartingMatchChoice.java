@@ -65,7 +65,7 @@ public class StartingMatchChoice extends Choice{
 
     @Override
     public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException {
-        //QUESTO IN ReALTA' NON DEVE ESSERE MAI CHIAMATO, almeno per ora
+        //QUESTO IN REALTA' NON DEVE ESSERE MAI CHIAMATO, almeno per ora
     }
 
     @Override
