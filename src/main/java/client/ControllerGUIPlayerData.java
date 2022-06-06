@@ -26,7 +26,7 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
     private TextField nickname;
 
     @FXML
-    private ChoiceBox<String> towerColorChoiceBox;
+    protected ChoiceBox<String> towerColorChoiceBox;
 
     @FXML
     private ChoiceBox<String> wizardTypeChoiceBox;
@@ -36,13 +36,18 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
 
     private List<String> wizardTypeChoices = new ArrayList<>(){{add("WIZARD1"); add("WIZARD2"); add("WIZARD3");add("WIZARD4");}};
 
-    private List<String> towerColorChoices =new ArrayList<>() {{add("WHITE"); add("BLACK");add("GREY");}};
+    private List<String> towerColorChoices =new ArrayList<>() {{add("WHITE"); add("BLACK");}};
 
+    protected static boolean isGrey=false;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1){
         wizardTypeChoiceBox.getItems().addAll(wizardTypeChoices);
+
+        if(isGrey)
+            towerColorChoices.add("GREY");
         towerColorChoiceBox.getItems().addAll(towerColorChoices);
+
         wizardTypeChoiceBox.setValue(wizardTypeChoices.get(0));
         towerColorChoiceBox.setValue(towerColorChoices.get(0));
     }
@@ -64,7 +69,6 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
             scene = new Scene(root);
-            stage.setFullScreen(false);
             stage.setScene(scene);
 
             stage.setFullScreen(true);

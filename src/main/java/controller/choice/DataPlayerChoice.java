@@ -19,7 +19,7 @@ public class DataPlayerChoice extends Choice{
     private int wizard, numChoice = 0;
     private int towerColor;
 
-    int playerNum;
+    private int playerNum;
 
     public DataPlayerChoice(int totalPlayersNum) {
         playerNum = totalPlayersNum;
@@ -28,6 +28,10 @@ public class DataPlayerChoice extends Choice{
     public DataPlayerChoice(int totalPlayersNum, int idPossessor) {
         playerNum = totalPlayersNum;
         possessor=idPossessor;
+    }
+
+    public int getPlayerNum() {
+        return playerNum;
     }
 
     public int getPossessor() {

@@ -20,8 +20,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
 
-                  <Label fx:id="textBox" alignment="CENTER" prefHeight="32.0" prefWidth="312.0" />
-
     <ImageView fx:id="titleImage" fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
         <image>
             <Image url="@Images/Titolo.png" />
@@ -33,4 +31,6 @@
                      </font>
                   </Button>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="47.0" stroke="BLACK" strokeType="INSIDE" width="420.0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+
+                  <Label fx:id="textBox" alignment="CENTER" prefHeight="45.0" prefWidth="418.0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
 </GridPane>

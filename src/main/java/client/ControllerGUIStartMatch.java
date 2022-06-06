@@ -62,15 +62,16 @@ public class ControllerGUIStartMatch extends ControllerGUIInterface implements I
     public void switchScene(Choice choice) throws IOException {
         if(choice instanceof DataPlayerChoice) {
 
+            if(((DataPlayerChoice)choice).getPlayerNum()==3)
+                ControllerGUIPlayerData.isGrey=true;
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
-            scene = new Scene(root);
-            stage.setFullScreen(false);
-            stage.setScene(scene);
 
+            stage.setFullScreen(false);
+            scene = new Scene(root);
             stage.setFullScreen(true);
             stage.setMaximized(true);
-
+            stage.setScene(scene);
             stage.show();
         }
     }

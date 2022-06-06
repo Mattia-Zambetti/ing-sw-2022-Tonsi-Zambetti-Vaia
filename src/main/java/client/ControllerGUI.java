@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.MatchDataInterface;
 
@@ -25,10 +24,6 @@ public class ControllerGUI extends ControllerGUIInterface {
     private ImageView island1;
     @FXML
     private Label textBox;
-    @FXML
-    private ImageView titleImage;
-    @FXML
-    private GridPane pane;
 
     public MatchDataInterface match;
 
@@ -62,7 +57,8 @@ public class ControllerGUI extends ControllerGUIInterface {
             stage.setScene(scene);
             stage.show();
         }else if ( choice instanceof DataPlayerChoice ) {
-
+            if(((DataPlayerChoice)choice).getPlayerNum()==3)
+                ControllerGUIPlayerData.isGrey=true;
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
 
