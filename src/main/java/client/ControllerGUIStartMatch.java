@@ -64,14 +64,13 @@ public class ControllerGUIStartMatch extends ControllerGUIInterface implements I
 
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
-            /*FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("PlayerDataScene.fxml"));
-            root = fxmlLoader.load();*/
-
             scene = new Scene(root);
+            stage.setFullScreen(false);
+            stage.setScene(scene);
+
             stage.setFullScreen(true);
             stage.setMaximized(true);
-            stage.setScene(scene);
+
             stage.show();
         }
     }

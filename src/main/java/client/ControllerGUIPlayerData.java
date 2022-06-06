@@ -64,6 +64,7 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
             scene = new Scene(root);
+            stage.setFullScreen(false);
             stage.setScene(scene);
 
             stage.setFullScreen(true);
