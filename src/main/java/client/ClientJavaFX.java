@@ -243,12 +243,28 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                             }
 
 
-                            if (actualToDoChoice instanceof CardChoice)
+                            if (actualToDoChoice instanceof CardChoice && !matchCompletelyCreated) {
                                 matchCompletelyCreated = true;
-                            if(matchCompletelyCreated) {
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            fxmlLoader = new FXMLLoader();
+                                            controllerGUI.switchScene(actualToDoChoice);
+
+                                            controllerGUI = fxmlLoader.getController();
+                                            ControllerGUIInterface.setChoice(actualToDoChoice);
+
+                                        }catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+                            /*if(matchCompletelyCreated) {
                                 writeUser.println(matchView);
                                 writeUser.flush();
-                            }
+                            }*/
 
                             if ( actualToDoChoice instanceof DataPlayerChoice && isChanged ) {
                                 System.out.println("DataPLayerChoice arrived");

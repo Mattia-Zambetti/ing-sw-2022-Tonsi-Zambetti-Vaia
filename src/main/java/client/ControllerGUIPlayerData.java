@@ -1,5 +1,6 @@
 package client;
 
+import controller.choice.CardChoice;
 import controller.choice.Choice;
 import controller.choice.DataPlayerChoice;
 import javafx.event.ActionEvent;
@@ -54,21 +55,11 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
 
     @Override
     public void switchScene(Choice choice) throws IOException {
-        if(choice instanceof DataPlayerChoice && !alreadyInsert) {
-
-            client.getFxmlLoader().setLocation(getClass().getResource("GameScene.fxml"));
-            root = client.getFxmlLoader().load();
-
-            scene = new Scene(root);
-            stage.setFullScreen(true);
-            stage.setMaximized(true);
-            stage.setScene(scene);
-            stage.show();
-        }else
-        {
+        if(choice instanceof DataPlayerChoice && alreadyInsert) {
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
             scene = new Scene(root);
+            stage.setFullScreen(false);
             stage.setScene(scene);
 
             stage.setFullScreen(true);
@@ -77,6 +68,18 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             stage.show();
 
             submit.setDisable(false);
+
+        }else if (choice instanceof CardChoice){
+            client.getFxmlLoader().setLocation(getClass().getResource("GameScene.fxml"));
+            root = client.getFxmlLoader().load();
+
+            scene = new Scene(root);
+            stage.setScene(scene);
+
+            stage.setFullScreen(true);
+            stage.setMaximized(true);
+
+            stage.show();
 
         }
     }
