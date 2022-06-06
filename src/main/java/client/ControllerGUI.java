@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.MatchDataInterface;
 
@@ -24,7 +25,10 @@ public class ControllerGUI extends ControllerGUIInterface {
     private ImageView island1;
     @FXML
     private Label textBox;
-
+    @FXML
+    private ImageView titleImage;
+    @FXML
+    private GridPane pane;
 
     public MatchDataInterface match;
 
