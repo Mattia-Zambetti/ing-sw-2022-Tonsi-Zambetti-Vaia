@@ -1,0 +1,9 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Supercell.ttf');
+}
+
+.text {
+    -fx-font-family: "Roboto";
+}

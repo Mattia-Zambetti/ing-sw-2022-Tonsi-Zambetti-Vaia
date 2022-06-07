@@ -10,7 +10,11 @@ public abstract class FigureCard implements Serializable {
     protected int price;
     protected int cardId;
 
-    public Choice actualChoice;
+    protected Choice actualChoice;
+
+    public int getCardId() {
+        return cardId;
+    }
 
     public Choice getActualChoice() {
         return actualChoice;

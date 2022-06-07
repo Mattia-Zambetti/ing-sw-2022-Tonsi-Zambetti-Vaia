@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.MatchDataInterface;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -21,18 +18,10 @@ import java.util.concurrent.Executors;
 public class ControllerGUI extends ControllerGUIInterface {
 
     @FXML
-    private ImageView island1;
-    @FXML
     private Label textBox;
 
-    public MatchDataInterface match;
 
 
-
-    @FXML
-    public void manageIsland1Clicked(MouseEvent e){
-        island1.setX(island1.getX()+1);
-    }
 
     @FXML
     public void enterGameMethod(ActionEvent e) {

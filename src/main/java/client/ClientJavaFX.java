@@ -40,6 +40,8 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private boolean isActive=true;
     private volatile boolean isChoiceTime;
+
+
     private boolean figureCardNotPlayed = true;
 
     private boolean matchCompletelyCreated = false;
@@ -53,22 +55,34 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private FXMLLoader fxmlLoader;
 
+
     private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
 
     public FXMLLoader getFxmlLoader() {
         return fxmlLoader;
     }
 
+    public MatchDataInterface getMatchView() {
+        return matchView;
+    }
+
+    public boolean isMatchCompletelyCreated() {
+        return matchCompletelyCreated;
+    }
+
     @Override
     public void start(Stage primaryStage) {
         try {
+            //font=Font.loadFont(new FileInputStream(new File("resources/Supercell.ttf")), 12);
+
+
             fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));
             root = fxmlLoader.load();
             Scene scene = new Scene(root);
+
             controllerGUI = fxmlLoader.getController();
             ControllerGUIInterface.setClient(this);
-
 
 
             primaryStage.setMaximized(true);
@@ -238,6 +252,15 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
                             matchView=(MatchDataInterface) obj;
 
+
+                            /*if(!(matchView.getChoice() instanceof DataPlayerChoice)) {
+                                fxmlLoader = new FXMLLoader();
+                                fxmlLoader.setLocation(getClass().getResource("GameScene.fxml"));
+                                controllerGUI = fxmlLoader.getController();
+                            }*/
+
+
+
                             if(!(matchView.getChoice() instanceof DataPlayerChoice) ||(matchView.getChoice() instanceof DataPlayerChoice && ((DataPlayerChoice) matchView.getChoice()).getPossessor()==idThis)) {
                                 actualToDoChoice = matchView.getChoice();
                                 isChanged=true; //Used to check if the player who has to set his data is te correct one
@@ -262,10 +285,15 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                     }
                                 });
                             }
-                            /*if(matchCompletelyCreated) {
-                                writeUser.println(matchView);
-                                writeUser.flush();
-                            }*/
+
+                            if(controllerGUI instanceof ControllerGUIGame) { //it's used in place of matchCompleteCreated
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((ControllerGUIGame) controllerGUI).updateMatchView();
+                                    }
+                                });
+                            }
 
                             if ( actualToDoChoice instanceof DataPlayerChoice && isChanged ) {
                                 System.out.println("DataPLayerChoice arrived");

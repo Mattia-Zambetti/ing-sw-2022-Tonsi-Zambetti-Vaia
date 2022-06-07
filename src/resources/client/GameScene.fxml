@@ -139,7 +139,7 @@
          <children>
             <ImageView fx:id="Card1" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(1).png" />
+                  <Image url="@Images/Assistente(1).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -147,7 +147,7 @@
             </ImageView>
             <ImageView fx:id="Card2" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(2).png" />
+                  <Image url="@Images/Assistente(2).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -155,7 +155,7 @@
             </ImageView>
             <ImageView fx:id="Card3" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(3).png" />
+                  <Image url="@Images/Assistente(3).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -163,7 +163,7 @@
             </ImageView>
             <ImageView fx:id="Card4" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(4).png" />
+                  <Image url="@Images/Assistente(4).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -171,7 +171,7 @@
             </ImageView>
             <ImageView fx:id="Card5" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(5).png" />
+                  <Image url="@Images/Assistente(5).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -179,7 +179,7 @@
             </ImageView>
             <ImageView fx:id="Card6" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(6).png" />
+                  <Image url="@Images/Assistente(6).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -187,7 +187,7 @@
             </ImageView>
             <ImageView fx:id="Card7" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(7).png" />
+                  <Image url="@Images/Assistente(7).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -195,7 +195,7 @@
             </ImageView>
             <ImageView fx:id="Card8" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(8).png" />
+                  <Image url="@Images/Assistente(8).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -203,7 +203,7 @@
             </ImageView>
             <ImageView fx:id="Card9" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(9).png" />
+                  <Image url="@Images/Assistente(9).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -211,23 +211,23 @@
             </ImageView>
             <ImageView fx:id="Card10" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@Images/Assistente%20(10).png" />
+                  <Image url="@Images/Assistente(10).png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="FigureCard1" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="figureCard1" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/Knight.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="FigureCard2" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="figureCard2" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/Knight.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="FigureCard3" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="figureCard3" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/Knight.jpg" />
                </image>
