@@ -51,6 +51,7 @@ public class ControllerGUI extends ControllerGUIInterface {
             fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
             root = fxmlLoader.load();
 
+
             scene = new Scene(root);
             stage.setMaximized(true);
             stage.setFullScreen(true);
@@ -61,6 +62,7 @@ public class ControllerGUI extends ControllerGUIInterface {
                 ControllerGUIPlayerData.isGrey=true;
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
+
 
             scene = new Scene(root);
             stage.setFullScreen(true);

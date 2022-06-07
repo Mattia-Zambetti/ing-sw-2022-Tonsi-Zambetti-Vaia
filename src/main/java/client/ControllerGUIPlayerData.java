@@ -72,7 +72,7 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
         }else if (choice instanceof CardChoice){
             client.getFxmlLoader().setLocation(getClass().getResource("GameScene.fxml"));
             root = client.getFxmlLoader().load();
-
+            scene.getStylesheets().add("main.css");
             scene = new Scene(root);
             stage.setScene(scene);
 

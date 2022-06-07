@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUIPlayerData">
+<GridPane style="-fx-background-color: #76c4ed;" alignment="CENTER" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUIPlayerData">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1492.4000244140625" minWidth="10.0" prefWidth="1019.6000671386719" />
    </columnConstraints>

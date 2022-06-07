@@ -1,0 +1,8 @@
+@font-face {
+    -fx-font-family: 'Supercell';
+    src: url('Supercell.ttf');
+}
+
+.choice-box {
+    -fx-font-family: "Supercell";
+}

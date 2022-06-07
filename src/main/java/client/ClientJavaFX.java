@@ -67,7 +67,8 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             root = fxmlLoader.load();
             Scene scene = new Scene(root);
             controllerGUI = fxmlLoader.getController();
-            controllerGUI.setClient(this);
+            ControllerGUIInterface.setClient(this);
+
 
 
             primaryStage.setMaximized(true);
