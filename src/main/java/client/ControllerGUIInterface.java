@@ -12,13 +12,7 @@ public abstract class ControllerGUIInterface {
     protected static Stage stage;
     protected static Scene scene;
     protected static Parent root;
-    protected static Choice choice;
 
-
-
-    public static void setChoice(Choice choice){
-        ControllerGUIInterface.choice = choice;
-    }
 
     public static void setClient(ClientJavaFX client) {
         ControllerGUIInterface.client = client;

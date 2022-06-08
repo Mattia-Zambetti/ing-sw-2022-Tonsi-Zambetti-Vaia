@@ -63,9 +63,9 @@ public class ControllerGUIStartMatch extends ControllerGUIInterface implements I
     public void submitValues(ActionEvent e){
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         String s =""+(totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2);
-        choice.setChoiceParam(s);
+        client.getActualToDoChoice().setChoiceParam(s);
         s = ""+(matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1);
-        choice.setChoiceParam(s);
+        client.getActualToDoChoice().setChoiceParam(s);
         textBox.setText("Match created. " +
                 "Waiting for other players...");
         sendStartingMatchButton.setDisable(true);
