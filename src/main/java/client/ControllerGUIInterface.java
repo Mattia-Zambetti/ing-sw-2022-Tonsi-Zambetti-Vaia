@@ -26,4 +26,8 @@ public abstract class ControllerGUIInterface {
 
     public abstract void switchScene(Choice choice) throws IOException;
     public abstract void printMessageText(String s);
+
+    public static void setStage(Stage stage) {
+        ControllerGUIInterface.stage = stage;
+    }
 }

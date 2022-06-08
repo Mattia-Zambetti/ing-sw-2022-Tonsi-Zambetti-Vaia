@@ -75,7 +75,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         try {
             //font=Font.loadFont(new FileInputStream(new File("resources/Supercell.ttf")), 12);
 
-
+            ControllerGUIInterface.setStage(primaryStage);
             fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));
             root = fxmlLoader.load();
