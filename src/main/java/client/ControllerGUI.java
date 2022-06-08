@@ -5,23 +5,27 @@ import controller.choice.DataPlayerChoice;
 import controller.choice.StartingMatchChoice;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ControllerGUI extends ControllerGUIInterface {
+public class ControllerGUI extends ControllerGUIInterface implements Initializable{
 
     @FXML
     private Label textBox;
 
-
-
+    @FXML
+    private Button enterButton;
 
     @FXML
     public void enterGameMethod(ActionEvent e) {
@@ -36,15 +40,17 @@ public class ControllerGUI extends ControllerGUIInterface {
 
     public void switchScene(Choice choice) throws IOException {
         if(choice instanceof StartingMatchChoice) {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
-            root = fxmlLoader.load();
+
+            client.getFxmlLoader().setLocation(getClass().getResource("StartMatch.fxml"));
+            root = client.getFxmlLoader().load();
 
 
             scene = new Scene(root);
-            stage.setMaximized(true);
-            stage.setFullScreen(true);
+            stage.setFullScreen(false);
+            stage.setMaximized(false);
+
             stage.setScene(scene);
+            stage.setMaximized(true);
             stage.show();
         }else if ( choice instanceof DataPlayerChoice ) {
             if(((DataPlayerChoice)choice).getPlayerNum()==3)
@@ -54,9 +60,13 @@ public class ControllerGUI extends ControllerGUIInterface {
 
 
             scene = new Scene(root);
-            stage.setFullScreen(true);
-            stage.setMaximized(true);
+
+            stage.setFullScreen(false);
+            stage.setMaximized(false);
             stage.setScene(scene);
+
+            stage.setMaximized(true);
+
             stage.show();
         }
     }
@@ -66,4 +76,10 @@ public class ControllerGUI extends ControllerGUIInterface {
         textBox.setText(s);
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Font font=Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),12);
+        textBox.setFont(font);
+        enterButton.setFont(font);
+    }
 }

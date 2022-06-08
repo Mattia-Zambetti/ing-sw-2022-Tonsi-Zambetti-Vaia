@@ -73,9 +73,8 @@ public class ClientJavaFX extends Application implements Runnable,Client {
     @Override
     public void start(Stage primaryStage) {
         try {
-            //font=Font.loadFont(new FileInputStream(new File("resources/Supercell.ttf")), 12);
 
-
+            ControllerGUIInterface.setStage(primaryStage);
             fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));
             root = fxmlLoader.load();
@@ -211,6 +210,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             @Override
             public void run() {
 
+                ControllerGUIInterface.setClient(ClientJavaFX.this);
 
 
                 try {
@@ -231,14 +231,12 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                 @Override
                                 public void run() {
                                     try {
-                                        controllerGUI.switchScene(s);
                                         fxmlLoader = new FXMLLoader();
-                                        fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
-                                        root = fxmlLoader.load();
+                                        controllerGUI.switchScene(s);
 
                                         controllerGUI = fxmlLoader.getController();
-                                        controllerGUI.setClient(ClientJavaFX.this);
-                                        ControllerGUIStartMatch.setChoice(((StartingMatchChoice)obj));
+
+                                        ControllerGUIInterface.setChoice(((StartingMatchChoice)obj));
 
                                     }catch (IOException e) {
                                         e.printStackTrace();
@@ -282,15 +280,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                         }catch (IOException e) {
                                             e.printStackTrace();
                                         }
-                                    }
-                                });
-                            }
-
-                            if(controllerGUI instanceof ControllerGUIGame) { //it's used in place of matchCompleteCreated
-                                Platform.runLater(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((ControllerGUIGame) controllerGUI).updateMatchView();
                                     }
                                 });
                             }
