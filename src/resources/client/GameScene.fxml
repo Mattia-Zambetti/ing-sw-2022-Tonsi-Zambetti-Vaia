@@ -2,8 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -12,25 +14,25 @@
 
 <GridPane hgap="10.0" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #76c4ed;" vgap="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUIGame">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="266.0" minWidth="10.0" prefWidth="266.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="122.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="137.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="172.0" minWidth="10.0" prefWidth="120.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="128.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="132.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="131.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="136.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="273.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="266.0" minWidth="10.0" prefWidth="187.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="175.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="188.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="226.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="141.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="133.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="182.0" minHeight="0.0" prefHeight="132.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="228.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="145.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="175.0" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="175.0" minHeight="0.0" prefHeight="150.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ImageView fx:id="island1" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+      <ImageView fx:id="island1" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Isola1.png" />
          </image>
@@ -40,7 +42,7 @@
             <Image url="@Images/Isola2.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island3" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+      <ImageView fx:id="island3" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <image>
             <Image url="@Images/Isola3.png" />
          </image>
@@ -50,7 +52,7 @@
             <Image url="@Images/Isola1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island5" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+      <ImageView fx:id="island5" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <image>
             <Image url="@Images/Isola2.png" />
          </image>
@@ -60,7 +62,7 @@
             <Image url="@Images/Isola3.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island7" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+      <ImageView fx:id="island7" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Isola1.png" />
          </image>
@@ -70,7 +72,7 @@
             <Image url="@Images/Isola2.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island9" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <ImageView fx:id="island9" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Isola3.png" />
          </image>
@@ -80,7 +82,7 @@
             <Image url="@Images/Isola1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island11" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <ImageView fx:id="island11" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Isola2.png" />
          </image>
@@ -98,7 +100,27 @@
             <Insets bottom="10.0" left="10.0" />
          </GridPane.margin>
       </ImageView>
-      <ImageView fx:id="Dashoard2" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <AnchorPane prefHeight="279.0" prefWidth="560.0" GridPane.rowIndex="4">
+         <children>
+            <ImageView fx:id="Student1" fitHeight="25.0" fitWidth="25.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/RedStudent.png" />
+               </image>
+               <effect>
+                  <DropShadow height="10.0" radius="4.5" width="10.0" />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="Student11" fitHeight="25.0" fitWidth="25.0" layoutX="13.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/RedStudent.png" />
+               </image>
+               <effect>
+                  <DropShadow height="10.0" radius="4.5" width="10.0" />
+               </effect>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="Dashoard2" fitHeight="160.0" fitWidth="460.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -106,15 +128,15 @@
             <Insets />
          </GridPane.margin>
       </ImageView>
-      <ImageView fx:id="Dashoard3" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+      <ImageView fx:id="Dashoard3" fitHeight="160.0" fitWidth="460.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
          <GridPane.margin>
-            <Insets top="10.0" />
+            <Insets left="10.0" top="10.0" />
          </GridPane.margin>
       </ImageView>
-      <ImageView fx:id="Dashoard4" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <ImageView fx:id="Dashoard4" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -133,8 +155,8 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="214.0" minHeight="10.0" prefHeight="214.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="180.0" minHeight="10.0" prefHeight="156.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="268.66668701171875" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="151.33331298828125" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <ImageView fx:id="Card1" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -254,5 +276,25 @@
             </Label>
          </children>
       </GridPane>
+      <ImageView fx:id="cloud1" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <image>
+            <Image url="@Images/Cloud1.PNG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cloud2" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <image>
+            <Image url="@Images/Cloud2.PNG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cloud3" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <image>
+            <Image url="@Images/Cloud3.PNG" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cloud4" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <image>
+            <Image url="@Images/Cloud4.PNG" />
+         </image>
+      </ImageView>
    </children>
 </GridPane>
