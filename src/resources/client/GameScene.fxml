@@ -95,7 +95,7 @@
       </ImageView>
       <AnchorPane prefHeight="279.0" prefWidth="560.0" GridPane.columnSpan="4" GridPane.rowIndex="4">
          <children>
-            <ImageView fx:id="Dashoard1" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+            <ImageView fx:id="Dashboard1" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                <image>
                   <Image url="@Images/Plancia_DEF2.png" />
                </image>
@@ -572,9 +572,17 @@
                   <DropShadow height="10.0" radius="4.5" width="10.0" />
                </effect>
             </ImageView>
+            <ImageView fx:id="cardDb1" fitHeight="132.0" fitWidth="89.0" layoutX="598.0" layoutY="80.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/Assistente(1).png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
-      <ImageView fx:id="Dashoard2" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+      <ImageView fx:id="Dashboard2" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -582,7 +590,7 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </ImageView>
-      <ImageView fx:id="Dashoard3" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+      <ImageView fx:id="Dashboard3" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -590,7 +598,7 @@
             <Insets left="10.0" top="10.0" />
          </GridPane.margin>
       </ImageView>
-      <ImageView fx:id="Dashoard4" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+      <ImageView fx:id="Dashboard4" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -631,7 +639,7 @@
             </ImageView>
          </children>
       </GridPane>
-      <GridPane GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="4">
+      <GridPane fx:id="expertMatchPane" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="4">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -691,9 +699,9 @@
             </Label>
          </children>
       </GridPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" style="-fx-border-width: 10;" styleClass="cardBackground" stylesheets="@../main.css" GridPane.columnIndex="1" GridPane.columnSpan="7" GridPane.rowIndex="4">
+      <HBox fx:id="boxCards" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" style="-fx-border-width: 10;" styleClass="cardBackground" stylesheets="@../main.css" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="7" GridPane.rowIndex="4">
          <children>
-            <ImageView fx:id="card1" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card1" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(1).png" />
                </image>
@@ -704,7 +712,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card2" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card2" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(2).png" />
                </image>
@@ -715,7 +723,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card3" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card3" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(3).png" />
                </image>
@@ -726,7 +734,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card4" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card4" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(4).png" />
                </image>
@@ -737,7 +745,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card5" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card5" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(5).png" />
                </image>
@@ -748,7 +756,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card6" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card6" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(6).png" />
                </image>
@@ -759,7 +767,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card7" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card7" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(7).png" />
                </image>
@@ -770,7 +778,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card8" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card8" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(8).png" />
                </image>
@@ -781,7 +789,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card9" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card9" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(9).png" />
                </image>
@@ -792,7 +800,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="card10" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="card10" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Assistente(10).png" />
                </image>
@@ -808,5 +816,29 @@
             <Insets bottom="10.0" />
          </GridPane.margin>
       </HBox>
+      <ImageView fx:id="cardDb2" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+         <image>
+            <Image url="@Images/Assistente(1).png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="cardDb3" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+         <image>
+            <Image url="@Images/Assistente(1).png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="cardDb4" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+         <image>
+            <Image url="@Images/Assistente(1).png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
    </children>
 </GridPane>

@@ -22,4 +22,8 @@ public interface MatchDataInterface extends Serializable {
     List<Player> showAllPlayers();
 
     List<FigureCard> showFigureCardsInGame();
+
+    List<Card> showAllCurrentCards();
+
+    int getPlacePlayerInTheOrder(Player player);
 }
