@@ -650,7 +650,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="figureCard3" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="figureCard3" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitFigureCardValue" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/Knight.jpg" />
                </image>
@@ -658,7 +658,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="figureCard2" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="figureCard2" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitFigureCardValue" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/Knight.jpg" />
                </image>
@@ -666,7 +666,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="figureCard1" fitHeight="132.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="figureCard1" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitFigureCardValue" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@Images/Knight.jpg" />
                </image>
