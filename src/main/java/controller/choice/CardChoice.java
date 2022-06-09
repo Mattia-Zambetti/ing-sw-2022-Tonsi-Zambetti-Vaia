@@ -50,7 +50,7 @@ public class CardChoice extends Choice{
                 System.out.println(CLIgraphicsResources.getStringColor("You choose "+ getChosenCard()+" successfully", CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_GREEN));
                 completed = true;
                 return false;
-            }else System.out.println(getRedString("This card isn't in you deck, ")+retryMessage());
+            }else System.out.println(getRedString("This card isn't in your deck, ")+retryMessage());
         }
         return true;
     }

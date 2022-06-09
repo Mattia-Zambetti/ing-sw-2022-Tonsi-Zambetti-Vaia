@@ -120,8 +120,7 @@ public class ClientCLI implements Runnable, Client{
                                 actualToDoChoiceQueue.setSendingPlayer(player);
                                 outputStream.writeObject(actualToDoChoiceQueue);
                                 outputStream.flush();
-                            } else { //Attenti a luiiiii
-
+                            } else {
                                 isChoiceTime = actualToDoChoice.setChoiceParam(input);
                             }
 
