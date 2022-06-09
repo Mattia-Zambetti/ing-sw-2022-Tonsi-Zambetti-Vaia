@@ -161,6 +161,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         if(client.getActualToDoChoice() instanceof CardChoice) {
             if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
                 client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
+                setInvisibleCards();
                 synchronized ( client.getOutputStreamLock() ) {
                     client.getOutputStreamLock().notifyAll();
                 }

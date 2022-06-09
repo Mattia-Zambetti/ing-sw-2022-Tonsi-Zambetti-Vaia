@@ -44,9 +44,8 @@ public class ControllerGUI extends ControllerGUIInterface implements Initializab
             client.getFxmlLoader().setLocation(getClass().getResource("StartMatch.fxml"));
             root = client.getFxmlLoader().load();
 
-
             scene = new Scene(root);
-            stage.setFullScreen(false);
+            //stage.setFullScreen(false);
             stage.setMaximized(false);
 
             stage.setScene(scene);
@@ -61,7 +60,7 @@ public class ControllerGUI extends ControllerGUIInterface implements Initializab
 
             scene = new Scene(root);
 
-            stage.setFullScreen(false);
+
             stage.setMaximized(false);
             stage.setScene(scene);
 
@@ -81,5 +80,7 @@ public class ControllerGUI extends ControllerGUIInterface implements Initializab
         Font font=Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),12);
         textBox.setFont(font);
         enterButton.setFont(font);
+
+
     }
 }

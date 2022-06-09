@@ -306,9 +306,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                         }
                                     });
                                 }
-                                if(actualToDoChoice instanceof MoveStudentChoice){
-                                    ((ControllerGUIGame)controllerGUI).setInvisibleCards();
-                                }
+
 
                             }
 
