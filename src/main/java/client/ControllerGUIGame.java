@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import model.Card;
 import model.ExpertMatch;
 import model.MatchDataInterface;
@@ -20,12 +22,36 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ControllerGUIGame extends ControllerGUIInterface implements Initializable {
+
+    //Dashboards:
+    @FXML
+    private ImageView Dashboard1;
+    @FXML
+    private ImageView Dashboard2;
+    @FXML
+    private ImageView Dashboard3;
+    @FXML
+    private ImageView Dashboard4;
+
+    //Current cards:
+    @FXML
+    private  ImageView cardDb1;
+    @FXML
+    private  ImageView cardDb2;
+    @FXML
+    private  ImageView cardDb3;
+    @FXML
+    private  ImageView cardDb4;
+
+    //Figure cards:
     @FXML
     private ImageView figureCard1;
     @FXML
     private ImageView figureCard2;
     @FXML
     private ImageView figureCard3;
+    @FXML
+    private GridPane expertMatchPane;
 
     //cards:
     @FXML
@@ -48,6 +74,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private ImageView card9;
     @FXML
     private ImageView card10;
+    @FXML
+    private HBox boxCards;
 
     private Map<Card, ImageView> fromCardsToImages;
 
@@ -69,9 +97,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }};
 
 
-    public void updateFigureCards() {
+    public void updateInitialMatchView() {
+
         if (client.isMatchCompletelyCreated()) {
             MatchDataInterface match = client.getMatchView();
+
+            //figure cards management and coins management:
             if(match instanceof ExpertMatch) {
                 List<FigureCard> figureCards = match.showFigureCardsInGame();
 
@@ -79,20 +110,26 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 figureCard2.setImage(figureCardsMap.get(figureCards.get(1).getCardId()));
                 figureCard3.setImage(figureCardsMap.get(figureCards.get(2).getCardId()));
             }else {
-                figureCard1.setVisible(false);
-                figureCard2.setVisible(false);
-                figureCard3.setVisible(false);
+                expertMatchPane.setVisible(false);
+
+            }
+
+            //Dashboards management:
+            if(match.showAllPlayers().size()==3){
+                Dashboard4.setVisible(false);
+            }else if(match.showAllPlayers().size()==2) {
+                Dashboard4.setVisible(false);
+                Dashboard3.setVisible(false);
             }
         }
     }
 
     public void setInvisibleCards(){
-        for (ImageView c: fromCardsToImages.values()) {
-            c.setVisible(false);
-        }
+        boxCards.setVisible(false);
     }
 
     public void updateCardsView(){
+        boxCards.setVisible(true);
         if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
             for (Card c:client.getMatchView().showCurrentPlayerDashboard().showCards()){
                 if(fromCardsToImages.containsKey(c)){
@@ -101,6 +138,20 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     fromCardsToImages.get(c).setVisible(false);
                 }
             }
+            if(client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=2) {
+                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
+                cardDb2.setVisible(true);
+                if (client.getMatchView().showAllPlayers().size() == 3 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=3) {
+                    cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
+                    cardDb3.setVisible(true);
+                }
+                if (client.getMatchView().showAllPlayers().size() == 4 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())==4) {
+                    cardDb4.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(2)).getImage());
+                    cardDb4.setVisible(true);
+                }
+
+            }
+
         }else{
             for (ImageView c: fromCardsToImages.values()) {
                 c.setVisible(false);
@@ -161,11 +212,25 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         if(client.getActualToDoChoice() instanceof CardChoice) {
             if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
                 client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
+                cardDb1.setVisible(true);
+                cardDb1.setImage(((ImageView) event.getSource()).getImage());
                 setInvisibleCards();
                 synchronized ( client.getOutputStreamLock() ) {
                     client.getOutputStreamLock().notifyAll();
                 }
             }
         }
+    }
+
+
+
+    public void zoomCardOnEnter(Event event){
+        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()*1.5);
+        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()*1.5);
+    }
+
+    public void zoomCardOnExit(Event event){
+        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()/1.5);
+        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()/1.5);
     }
 }

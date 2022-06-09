@@ -278,6 +278,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
 
+    public int getPlacePlayerInTheOrder(Player player){
+        for (Dashboard d: dashboardsCollection) {
+            if(d.getPlayer().equals(player))
+                return dashboardsCollection.indexOf(d)+1;
+        }
+        return -1;
+    }
 
     public void chooseCard(Card chosenCard) throws CardNotFoundException, CardAlreadyPlayedException {
         boolean isAlreadyPlayed=false;
@@ -632,6 +639,15 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     @Override
     public List<FigureCard> showFigureCardsInGame() {
         return null;
+    }
+
+    @Override
+    public List<Card> showAllCurrentCards() {
+        List<Card> currentCards=new ArrayList<>();
+        for (Dashboard d: dashboardsCollection) {
+            currentCards.add(new Card(d.getCurrentCard()));
+        }
+        return currentCards;
     }
 
 
