@@ -1,7 +1,6 @@
 package client;
 
-import controller.choice.CardChoice;
-import controller.choice.Choice;
+import controller.choice.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -230,6 +229,26 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     client.getOutputStreamLock().notifyAll();
                 }
             }
+        }
+    }
+
+    public void submitFigureCardValue(Event event){
+        if(client.getMatchView() instanceof ExpertMatch
+                && !(client.getActualToDoChoice() instanceof FigureCardActionChoice)
+                && !(client.getActualToDoChoice() instanceof CardChoice)
+                && !(client.getActualToDoChoice() instanceof DataPlayerChoice) && client.isFigureCardNotPlayed()) {
+            Choice figureCardChoice = new FigureCardPlayedChoice(client.getMatchView().showFigureCardsInGame());
+            client.setActualToDoChoiceQueue(client.getActualToDoChoice());
+            client.setActualToDoChoice( figureCardChoice);
+            client.setFigureCardNotPlayed(false);
+            client.getActualToDoChoice().setSendingPlayer(client.getPlayer());
+            try {
+                client.getOutputStream().writeObject(client.getActualToDoChoiceQueue());
+                client.getOutputStream().flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 

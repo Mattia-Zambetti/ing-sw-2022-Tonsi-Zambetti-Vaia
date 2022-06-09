@@ -1,6 +1,9 @@
 package client;
 
-import controller.choice.*;
+import controller.choice.CardChoice;
+import controller.choice.Choice;
+import controller.choice.DataPlayerChoice;
+import controller.choice.StartingMatchChoice;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +19,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -38,6 +39,8 @@ public class ClientJavaFX extends Application implements Runnable,Client {
     private boolean isActive=true;
     private volatile boolean isChoiceTime;
 
+    private ObjectOutputStream outputStream;
+
 
     private boolean figureCardNotPlayed = true;
 
@@ -52,11 +55,35 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private FXMLLoader fxmlLoader;
 
+    private Choice actualToDoChoiceQueue;
 
-    private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
+    public ObjectOutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    public void setActualToDoChoiceQueue(Choice actualToDoChoiceQueue) {
+        this.actualToDoChoiceQueue = actualToDoChoiceQueue;
+    }
+
+    public Choice getActualToDoChoiceQueue() {
+        return actualToDoChoiceQueue;
+    }
+
+    public void setActualToDoChoice(Choice actualToDoChoice) {
+        this.actualToDoChoice = actualToDoChoice;
+    }
 
     public FXMLLoader getFxmlLoader() {
         return fxmlLoader;
+    }
+
+
+    public boolean isFigureCardNotPlayed() {
+        return figureCardNotPlayed;
+    }
+
+    public void setFigureCardNotPlayed(boolean figureCardNotPlayed) {
+        this.figureCardNotPlayed = figureCardNotPlayed;
     }
 
     public boolean isChoiceTime() {
@@ -158,7 +185,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
     }
 
     public Thread sendChoiceThread() throws IOException {
-        ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+        outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 
         Thread t= new Thread(new Runnable() {
             @Override
