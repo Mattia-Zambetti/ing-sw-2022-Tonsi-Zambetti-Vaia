@@ -10,7 +10,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,6 +37,15 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
     @FXML
     private Button submit;
 
+    @FXML
+    private Label textNickname;
+
+    @FXML
+    private Label textWizard;
+
+    @FXML
+    private Label textTowerColor;
+
     private List<String> wizardTypeChoices = new ArrayList<>(){{add("WIZARD1"); add("WIZARD2"); add("WIZARD3");add("WIZARD4");}};
 
     private List<String> towerColorChoices =new ArrayList<>() {{add("WHITE"); add("BLACK");}};
@@ -51,6 +62,13 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
 
         wizardTypeChoiceBox.setValue(wizardTypeChoices.get(0));
         towerColorChoiceBox.setValue(towerColorChoices.get(0));
+
+        Font font=Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14);
+
+        textNickname.setFont(font);
+        textTowerColor.setFont(font);
+        textWizard.setFont(font);
+        submit.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),16));
     }
 
     @Override
@@ -60,9 +78,10 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             root = client.getFxmlLoader().load();
             scene = new Scene(root);
             stage.setFullScreen(false);
+            stage.setMaximized(false);
             stage.setScene(scene);
 
-            stage.setFullScreen(true);
+            //stage.setFullScreen(true);
             stage.setMaximized(true);
 
             stage.show();
@@ -70,9 +89,12 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             submit.setDisable(false);
 
         }else if (choice instanceof CardChoice){
-            client.getFxmlLoader().setLocation(getClass().getResource("GameScene.fxml"));
+            client.getFxmlLoader().setLocation(getClass().getResource("/client/GameScene.fxml"));
             root = client.getFxmlLoader().load();
-            scene.getStylesheets().add("main.css");
+
+            ((ControllerGUIGame)client.getFxmlLoader().getController()).updateFigureCards();
+            ((ControllerGUIGame)client.getFxmlLoader().getController()).updateCardsView();
+
             scene = new Scene(root);
             stage.setScene(scene);
 
@@ -93,11 +115,11 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
     public void submitValues(ActionEvent e){
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         String s=nickname.getText();
-        choice.setChoiceParam(s);
-        s =new String(""+(wizardTypeChoices.indexOf(wizardTypeChoiceBox.getValue())+1));
-        choice.setChoiceParam(s);
+        client.getActualToDoChoice().setChoiceParam(s);
         s = new String(""+ (towerColorChoices.indexOf(towerColorChoiceBox.getValue())+1));
-        choice.setChoiceParam(s);
+        client.getActualToDoChoice().setChoiceParam(s);
+        s =new String(""+(wizardTypeChoices.indexOf(wizardTypeChoiceBox.getValue())+1));
+        client.getActualToDoChoice().setChoiceParam(s);
         submit.setDisable(true);
         alreadyInsert=true;
         synchronized ( client.getOutputStreamLock() ) {

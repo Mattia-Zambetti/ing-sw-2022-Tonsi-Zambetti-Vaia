@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,10 +29,15 @@ public class ControllerGUIStartMatch extends ControllerGUIInterface implements I
     private ChoiceBox<String> matchTypeChoiceBox;
     @FXML
     private Label textBox;
+    @FXML
+    private Text text1;
 
-    private List<String> totalPlayerNumChoices = new ArrayList<>(){{add("2 players"); add("3 players"); add("4 players");}};
+    @FXML
+    private Text text2;
 
-    private List<String> matchTypeChoices =new ArrayList<>() {{add("Normal match"); add("Expert match");}};
+    private List<String> totalPlayerNumChoices = new ArrayList<>(){{add("2 PLAYERS"); add("3 PLAYERS"); add("4 PLAYERS");}};
+
+    private List<String> matchTypeChoices =new ArrayList<>() {{add("NORMAL MATCH"); add("EXPERT MATCH");}};
 
 
 
@@ -41,16 +48,26 @@ public class ControllerGUIStartMatch extends ControllerGUIInterface implements I
         matchTypeChoiceBox.getItems().addAll(matchTypeChoices);
         totalPlayerNumberChoiceBox.setValue(totalPlayerNumChoices.get(0));
         matchTypeChoiceBox.setValue(matchTypeChoices.get(0));
+
+        Font font=Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),16);
+        sendStartingMatchButton.setFont(font);
+        textBox.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
+
+        text1.setFont(font);
+        text2.setFont(font);
+
+
     }
 
     @FXML
     public void submitValues(ActionEvent e){
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         String s =""+(totalPlayerNumChoices.indexOf(totalPlayerNumberChoiceBox.getValue())+2);
-        choice.setChoiceParam(s);
-        s = ""+matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1;
-        choice.setChoiceParam(s);
-        textBox.setText("Match created. Waiting for other players...");
+        client.getActualToDoChoice().setChoiceParam(s);
+        s = ""+(matchTypeChoices.indexOf(matchTypeChoiceBox.getValue())+1);
+        client.getActualToDoChoice().setChoiceParam(s);
+        textBox.setText("Match created. " +
+                "Waiting for other players...");
         sendStartingMatchButton.setDisable(true);
         sendStartingMatchButton.setStyle("-fx-background-color: #B0B0B0;");
         synchronized ( client.getOutputStreamLock() ) {
@@ -67,11 +84,15 @@ public class ControllerGUIStartMatch extends ControllerGUIInterface implements I
             client.getFxmlLoader().setLocation(getClass().getResource("PlayerDataScene.fxml"));
             root = client.getFxmlLoader().load();
 
-            stage.setFullScreen(false);
             scene = new Scene(root);
-            stage.setFullScreen(true);
-            stage.setMaximized(true);
+
+            stage.setFullScreen(false);
+            stage.setMaximized(false);
+
             stage.setScene(scene);
+            //stage.setFullScreen(true);
+            stage.setMaximized(true);
+
             stage.show();
         }
     }

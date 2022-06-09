@@ -1,9 +1,6 @@
 package client;
 
-import controller.choice.CardChoice;
-import controller.choice.Choice;
-import controller.choice.DataPlayerChoice;
-import controller.choice.StartingMatchChoice;
+import controller.choice.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -62,6 +59,14 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         return fxmlLoader;
     }
 
+    public boolean isChoiceTime() {
+        return isChoiceTime;
+    }
+
+    public Choice getActualToDoChoice() {
+        return actualToDoChoice;
+    }
+
     public MatchDataInterface getMatchView() {
         return matchView;
     }
@@ -73,7 +78,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
     @Override
     public void start(Stage primaryStage) {
         try {
-            //font=Font.loadFont(new FileInputStream(new File("resources/Supercell.ttf")), 12);
 
             ControllerGUIInterface.setStage(primaryStage);
             fxmlLoader = new FXMLLoader();
@@ -82,11 +86,10 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             Scene scene = new Scene(root);
 
             controllerGUI = fxmlLoader.getController();
-            ControllerGUIInterface.setClient(this);
+            controllerGUI.setClient(this);
 
 
             primaryStage.setMaximized(true);
-            primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);
             primaryStage.show();
 
@@ -169,13 +172,12 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                         }
 
                         if ( isChoiceTime ) {
-                            if (actualToDoChoice instanceof StartingMatchChoice
-                                    ||actualToDoChoice instanceof DataPlayerChoice) {
-                                isChoiceTime=false;
-                                outputStream.writeObject(actualToDoChoice);
-                                outputStream.flush();
-                                outputStream.reset();
-                            }
+                            actualToDoChoice.setSendingPlayer(player);
+                            isChoiceTime=false;
+                            outputStream.writeObject(actualToDoChoice);
+                            outputStream.flush();
+                            outputStream.reset();
+
 
 
                         }
@@ -211,6 +213,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             @Override
             public void run() {
 
+                controllerGUI.setClient(ClientJavaFX.this);
 
 
                 try {
@@ -231,14 +234,11 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                 @Override
                                 public void run() {
                                     try {
-                                        controllerGUI.switchScene(s);
                                         fxmlLoader = new FXMLLoader();
-                                        fxmlLoader.setLocation(getClass().getResource("StartMatch.fxml"));
-                                        root = fxmlLoader.load();
+                                        controllerGUI.switchScene(s);
 
                                         controllerGUI = fxmlLoader.getController();
-                                        controllerGUI.setClient(ClientJavaFX.this);
-                                        ControllerGUIStartMatch.setChoice(((StartingMatchChoice)obj));
+
 
                                     }catch (IOException e) {
                                         e.printStackTrace();
@@ -251,13 +251,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                         else if(obj instanceof MatchDataInterface){
 
                             matchView=(MatchDataInterface) obj;
-
-
-                            /*if(!(matchView.getChoice() instanceof DataPlayerChoice)) {
-                                fxmlLoader = new FXMLLoader();
-                                fxmlLoader.setLocation(getClass().getResource("GameScene.fxml"));
-                                controllerGUI = fxmlLoader.getController();
-                            }*/
 
 
 
@@ -277,20 +270,10 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                             controllerGUI.switchScene(actualToDoChoice);
 
                                             controllerGUI = fxmlLoader.getController();
-                                            ControllerGUIInterface.setChoice(actualToDoChoice);
 
                                         }catch (IOException e) {
                                             e.printStackTrace();
                                         }
-                                    }
-                                });
-                            }
-
-                            if(controllerGUI instanceof ControllerGUIGame) { //it's used in place of matchCompleteCreated
-                                Platform.runLater(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((ControllerGUIGame) controllerGUI).updateMatchView();
                                     }
                                 });
                             }
@@ -307,7 +290,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                             controllerGUI.switchScene(actualToDoChoice);
 
                                             controllerGUI = fxmlLoader.getController();
-                                            ControllerGUIInterface.setChoice(actualToDoChoice);
 
                                         }catch (IOException e) {
                                             e.printStackTrace();
@@ -315,8 +297,17 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                     }
                                 });
                             }else if ( !(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player) ) {
-                                System.out.println("MatchData arrivati");
-                                //Gestione match
+                                isChoiceTime=true;
+                                if(actualToDoChoice instanceof CardChoice) {
+                                    Platform.runLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((ControllerGUIGame) controllerGUI).updateCardsView();
+                                        }
+                                    });
+                                }
+
+
                             }
 
 
