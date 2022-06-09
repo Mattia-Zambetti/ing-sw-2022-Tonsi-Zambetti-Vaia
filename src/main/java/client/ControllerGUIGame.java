@@ -1,12 +1,12 @@
 package client;
 
-import controller.choice.CardChoice;
-import controller.choice.Choice;
+import controller.choice.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import model.Card;
 import model.ExpertMatch;
 import model.MatchDataInterface;
@@ -53,6 +53,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private Map<ImageView, Card> fromImagesToCards;
 
+    @FXML
+    private HBox boxCards;
+
     private static Map<Integer,Image> figureCardsMap=new HashMap<>(){{
         put(1, new Image(getClass().getResourceAsStream("/client/Images/Centaur.jpg" )));
         put(2, new Image(getClass().getResourceAsStream("/client/Images/Jester.jpg" )));
@@ -90,9 +93,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         for (ImageView c: fromCardsToImages.values()) {
             c.setVisible(false);
         }
+        boxCards.setVisible(false);
     }
 
     public void updateCardsView(){
+        boxCards.setVisible(true);
         if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
             for (Card c:client.getMatchView().showCurrentPlayerDashboard().showCards()){
                 if(fromCardsToImages.containsKey(c)){
@@ -166,6 +171,27 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     client.getOutputStreamLock().notifyAll();
                 }
             }
+        }
+    }
+
+
+    public void submitFigureCardValue(Event event){
+        if(client.getMatchView() instanceof ExpertMatch
+                && !(client.getActualToDoChoice() instanceof FigureCardActionChoice)
+                && !(client.getActualToDoChoice() instanceof CardChoice)
+                && !(client.getActualToDoChoice() instanceof DataPlayerChoice) && client.isFigureCardNotPlayed()) {
+            Choice figureCardChoice = new FigureCardPlayedChoice(client.getMatchView().showFigureCardsInGame());
+            client.setActualToDoChoiceQueue(client.getActualToDoChoice());
+            client.setActualToDoChoice( figureCardChoice);
+            client.setFigureCardNotPlayed(false);
+            client.getActualToDoChoice().setSendingPlayer(client.getPlayer());
+            try {
+                client.getOutputStream().writeObject(client.getActualToDoChoiceQueue());
+                client.getOutputStream().flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 }
