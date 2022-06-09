@@ -664,7 +664,7 @@
                   <DropShadow height="10.0" radius="4.5" width="10.0" />
                </effect>
             </ImageView>
-            <ImageView fx:id="D1PinkMaster1" fitHeight="28.0" fitWidth="30.0" layoutX="428.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="419.0">
+            <ImageView fx:id="D1BlueMaster" fitHeight="28.0" fitWidth="30.0" layoutX="428.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="419.0">
                <image>
                   <Image url="@Images/BlueMaster.png" />
                </image>
