@@ -244,12 +244,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
 
     public void zoomCardOnEnter(Event event){
-        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()*1.5);
-        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()*1.5);
+        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()*1.3);
+        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()*1.3);
     }
 
     public void zoomCardOnExit(Event event){
-        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()/1.5);
-        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()/1.5);
+        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()/1.3);
+        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()/1.3);
     }
 }
