@@ -80,7 +80,7 @@ public class ControllerGUI extends ControllerGUIInterface implements Initializab
         Font font=Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),12);
         textBox.setFont(font);
         enterButton.setFont(font);
-
-
     }
+
+
 }

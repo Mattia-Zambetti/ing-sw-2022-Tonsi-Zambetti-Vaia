@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -12,6 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <GridPane hgap="10.0" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #76c4ed;" vgap="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUIGame">
    <columnConstraints>
@@ -26,6 +28,7 @@
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="188.0" />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
       <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="175.0" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
@@ -33,67 +36,117 @@
       <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ImageView fx:id="island1" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Button mnemonicParsing="false" onKeyPressed="#keyPressedManager" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+      <ImageView fx:id="island1" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Isola1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island2" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+      <ImageView fx:id="island2" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Isola2.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island3" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <ImageView fx:id="island3" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <image>
             <Image url="@Images/Isola3.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island4" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <ImageView fx:id="island4" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <image>
             <Image url="@Images/Isola1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island5" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <ImageView fx:id="island5" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <image>
             <Image url="@Images/Isola2.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island6" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+      <ImageView fx:id="island6" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Isola3.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island7" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <ImageView fx:id="island7" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Isola1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island8" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-         <image>
-            <Image url="@Images/Isola2.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="island9" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <children>
+            <ImageView fx:id="island8" fitHeight="128.0" fitWidth="175.0" layoutX="15.0" layoutY="26.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/Isola2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="redStudentIsl12" fitHeight="26.0" fitWidth="35.0" layoutX="29.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/YellowStudent.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <Text fx:id="numRStudentIsl12" layoutX="39.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="redStudentIsl121" fitHeight="26.0" fitWidth="35.0" layoutX="110.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/BlueStudent.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <Text fx:id="numRStudentIsl121" layoutX="120.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="redStudentIsl122" fitHeight="26.0" fitWidth="35.0" layoutX="69.5" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/PinkStudent.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <Text fx:id="numRStudentIsl122" layoutX="79.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="redStudentIsl123" fitHeight="26.0" fitWidth="35.0" layoutX="97.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/RedStudent.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <Text fx:id="numRStudentIsl123" layoutX="107.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="redStudentIsl124" fitHeight="26.0" fitWidth="35.0" layoutX="42.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/GreenStudent.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <Text fx:id="numRStudentIsl124" layoutX="52.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="island9" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Isola3.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island10" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+      <ImageView fx:id="island10" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Isola1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island11" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+      <ImageView fx:id="island11" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Isola2.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="island12" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <ImageView fx:id="island12" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <image>
             <Image url="@Images/Isola3.png" />
          </image>
       </ImageView>
-      <AnchorPane prefHeight="279.0" prefWidth="560.0" GridPane.columnSpan="4" GridPane.rowIndex="4">
+      <AnchorPane prefHeight="279.0" prefWidth="560.0" GridPane.columnSpan="4" GridPane.rowIndex="5">
          <children>
             <ImageView fx:id="Dashboard1" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                <image>
@@ -582,7 +635,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <ImageView fx:id="Dashboard2" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+      <ImageView fx:id="Dashboard2" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -590,7 +643,7 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </ImageView>
-      <ImageView fx:id="Dashboard3" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+      <ImageView fx:id="Dashboard3" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -598,7 +651,7 @@
             <Insets left="10.0" top="10.0" />
          </GridPane.margin>
       </ImageView>
-      <ImageView fx:id="Dashboard4" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+      <ImageView fx:id="Dashboard4" fitHeight="173.0" fitWidth="483.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <image>
             <Image url="@Images/Plancia_DEF2.png" />
          </image>
@@ -606,7 +659,7 @@
             <Insets right="10.0" />
          </GridPane.margin>
       </ImageView>
-      <GridPane GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2">
+      <GridPane GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="3">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -639,7 +692,7 @@
             </ImageView>
          </children>
       </GridPane>
-      <GridPane fx:id="expertMatchPane" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="4">
+      <GridPane fx:id="expertMatchPane" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="5">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -699,7 +752,7 @@
             </Label>
          </children>
       </GridPane>
-      <HBox fx:id="boxCards" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" style="-fx-border-width: 10;" styleClass="cardBackground" stylesheets="@../main.css" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="7" GridPane.rowIndex="4">
+      <HBox fx:id="boxCards" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" style="-fx-border-width: 10;" styleClass="cardBackground" stylesheets="@../main.css" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="7" GridPane.rowIndex="5">
          <children>
             <ImageView fx:id="card1" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -816,7 +869,7 @@
             <Insets bottom="10.0" />
          </GridPane.margin>
       </HBox>
-      <ImageView fx:id="cardDb2" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+      <ImageView fx:id="cardDb2" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Assistente(1).png" />
          </image>
@@ -824,7 +877,7 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <ImageView fx:id="cardDb3" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+      <ImageView fx:id="cardDb3" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" rotate="180.0" visible="false" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Assistente(1).png" />
          </image>
@@ -832,7 +885,7 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <ImageView fx:id="cardDb4" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+      <ImageView fx:id="cardDb4" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <image>
             <Image url="@Images/Assistente(1).png" />
          </image>

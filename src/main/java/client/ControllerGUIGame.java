@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Card;
@@ -97,78 +99,6 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }};
 
 
-    public void updateInitialMatchView() {
-
-        if (client.isMatchCompletelyCreated()) {
-            MatchDataInterface match = client.getMatchView();
-
-            //figure cards management and coins management:
-            if(match instanceof ExpertMatch) {
-                List<FigureCard> figureCards = match.showFigureCardsInGame();
-
-                figureCard1.setImage(figureCardsMap.get(figureCards.get(0).getCardId()));
-                figureCard2.setImage(figureCardsMap.get(figureCards.get(1).getCardId()));
-                figureCard3.setImage(figureCardsMap.get(figureCards.get(2).getCardId()));
-            }else {
-                expertMatchPane.setVisible(false);
-
-            }
-
-            //Dashboards management:
-            if(match.showAllPlayers().size()==3){
-                Dashboard4.setVisible(false);
-            }else if(match.showAllPlayers().size()==2) {
-                Dashboard4.setVisible(false);
-                Dashboard3.setVisible(false);
-            }
-        }
-    }
-
-    public void setInvisibleCards(){
-        boxCards.setVisible(false);
-    }
-
-    public void updateCardsView(){
-        boxCards.setVisible(true);
-        if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
-            for (Card c:client.getMatchView().showCurrentPlayerDashboard().showCards()){
-                if(fromCardsToImages.containsKey(c)){
-                    fromCardsToImages.get(c).setVisible(true);
-                }else{
-                    fromCardsToImages.get(c).setVisible(false);
-                }
-            }
-            if(client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=2) {
-                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
-                cardDb2.setVisible(true);
-                if (client.getMatchView().showAllPlayers().size() == 3 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=3) {
-                    cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
-                    cardDb3.setVisible(true);
-                }
-                if (client.getMatchView().showAllPlayers().size() == 4 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())==4) {
-                    cardDb4.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(2)).getImage());
-                    cardDb4.setVisible(true);
-                }
-
-            }
-
-        }else{
-            for (ImageView c: fromCardsToImages.values()) {
-                c.setVisible(false);
-            }
-        }
-    }
-
-    @Override
-    public void switchScene(Choice choice) throws IOException {
-
-    }
-
-    @Override
-    public void printMessageText(String s) {
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         card1.setVisible(false);
@@ -208,12 +138,93 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     }
 
+
+
+    /**updates*/
+    public void updateInitialMatchView() {
+
+        if (client.isMatchCompletelyCreated()) {
+            MatchDataInterface match = client.getMatchView();
+
+            //figure cards management and coins management:
+            if(match instanceof ExpertMatch) {
+                List<FigureCard> figureCards = match.showFigureCardsInGame();
+
+                figureCard1.setImage(figureCardsMap.get(figureCards.get(0).getCardId()));
+                figureCard2.setImage(figureCardsMap.get(figureCards.get(1).getCardId()));
+                figureCard3.setImage(figureCardsMap.get(figureCards.get(2).getCardId()));
+            }else {
+                expertMatchPane.setVisible(false);
+
+            }
+
+            //Dashboards management:
+            if(match.showAllPlayers().size()==3){
+                Dashboard4.setVisible(false);
+            }else if(match.showAllPlayers().size()==2) {
+                Dashboard4.setVisible(false);
+                Dashboard3.setVisible(false);
+            }
+        }
+    }
+
+    public void updateCardsView(){
+        boxCards.setVisible(true);
+        if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
+            for (Card c:client.getMatchView().showCurrentPlayerDashboard().showCards()){
+                if(fromCardsToImages.containsKey(c)){
+                    fromCardsToImages.get(c).setVisible(true);
+                }else{
+                    fromCardsToImages.get(c).setVisible(false);
+                }
+            }
+            if(client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=2) {
+                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
+                cardDb2.setVisible(true);
+                if (client.getMatchView().showAllPlayers().size() == 3 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=3) {
+                    cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
+                    cardDb3.setVisible(true);
+                }
+                if (client.getMatchView().showAllPlayers().size() == 4 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())==4) {
+                    cardDb4.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(2)).getImage());
+                    cardDb4.setVisible(true);
+                }
+
+            }
+
+        }else{
+            for (ImageView c: fromCardsToImages.values()) {
+                c.setVisible(false);
+            }
+        }
+    }
+
+    public void setInvisibleCards(){
+        boxCards.setVisible(false);
+    }
+
+
+
+    @Override
+    public void switchScene(Choice choice) throws IOException {
+
+    }
+
+    @Override
+    public void printMessageText(String s) {
+
+    }
+
+
+    /**Commands from the scene*/
+
     public void submitCardValue(Event event){
         if(client.getActualToDoChoice() instanceof CardChoice) {
             if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
                 client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
                 cardDb1.setVisible(true);
                 cardDb1.setImage(((ImageView) event.getSource()).getImage());
+                ((ImageView)event.getSource()).setVisible(false);
                 setInvisibleCards();
                 synchronized ( client.getOutputStreamLock() ) {
                     client.getOutputStreamLock().notifyAll();
@@ -222,15 +233,26 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
     }
 
-
-
     public void zoomCardOnEnter(Event event){
-        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()*1.5);
-        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()*1.5);
+        if(client.getActualToDoChoice() instanceof CardChoice) {
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.5);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.5);
+        }
     }
 
     public void zoomCardOnExit(Event event){
-        ((ImageView)event.getSource()).setFitHeight(((ImageView)event.getSource()).getFitHeight()/1.5);
-        ((ImageView)event.getSource()).setFitWidth(((ImageView)event.getSource()).getFitWidth()/1.5);
+        if(client.getActualToDoChoice() instanceof CardChoice) {
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.5);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.5);
+        }
+    }
+
+    @FXML
+    public void keyPressedManager(KeyEvent e){
+        System.out.println("c");
+        if(e.getCode()==KeyCode.C){
+            boxCards.setVisible(!boxCards.isVisible());
+        }
+
     }
 }
