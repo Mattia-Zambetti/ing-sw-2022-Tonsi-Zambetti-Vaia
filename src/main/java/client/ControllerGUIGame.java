@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Card;
@@ -274,4 +275,108 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
 
     }
+
+    //ZAMBO
+    public void chooseStudent(MouseEvent event) {
+        if ( event.getSource() instanceof ImageView ) {
+            String studentID = ((ImageView) event.getSource()).getId();
+            if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
+                switch ( studentID ) {
+                    case ("D1EntranceStudent1"):
+                        client.getActualToDoChoice().setChoiceParam("1");
+                        break;
+                    case ("D1EntranceStudent2"):
+                        client.getActualToDoChoice().setChoiceParam("2");
+                        break;
+                    case ("D1EntranceStudent3"):
+                        client.getActualToDoChoice().setChoiceParam("3");
+                        break;
+                    case ("D1EntranceStudent4"):
+                        client.getActualToDoChoice().setChoiceParam("4");
+                        break;
+                    case ("D1EntranceStudent5"):
+                        client.getActualToDoChoice().setChoiceParam("5");
+                        break;
+                    case ("D1EntranceStudent6"):
+                        client.getActualToDoChoice().setChoiceParam("6");
+                        break;
+                    case ("D1EntranceStudent7"):
+                        client.getActualToDoChoice().setChoiceParam("7");
+                        break;
+                    case ("D1EntranceStudent8"):
+                        client.getActualToDoChoice().setChoiceParam("8");
+                        break;
+                    case ("D1EntranceStudent9"):
+                        client.getActualToDoChoice().setChoiceParam("9");
+                        break;
+                }
+            }
+        }else
+            throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
+    }
+
+    public void chooseIsland(MouseEvent event) {
+        if ( event.getSource() instanceof ImageView ) {
+            String islandID = ((ImageView) event.getSource()).getId();
+            if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+                client.getActualToDoChoice().setChoiceParam("2");
+                switch(islandID) {
+                    case("island1"):
+                        client.getActualToDoChoice().setChoiceParam("0");
+                        break;
+                    case("island2"):
+                        client.getActualToDoChoice().setChoiceParam("1");
+                        break;
+                    case("island3"):
+                        client.getActualToDoChoice().setChoiceParam("2");
+                        break;
+                    case("island4"):
+                        client.getActualToDoChoice().setChoiceParam("3");
+                        break;
+                    case("island5"):
+                        client.getActualToDoChoice().setChoiceParam("4");
+                        break;
+                    case("island6"):
+                        client.getActualToDoChoice().setChoiceParam("5");
+                        break;
+                    case("island7"):
+                        client.getActualToDoChoice().setChoiceParam("6");
+                        break;
+                    case("island8"):
+                        client.getActualToDoChoice().setChoiceParam("7");
+                        break;
+                    case("island9"):
+                        client.getActualToDoChoice().setChoiceParam("8");
+                        break;
+                    case("island10"):
+                        client.getActualToDoChoice().setChoiceParam("9");
+                        break;
+                    case("island11"):
+                        client.getActualToDoChoice().setChoiceParam("10");
+                        break;
+                    case("island12"):
+                        client.getActualToDoChoice().setChoiceParam("11");
+                        break;
+                }
+            }
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }else
+            throw new IllegalArgumentException("chooseIsland method called by an Object that is not an ImageView");
+    }
+
+    public void chooseDR(MouseEvent event) {
+        if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam("1");
+        }
+        synchronized ( client.getOutputStreamLock() ) {
+            client.getOutputStreamLock().notifyAll();
+        }
+    }
+
+
+
+    //ZAMBO END
+
 }

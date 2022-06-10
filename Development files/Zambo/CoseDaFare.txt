@@ -1,4 +1,0 @@
-Errori chiusura connection:
--Il clientCLI che sta creando la partita non termina se l'altro si disconnette
--Controllare caso chiusura connessione di ulteriore clientCLI una volta che la partita è già iniziata (un clientCLI esterno alla partita non deve far
- terminare tutti gli altri)
