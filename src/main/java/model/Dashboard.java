@@ -15,11 +15,13 @@ public class Dashboard implements Serializable {
     private final TowerColor towerColor;
     private final Deck deck;
     private final HashMap<Color, Master> mastersList;
-    private int coin;
-    private boolean farmerEffect;
+    private int coin,playerNumber;
+    private boolean farmerEffect,dashboardWithTowers = false;
     private boolean isKnight = false; //per effetto carta personaggio
     private static final int MAX_NUM_OF_TOWER = 8;
     private Player player;
+
+    private Dashboard buddy;
 
 
     public Dashboard ( int numberOfTowers, TowerColor colorOfTower, Wizard chosenWizard, String playerNickname, int playerNumber ) {
@@ -36,6 +38,8 @@ public class Dashboard implements Serializable {
         for ( int i=0; i<numberOfTowers; i++ ) {
             this.towersCollection.add(new Tower(colorOfTower, i));
         }
+        if(numberOfTowers != 0)
+            dashboardWithTowers = true;
         this.towerColor = colorOfTower;
         this.deck = new Deck(chosenWizard);
         this.mastersList = new HashMap<Color, Master>(Color.getDim());
@@ -43,6 +47,7 @@ public class Dashboard implements Serializable {
         this.isKnight = false;
         this.farmerEffect = false;
         this.player = new Player(playerNickname);
+        this.playerNumber = playerNumber;
     }
 
     public Dashboard ( Dashboard dashboardToCopy ) throws NullPointerException {
@@ -275,6 +280,23 @@ public class Dashboard implements Serializable {
         OutputString = OutputString.concat("\n               NUMBER OF TOWERS : " + towersCollection.size() + "\n              COLOR OF TOWERS : " + towerColor.toString() );
         OutputString = OutputString.concat("\n====================================================\n");
         return OutputString;
+    }
+
+    public void setBuddy(Dashboard buddy){
+        this.buddy = buddy;
+    }
+
+    public Dashboard getBuddyWithTowers(){
+        if(dashboardWithTowers)
+            return this;
+        return this.buddy;
+    }
+    public Dashboard getBuddy(){
+        return this.buddy;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
     /*@Override

@@ -80,7 +80,7 @@ public class Island implements Serializable {
         //Bisognerà aggiungere il controllo su modalità esperto e su VaiaEffect, o forse fare due metodi diversi, uno in modalità esperto e un oin modalità normale
         if(!centaurEffect){
             if (towerList.size() != 0)
-                if(towerList.get(0).getColor() == dashboard.getTowerColor())
+                if(towerList.get(0).getColor() == dashboard.getBuddyWithTowers().getTowerColor())
                     influence = influence + towerList.size();
         }
         return influence;

@@ -3,7 +3,7 @@ import client.ClientJavaFX;
 import javafx.application.Application;
 
 public class ClientApp {
-    private static int clientType=2;
+    private static int clientType=1;
 
     public static void main(String[] args){
 

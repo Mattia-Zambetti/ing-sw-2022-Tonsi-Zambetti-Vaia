@@ -366,13 +366,23 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 setChanged();
                 notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
-            } else if (dashboardsCollection.size() == 0 || dashboardsCollection.size() == 2) {
+            } else if (TowerColor.valueOf(towerColor).getCounter() == 0) {
                 dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 TowerColor.valueOf(towerColor).counterplus();
                 setChanged();
                 notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
-            } else if (dashboardsCollection.size() == 1 || dashboardsCollection.size() == 3) {
-                dashboardsCollection.add(new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
+            } else {
+                Dashboard tmp = new Dashboard(0, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size());
+                Dashboard buddy = null;
+                for (Dashboard player : dashboardsCollection) {
+                    if (player.getTowerColor().toString().equals(towerColor)){
+                        player.setBuddy(tmp);
+                        buddy = player;
+                    }
+                }
+                tmp.setBuddy(buddy);
+                dashboardsCollection.add(tmp);
+
                 TowerColor.valueOf(towerColor).counterplus();
                 setChanged();
                 notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
@@ -845,22 +855,40 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
     public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException, CardNotFoundException {
-        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
-        int dasboardInfluencer;
-        dasboardInfluencer = 0;
+        ArrayList<Dashboard> dashboardListTmp = new ArrayList<Dashboard> (dashboardsCollection);
+        int dasboardInfluencer = 0;
         Boolean exception = false;
-        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer));
-        for (int i = 1; i < dashboardsCollection.size(); i++){
-            if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i))){
-                dasboardInfluencer = i;
-                influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
-                exception = false;
+        int influenceTmp , influenceTmp1;
+        if(totalPlayersNum != 4){
+            influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer));
+            for (int i = 1; i < dashboardsCollection.size(); i++){
+                if (influenceTmp < islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i))){
+                    dasboardInfluencer = i;
+                    influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i));
+                    exception = false;
+                }
+                else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+                    exception = true;
             }
-            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
-                exception = true;
+            if (exception)
+                throw new SameInfluenceException("No change needed in current island");
         }
-        if (exception)
-            throw new SameInfluenceException("No change needed in current island");
+        else{
+            influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(0));
+            influenceTmp += islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(0).getBuddy());
+            dashboardListTmp.remove(0);
+            dashboardListTmp.remove(dashboardsCollection.get(0).getBuddy());
+            influenceTmp1 = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(0));
+            influenceTmp1 += islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(1));
+
+            if (influenceTmp < influenceTmp1){
+                    dasboardInfluencer = dashboardListTmp.get(0).getPlayerNumber();
+                    //influenceTmp = influenceTmp1;
+            }
+
+            if (influenceTmp == influenceTmp1)
+                throw new SameInfluenceException("No change needed in current island");
+        }
         return dashboardsCollection.get(dasboardInfluencer);
     }
 
@@ -873,14 +901,14 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         try{Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
         int towersNum = 0;
         if(islands.get(currentIsland).getTowerNum() == 0)
-            islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(1));
-        else if(!dashboardTmp.getTowerColor().equals(islands.get(currentIsland).getTowerColor())){
+            islands.get(currentIsland).addTowers(dashboardTmp.getBuddyWithTowers().removeTowers(1));
+        else if(!dashboardTmp.getBuddyWithTowers().getTowerColor().equals(islands.get(currentIsland).getTowerColor())){
             for (int i = 0; i< this.dashboardsCollection.size(); i++)
             {
-                if(dashboardsCollection.get(i).getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
+                if(dashboardsCollection.get(i).getBuddyWithTowers().getTowerColor().equals(islands.get(currentIsland).getTowerColor())) {
                     towersNum = islands.get(currentIsland).getTowerNum();
-                    dashboardsCollection.get(i).addTowers(islands.get(currentIsland).removeTowers());
-                    islands.get(currentIsland).addTowers(dashboardTmp.removeTowers(towersNum));
+                    dashboardsCollection.get(i).getBuddyWithTowers().addTowers(islands.get(currentIsland).removeTowers());
+                    islands.get(currentIsland).addTowers(dashboardTmp.getBuddyWithTowers().removeTowers(towersNum));
                 }
             }
         }
