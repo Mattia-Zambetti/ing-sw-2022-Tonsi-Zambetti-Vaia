@@ -10,6 +10,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import model.Card;
 import model.ExpertMatch;
 import model.MatchDataInterface;
@@ -78,6 +80,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private HBox boxCards;
 
+    @FXML
+    private Text hint;
+
     private Map<Card, ImageView> fromCardsToImages;
 
     private Map<ImageView, Card> fromImagesToCards;
@@ -100,6 +105,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /**Cards:*/
         card1.setVisible(false);
         card2.setVisible(false);
         card3.setVisible(false);
@@ -135,6 +141,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         fromImagesToCards.put(card9,new Card(9,5,9));
         fromImagesToCards.put(card10,new Card(10,5,10));
 
+        /**Hint box:*/
+        hint.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
+        showAllowedCommandKey();
+
+    }
+
+    public void showAllowedCommandKey(){
+        hint.setVisible(true);
+        hint.setText("You can press c to see your cards");
     }
 
 
@@ -211,7 +226,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     @Override
     public void printMessageText(String s) {
-
+        hint.setText(s);
     }
 
 
@@ -253,16 +268,16 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void zoomCardOnEnter(Event event){
-        if(client.getActualToDoChoice() instanceof CardChoice) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.5);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.5);
+        if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.2);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.2);
         }
     }
 
     public void zoomCardOnExit(Event event){
-        if(client.getActualToDoChoice() instanceof CardChoice) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.5);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.5);
+        if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.2);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.2);
         }
     }
 
