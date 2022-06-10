@@ -12,16 +12,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Card;
+import model.Color;
 import model.ExpertMatch;
 import model.MatchDataInterface;
 import model.figureCards.FigureCard;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControllerGUIGame extends ControllerGUIInterface implements Initializable {
 
@@ -79,9 +77,163 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private HBox boxCards;
 
+    //START Dashboard 1 Students, master and towers
+    @FXML
+    private ImageView D1EntranceStudent1;
+    @FXML
+    private ImageView D1EntranceStudent2;
+    @FXML
+    private ImageView D1EntranceStudent3;
+    @FXML
+    private ImageView D1EntranceStudent4;
+    @FXML
+    private ImageView D1EntranceStudent5;
+    @FXML
+    private ImageView D1EntranceStudent6;
+    @FXML
+    private ImageView D1EntranceStudent7;
+    @FXML
+    private ImageView D1EntranceStudent8;
+    @FXML
+    private ImageView D1EntranceStudent9;
+    @FXML
+    private ImageView D1GreenDRStudent1;
+    @FXML
+    private ImageView D1GreenDRStudent2;
+    @FXML
+    private ImageView D1GreenDRStudent3;
+    @FXML
+    private ImageView D1GreenDRStudent4;
+    @FXML
+    private ImageView D1GreenDRStudent5;
+    @FXML
+    private ImageView D1GreenDRStudent6;
+    @FXML
+    private ImageView D1GreenDRStudent7;
+    @FXML
+    private ImageView D1GreenDRStudent8;
+    @FXML
+    private ImageView D1GreenDRStudent9;
+    @FXML
+    private ImageView D1GreenDRStudent10;
+    @FXML
+    private ImageView D1RedDRStudent1;
+    @FXML
+    private ImageView D1RedDRStudent2;
+    @FXML
+    private ImageView D1RedDRStudent3;
+    @FXML
+    private ImageView D1RedDRStudent4;
+    @FXML
+    private ImageView D1RedDRStudent5;
+    @FXML
+    private ImageView D1RedDRStudent6;
+    @FXML
+    private ImageView D1RedDRStudent7;
+    @FXML
+    private ImageView D1RedDRStudent8;
+    @FXML
+    private ImageView D1RedDRStudent9;
+    @FXML
+    private ImageView D1RedDRStudent10;
+    @FXML
+    private ImageView D1YellowDRStudent1;
+    @FXML
+    private ImageView D1YellowDRStudent2;
+    @FXML
+    private ImageView D1YellowDRStudent3;
+    @FXML
+    private ImageView D1YellowDRStudent4;
+    @FXML
+    private ImageView D1YellowDRStudent5;
+    @FXML
+    private ImageView D1YellowDRStudent6;
+    @FXML
+    private ImageView D1YellowDRStudent7;
+    @FXML
+    private ImageView D1YellowDRStudent8;
+    @FXML
+    private ImageView D1YellowDRStudent9;
+    @FXML
+    private ImageView D1YellowDRStudent10;
+    @FXML
+    private ImageView D1PinkDRStudent1;
+    @FXML
+    private ImageView D1PinkDRStudent2;
+    @FXML
+    private ImageView D1PinkDRStudent3;
+    @FXML
+    private ImageView D1PinkDRStudent4;
+    @FXML
+    private ImageView D1PinkDRStudent5;
+    @FXML
+    private ImageView D1PinkDRStudent6;
+    @FXML
+    private ImageView D1PinkDRStudent7;
+    @FXML
+    private ImageView D1PinkDRStudent8;
+    @FXML
+    private ImageView D1PinkDRStudent9;
+    @FXML
+    private ImageView D1PinkDRStudent10;
+    @FXML
+    private ImageView D1BlueDRStudent1;
+    @FXML
+    private ImageView D1BlueDRStudent2;
+    @FXML
+    private ImageView D1BlueDRStudent3;
+    @FXML
+    private ImageView D1BlueDRStudent4;
+    @FXML
+    private ImageView D1BlueDRStudent5;
+    @FXML
+    private ImageView D1BlueDRStudent6;
+    @FXML
+    private ImageView D1BlueDRStudent7;
+    @FXML
+    private ImageView D1BlueDRStudent8;
+    @FXML
+    private ImageView D1BlueDRStudent9;
+    @FXML
+    private ImageView D1BlueDRStudent10;
+    @FXML
+    private ImageView D1GreenMaster;
+    @FXML
+    private ImageView D1RedMaster;
+    @FXML
+    private ImageView D1YellowMaster;
+    @FXML
+    private ImageView D1PinkMaster;
+    @FXML
+    private ImageView D1BlueMaster;
+    @FXML
+    private ImageView D1BlackTower1;
+    @FXML
+    private ImageView D1BlackTower2;
+    @FXML
+    private ImageView D1BlackTower3;
+    @FXML
+    private ImageView D1BlackTower4;
+    @FXML
+    private ImageView D1BlackTower5;
+    @FXML
+    private ImageView D1BlackTower6;
+    @FXML
+    private ImageView D1BlackTower7;
+    @FXML
+    private ImageView D1BlackTower8;
+
+    //END
+
     private Map<Card, ImageView> fromCardsToImages;
 
     private Map<ImageView, Card> fromImagesToCards;
+
+    private ArrayList<ImageView> entranceStudentsD1;
+    private Map<Color, List<ImageView>> diningRoomStudentsD1;
+    private Map<Color, ImageView> masterD1; //TODO initialize
+    private Map<Integer, ImageView> towerD1; //TODO initialize
+
 
     private static Map<Integer,Image> figureCardsMap=new HashMap<>(){{
         put(1, new Image(getClass().getResourceAsStream("/client/Images/Centaur.jpg" )));
@@ -136,6 +288,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         fromImagesToCards.put(card9,new Card(9,5,9));
         fromImagesToCards.put(card10,new Card(10,5,10));
 
+        initializeEntranceStudentsD1();
+        initializeDiningRoomStudentsD1();
     }
 
 
@@ -279,9 +433,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     //ZAMBO
     public void chooseStudent(MouseEvent event) {
         if ( event.getSource() instanceof ImageView ) {
-            String studentID = ((ImageView) event.getSource()).getId();
+            ImageView chosenStudent = (ImageView) event.getSource();
             if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
-                switch ( studentID ) {
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(entranceStudentsD1.indexOf(chosenStudent)+1));
+                /*switch ( studentID ) {
                     case ("D1EntranceStudent1"):
                         client.getActualToDoChoice().setChoiceParam("1");
                         break;
@@ -309,7 +464,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     case ("D1EntranceStudent9"):
                         client.getActualToDoChoice().setChoiceParam("9");
                         break;
-                }
+                }*/
             }
         }else
             throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
@@ -375,6 +530,91 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
     }
 
+    /**Put all ImageView of entrance students into an ArrayList
+     */
+    private void initializeEntranceStudentsD1() {
+        entranceStudentsD1 = new ArrayList<>();
+        entranceStudentsD1.add(D1EntranceStudent1);
+        entranceStudentsD1.add(D1EntranceStudent2);
+        entranceStudentsD1.add(D1EntranceStudent3);
+        entranceStudentsD1.add(D1EntranceStudent4);
+        entranceStudentsD1.add(D1EntranceStudent5);
+        entranceStudentsD1.add(D1EntranceStudent6);
+        entranceStudentsD1.add(D1EntranceStudent7);
+        entranceStudentsD1.add(D1EntranceStudent8);
+        entranceStudentsD1.add(D1EntranceStudent9);
+    }
+
+    /**Put all ImageView of DR students into an ArrayList and set them invisible
+     */
+    private void initializeDiningRoomStudentsD1() {
+        diningRoomStudentsD1 = new HashMap<>();
+        //Green students
+        diningRoomStudentsD1.put(Color.GREEN, new ArrayList<>());
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent1);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent2);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent3);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent4);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent5);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent6);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent7);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent8);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent9);
+        diningRoomStudentsD1.get(Color.GREEN).add(D1GreenDRStudent10);
+        //Red students
+        diningRoomStudentsD1.put(Color.RED, new ArrayList<>());
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent1);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent2);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent3);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent4);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent5);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent6);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent7);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent8);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent9);
+        diningRoomStudentsD1.get(Color.RED).add(D1RedDRStudent10);
+        //Yellow students
+        diningRoomStudentsD1.put(Color.YELLOW, new ArrayList<>());
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent1);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent2);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent3);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent4);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent5);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent6);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent7);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent8);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent9);
+        diningRoomStudentsD1.get(Color.YELLOW).add(D1YellowDRStudent10);
+        //Pink students
+        diningRoomStudentsD1.put(Color.PINK, new ArrayList<>());
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent1);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent2);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent3);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent4);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent5);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent6);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent7);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent8);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent9);
+        diningRoomStudentsD1.get(Color.PINK).add(D1PinkDRStudent10);
+        //Blue students
+        diningRoomStudentsD1.put(Color.BLUE, new ArrayList<>());
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent1);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent2);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent3);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent4);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent5);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent6);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent7);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent8);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent9);
+        diningRoomStudentsD1.get(Color.BLUE).add(D1BlueDRStudent10);
+
+        for ( Color c: Color.values() ) {
+            for ( ImageView i : diningRoomStudentsD1.get(c) )
+                i.setVisible(false);
+        }
+    }
 
 
     //ZAMBO END
