@@ -1,0 +1,15 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('Supercell.ttf');
+}
+
+.text {
+    -fx-font-family: "Roboto";
+}
+
+.cardBackground {
+    -fx-background-image: url('Client/Images/WoodTexture.jpg');
+    -fx-background-size: 100% 100%;
+    -fx-border-color: #4b1f07;
+}
