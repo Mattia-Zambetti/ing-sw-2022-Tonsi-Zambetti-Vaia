@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -28,13 +29,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     //Dashboards:
     @FXML
-    private ImageView Dashboard1;
+    private AnchorPane Dashboard1;
     @FXML
-    private ImageView Dashboard2;
+    private AnchorPane Dashboard2;
     @FXML
-    private ImageView Dashboard3;
+    private AnchorPane Dashboard3;
     @FXML
-    private ImageView Dashboard4;
+    private AnchorPane Dashboard4;
 
     //Current cards:
     @FXML
@@ -105,6 +106,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /**Data player*/
+
+
         /**Cards:*/
         card1.setVisible(false);
         card2.setVisible(false);
@@ -149,7 +153,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void showAllowedCommandKey(){
         hint.setVisible(true);
-        hint.setText("You can press c to see your cards");
+        hint.setText("You can press c to show/hide your cards");
+        if(client.getMatchView().showAllPlayers().size()>=3)
+            hint.setText("You can press c to show/hide your cards or d to show/hide the enemy dashboards");
     }
 
 
@@ -233,7 +239,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     /**Commands from the scene*/
 
     public void submitCardValue(Event event){
-        if(client.getActualToDoChoice() instanceof CardChoice) {
+        if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()) {
             if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
                 client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
                 cardDb1.setVisible(true);
@@ -269,15 +275,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void zoomCardOnEnter(Event event){
         if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.2);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.2);
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
         }
     }
 
     public void zoomCardOnExit(Event event){
         if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.2);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.2);
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
         }
     }
 
@@ -288,5 +294,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             boxCards.setVisible(!boxCards.isVisible());
         }
 
+        if(e.getCode()==KeyCode.D){
+            if(client.getMatchView().showAllPlayers().size()>=3){
+                Dashboard3.setVisible(!Dashboard3.isVisible());
+                if(client.getMatchView().showAllPlayers().size()>=4){
+                    Dashboard4.setVisible(!Dashboard4.isVisible());
+                }
+            }
+
+        }
     }
 }
