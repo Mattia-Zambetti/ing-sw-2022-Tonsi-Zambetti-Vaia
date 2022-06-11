@@ -89,7 +89,7 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             submit.setDisable(false);
 
         }else if (choice instanceof CardChoice){
-            client.getFxmlLoader().setLocation(getClass().getResource("/client/GameScene.fxml"));
+            client.getFxmlLoader().setLocation(getClass().getResource("GameScene.fxml"));
             root = client.getFxmlLoader().load();
 
             ((ControllerGUIGame)client.getFxmlLoader().getController()).updateInitialMatchView();
@@ -118,8 +118,10 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
         client.getActualToDoChoice().setChoiceParam(s);
         s = new String(""+ (towerColorChoices.indexOf(towerColorChoiceBox.getValue())+1));
         client.getActualToDoChoice().setChoiceParam(s);
+        ClientJavaFX.towerColorThisPlayer=towerColorChoices.indexOf(towerColorChoiceBox.getValue())+1;
         s =new String(""+(wizardTypeChoices.indexOf(wizardTypeChoiceBox.getValue())+1));
         client.getActualToDoChoice().setChoiceParam(s);
+        ClientJavaFX.wizardThisPlayer=wizardTypeChoices.indexOf(wizardTypeChoiceBox.getValue())+1;
         submit.setDisable(true);
         alreadyInsert=true;
         synchronized ( client.getOutputStreamLock() ) {

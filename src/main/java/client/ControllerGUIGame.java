@@ -8,8 +8,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import model.Card;
 import model.ExpertMatch;
 import model.MatchDataInterface;
@@ -24,15 +27,25 @@ import java.util.ResourceBundle;
 
 public class ControllerGUIGame extends ControllerGUIInterface implements Initializable {
 
+    /**DataPlayer:*/
+    @FXML
+    private ImageView avatarTower;
+    @FXML
+    private ImageView wizardAvatar;
+    @FXML
+    private Text nickname;
+    @FXML
+    private AnchorPane avatarPane;
+
     //Dashboards:
     @FXML
-    private ImageView Dashboard1;
+    private AnchorPane Dashboard1;
     @FXML
-    private ImageView Dashboard2;
+    private AnchorPane Dashboard2;
     @FXML
-    private ImageView Dashboard3;
+    private AnchorPane Dashboard3;
     @FXML
-    private ImageView Dashboard4;
+    private AnchorPane Dashboard4;
 
     //Current cards:
     @FXML
@@ -78,6 +91,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private HBox boxCards;
 
+    @FXML
+    private Text hint;
+    @FXML
+    private AnchorPane hintBox;
+
     private Map<Card, ImageView> fromCardsToImages;
 
     private Map<ImageView, Card> fromImagesToCards;
@@ -100,6 +118,16 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /**Data player*/
+        nickname.setText(client.getPlayer().getNickname().toUpperCase());
+        nickname.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),24));
+        if(client.getMatchView().showAllPlayers().size()<4)
+            avatarPane.setVisible(true);
+        wizardAvatar.setImage(fromIntToWizard.get(ClientJavaFX.wizardThisPlayer));
+        avatarTower.setImage(fromIntToTower.get(ClientJavaFX.towerColorThisPlayer));
+
+
+        /**Cards:*/
         card1.setVisible(false);
         card2.setVisible(false);
         card3.setVisible(false);
@@ -135,6 +163,17 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         fromImagesToCards.put(card9,new Card(9,5,9));
         fromImagesToCards.put(card10,new Card(10,5,10));
 
+        /**Hint box:*/
+        hint.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
+        showAllowedCommandKey();
+        hintBox.setVisible(false);
+
+    }
+
+    public void showAllowedCommandKey(){
+        hint.setText("You can press c to show/hide your cards");
+        if(client.getMatchView().showAllPlayers().size()>=3)
+            hint.setText("You can press c to show/hide your cards or d to show/hide the enemy dashboards");
     }
 
 
@@ -169,6 +208,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void updateCardsView(){
         boxCards.setVisible(true);
+        hintBox.setVisible(false);
         if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
             for (Card c:client.getMatchView().showCurrentPlayerDashboard().showCards()){
                 if(fromCardsToImages.containsKey(c)){
@@ -211,14 +251,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     @Override
     public void printMessageText(String s) {
-
+        hint.setText(s);
     }
 
 
     /**Commands from the scene*/
 
     public void submitCardValue(Event event){
-        if(client.getActualToDoChoice() instanceof CardChoice) {
+        if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()) {
             if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
                 client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
                 cardDb1.setVisible(true);
@@ -230,6 +270,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
             }
         }
+        hintBox.setVisible(true);
     }
 
     public void submitFigureCardValue(Event event){
@@ -253,16 +294,16 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void zoomCardOnEnter(Event event){
-        if(client.getActualToDoChoice() instanceof CardChoice) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.5);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.5);
+        if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
         }
     }
 
     public void zoomCardOnExit(Event event){
-        if(client.getActualToDoChoice() instanceof CardChoice) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.5);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.5);
+        if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
+            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
+            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
         }
     }
 
@@ -273,5 +314,21 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             boxCards.setVisible(!boxCards.isVisible());
         }
 
+        if(e.getCode()==KeyCode.D){
+            if(client.getMatchView().showAllPlayers().size()>=3){
+                Dashboard3.setVisible(!Dashboard3.isVisible());
+                if(client.getMatchView().showAllCurrentCards().size()<3)
+                    cardDb3.setVisible(!cardDb3.isVisible());
+                if(client.getMatchView().showAllPlayers().size()>=4){
+                    Dashboard4.setVisible(!Dashboard4.isVisible());
+                    avatarPane.setVisible(!avatarPane.isVisible());
+                    if(client.getMatchView().showAllCurrentCards().size()<4)
+                        cardDb4.setVisible(!cardDb4.isVisible());
+                }
+
+
+            }
+
+        }
     }
 }
