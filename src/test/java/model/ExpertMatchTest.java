@@ -148,6 +148,82 @@ public class ExpertMatchTest implements Observer {
         assertThrows(MaxNumberException.class, ()-> expertMatch.moveMotherNature(5));
     }
 
+    //test to check if the influence calculation is right even with 4 players
+    @Test
+    void fourPlayersMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, WrongCloudNumberException, NoMasterException {
+        Match match = new ExpertMatch(4);
+
+        match.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match.addPlayer("2", "BLACK", "WIZARD2", 2);
+        match.addPlayer("3", "WHITE", "WIZARD3", 3);
+        match.addPlayer("4", "WHITE", "WIZARD4", 4);
+
+        this.students = new ArrayList[5];
+
+        for(int i = 0; i < this.students.length; ++i) {
+            this.students[i] = new ArrayList(0);
+        }
+
+        Student student = new Student(0, Color.RED);
+        this.students[0].add(student);
+        student = new Student(0, Color.YELLOW);
+        this.students[4].add(student);
+        student = new Student(1, Color.BLUE);
+        this.students[2].add(student);
+        student = new Student(2, Color.YELLOW);
+        this.students[4].add(student);
+
+        Master masterR = new Master(Color.RED);
+        Master masterB = new Master(Color.BLUE);
+        Master masterY = new Master(Color.YELLOW);
+        Master masterP = new Master(Color.PINK);
+        Master masterG = new Master(Color.GREEN);
+
+        match.setDashboardMaster(0,masterB); // 2
+        match.setDashboardMaster(1,masterG);
+        match.setDashboardMaster(1,masterR); // 1
+        match.setDashboardMaster(2,masterY); // 2
+        match.setDashboardMaster(3,masterP); // 2
+
+        match.setIslandsStudents(1,students);
+
+        match.chooseCard(new Card(5,5,5));
+        match.chooseCard(new Card(5,5,4));
+        match.chooseCard(new Card(5,5,3));
+        match.chooseCard(new Card(5,5,2));
+        //match.showCurrentPlayerDashboard().playChosenCard(new Card(5,5,5));
+        match.moveMotherNature(1);
+        Island.setCentaurEffect(false);
+
+        assertThrows(NoTowerException.class , ()-> match.getTowerColorFromIsland(1));
+
+        students[Color.PINK.ordinal()].add(new Student(78,Color.PINK));
+
+        match.setIslandsStudents(2,students);
+
+        match.moveMotherNature(1);
+
+        assertEquals(TowerColor.WHITE , match.getTowerColorFromIsland(2));
+
+        students[Color.BLUE.ordinal()].add(new Student(79,Color.BLUE));
+        students[Color.PINK.ordinal()].add(new Student(76,Color.PINK));
+
+        match.setIslandsStudents(3,students);
+
+        match.moveMotherNature(1);
+
+        assertEquals(TowerColor.WHITE , match.getTowerColorFromIsland(3));
+
+        students[Color.BLUE.ordinal()].add(new Student(80,Color.BLUE));
+        students[Color.BLUE.ordinal()].add(new Student(81,Color.BLUE));
+
+        match.setIslandsStudents(4,students);
+
+        match.moveMotherNature(1);
+
+        assertEquals(TowerColor.BLACK , match.getTowerColorFromIsland(4));
+    }
+
     @Test
     void testKnightFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, SameInfluenceException, NoTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers, NoMoreTowerException, NoMoreBlockCardsException, NoIslandException, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoMoreStudentsException, CardAlreadyPlayedException, FinishedGameEndTurnException {
         creationOfTheRightCard(new Knight());
