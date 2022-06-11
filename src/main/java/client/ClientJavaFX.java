@@ -57,6 +57,10 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private Choice actualToDoChoiceQueue;
 
+    public static int wizardThisPlayer;
+
+    public static int towerColorThisPlayer;
+
     public ObjectOutputStream getOutputStream() {
         return outputStream;
     }

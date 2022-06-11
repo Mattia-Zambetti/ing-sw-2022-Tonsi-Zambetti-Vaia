@@ -36,7 +36,7 @@
       <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <AnchorPane prefHeight="240.0" prefWidth="499.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+      <AnchorPane fx:id="hintBox" prefHeight="240.0" prefWidth="499.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9dde1" height="78.0" layoutX="9.0" layoutY="-21.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" style="-fx-opacity: 0.3;" width="480.0" />
             <Text fx:id="hint" layoutX="28.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint" wrappingWidth="442.9365916252136" />
@@ -98,9 +98,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -160,9 +157,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -222,9 +216,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -284,9 +275,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -408,9 +396,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -470,9 +455,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -532,9 +514,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -594,9 +573,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -656,9 +632,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -718,9 +691,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -780,9 +750,6 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -1413,65 +1380,41 @@
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
             <ImageView fx:id="D1BlackTower2" fitHeight="35.0" fitWidth="52.0" layoutX="527.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="529.0">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
             <ImageView fx:id="D1BlackTower3" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="482.0">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
             <ImageView fx:id="D1BlackTower4" fitHeight="35.0" fitWidth="52.0" layoutX="520.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="529.0">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
             <ImageView fx:id="D1BlackTower5" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="482.0">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
             <ImageView fx:id="D1BlackTower6" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="529.0">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
             <ImageView fx:id="D1BlackTower7" fitHeight="35.0" fitWidth="52.0" layoutX="481.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="482.0">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
             <ImageView fx:id="D1BlackTower8" fitHeight="35.0" fitWidth="52.0" layoutX="531.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="529.0">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
          </children>
       </AnchorPane>
@@ -2015,65 +1958,41 @@
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower21" fitHeight="35.0" fitWidth="52.0" layoutX="527.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower31" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower41" fitHeight="35.0" fitWidth="52.0" layoutX="520.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower51" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower61" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower71" fitHeight="35.0" fitWidth="52.0" layoutX="481.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower81" fitHeight="35.0" fitWidth="52.0" layoutX="531.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                </children>
             </AnchorPane>
@@ -2700,9 +2619,9 @@
           <RowConstraints maxHeight="539.400033569336" minHeight="10.0" prefHeight="241.60000610351565" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane fx:id="Dashboard4" rotate="-90.0" scaleX="0.75" scaleY="0.75" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <AnchorPane fx:id="Dashboard4" rotate="-90.0" scaleX="0.75" scaleY="0.75" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
-                  <ImageView fx:id="Dashboard12" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+                  <ImageView fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                      <image>
                         <Image url="@Images/Plancia_DEF2.png" />
                      </image>
@@ -3231,65 +3150,41 @@
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower23" fitHeight="35.0" fitWidth="52.0" layoutX="527.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower33" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower43" fitHeight="35.0" fitWidth="52.0" layoutX="520.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower53" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower63" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower73" fitHeight="35.0" fitWidth="52.0" layoutX="481.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                   <ImageView fx:id="D1BlackTower83" fitHeight="35.0" fitWidth="52.0" layoutX="531.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
-                     <effect>
-                        <DropShadow height="10.0" radius="4.5" width="10.0" />
-                     </effect>
                   </ImageView>
                </children>
             </AnchorPane>
@@ -3417,22 +3312,23 @@
             </ImageView>
          </children>
       </HBox>
-      <AnchorPane GridPane.columnIndex="6" GridPane.columnSpan="3">
+      <AnchorPane fx:id="avatarPane" visible="false" GridPane.columnIndex="6" GridPane.columnSpan="3">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e9ed4a" height="160.0" layoutX="52.0" layoutY="29.0" stroke="BLACK" strokeType="INSIDE" width="370.0" />
-            <Text layoutX="88.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="190.4000000000001">
+            <Text fx:id="nickname" layoutX="112.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="190.4000000000001">
                <font>
                   <Font size="24.0" />
                </font></Text>
-            <Circle fill="#ebdfdf" layoutX="422.0" layoutY="108.0" radius="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="10.0" />
-            <ImageView fx:id="avatarTower" fitHeight="92.0" fitWidth="87.0" layoutX="379.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="avatarTower" fitHeight="49.0" fitWidth="43.0" layoutX="112.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
-               <effect>
-                  <DropShadow height="10.0" radius="4.5" width="10.0" />
-               </effect>
             </ImageView>
+            <ImageView fx:id="wizardAvatar" fitHeight="152.0" fitWidth="158.0" layoutX="347.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/wizards/wizard1circle.png" />
+               </image></ImageView>
+            <Circle fill="#ebdfdf00" layoutX="422.0" layoutY="108.0" radius="80.0" stroke="#0027d7" strokeType="INSIDE" strokeWidth="10.0" />
          </children>
       </AnchorPane>
    </children>
