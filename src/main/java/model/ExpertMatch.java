@@ -216,32 +216,61 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
     @Override
     public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException, CardNotFoundException {
-        ArrayList<Dashboard> dashboardListTmp = (ArrayList<Dashboard>)dashboardsCollection;
+        ArrayList<Dashboard> dashboardListTmp = new ArrayList<>(dashboardsCollection);
         int dasboardInfluencer, knightEffect = 0;
         dasboardInfluencer = 0;
         Boolean exception = false;
-        if(dashboardListTmp.get(0).hasKnightPrivilege())
-            knightEffect = 2;
-        int influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer)) + knightEffect, influenceTmp1;
-        knightEffect = 0;
-        for (int i = 1; i < dashboardsCollection.size(); i++){
-            if(dashboardListTmp.get(i).hasKnightPrivilege())
+        int influenceTmp,influenceTmp1;
+        if(getTotalPlayersNum() != 4){
+            if(dashboardListTmp.get(0).hasKnightPrivilege())
                 knightEffect = 2;
-            influenceTmp1 = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)) + knightEffect;
+            influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardsCollection.get(dasboardInfluencer)) + knightEffect;
+            knightEffect = 0;
+            for (int i = 1; i < dashboardsCollection.size(); i++){
+                if(dashboardListTmp.get(i).hasKnightPrivilege())
+                    knightEffect = 2;
+                influenceTmp1 = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)) + knightEffect;
+                if (influenceTmp < influenceTmp1){
+                    dasboardInfluencer = i;
+                    influenceTmp = influenceTmp1;
+                    exception = false;
+                }
+
+                else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
+                    exception = true;
+                knightEffect = 0;
+            }
+            if(currentPlayerDashboard.hasKnightPrivilege())
+                currentPlayerDashboard.setKnight(false);
+            if (exception)
+                throw new SameInfluenceException("No change needed in current island -- Same influence");
+        }
+        else{
+            if(dashboardListTmp.get(0).hasKnightPrivilege() || dashboardListTmp.get(0).getBuddy().hasKnightPrivilege())
+                knightEffect = 2;
+            influenceTmp = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(0)) + knightEffect;
+            influenceTmp += islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(0).getBuddy());
+            if(knightEffect == 2)
+                knightEffect = 0;
+            dashboardListTmp.remove(0);
+            dashboardListTmp.remove(dashboardsCollection.get(0).getBuddy());
+            if(dashboardListTmp.get(0).hasKnightPrivilege() || dashboardListTmp.get(0).getBuddy().hasKnightPrivilege())
+                knightEffect = 2;
+            influenceTmp1 = islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(0)) + knightEffect;
+            influenceTmp1 += islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(1));
+
             if (influenceTmp < influenceTmp1){
-                dasboardInfluencer = i;
-                influenceTmp = influenceTmp1;
-                exception = false;
+                dasboardInfluencer = dashboardListTmp.get(0).getPlayerNumber();
+                //influenceTmp = influenceTmp1;
             }
 
-            else if(influenceTmp == islands.get(currentIsland).getInfluenceByDashboard(dashboardListTmp.get(i)))
-               exception = true;
-            knightEffect = 0;
+            if(currentPlayerDashboard.hasKnightPrivilege())
+                currentPlayerDashboard.setKnight(false);
+
+            if (influenceTmp == influenceTmp1)
+                throw new SameInfluenceException("No change needed in current island");
         }
-        if(currentPlayerDashboard.hasKnightPrivilege())
-            currentPlayerDashboard.setKnight(false);
-        if (exception)
-            throw new SameInfluenceException("No change needed in current island -- Same influence");
+
         return dashboardsCollection.get(dasboardInfluencer);
     }
 

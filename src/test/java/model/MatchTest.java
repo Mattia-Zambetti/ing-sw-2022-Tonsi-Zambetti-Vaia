@@ -246,6 +246,65 @@ public class MatchTest {
         assertEquals(10, match.previousIsland(tmp));
     }
 
+    @Test
+    void fourPlayersMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, WrongCloudNumberException, NoMasterException {
+        match = new Match(4);
+
+        match.addPlayer("1", "BLACK", "WIZARD1", 1);
+        match.addPlayer("2", "BLACK", "WIZARD2", 2);
+        match.addPlayer("3", "WHITE", "WIZARD3", 3);
+        match.addPlayer("4", "WHITE", "WIZARD4", 4);
+
+        Master masterR = new Master(Color.RED);
+        Master masterB = new Master(Color.BLUE);
+        Master masterY = new Master(Color.YELLOW);
+        Master masterP = new Master(Color.PINK);
+        Master masterG = new Master(Color.GREEN);
+
+        match.setDashboardMaster(0,masterB); // 2
+        match.setDashboardMaster(1,masterG);
+        match.setDashboardMaster(1,masterR); // 1
+        match.setDashboardMaster(2,masterY); // 2
+        match.setDashboardMaster(3,masterP); // 2
+
+        match.setIslandsStudents(1,students);
+
+        match.chooseCard(new Card(5,5,5));
+        match.chooseCard(new Card(5,5,4));
+        match.chooseCard(new Card(5,5,3));
+        match.chooseCard(new Card(5,5,2));
+        //match.showCurrentPlayerDashboard().playChosenCard(new Card(5,5,5));
+        match.moveMotherNature(1);
+        Island.setCentaurEffect(false);
+
+        assertThrows(NoTowerException.class , ()-> match.getTowerColorFromIsland(1));
+
+        students[Color.PINK.ordinal()].add(new Student(78,Color.PINK));
+
+        match.setIslandsStudents(2,students);
+
+        match.moveMotherNature(1);
+
+        assertEquals(TowerColor.WHITE , match.getTowerColorFromIsland(2));
+
+        students[Color.BLUE.ordinal()].add(new Student(79,Color.BLUE));
+        students[Color.PINK.ordinal()].add(new Student(76,Color.PINK));
+
+        match.setIslandsStudents(3,students);
+
+        match.moveMotherNature(1);
+
+        assertEquals(TowerColor.WHITE , match.getTowerColorFromIsland(3));
+
+        students[Color.BLUE.ordinal()].add(new Student(80,Color.BLUE));
+        students[Color.BLUE.ordinal()].add(new Student(81,Color.BLUE));
+
+        match.setIslandsStudents(4,students);
+
+        match.moveMotherNature(1);
+
+        assertEquals(TowerColor.BLACK , match.getTowerColorFromIsland(4));
+    }
 
     //check if it calls the merging method when actually is needed (i could have spared some time by testing just this method and not the previous one)
     @Test
