@@ -1,9 +1,6 @@
 package client;
 
-import controller.choice.CardChoice;
-import controller.choice.Choice;
-import controller.choice.DataPlayerChoice;
-import controller.choice.StartingMatchChoice;
+import controller.choice.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -298,6 +295,9 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
                                             controllerGUI = fxmlLoader.getController();
 
+                                            ((ControllerGUIGame)controllerGUI).inizializeAllDasboards(player, matchView.showAllPlayers());
+
+
                                         }catch (IOException e) {
                                             e.printStackTrace();
                                         }
@@ -306,7 +306,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                             }
 
                             if ( actualToDoChoice instanceof DataPlayerChoice && isChanged ) {
-                                System.out.println("DataPLayerChoice arrived");
                                 isChanged=false;
                                 isChoiceTime = true;
                                 Platform.runLater(new Runnable() {
@@ -334,18 +333,16 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                     });
                                 }
 
-
+                            }
+                            if ( matchCompletelyCreated ) {
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((ControllerGUIGame) controllerGUI).updateGameView();
+                                    }
+                                });
                             }
 
-
-                            /*if((actualToDoChoice instanceof DataPlayerChoice && isChanged)
-                                    ||(!(actualToDoChoice instanceof DataPlayerChoice) && matchView.showCurrentPlayer().equals(player)) ) {
-                                writeUser.println(matchView.getErrorMessage());
-                                writeUser.println(matchView.getChoice().toString(matchView));
-                                writeUser.flush();
-                                isChanged=false;
-                                isChoiceTime = true;
-                            }*/
 
                         }
                     }

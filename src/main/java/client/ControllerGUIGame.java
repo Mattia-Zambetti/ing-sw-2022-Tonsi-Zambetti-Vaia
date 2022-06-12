@@ -11,10 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import model.Card;
-import model.Color;
-import model.ExpertMatch;
-import model.MatchDataInterface;
+import model.*;
+import model.exception.WrongColorException;
 import model.figureCards.FigureCard;
 
 import java.io.IOException;
@@ -229,10 +227,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private Map<ImageView, Card> fromImagesToCards;
 
-    private ArrayList<ImageView> entranceStudentsD1;
-    private Map<Color, List<ImageView>> diningRoomStudentsD1;
     private Map<Color, ImageView> masterD1; //TODO initialize
     private Map<Integer, ImageView> towerD1; //TODO initialize
+
+    private Map<String, DashboardView> playersDashboardView = new HashMap<>();
 
 
     private static Map<Integer,Image> figureCardsMap=new HashMap<>(){{
@@ -248,6 +246,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         put(10, new Image(getClass().getResourceAsStream("/client/Images/Farmer.jpg" )));
         put(11, new Image(getClass().getResourceAsStream("/client/Images/Herald.jpg" )));
         put(12, new Image(getClass().getResourceAsStream("/client/Images/Minstrel.jpg" )));
+    }};
+
+    private static Map<Color, Image> studentsImage= new HashMap<>(){{
+        put(Color.GREEN, new Image(getClass().getResourceAsStream("/client/Images/GreenStudent.png" )));
+        put(Color.BLUE, new Image(getClass().getResourceAsStream("/client/Images/BlueStudent.png" )));
+        put(Color.PINK, new Image(getClass().getResourceAsStream("/client/Images/PinkStudent.png" )));
+        put(Color.RED, new Image(getClass().getResourceAsStream("/client/Images/RedStudent.png" )));
+        put(Color.YELLOW, new Image(getClass().getResourceAsStream("/client/Images/YellowStudent.png")));
     }};
 
 
@@ -288,8 +294,6 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         fromImagesToCards.put(card9,new Card(9,5,9));
         fromImagesToCards.put(card10,new Card(10,5,10));
 
-        initializeEntranceStudentsD1();
-        initializeDiningRoomStudentsD1();
     }
 
 
@@ -431,40 +435,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     //ZAMBO
+
     public void chooseStudent(MouseEvent event) {
         if ( event.getSource() instanceof ImageView ) {
             ImageView chosenStudent = (ImageView) event.getSource();
             if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
-                client.getActualToDoChoice().setChoiceParam(String.valueOf(entranceStudentsD1.indexOf(chosenStudent)+1));
-                /*switch ( studentID ) {
-                    case ("D1EntranceStudent1"):
-                        client.getActualToDoChoice().setChoiceParam("1");
-                        break;
-                    case ("D1EntranceStudent2"):
-                        client.getActualToDoChoice().setChoiceParam("2");
-                        break;
-                    case ("D1EntranceStudent3"):
-                        client.getActualToDoChoice().setChoiceParam("3");
-                        break;
-                    case ("D1EntranceStudent4"):
-                        client.getActualToDoChoice().setChoiceParam("4");
-                        break;
-                    case ("D1EntranceStudent5"):
-                        client.getActualToDoChoice().setChoiceParam("5");
-                        break;
-                    case ("D1EntranceStudent6"):
-                        client.getActualToDoChoice().setChoiceParam("6");
-                        break;
-                    case ("D1EntranceStudent7"):
-                        client.getActualToDoChoice().setChoiceParam("7");
-                        break;
-                    case ("D1EntranceStudent8"):
-                        client.getActualToDoChoice().setChoiceParam("8");
-                        break;
-                    case ("D1EntranceStudent9"):
-                        client.getActualToDoChoice().setChoiceParam("9");
-                        break;
-                }*/
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
             }
         }else
             throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
@@ -530,9 +506,19 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
     }
 
+    /*public void initializeOtherPlayersDashboard( ArrayList<String> playersNickname ) { //TODO
+
+        for ( String s: playersNickname ) {
+
+            Dashboard playerDashboard = new DashboardView();
+            playersDashboard.put()
+        }
+    }*/
+
     /**Put all ImageView of entrance students into an ArrayList
      */
-    private void initializeEntranceStudentsD1() {
+    private ArrayList<ImageView> initializeEntranceStudentsD1() {
+        ArrayList<ImageView> entranceStudentsD1;
         entranceStudentsD1 = new ArrayList<>();
         entranceStudentsD1.add(D1EntranceStudent1);
         entranceStudentsD1.add(D1EntranceStudent2);
@@ -543,11 +529,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         entranceStudentsD1.add(D1EntranceStudent7);
         entranceStudentsD1.add(D1EntranceStudent8);
         entranceStudentsD1.add(D1EntranceStudent9);
+        return entranceStudentsD1;
     }
 
     /**Put all ImageView of DR students into an ArrayList and set them invisible
      */
-    private void initializeDiningRoomStudentsD1() {
+    private Map<Color, ArrayList<ImageView>> initializeDiningRoomStudentsD1() {
+        Map<Color, ArrayList<ImageView>> diningRoomStudentsD1;
         diningRoomStudentsD1 = new HashMap<>();
         //Green students
         diningRoomStudentsD1.put(Color.GREEN, new ArrayList<>());
@@ -614,8 +602,93 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             for ( ImageView i : diningRoomStudentsD1.get(c) )
                 i.setVisible(false);
         }
+
+        return diningRoomStudentsD1;
     }
 
+    public void inizializeAllDasboards( Player clientPlayer, List<Player> otherPlayers ) {
+
+        DashboardView clientDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), null, null);
+
+        playersDashboardView.put(clientPlayer.getNickname(), clientDashboard);
+
+        //TODO altre dashboard, master e torri della prima
+    }
+
+    /**Update all dashboards in the GUI
+     */
+    public void updateDashboard() {
+        Map<String, Dashboard> dashboardsData = client.getMatchView().showAllDashboards();
+        for ( String playerNickname: playersDashboardView.keySet() ) {
+            DashboardView currentDashboardView=playersDashboardView.get(playerNickname);
+            Dashboard currentDashboardData = dashboardsData.get(playerNickname);
+
+            //Update students in entrance
+            int i = 0;
+            for ( Student s: currentDashboardData.showEntrance() ) {
+                currentDashboardView.setEntranceStudentVisible(i, true);
+                currentDashboardView.setEntranceStudentColor(i, s.getColor());
+                i++;
+            }
+            while ( i<9 ) {
+                currentDashboardView.setEntranceStudentVisible(i, false);
+                i++;
+            }
+
+            //Update students in dining room
+            for ( Color c: Color.values() ) {
+                try {
+                    currentDashboardView.setDRStudentsNumber(currentDashboardData.getStudentsNumInDR(c),c);
+                } catch (WrongColorException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        }
+
+    }
+
+    private class DashboardView {
+        private ArrayList<ImageView> entranceStudents;
+        private Map<Color, ArrayList<ImageView>> diningRoomStudents;
+        private Map<Color, ImageView> master;
+        private Map<Integer, ImageView> tower;
+
+
+
+        public DashboardView(ArrayList<ImageView> entranceStudents, Map<Color, ArrayList<ImageView>> diningRoomStudents, Map<Color, ImageView> master, Map<Integer, ImageView> tower ) {
+            this.entranceStudents=entranceStudents;
+            this.diningRoomStudents=diningRoomStudents;
+            this.master=master;
+            this.tower=tower;
+        }
+
+        public void setEntranceStudentColor(int studentNumber, Color studentColor) {
+            entranceStudents.get(studentNumber).setImage(studentsImage.get(studentColor));
+        }
+
+        public void setEntranceStudentVisible(int studentNumber, boolean visible) {
+            entranceStudents.get(studentNumber).setVisible(visible);
+        }
+
+        public void setDRStudentsNumber(int studentsNumber, Color drColor) {
+            int i;
+            for ( i=0; i<studentsNumber; i++ ) {
+                diningRoomStudents.get(drColor).get(i).setVisible(true);
+            }
+            while (i<10) {
+                diningRoomStudents.get(drColor).get(i).setVisible(false);
+                i++;
+            }
+        }
+
+    }
+
+    public void updateGameView() {
+        updateDashboard();
+
+    }
 
     //ZAMBO END
 
