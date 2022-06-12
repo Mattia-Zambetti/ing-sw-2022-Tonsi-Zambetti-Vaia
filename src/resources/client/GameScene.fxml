@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -1444,7 +1445,7 @@
                   <Image url="@Images/Plancia_DEF2.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="D1EntranceStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="49.0">
+            <ImageView fx:id="D1EntranceStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="50.0" layoutY="14.0" onMouseClicked="#chooseStudent" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="49.0">
                <image>
                   <Image url="@Images/RedStudent.png" />
                </image>
@@ -2004,6 +2005,7 @@
                   <Image url="@Images/BlackTower.png" />
                </image>
             </ImageView>
+            <Region layoutX="104.0" layoutY="13.0" onMouseClicked="#chooseDR" prefHeight="207.0" prefWidth="289.0" />
          </children>
       </AnchorPane>
       <GridPane fx:id="containerDb3" prefHeight="199.0" prefWidth="650.0" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="TOP">

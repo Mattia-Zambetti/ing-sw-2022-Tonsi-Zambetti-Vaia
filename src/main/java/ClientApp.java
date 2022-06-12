@@ -2,10 +2,19 @@ import client.ClientCLI;
 import client.ClientJavaFX;
 import javafx.application.Application;
 
+import java.io.IOException;
+import java.util.Scanner;
+
 public class ClientApp {
-    private static int clientType=1;
+
+    private static int clientType;
+    private static Scanner readUser= new Scanner(System.in);
 
     public static void main(String[] args){
+
+
+        System.out.println("Choose between CLI (1) and GUI (2):");
+        clientType = readUser.nextInt();
 
         switch ( clientType ) {
             case 1:
@@ -16,6 +25,8 @@ public class ClientApp {
                 ClientJavaFX clientGUI = new ClientJavaFX();
                 Application.launch(ClientJavaFX.class);
                 break;
+            default:
+                System.out.println("Error: you chose: "+clientType);
         }
     }
 
