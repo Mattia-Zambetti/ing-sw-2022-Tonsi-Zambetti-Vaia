@@ -91,6 +91,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private HBox boxCards;
 
+    //students on islands
+
     @FXML
     private Text hint;
     @FXML
@@ -167,6 +169,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         hint.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
         showAllowedCommandKey();
         hintBox.setVisible(false);
+
 
     }
 
