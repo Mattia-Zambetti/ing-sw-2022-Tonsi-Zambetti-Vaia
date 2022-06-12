@@ -5,6 +5,7 @@ import model.figureCards.FigureCard;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public interface MatchDataInterface extends Serializable {
 
@@ -12,6 +13,7 @@ public interface MatchDataInterface extends Serializable {
     String toString();
 
     Dashboard showCurrentPlayerDashboard();
+    Map<String, Dashboard> showAllDashboards();
     List<Integer> getIslandPositions();
     Choice getChoice();
 

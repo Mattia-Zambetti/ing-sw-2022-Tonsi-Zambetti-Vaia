@@ -422,6 +422,16 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //ZAMBO
 
+    /** Returns a copy of all dashboards linked with the player nickname
+     */
+    public Map<String, Dashboard> showAllDashboards() {
+        Map<String, Dashboard> dashboardsMap = new HashMap<>();
+        for ( Dashboard d: dashboardsCollection ) {
+            dashboardsMap.put(d.getPlayer().getNickname(), new Dashboard(d));
+        }
+        return dashboardsMap;
+    }
+
     public void notifyMatchObservers() {
         setChanged();
         notifyObservers(this);

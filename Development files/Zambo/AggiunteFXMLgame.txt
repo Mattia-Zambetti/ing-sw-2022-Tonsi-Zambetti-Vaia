@@ -1,0 +1,5 @@
+Cose da riaggiungere/aggiungere a fxml
+-Region per scelta DR
+-Metodo choseDR su RegionDR
+-Metodo choseStudent su studente entrance
+-Metodo choseIsland su isole

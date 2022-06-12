@@ -6,10 +6,7 @@ import model.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -990,6 +987,22 @@ public class MatchTest {
         assertTrue(match.getWinnerPlayers().contains(match.dashboardsCollection.get(0).getPlayer()));
         assertFalse(match.getWinnerPlayers().contains(match.dashboardsCollection.get(1).getPlayer()));
 
+    }
+
+    @Test
+    void showAllDashboardsTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException {
+        match = new NormalMatch(2);
+        match.addPlayer("Giuseppe", "BLACK", "WIZARD1",1);
+        match.addPlayer("Giovannino", "WHITE", "WIZARD2",2);
+
+        Map<String, Dashboard> dashboards;
+        dashboards=match.showAllDashboards();
+
+        assertTrue(dashboards.size()==2);
+        assertTrue(dashboards.containsKey("Giuseppe"));
+        assertTrue(dashboards.containsKey("Giovannino"));
+        assertTrue(dashboards.get("Giuseppe").getTowerColor().equals(TowerColor.BLACK));
+        assertTrue(dashboards.get("Giovannino").getTowerColor().equals(TowerColor.WHITE));
     }
 
     //End Test Zambo

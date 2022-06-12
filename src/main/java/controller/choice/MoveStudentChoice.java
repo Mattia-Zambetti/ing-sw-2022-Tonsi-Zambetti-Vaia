@@ -18,6 +18,7 @@ public class MoveStudentChoice extends Choice{
 
 
 
+
     public MoveStudentChoice(Set<Student> studentsOnEntrance){
         this.studentsOnEntrance=new ArrayList<>();
         this.studentsOnEntrance.addAll(studentsOnEntrance);
@@ -155,6 +156,9 @@ public class MoveStudentChoice extends Choice{
         return stringBuilder.toString();
     }
 
+    public int getChoisePhase() {
+        return numChoice;
+    }
 
 
 }
