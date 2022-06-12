@@ -14,4 +14,12 @@ public class Master implements Serializable {
         return color;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if ( o instanceof Master m) {
+            return m.getColor().equals(this.color);
+        }
+        return false;
+    }
+
 }

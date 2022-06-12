@@ -277,6 +277,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         put(Color.YELLOW, new Image(getClass().getResourceAsStream("/client/Images/YellowStudent.png")));
     }};
 
+    private static Map<TowerColor, Image> towersImage= new HashMap<>(){{
+        put(TowerColor.BLACK, new Image(getClass().getResourceAsStream("/client/Images/BlackTower.png" )));
+        put(TowerColor.GREY, new Image(getClass().getResourceAsStream("/client/Images/GreyTower.png" )));
+        put(TowerColor.WHITE, new Image(getClass().getResourceAsStream("/client/Images/WhiteTower.png" )));
+    }};
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -557,7 +563,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             throw new IllegalArgumentException("chooseIsland method called by an Object that is not an ImageView");
     }
 
-    public void chooseDR(MouseEvent event) {
+    public void chooseGreenDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
         }
@@ -566,16 +572,49 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
     }
 
-    /*public void initializeOtherPlayersDashboard( ArrayList<String> playersNickname ) { //TODO
-
-        for ( String s: playersNickname ) {
-
-            Dashboard playerDashboard = new DashboardView();
-            playersDashboard.put()
+    public void chooseRedDR(MouseEvent event) {
+        if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam("1");
         }
-    }*/
+        synchronized ( client.getOutputStreamLock() ) {
+            client.getOutputStreamLock().notifyAll();
+        }
+    }
 
-    /**Put all ImageView of entrance students into an ArrayList
+    public void chooseYellowDR(MouseEvent event) {
+        if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam("1");
+        }
+        synchronized ( client.getOutputStreamLock() ) {
+            client.getOutputStreamLock().notifyAll();
+        }
+    }
+
+    public void choosePinkDR(MouseEvent event) {
+        if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam("1");
+        }
+        synchronized ( client.getOutputStreamLock() ) {
+            client.getOutputStreamLock().notifyAll();
+        }
+    }
+
+    /** Method called when the BlueDR has been clicked.
+     *  The first statement of the "if" it's called when the player move a student from the entrance.
+     *  The second one when a figureCard is played (DA FARE)
+     *
+      * @param event
+     */
+    public void chooseBlueDR(MouseEvent event) {
+        if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam("1");
+        }
+        synchronized ( client.getOutputStreamLock() ) {
+            client.getOutputStreamLock().notifyAll();
+        }
+    }
+
+    /**Puts all ImageView of entrance students into an ArrayList
      */
     private ArrayList<ImageView> initializeEntranceStudentsD1() {
         ArrayList<ImageView> entranceStudentsD1;
@@ -592,7 +631,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return entranceStudentsD1;
     }
 
-    /**Put all ImageView of DR students into an ArrayList and set them invisible
+    /**Puts all ImageView of DR students into an ArrayList and set them invisible
      */
     private Map<Color, ArrayList<ImageView>> initializeDiningRoomStudentsD1() {
         Map<Color, ArrayList<ImageView>> diningRoomStudentsD1;
@@ -666,9 +705,29 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return diningRoomStudentsD1;
     }
 
+    /**Puts all ImageView of masters into a Map and set them invisible
+     */
+    private Map<Color, ImageView> initializeMastersD1() {
+        Map<Color, ImageView> masters = new HashMap<>();
+
+        masters.put(Color.GREEN, D1GreenMaster);
+        masters.put(Color.RED, D1RedMaster);
+        masters.put(Color.YELLOW, D1YellowMaster);
+        masters.put(Color.PINK, D1PinkMaster);
+        masters.put(Color.BLUE, D1BlueMaster);
+
+        D1GreenMaster.setVisible(false);
+        D1RedMaster.setVisible(false);
+        D1YellowMaster.setVisible(false);
+        D1PinkMaster.setVisible(false);
+        D1BlueMaster.setVisible(false);
+
+        return masters;
+    }
+
     public void inizializeAllDasboards( Player clientPlayer, List<Player> otherPlayers ) {
 
-        DashboardView clientDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), null, null);
+        DashboardView clientDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), initializeMastersD1(), null);
 
         playersDashboardView.put(clientPlayer.getNickname(), clientDashboard);
 
@@ -704,6 +763,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
             }
 
+            //Update masters
+            for ( Color c: Color.values() ) {
+                if ( currentDashboardData.getMastersList().contains(new Master(c)) )
+                    currentDashboardView.setMasterVisible(c, true);
+                else
+                    currentDashboardView.setMasterVisible(c, false);
+            }
 
         }
 
@@ -741,6 +807,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 diningRoomStudents.get(drColor).get(i).setVisible(false);
                 i++;
             }
+        }
+
+        public void setMasterVisible(Color masterColor, boolean visible) {
+            master.get(masterColor).setVisible(visible);
         }
 
     }
