@@ -77,6 +77,10 @@ public class Cloud  implements Serializable {
         return ID;
     }
 
+    public Set<Student> getStudentsOnCloud() {
+        return studentsOnCloud;
+    }
+
     @Override
     public String toString(){
         String outputString = "";
