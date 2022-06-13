@@ -1080,7 +1080,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
     }
 
-    public void choseIsland(MouseEvent event) throws NoIslandException {
+    public void chooseIsland(MouseEvent event) throws NoIslandException {
         if ( event.getSource() instanceof Region ) {
             String islandID = ((Region) event.getSource()).getId();
             if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
