@@ -205,9 +205,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                             outputStream.writeObject(actualToDoChoice);
                             outputStream.flush();
                             outputStream.reset();
-
-
-
                         }
 
 

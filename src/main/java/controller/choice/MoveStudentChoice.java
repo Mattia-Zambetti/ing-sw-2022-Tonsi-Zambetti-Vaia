@@ -160,5 +160,8 @@ public class MoveStudentChoice extends Choice{
         return numChoice;
     }
 
+    public String whichChoicePhase(){
+        return "It's the move students choice phase";
+    }
 
 }

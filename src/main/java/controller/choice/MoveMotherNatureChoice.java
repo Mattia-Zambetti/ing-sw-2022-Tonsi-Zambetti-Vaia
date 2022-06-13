@@ -36,4 +36,8 @@ public class MoveMotherNatureChoice extends Choice{
     public String toString(MatchDataInterface match) {
         return "Insert the number of mother nature movement you want to do: " ;
     }
+
+    public String whichChoicePhase(){
+        return "It's the move mother nature choice phase";
+    }
 }

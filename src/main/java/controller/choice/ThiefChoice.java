@@ -44,4 +44,8 @@ public class ThiefChoice extends FigureCardActionChoice{
         }
         return tmp.toString();
     }
+
+    public String whichChoicePhase(){
+        return "Thief played from the current player";
+    }
 }

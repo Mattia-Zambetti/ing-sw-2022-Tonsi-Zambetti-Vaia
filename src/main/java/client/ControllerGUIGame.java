@@ -1,24 +1,22 @@
 package client;
 
 import controller.choice.*;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import model.Card;
-import model.ExpertMatch;
-import model.MatchDataInterface;
 import model.*;
 import model.exception.NoIslandException;
 import model.exception.NoTowerException;
@@ -31,6 +29,16 @@ import java.util.*;
 
 public class ControllerGUIGame extends ControllerGUIInterface implements Initializable {
 
+    /**Player phase and turn messages:*/
+    @FXML
+    private Text choicePhaseMessage;
+
+    @FXML
+    private Text playerTurnMessage;
+
+    @FXML
+    private Rectangle rectangleMessage;
+
     /**DataPlayer:*/
     @FXML
     private ImageView avatarTower;
@@ -40,6 +48,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private Text nickname;
     @FXML
     private AnchorPane avatarPane;
+    @FXML
+    private ImageView avatarFigureCard;
+
 
     //Dashboards:
     @FXML
@@ -70,6 +81,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private ImageView figureCard3;
     @FXML
     private GridPane expertMatchPane;
+
+    protected Map<ImageView, Integer> fromFigureCardsToInteger;
+
+    @FXML
+    private ImageView coinImg;
 
     //cards:
     @FXML
@@ -688,11 +704,21 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /**font messages:*/
+        choicePhaseMessage.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),20));
+        hint.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
+
+
         /**Data player*/
         nickname.setText(client.getPlayer().getNickname().toUpperCase());
         nickname.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),24));
         if(client.getMatchView().showAllPlayers().size()<4)
             avatarPane.setVisible(true);
+        if(client.getMatchView().showAllPlayers().size()<3){
+            choicePhaseMessage.setVisible(true);
+            hint.setVisible(true);
+            rectangleMessage.setVisible(true);
+        }
         wizardAvatar.setImage(fromIntToWizard.get(ClientJavaFX.wizardThisPlayer));
         avatarTower.setImage(fromIntToTower.get(ClientJavaFX.towerColorThisPlayer));
 
@@ -734,9 +760,17 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         fromImagesToCards.put(card10,new Card(10,5,10));
 
         /**Hint box:*/
-        hint.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
+        choicePhaseMessage.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
         showAllowedCommandKey();
         hintBox.setVisible(false);
+
+        /**Figure cards:*/
+        fromFigureCardsToInteger= new HashMap<>(){{
+            put(figureCard1,1);
+            put(figureCard2,2);
+            put(figureCard3,3);
+        }};
+
 
         initializeIsland();
 
@@ -934,13 +968,28 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
             //Dashboards management:
             if(match.showAllPlayers().size()==3){
+                Dashboard3.setVisible(true);
                 Dashboard4.setVisible(false);
             }else if(match.showAllPlayers().size()==2) {
                 Dashboard4.setVisible(false);
                 Dashboard3.setVisible(false);
             }
+            else if(match.showAllPlayers().size()==4){
+                Dashboard4.setVisible(true);
+                Dashboard3.setVisible(true);
+            }
         }
     }
+
+    public void updateMessagePhase(){
+        if(client.getMatchView().showCurrentPlayer().equals(client.getPlayer()))
+            playerTurnMessage.setText("It's your turn");
+        else
+            playerTurnMessage.setText("It's not your turn, "+client.getMatchView().showCurrentPlayer().getNickname()+ "  is playing now");
+
+        choicePhaseMessage.setText(client.getMatchView().getChoice().whichChoicePhase());
+    }
+
 
     public void updateCardsView(){
         boxCards.setVisible(true);
@@ -994,19 +1043,25 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     /**Commands from the scene*/
 
     public void submitCardValue(Event event){
-        if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()) {
-            if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
-                client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
-                cardDb1.setVisible(true);
-                cardDb1.setImage(((ImageView) event.getSource()).getImage());
-                ((ImageView)event.getSource()).setVisible(false);
-                setInvisibleCards();
-                synchronized ( client.getOutputStreamLock() ) {
-                    client.getOutputStreamLock().notifyAll();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()) {
+                    if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
+                        client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
+                        cardDb1.setVisible(true);
+                        cardDb1.setImage(((ImageView) event.getSource()).getImage());
+                        ((ImageView)event.getSource()).setVisible(false);
+                        setInvisibleCards();
+                        synchronized ( client.getOutputStreamLock() ) {
+                            client.getOutputStreamLock().notifyAll();
+                        }
+                    }
                 }
+                hintBox.setVisible(true);
             }
-        }
-        hintBox.setVisible(true);
+        });
+
     }
 
     public void submitFigureCardValue(Event event){
@@ -1016,56 +1071,92 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 && !(client.getActualToDoChoice() instanceof DataPlayerChoice) && client.isFigureCardNotPlayed()) {
             Choice figureCardChoice = new FigureCardPlayedChoice(client.getMatchView().showFigureCardsInGame());
             client.setActualToDoChoiceQueue(client.getActualToDoChoice());
-            client.setActualToDoChoice( figureCardChoice);
+            client.setActualToDoChoice(figureCardChoice);
             client.setFigureCardNotPlayed(false);
-            client.getActualToDoChoice().setSendingPlayer(client.getPlayer());
-            try {
-                client.getOutputStream().writeObject(client.getActualToDoChoiceQueue());
-                client.getOutputStream().flush();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+
+            avatarFigureCard.setImage(((ImageView)event.getSource()).getImage());
+            avatarFigureCard.setVisible(true);
+            figureCardChoice.setChoiceParam(""+(fromFigureCardsToInteger.get(((ImageView) event.getSource()))+1));
+            synchronized (client.getOutputStreamLock()) {
+                client.getOutputStreamLock().notifyAll();
             }
 
         }
     }
 
     public void zoomCardOnEnter(Event event){
-        if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
+                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
+                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
+                } else if(((ImageView)event.getSource()).getParent().equals(expertMatchPane)) {
+                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
+                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
+                }
+            }
+        });
+
     }
 
     public void zoomCardOnExit(Event event){
-        if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
-            ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
-            ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
+                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
+                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
+                } else if(((ImageView)event.getSource()).getParent().equals(expertMatchPane)) {
+                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
+                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
+                }
+            }
+        });
+
     }
 
     @FXML
-    public void keyPressedManager(KeyEvent e){
-        System.out.println("c");
-        if(e.getCode()==KeyCode.C){
-            boxCards.setVisible(!boxCards.isVisible());
-        }
+    public void keyPressedManager(KeyEvent e) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                switch (e.getCode()) {
+                    case C: {
+                        boxCards.setVisible(!boxCards.isVisible());
+                        break;
+                    }
+                    case D: {
+                        switch (client.getMatchView().showAllPlayers().size()) {
+                            case (3): {
+                                Dashboard3.setVisible(!Dashboard3.isVisible());
+                                rectangleMessage.setVisible(!rectangleMessage.isVisible());
+                                hint.setVisible(!hint.isVisible());
+                                playerTurnMessage.setVisible(!playerTurnMessage.isVisible());
+                                if (client.getMatchView().showAllCurrentCards().size() < 3)
+                                    cardDb3.setVisible(!cardDb3.isVisible());
+                                break;
+                            }
+                            case (4): {
+                                Dashboard3.setVisible(!Dashboard3.isVisible());
+                                rectangleMessage.setVisible(!rectangleMessage.isVisible());
+                                hint.setVisible(!hint.isVisible());
+                                playerTurnMessage.setVisible(!playerTurnMessage.isVisible());
+                                Dashboard4.setVisible(!Dashboard4.isVisible());
+                                avatarPane.setVisible(!avatarPane.isVisible());
+                                if (client.getMatchView().showAllCurrentCards().size() < 4)
+                                    cardDb4.setVisible(!cardDb4.isVisible());
+                                if (client.getMatchView().showAllCurrentCards().size() < 3)
+                                    cardDb3.setVisible(!cardDb3.isVisible());
+                                break;
 
-        if(e.getCode()==KeyCode.D){
-            if(client.getMatchView().showAllPlayers().size()>=3){
-                Dashboard3.setVisible(!Dashboard3.isVisible());
-                if(client.getMatchView().showAllCurrentCards().size()<3)
-                    cardDb3.setVisible(!cardDb3.isVisible());
-                if(client.getMatchView().showAllPlayers().size()>=4){
-                    Dashboard4.setVisible(!Dashboard4.isVisible());
-                    avatarPane.setVisible(!avatarPane.isVisible());
-                    if(client.getMatchView().showAllCurrentCards().size()<4)
-                        cardDb4.setVisible(!cardDb4.isVisible());
+                            }
+                        }
+                    }
+
                 }
-
-
             }
-
-        }
+        });
     }
 
     //ZAMBO
@@ -1534,6 +1625,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void updateGameView() {
         updateDashboard();
+
+        updateMessagePhase();
         updateIslands();
         updateClouds();
     }

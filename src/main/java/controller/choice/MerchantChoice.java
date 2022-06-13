@@ -81,4 +81,8 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
         }
         return tmp.toString();
     }
+
+    public String whichChoicePhase(){
+        return "Merchant played from the current player";
+    }
 }

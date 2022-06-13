@@ -46,4 +46,8 @@ public class PrincessChoice extends FigureCardWithStudentsChoice{
 
         return tmp.toString();
     }
+
+    public String whichChoicePhase(){
+        return "Princess played from the current player";
+    }
 }
