@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Card;
@@ -563,6 +564,33 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             throw new IllegalArgumentException("chooseIsland method called by an Object that is not an ImageView");
     }
 
+    public void chooseCloud(MouseEvent event) {
+        String cloudID = ((Region) event.getSource()).getId();
+        System.out.println("" + cloudID);
+        if (client.getActualToDoChoice() instanceof CloudChoice) {
+            switch (cloudID) {
+                case ("cloudRegion1"):
+                    client.getActualToDoChoice().setChoiceParam("0");
+                    break;
+                case ("cloudRegion2"):
+                    client.getActualToDoChoice().setChoiceParam("1");
+                    break;
+                case ("cloudRegion3"):
+                    client.getActualToDoChoice().setChoiceParam("2");
+                    break;
+                case ("cloudRegion4"):
+                    client.getActualToDoChoice().setChoiceParam("3");
+                    break;
+            }
+            synchronized (client.getOutputStreamLock()) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }
+
+
+
+    }
+
     public void chooseGreenDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
@@ -614,7 +642,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
     }
 
-    /**Puts all ImageView of entrance students into an ArrayList
+    /**Puts all ImageView of entrance of dashboard 1 students into an ArrayList
      */
     private ArrayList<ImageView> initializeEntranceStudentsD1() {
         ArrayList<ImageView> entranceStudentsD1;
@@ -631,7 +659,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return entranceStudentsD1;
     }
 
-    /**Puts all ImageView of DR students into an ArrayList and set them invisible
+    /**Puts all ImageView of DR students of dashboard 1 into an ArrayList and set them invisible
      */
     private Map<Color, ArrayList<ImageView>> initializeDiningRoomStudentsD1() {
         Map<Color, ArrayList<ImageView>> diningRoomStudentsD1;
@@ -705,7 +733,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return diningRoomStudentsD1;
     }
 
-    /**Puts all ImageView of masters into a Map and set them invisible
+    /**Puts all ImageView of masters of dashboard 1 into a Map and set them invisible
      */
     private Map<Color, ImageView> initializeMastersD1() {
         Map<Color, ImageView> masters = new HashMap<>();
@@ -725,9 +753,32 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return masters;
     }
 
+    /**Put all towers image of dashboard 1 in an ArrayList
+     */
+    private ArrayList<ImageView> initializeTowersD1( TowerColor towerColor ) {
+        ArrayList<ImageView> towersList = new ArrayList<>();
+        towersList.add(D1BlackTower1);
+        towersList.add(D1BlackTower2);
+        towersList.add(D1BlackTower3);
+        towersList.add(D1BlackTower4);
+        towersList.add(D1BlackTower5);
+        towersList.add(D1BlackTower6);
+        towersList.add(D1BlackTower7);
+        towersList.add(D1BlackTower8);
+
+        for ( ImageView tower : towersList ) {
+            tower.setImage(towersImage.get(towerColor));
+        }
+
+        return towersList;
+    }
+
     public void inizializeAllDasboards( Player clientPlayer, List<Player> otherPlayers ) {
 
-        DashboardView clientDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), initializeMastersD1(), null);
+
+        TowerColor playerTowerColor = client.getMatchView().showAllDashboards().get(clientPlayer.getNickname()).getTowerColor();
+
+        DashboardView clientDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), initializeMastersD1(), initializeTowersD1(playerTowerColor));
 
         playersDashboardView.put(clientPlayer.getNickname(), clientDashboard);
 
@@ -771,6 +822,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     currentDashboardView.setMasterVisible(c, false);
             }
 
+            //Update towers
+            for ( i=0; i<8; i++) {
+                if ( i<currentDashboardData.getTowersNum() )
+                    currentDashboardView.setTowerVisible(i, true);
+                else
+                    currentDashboardView.setTowerVisible(i, false);
+            }
+
         }
 
     }
@@ -779,11 +838,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         private ArrayList<ImageView> entranceStudents;
         private Map<Color, ArrayList<ImageView>> diningRoomStudents;
         private Map<Color, ImageView> master;
-        private Map<Integer, ImageView> tower;
+        private ArrayList<ImageView> tower;
 
 
 
-        public DashboardView(ArrayList<ImageView> entranceStudents, Map<Color, ArrayList<ImageView>> diningRoomStudents, Map<Color, ImageView> master, Map<Integer, ImageView> tower ) {
+        public DashboardView(ArrayList<ImageView> entranceStudents, Map<Color, ArrayList<ImageView>> diningRoomStudents, Map<Color, ImageView> master, ArrayList<ImageView> tower ) {
             this.entranceStudents=entranceStudents;
             this.diningRoomStudents=diningRoomStudents;
             this.master=master;
@@ -811,6 +870,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
         public void setMasterVisible(Color masterColor, boolean visible) {
             master.get(masterColor).setVisible(visible);
+        }
+
+        public void setTowerVisible(int towerNumber, boolean visible) {
+            tower.get(towerNumber).setVisible(visible);
         }
 
     }
