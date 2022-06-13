@@ -17,6 +17,12 @@ public interface MatchDataInterface extends Serializable {
     List<Integer> getIslandPositions();
     Choice getChoice();
 
+    List<Island> getIslands();
+
+    int getCurrentIsland();
+
+    List<Cloud> getClouds();
+
     Player showCurrentPlayer();
 
     String getErrorMessage();

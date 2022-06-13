@@ -205,6 +205,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         throw new WrongCloudNumberException("Wrong cloud's number");
     }
 
+    public List<Cloud> getClouds() {
+        return clouds;
+    }
+
     /**TESTED
     *It's used at the start of a round to refill every cloud
     *with new students from the bag*/
@@ -754,6 +758,12 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     //END ZAMBO
 
     //Start Vaia
+
+
+    public int getCurrentIsland() {
+        return currentIsland;
+    }
+
     public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         //try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
@@ -813,6 +823,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     public List<Integer> getIslandPositions() {
         List<Integer> tmp = new ArrayList<>(islandPositions);
         return tmp;
+    }
+
+
+    public List<Island> getIslands() {
+        return islands;
     }
 
     public void checkNearbyIslands() throws NoTowerException, NoIslandException, NoMoreTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
