@@ -36,4 +36,8 @@ public class CloudChoice extends Choice{
     public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, NoMoreStudentsException, FinishedGameEndTurnException {
         match.moveStudentsFromCloudToEntrance(this.getChosenCloudID());
     }
+
+    public String whichChoicePhase(){
+        return "It's the cloud choice phase";
+    }
 }

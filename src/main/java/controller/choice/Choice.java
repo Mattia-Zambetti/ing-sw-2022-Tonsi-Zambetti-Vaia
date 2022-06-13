@@ -38,6 +38,8 @@ public abstract class Choice implements Serializable {
         return completed;
     }
 
+    public abstract String whichChoicePhase();
+
 
     public boolean isItAnInt(String input){
         try{

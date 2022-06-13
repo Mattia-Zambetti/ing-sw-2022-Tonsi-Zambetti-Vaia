@@ -134,4 +134,8 @@ public class DataPlayerChoice extends Choice{
         return new Player(name);
     }
 
+    public String whichChoicePhase(){
+        return "It's the data player choice phase";
+    }
+
 }

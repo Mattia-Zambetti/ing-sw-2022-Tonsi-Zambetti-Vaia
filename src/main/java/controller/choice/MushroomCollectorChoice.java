@@ -47,4 +47,8 @@ public class MushroomCollectorChoice extends FigureCardActionChoice{
         }
         return tmp.toString();
     }
+
+    public String whichChoicePhase(){
+        return "Mushroom collector played from the current player";
+    }
 }

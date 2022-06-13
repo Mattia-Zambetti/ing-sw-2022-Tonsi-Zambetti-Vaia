@@ -70,7 +70,6 @@ public class ClientCLI implements Runnable, Client{
         PrintWriter writeUser=new PrintWriter(System.out);
         writeUser.println(s);
         writeUser.flush();
-        //writeUser.close();
     }
 
     @Override

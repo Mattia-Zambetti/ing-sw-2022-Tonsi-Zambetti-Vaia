@@ -6,7 +6,6 @@ import model.MatchDataInterface;
 import model.Student;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
-import model.figureCards.FigureCardWithStudents;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -131,6 +130,10 @@ public class MinstrelChoice extends Choice {
                 break;
         }
         return tmp.toString();
+    }
+
+    public String whichChoicePhase(){
+        return "Minstrel played from the current player";
     }
 }
 

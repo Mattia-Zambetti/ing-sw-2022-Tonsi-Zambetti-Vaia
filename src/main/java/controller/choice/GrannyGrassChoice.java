@@ -53,4 +53,9 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
 
         return tmp.toString();
     }
+
+    public String whichChoicePhase(){
+        return "Granny grass played from the current player";
+    }
 }
+

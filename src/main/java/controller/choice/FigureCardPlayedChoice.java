@@ -62,4 +62,8 @@ public class FigureCardPlayedChoice extends Choice{
     public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
         ((ExpertMatch)match).playFigureCard(this.getChosenFigureCard());
     }
+
+    public String whichChoicePhase(){
+        return "It's the figure card played choice phase";
+    }
 }

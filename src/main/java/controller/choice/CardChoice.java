@@ -59,4 +59,9 @@ public class CardChoice extends Choice{
     public void manageUpdate(Match match) throws CardNotFoundException, CardAlreadyPlayedException {
         match.chooseCard(this.getChosenCard());
     }
+
+    public String whichChoicePhase(){
+        return "It's the card choice phase";
+    }
+
 }

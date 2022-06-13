@@ -44,4 +44,8 @@ public class HeraldChoice extends FigureCardActionChoice{
         }
         return tmp.toString();
     }
+
+    public String whichChoicePhase(){
+        return "Herald played from the current player";
+    }
 }

@@ -84,5 +84,8 @@ public class StartingMatchChoice extends Choice{
         return OutputString;
     }
 
+    public String whichChoicePhase(){
+        return "Starting match";
+    }
 
 }

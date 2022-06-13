@@ -28,6 +28,7 @@ public abstract class ControllerGUIInterface {
         put(2,new Image(getClass().getResourceAsStream("/client/Images/BlackTower.png" )));
         put(3, new Image(getClass().getResourceAsStream("/client/Images/GreyTower.png" )));
     }};
+
     public static void setClient(ClientJavaFX client) {
         ControllerGUIInterface.client = client;
     }

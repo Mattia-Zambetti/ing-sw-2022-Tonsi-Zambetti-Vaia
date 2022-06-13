@@ -12,4 +12,5 @@ public abstract class FigureCardActionChoice extends Choice{
     public void setFigureCardPlayed(FigureCard figureCardPlayed) {
         this.figureCardPlayed = figureCardPlayed;
     }
+
 }

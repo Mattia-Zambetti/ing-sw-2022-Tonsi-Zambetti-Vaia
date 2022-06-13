@@ -128,5 +128,9 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
         }
         return tmp.toString();
     }
+
+    public String whichChoicePhase(){
+        return "Jester played from the current player";
+    }
 }
 
