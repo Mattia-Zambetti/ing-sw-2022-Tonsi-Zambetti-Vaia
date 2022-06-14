@@ -29,16 +29,20 @@ import java.util.*;
 
 public class ControllerGUIGame extends ControllerGUIInterface implements Initializable {
 
-
-    /**Player phase and turn messages:*/
+    /**choice phase:*/
     @FXML
     private Text choicePhaseMessage;
+
+    /**messages:*/
 
     @FXML
     private Text playerTurnMessage;
 
     @FXML
     private Rectangle rectangleMessage;
+
+    @FXML
+    private Text hint;
 
     /**DataPlayer:*/
     @FXML
@@ -114,8 +118,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     //students on islands
 
-    @FXML
-    private Text hint;
+
     @FXML
     private AnchorPane hintBox;
 
@@ -967,23 +970,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
             }
 
-            //Dashboards management:
-            if(match.showAllPlayers().size()==3){
-                Dashboard3.setVisible(true);
-                Dashboard4.setVisible(false);
-            }else if(match.showAllPlayers().size()==2) {
-                Dashboard4.setVisible(false);
-                Dashboard3.setVisible(false);
-            }
-            else if(match.showAllPlayers().size()==4){
-                Dashboard4.setVisible(true);
-                Dashboard3.setVisible(true);
-            }
         }
     }
 
     public void updateMessagePhase(){
-        playerTurnMessage.setVisible(true);
         if(client.getMatchView().showCurrentPlayer().equals(client.getPlayer())){
             Platform.runLater(new Runnable() {
                 @Override
@@ -1012,7 +1002,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
 
-    public void updateCardsView(){
+    public void updateCardsPlayerView(){
         boxCards.setVisible(true);
         hintBox.setVisible(false);
         if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
@@ -1023,25 +1013,36 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     fromCardsToImages.get(c).setVisible(false);
                 }
             }
-            if(client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=2) {
-                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
-                cardDb2.setVisible(true);
-                if (client.getMatchView().showAllPlayers().size() == 3 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())>=3) {
-                    cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
-                    cardDb3.setVisible(true);
-                }
-                if (client.getMatchView().showAllPlayers().size() == 4 && client.getMatchView().getPlacePlayerInTheOrder(client.getPlayer())==4) {
-                    cardDb4.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(2)).getImage());
-                    cardDb4.setVisible(true);
-                }
-
-            }
-
         }else{
             for (ImageView c: fromCardsToImages.values()) {
                 c.setVisible(false);
             }
         }
+    }
+
+    public void updateCurrentCards(){
+        switch (client.getMatchView().showAllCurrentCards().size()){
+            case(2):{
+                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
+                cardDb2.setVisible(true);
+                break;
+            }
+            case(3):{
+                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
+                cardDb2.setVisible(true);
+                cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
+                break;
+            }
+            case(4):{
+                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
+                cardDb2.setVisible(true);
+                cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
+                cardDb4.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(2)).getImage());
+                break;
+            }
+
+        }
+
     }
 
     public void setInvisibleCards(){
@@ -1656,10 +1657,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void updateGameView() {
         updateDashboard();
-
         updateMessagePhase();
         updateIslands();
         updateClouds();
+        updateCurrentCards();
     }
 
     private void updateClouds() {

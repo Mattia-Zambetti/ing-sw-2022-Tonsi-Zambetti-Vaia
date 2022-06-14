@@ -330,7 +330,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                                     Platform.runLater(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((ControllerGUIGame) controllerGUI).updateCardsView();
+                                            ((ControllerGUIGame) controllerGUI).updateCardsPlayerView();
                                         }
                                     });
                                 }

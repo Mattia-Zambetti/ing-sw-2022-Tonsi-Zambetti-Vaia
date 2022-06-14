@@ -93,7 +93,7 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             root = client.getFxmlLoader().load();
 
             ((ControllerGUIGame)client.getFxmlLoader().getController()).updateInitialMatchView();
-            ((ControllerGUIGame)client.getFxmlLoader().getController()).updateCardsView();
+            ((ControllerGUIGame)client.getFxmlLoader().getController()).updateCardsPlayerView();
 
             scene = new Scene(root);
             stage.setScene(scene);

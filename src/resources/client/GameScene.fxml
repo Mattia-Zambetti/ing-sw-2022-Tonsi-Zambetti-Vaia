@@ -18,28 +18,29 @@
 
 <GridPane hgap="10.0" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #76c4ed;" vgap="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ControllerGUIGame">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="264.2" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="84.19999999999993" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="189.9999969482422" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="155.60000305175782" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="175.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="140.1999267578126" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="130.60009765625" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="216.9999023437499" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="73.19992675781259" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="98.40000000000009" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="216.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="217.6" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="330.00001068115233" minHeight="10.0" prefHeight="173.6000244140625" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="193.60001220703128" minHeight="10.0" prefHeight="114.39997558593745" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="222.4000305175781" minHeight="0.0" prefHeight="126.39998779296877" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="229.60001220703123" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="206.39998779296874" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="330.00001068115233" minHeight="10.0" prefHeight="148.8000061035156" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="193.60001220703128" minHeight="10.0" prefHeight="116.59998779296876" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="222.4000305175781" minHeight="0.0" prefHeight="125.4000122070313" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="262.1999877929687" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <AnchorPane fx:id="hintBox" prefHeight="240.0" prefWidth="499.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+      <AnchorPane fx:id="hintBox" prefHeight="240.0" prefWidth="499.0" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9dde1" height="78.0" layoutX="9.0" layoutY="-21.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" style="-fx-opacity: 0.3;" width="480.0" />
-            <Text fx:id="choicePhaseMessage" layoutX="13.0" layoutY="22.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="choice phase" textAlignment="CENTER" wrappingWidth="471.7366828918457">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9dde1" height="65.0" layoutX="-31.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" style="-fx-opacity: 0.3;" width="551.0" />
+            <Text fx:id="choicePhaseMessage" layoutX="-1.0" layoutY="54.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="choice phase" textAlignment="CENTER" wrappingWidth="490.00000000000017">
                <font>
                   <Font size="20.0" />
                </font>
@@ -628,7 +629,7 @@
       </GridPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
          <children>
-            <ImageView  fitHeight="128.0" fitWidth="175.0" layoutX="15.0" layoutY="47.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="128.0" fitWidth="175.0" layoutX="15.0" layoutY="47.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Isola3.png" />
                </image>
@@ -1024,12 +1025,12 @@
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
          <children>
-            <ImageView  fitHeight="128.0" fitWidth="175.0" layoutX="8.0" layoutY="27.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="128.0" fitWidth="175.0" layoutY="17.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Isola1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="yellowStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="33.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="yellowStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="25.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/YellowStudent.png" />
                </image>
@@ -1037,8 +1038,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numYStudentIsl7" layoutX="43.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="blueStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="114.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numYStudentIsl7" layoutX="35.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="blueStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="106.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/BlueStudent.png" />
                </image>
@@ -1046,8 +1047,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numBStudentIsl7" layoutX="124.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="pinkStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="43.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numBStudentIsl7" layoutX="116.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="pinkStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="35.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/PinkStudent.png" />
                </image>
@@ -1055,8 +1056,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numPStudentIsl7" layoutX="52.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="redStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="101.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numPStudentIsl7" layoutX="44.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="redStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="93.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/RedStudent.png" />
                </image>
@@ -1064,8 +1065,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numRStudentIsl7" layoutX="111.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="greenStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="46.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numRStudentIsl7" layoutX="103.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="greenStudentIsl7" fitHeight="26.0" fitWidth="35.0" layoutX="38.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/GreenStudent.png" />
                </image>
@@ -1073,19 +1074,19 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numGStudentIsl7" layoutX="56.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="BlackTower7" fitHeight="35.0" fitWidth="52.0" layoutX="84.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numGStudentIsl7" layoutX="48.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="BlackTower7" fitHeight="35.0" fitWidth="52.0" layoutX="76.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
             </ImageView>
-            <Text fx:id="towerNum7" layoutX="98.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="motherNature7" fitHeight="35.0" fitWidth="35.0" layoutX="71.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="towerNum7" layoutX="90.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="motherNature7" fitHeight="35.0" fitWidth="35.0" layoutX="63.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/madreNatura.png" />
                </image>
             </ImageView>
-            <Region fx:id="island7" layoutX="16.0" layoutY="19.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <Region fx:id="island7" layoutX="8.0" layoutY="9.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
@@ -1417,7 +1418,7 @@
             <Region fx:id="island2" layoutX="11.0" layoutY="17.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
          </children>
       </AnchorPane>
-      <GridPane fx:id="expertMatchPane" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="4">
+      <GridPane fx:id="expertMatchPane" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -2064,7 +2065,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane fx:id="Dashboard3" prefHeight="234.0" prefWidth="565.0" rotate="180.0" scaleX="0.75" scaleY="0.75" GridPane.columnSpan="2">
+            <AnchorPane fx:id="Dashboard3" prefHeight="234.0" prefWidth="565.0" rotate="180.0" scaleX="0.75" scaleY="0.75" visible="false" GridPane.columnSpan="2">
                <children>
                   <ImageView fx:id="Dashboard11" fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                      <image>
@@ -2667,7 +2668,7 @@
             </ImageView>
          </children>
       </GridPane>
-      <GridPane prefHeight="570.0" prefWidth="190.0" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <GridPane prefHeight="570.0" prefWidth="190.0" GridPane.columnIndex="9" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -2676,7 +2677,7 @@
           <RowConstraints maxHeight="539.400033569336" minHeight="10.0" prefHeight="241.60000610351565" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane fx:id="Dashboard4" rotate="-90.0" scaleX="0.75" scaleY="0.75" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <AnchorPane fx:id="Dashboard4" rotate="-90.0" scaleX="0.75" scaleY="0.75" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <children>
                   <ImageView fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                      <image>
@@ -3255,7 +3256,7 @@
             </ImageView>
          </children>
       </GridPane>
-      <HBox fx:id="boxCards" alignment="CENTER" prefHeight="258.0" prefWidth="1600.0" spacing="15.0" style="-fx-border-width: 10;" styleClass="cardBackground" stylesheets="@../main.css" visible="false" GridPane.columnSpan="9" GridPane.rowIndex="4">
+      <HBox fx:id="boxCards" alignment="CENTER" prefHeight="258.0" prefWidth="1600.0" spacing="15.0" style="-fx-border-width: 10;" styleClass="cardBackground" stylesheets="@../main.css" visible="false" GridPane.columnSpan="10" GridPane.rowIndex="4">
          <children>
             <ImageView fx:id="card1" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -3369,45 +3370,6 @@
             </ImageView>
          </children>
       </HBox>
-      <AnchorPane fx:id="avatarPane" visible="false" GridPane.columnIndex="2" GridPane.columnSpan="7">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e9ed4a" height="160.0" layoutX="751.0" layoutY="27.0" stroke="BLACK" strokeType="INSIDE" width="370.0" />
-            <Text fx:id="nickname" layoutX="811.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="190.4000000000001">
-               <font>
-                  <Font size="24.0" />
-               </font></Text>
-            <ImageView fx:id="wizardAvatar" fitHeight="155.0" fitWidth="149.0" layoutX="1036.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/wizards/wizard1circle.png" />
-               </image></ImageView>
-            <ImageView fx:id="avatarTower" fitHeight="49.0" fitWidth="43.0" layoutX="847.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/BlackTower.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="175.0" fitWidth="181.0" layoutX="1021.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/cerchi.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="avatarFigureCard" fitHeight="58.0" fitWidth="52.0" layoutX="218.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@Images/Herald.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane GridPane.columnIndex="2" GridPane.columnSpan="4">
-         <children>
-            <Rectangle fx:id="rectangleMessage" arcHeight="5.0" arcWidth="5.0" fill="#babfc240" height="155.0" layoutX="159.0" layoutY="21.0" stroke="#0d0000" strokeType="INSIDE" strokeWidth="2.0" style="-fx-opacity: 1;" visible="false" width="490.0" />
-            <Text fx:id="playerTurnMessage" layoutX="126.0" layoutY="71.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="It's/it's not your turn" textAlignment="CENTER" visible="false" wrappingWidth="549.6001018524171">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Text fx:id="hint" layoutX="180.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint" textAlignment="CENTER" visible="false" wrappingWidth="442.9365916252136" />
-         </children>
-      </AnchorPane>
       <AnchorPane prefHeight="186.0" prefWidth="1290.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
          <children>
             <ImageView fx:id="cloud1" fitHeight="128.0" fitWidth="175.0" nodeOrientation="INHERIT" onMouseClicked="#chooseCloud" pickOnBounds="true" preserveRatio="true">
@@ -3546,6 +3508,47 @@
                   <Region fx:id="cloudRegion4" layoutX="4.0" layoutY="-3.0" onMouseClicked="#chooseCloud" prefHeight="110.0" prefWidth="136.0" />
                </children>
             </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane GridPane.columnIndex="2" GridPane.columnSpan="4">
+         <children>
+            <Rectangle fx:id="rectangleMessage" arcHeight="5.0" arcWidth="5.0" fill="#babfc240" height="155.0" layoutX="159.0" layoutY="32.0" stroke="#0d0000" strokeType="INSIDE" strokeWidth="2.0" style="-fx-opacity: 1;" width="490.0" />
+            <Text fx:id="playerTurnMessage" layoutX="168.0" layoutY="79.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="It's/it's not your turn" textAlignment="CENTER" wrappingWidth="471.7366828918455">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="hint" layoutX="180.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint" textAlignment="CENTER" wrappingWidth="442.9365916252136" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="avatarPane" GridPane.columnIndex="6" GridPane.columnSpan="3">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e9ed4a" height="160.0" layoutX="10.0" layoutY="28.0" stroke="BLACK" strokeType="INSIDE" width="370.0" />
+            <Text fx:id="nickname" layoutX="49.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname" wrappingWidth="190.4000000000001">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="wizardAvatar" fitHeight="155.0" fitWidth="149.0" layoutX="295.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/wizards/wizard1circle.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatarTower" fitHeight="58.0" fitWidth="60.0" layoutX="120.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/BlackTower.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="175.0" fitWidth="181.0" layoutX="280.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/cerchi.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="avatarFigureCard1" fitHeight="66.0" fitWidth="43.0" layoutX="49.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/Herald.jpg" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>
