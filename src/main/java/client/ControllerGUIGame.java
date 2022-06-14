@@ -2,10 +2,10 @@ package client;
 
 import controller.choice.*;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -13,8 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Region;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.*;
@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.*;
 
 public class ControllerGUIGame extends ControllerGUIInterface implements Initializable {
+
 
     /**Player phase and turn messages:*/
     @FXML
@@ -1046,21 +1047,24 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()) {
-                    if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
-                        client.getActualToDoChoice().setChoiceParam(""+fromImagesToCards.get(((ImageView) event.getSource())).getId());
-                        cardDb1.setVisible(true);
-                        cardDb1.setImage(((ImageView) event.getSource()).getImage());
-                        ((ImageView)event.getSource()).setVisible(false);
-                        setInvisibleCards();
-                        synchronized ( client.getOutputStreamLock() ) {
-                            client.getOutputStreamLock().notifyAll();
+                    if (client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()) {
+                        if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
+                            client.getActualToDoChoice().setChoiceParam("" + fromImagesToCards.get(((ImageView) event.getSource())).getId());
+                            cardDb1.setVisible(true);
+                            cardDb1.setImage(((ImageView) event.getSource()).getImage());
+                            ((ImageView) event.getSource()).setVisible(false);
+                            setInvisibleCards();
+                            synchronized (client.getOutputStreamLock()) {
+                                client.getOutputStreamLock().notifyAll();
+                            }
                         }
                     }
+                    hintBox.setVisible(true);
                 }
-                hintBox.setVisible(true);
-            }
+
         });
+
+
 
     }
 
@@ -1097,13 +1101,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
             }
         });
-
     }
 
     public void zoomCardOnExit(Event event){
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+
                 if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
                     ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
                     ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
@@ -1113,14 +1118,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
             }
         });
-
     }
 
     @FXML
     public void keyPressedManager(KeyEvent e) {
-        Platform.runLater(new Runnable() {
+        Task task=new Task() {
             @Override
-            public void run() {
+            protected Void call() throws Exception {
                 switch (e.getCode()) {
                     case C: {
                         boxCards.setVisible(!boxCards.isVisible());
@@ -1155,8 +1159,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     }
 
                 }
+                return null;
             }
-        });
+        };
+        new Thread(task).start();
     }
 
     //ZAMBO

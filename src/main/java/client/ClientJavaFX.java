@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
 
 public class ClientJavaFX extends Application implements Runnable,Client {
 
+
     private final Object outputStreamLock = new Object();
     private int idThis;
     private int port;
