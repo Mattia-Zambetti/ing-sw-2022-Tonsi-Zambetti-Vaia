@@ -122,7 +122,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private AnchorPane hintBox;
 
-    //START Dashboard 1 Students, master and towers
+    //Dashboard 1 Students, master and towers
     @FXML
     private ImageView D1EntranceStudent1;
     @FXML
@@ -267,6 +267,152 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private ImageView D1BlackTower7;
     @FXML
     private ImageView D1BlackTower8;
+
+    //Dashboard 2 Students, master and towers
+    @FXML
+    private ImageView D2EntranceStudent1;
+    @FXML
+    private ImageView D2EntranceStudent2;
+    @FXML
+    private ImageView D2EntranceStudent3;
+    @FXML
+    private ImageView D2EntranceStudent4;
+    @FXML
+    private ImageView D2EntranceStudent5;
+    @FXML
+    private ImageView D2EntranceStudent6;
+    @FXML
+    private ImageView D2EntranceStudent7;
+    @FXML
+    private ImageView D2EntranceStudent8;
+    @FXML
+    private ImageView D2EntranceStudent9;
+    @FXML
+    private ImageView D2GreenDRStudent1;
+    @FXML
+    private ImageView D2GreenDRStudent2;
+    @FXML
+    private ImageView D2GreenDRStudent3;
+    @FXML
+    private ImageView D2GreenDRStudent4;
+    @FXML
+    private ImageView D2GreenDRStudent5;
+    @FXML
+    private ImageView D2GreenDRStudent6;
+    @FXML
+    private ImageView D2GreenDRStudent7;
+    @FXML
+    private ImageView D2GreenDRStudent8;
+    @FXML
+    private ImageView D2GreenDRStudent9;
+    @FXML
+    private ImageView D2GreenDRStudent10;
+    @FXML
+    private ImageView D2RedDRStudent1;
+    @FXML
+    private ImageView D2RedDRStudent2;
+    @FXML
+    private ImageView D2RedDRStudent3;
+    @FXML
+    private ImageView D2RedDRStudent4;
+    @FXML
+    private ImageView D2RedDRStudent5;
+    @FXML
+    private ImageView D2RedDRStudent6;
+    @FXML
+    private ImageView D2RedDRStudent7;
+    @FXML
+    private ImageView D2RedDRStudent8;
+    @FXML
+    private ImageView D2RedDRStudent9;
+    @FXML
+    private ImageView D2RedDRStudent10;
+    @FXML
+    private ImageView D2YellowDRStudent1;
+    @FXML
+    private ImageView D2YellowDRStudent2;
+    @FXML
+    private ImageView D2YellowDRStudent3;
+    @FXML
+    private ImageView D2YellowDRStudent4;
+    @FXML
+    private ImageView D2YellowDRStudent5;
+    @FXML
+    private ImageView D2YellowDRStudent6;
+    @FXML
+    private ImageView D2YellowDRStudent7;
+    @FXML
+    private ImageView D2YellowDRStudent8;
+    @FXML
+    private ImageView D2YellowDRStudent9;
+    @FXML
+    private ImageView D2YellowDRStudent10;
+    @FXML
+    private ImageView D2PinkDRStudent1;
+    @FXML
+    private ImageView D2PinkDRStudent2;
+    @FXML
+    private ImageView D2PinkDRStudent3;
+    @FXML
+    private ImageView D2PinkDRStudent4;
+    @FXML
+    private ImageView D2PinkDRStudent5;
+    @FXML
+    private ImageView D2PinkDRStudent6;
+    @FXML
+    private ImageView D2PinkDRStudent7;
+    @FXML
+    private ImageView D2PinkDRStudent8;
+    @FXML
+    private ImageView D2PinkDRStudent9;
+    @FXML
+    private ImageView D2PinkDRStudent10;
+    @FXML
+    private ImageView D2BlueDRStudent1;
+    @FXML
+    private ImageView D2BlueDRStudent2;
+    @FXML
+    private ImageView D2BlueDRStudent3;
+    @FXML
+    private ImageView D2BlueDRStudent4;
+    @FXML
+    private ImageView D2BlueDRStudent5;
+    @FXML
+    private ImageView D2BlueDRStudent6;
+    @FXML
+    private ImageView D2BlueDRStudent7;
+    @FXML
+    private ImageView D2BlueDRStudent8;
+    @FXML
+    private ImageView D2BlueDRStudent9;
+    @FXML
+    private ImageView D2BlueDRStudent10;
+    @FXML
+    private ImageView D2GreenMaster;
+    @FXML
+    private ImageView D2RedMaster;
+    @FXML
+    private ImageView D2YellowMaster;
+    @FXML
+    private ImageView D2PinkMaster;
+    @FXML
+    private ImageView D2BlueMaster;
+    @FXML
+    private ImageView D2BlackTower1;
+    @FXML
+    private ImageView D2BlackTower2;
+    @FXML
+    private ImageView D2BlackTower3;
+    @FXML
+    private ImageView D2BlackTower4;
+    @FXML
+    private ImageView D2BlackTower5;
+    @FXML
+    private ImageView D2BlackTower6;
+    @FXML
+    private ImageView D2BlackTower7;
+    @FXML
+    private ImageView D2BlackTower8;
 
     //Students on islands
 
@@ -1548,14 +1694,158 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return towersList;
     }
 
+    /**Puts all ImageView of entrance of dashboard 2 students into an ArrayList
+     */
+    private ArrayList<ImageView> initializeEntranceStudentsD2() {
+        ArrayList<ImageView> entranceStudentsD2;
+        entranceStudentsD2 = new ArrayList<>();
+        entranceStudentsD2.add(D2EntranceStudent1);
+        entranceStudentsD2.add(D2EntranceStudent2);
+        entranceStudentsD2.add(D2EntranceStudent3);
+        entranceStudentsD2.add(D2EntranceStudent4);
+        entranceStudentsD2.add(D2EntranceStudent5);
+        entranceStudentsD2.add(D2EntranceStudent6);
+        entranceStudentsD2.add(D2EntranceStudent7);
+        entranceStudentsD2.add(D2EntranceStudent8);
+        entranceStudentsD2.add(D2EntranceStudent9);
+        return entranceStudentsD2;
+    }
+
+    /**Puts all ImageView of DR students of dashboard 2 into an ArrayList and set them invisible
+     */
+    private Map<Color, ArrayList<ImageView>> initializeDiningRoomStudentsD2() {
+        Map<Color, ArrayList<ImageView>> diningRoomStudentsD2;
+        diningRoomStudentsD2 = new HashMap<>();
+        //Green students
+        diningRoomStudentsD2.put(Color.GREEN, new ArrayList<>());
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent1);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent2);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent3);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent4);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent5);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent6);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent7);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent8);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent9);
+        diningRoomStudentsD2.get(Color.GREEN).add(D2GreenDRStudent10);
+        //Red students
+        diningRoomStudentsD2.put(Color.RED, new ArrayList<>());
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent1);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent2);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent3);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent4);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent5);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent6);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent7);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent8);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent9);
+        diningRoomStudentsD2.get(Color.RED).add(D2RedDRStudent10);
+        //Yellow students
+        diningRoomStudentsD2.put(Color.YELLOW, new ArrayList<>());
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent1);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent2);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent3);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent4);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent5);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent6);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent7);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent8);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent9);
+        diningRoomStudentsD2.get(Color.YELLOW).add(D2YellowDRStudent10);
+        //Pink students
+        diningRoomStudentsD2.put(Color.PINK, new ArrayList<>());
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent1);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent2);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent3);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent4);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent5);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent6);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent7);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent8);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent9);
+        diningRoomStudentsD2.get(Color.PINK).add(D2PinkDRStudent10);
+        //Blue students
+        diningRoomStudentsD2.put(Color.BLUE, new ArrayList<>());
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent1);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent2);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent3);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent4);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent5);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent6);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent7);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent8);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent9);
+        diningRoomStudentsD2.get(Color.BLUE).add(D2BlueDRStudent10);
+
+        for ( Color c: Color.values() ) {
+            for ( ImageView i : diningRoomStudentsD2.get(c) )
+                i.setVisible(false);
+        }
+
+        return diningRoomStudentsD2;
+    }
+
+    /**Puts all ImageView of masters of dashboard 2 into a Map and set them invisible
+     */
+    private Map<Color, ImageView> initializeMastersD2() {
+        Map<Color, ImageView> masters = new HashMap<>();
+
+        masters.put(Color.GREEN, D2GreenMaster);
+        masters.put(Color.RED, D2RedMaster);
+        masters.put(Color.YELLOW, D2YellowMaster);
+        masters.put(Color.PINK, D2PinkMaster);
+        masters.put(Color.BLUE, D2BlueMaster);
+
+        D2GreenMaster.setVisible(false);
+        D2RedMaster.setVisible(false);
+        D2YellowMaster.setVisible(false);
+        D2PinkMaster.setVisible(false);
+        D2BlueMaster.setVisible(false);
+
+        return masters;
+    }
+
+    /**Put all towers image of dashboard 2 in an ArrayList
+     */
+    private ArrayList<ImageView> initializeTowersD2( TowerColor towerColor ) {
+        ArrayList<ImageView> towersList = new ArrayList<>();
+        towersList.add(D2BlackTower1);
+        towersList.add(D2BlackTower2);
+        towersList.add(D2BlackTower3);
+        towersList.add(D2BlackTower4);
+        towersList.add(D2BlackTower5);
+        towersList.add(D2BlackTower6);
+        towersList.add(D2BlackTower7);
+        towersList.add(D2BlackTower8);
+
+        for ( ImageView tower : towersList ) {
+            tower.setImage(towersImage.get(towerColor));
+        }
+
+        return towersList;
+    }
+
+    /**
+     * Initializes each DashboardView with the images of its Entrance, DiningRoom, Masters and Towers.
+     * Puts each one of this DashboardView into the Map playersDashboardView with the player nickname as key.
+     * @param clientPlayer
+     * The Player who has started the client
+     * @param otherPlayers
+     * All others players
+     */
     public void inizializeAllDasboards( Player clientPlayer, List<Player> otherPlayers ) {
 
+        TowerColor playerTowerColor;
+        DashboardView playerDashboard;
 
-        TowerColor playerTowerColor = client.getMatchView().showAllDashboards().get(clientPlayer.getNickname()).getTowerColor();
+        playerTowerColor = client.getMatchView().showAllDashboards().get(clientPlayer.getNickname()).getTowerColor();
+        playerDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), initializeMastersD1(), initializeTowersD1(playerTowerColor));
+        playersDashboardView.put(clientPlayer.getNickname(), playerDashboard);
 
-        DashboardView clientDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), initializeMastersD1(), initializeTowersD1(playerTowerColor));
+        playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(0).getNickname()).getTowerColor();
+        playerDashboard = new DashboardView(initializeEntranceStudentsD2(), initializeDiningRoomStudentsD2(), initializeMastersD2(), initializeTowersD2(playerTowerColor));
+        playersDashboardView.put(otherPlayers.get(0).getNickname(), playerDashboard);
 
-        playersDashboardView.put(clientPlayer.getNickname(), clientDashboard);
 
         //TODO altre dashboard, master e torri della prima
     }

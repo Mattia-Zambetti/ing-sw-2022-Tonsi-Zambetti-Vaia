@@ -16,6 +16,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -297,7 +299,9 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
                                             controllerGUI = fxmlLoader.getController();
 
-                                            ((ControllerGUIGame)controllerGUI).inizializeAllDasboards(player, matchView.showAllPlayers());
+                                            List<Player> otherPlayersList = new ArrayList<>(matchView.showAllPlayers());
+                                            otherPlayersList.remove(player);
+                                            ((ControllerGUIGame)controllerGUI).inizializeAllDasboards(player, otherPlayersList);
 
 
                                         }catch (IOException e) {
