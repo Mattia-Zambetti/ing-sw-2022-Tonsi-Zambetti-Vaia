@@ -1459,7 +1459,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
         if(i!=3){
             for(int z = client.getMatchView().getClouds().size(); z < clouds.size();z++){
-                clouds.get(i).setVisible(false);
+                clouds.get(z).setVisible(false);
                 for(int p = 0; p<3; p++){
                     studentsOcClouds.get(z).get(p).setVisible(false);
                 }
