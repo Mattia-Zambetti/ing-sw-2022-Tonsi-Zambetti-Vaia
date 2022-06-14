@@ -160,6 +160,7 @@ public class MoveStudentChoice extends Choice{
         return numChoice;
     }
 
+    @Override
     public String whichChoicePhase(){
         return "It's the move students choice phase";
     }

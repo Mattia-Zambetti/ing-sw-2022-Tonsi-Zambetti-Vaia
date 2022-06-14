@@ -706,7 +706,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /**font messages:*/
-        choicePhaseMessage.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),20));
+       // choicePhaseMessage.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),20));
         hint.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
 
 
@@ -761,7 +761,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         fromImagesToCards.put(card10,new Card(10,5,10));
 
         /**Hint box:*/
-        choicePhaseMessage.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
+       // choicePhaseMessage.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),14));
         showAllowedCommandKey();
         hintBox.setVisible(false);
 
@@ -983,12 +983,32 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void updateMessagePhase(){
-        if(client.getMatchView().showCurrentPlayer().equals(client.getPlayer()))
-            playerTurnMessage.setText("It's your turn");
-        else
-            playerTurnMessage.setText("It's not your turn, "+client.getMatchView().showCurrentPlayer().getNickname()+ "  is playing now");
+        playerTurnMessage.setVisible(true);
+        if(client.getMatchView().showCurrentPlayer().equals(client.getPlayer())){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    playerTurnMessage.setText("It's your turn");
+                }
+            });
+        }
 
-        choicePhaseMessage.setText(client.getMatchView().getChoice().whichChoicePhase());
+        else{
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    playerTurnMessage.setText("It's not your turn, ");
+
+                }
+            });
+        }
+        String tmp = client.getMatchView().getChoice().whichChoicePhase();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                choicePhaseMessage.setText(tmp);
+            }
+        });
     }
 
 
@@ -1181,6 +1201,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         if ( event.getSource() instanceof Region ) {
             String islandID = ((Region) event.getSource()).getId();
             if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+                System.out.println("qui");
                 client.getActualToDoChoice().setChoiceParam("2");
                 switch(islandID) {
                     case("island1"):
@@ -1219,6 +1240,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     case("island12"):
                         client.getActualToDoChoice().setChoiceParam("11");
                         break;
+                }
+                synchronized ( client.getOutputStreamLock() ) {
+                    client.getOutputStreamLock().notifyAll();
                 }
             }
             else if ( client.getActualToDoChoice() instanceof MoveMotherNatureChoice ) {
@@ -1285,10 +1309,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                         client.getActualToDoChoice().setChoiceParam(""+numToMove);
                         break;
                 }
+                synchronized ( client.getOutputStreamLock() ) {
+                    client.getOutputStreamLock().notifyAll();
+                }
             }
-            synchronized ( client.getOutputStreamLock() ) {
-                client.getOutputStreamLock().notifyAll();
-            }
+
         }else
             throw new IllegalArgumentException("chooseIsland method called by an Object that is not an ImageView");
     }
@@ -1656,7 +1681,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }
         if(i!=3){
             for(int z = client.getMatchView().getClouds().size(); z < clouds.size();z++){
-                clouds.get(i).setVisible(false);
+                clouds.get(z).setVisible(false);
                 for(int p = 0; p<3; p++){
                     studentsOcClouds.get(z).get(p).setVisible(false);
                 }
