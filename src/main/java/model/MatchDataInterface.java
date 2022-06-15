@@ -33,5 +33,6 @@ public interface MatchDataInterface extends Serializable {
 
     List<Card> showAllCurrentCards();
 
-    int getPlacePlayerInTheOrder(Player player);
+    Player getPlayerByCurrentCard(Card card);
+
 }

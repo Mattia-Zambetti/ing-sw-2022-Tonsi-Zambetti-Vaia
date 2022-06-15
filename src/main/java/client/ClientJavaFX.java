@@ -297,7 +297,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
                                             controllerGUI = fxmlLoader.getController();
 
-                                            ((ControllerGUIGame)controllerGUI).inizializeAllDasboards(player, matchView.showAllPlayers());
+                                            ((ControllerGUIGame)controllerGUI).inizializeAllDashboards(player, matchView.showAllPlayers());
 
 
                                         }catch (IOException e) {

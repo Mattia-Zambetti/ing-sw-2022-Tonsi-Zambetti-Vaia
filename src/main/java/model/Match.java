@@ -669,12 +669,19 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     public List<Card> showAllCurrentCards() {
         List<Card> currentCards=new ArrayList<>();
         for (Dashboard d: dashboardsCollection) {
-            if(!d.getCurrentCard().equals(new Card(0,0,0)))
-                currentCards.add(new Card(d.getCurrentCard()));
+            currentCards.add(new Card(d.getCurrentCard()));
         }
         return currentCards;
     }
 
+    @Override
+    public Player getPlayerByCurrentCard(Card card){
+        for (Dashboard d: dashboardsCollection) {
+            if(d.getCurrentCard().equals(card))
+                return new Player(d.getPlayer().getNickname());
+        }
+        return null;
+    }
 
     public void setWinnerPlayerByTowerColor(TowerColor t) {
         for ( Dashboard d : dashboardsCollection ) {

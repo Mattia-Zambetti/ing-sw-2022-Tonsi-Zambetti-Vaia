@@ -1021,26 +1021,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void updateCurrentCards(){
-        switch (client.getMatchView().showAllCurrentCards().size()){
-            case(2):{
-                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
-                cardDb2.setVisible(true);
-                break;
+        for (Card c: client.getMatchView().showAllCurrentCards()) {
+            if(!c.equals(new Card(0,0,0))){
+                playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setImage(fromCardsToImages.get(c).getImage());
+                playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setVisible(true);
             }
-            case(3):{
-                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
-                cardDb2.setVisible(true);
-                cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
-                break;
-            }
-            case(4):{
-                cardDb2.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(0)).getImage());
-                cardDb2.setVisible(true);
-                cardDb3.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(1)).getImage());
-                cardDb4.setImage(fromCardsToImages.get(client.getMatchView().showAllCurrentCards().get(2)).getImage());
-                break;
-            }
-
         }
 
     }
@@ -1548,7 +1533,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return towersList;
     }
 
-    public void inizializeAllDasboards( Player clientPlayer, List<Player> otherPlayers ) {
+    public void inizializeAllDashboards(Player clientPlayer, List<Player> otherPlayers ) {
 
 
         TowerColor playerTowerColor = client.getMatchView().showAllDashboards().get(clientPlayer.getNickname()).getTowerColor();
@@ -1556,6 +1541,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         DashboardView clientDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), initializeMastersD1(), initializeTowersD1(playerTowerColor));
 
         playersDashboardView.put(clientPlayer.getNickname(), clientDashboard);
+        playersDashboardView.get(clientPlayer.getNickname()).setCurrentCard(cardDb1);
+
+        List<ImageView> cardOthers= new ArrayList<>(){{
+            add(cardDb2);
+            add(cardDb3);
+            add(cardDb4);
+        }};
 
         //TODO altre dashboard, master e torri della prima
     }
@@ -1583,6 +1575,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             //Update students in dining room
             for ( Color c: Color.values() ) {
                 try {
+
                     currentDashboardView.setDRStudentsNumber(currentDashboardData.getStudentsNumInDR(c),c);
                 } catch (WrongColorException e) {
                     e.printStackTrace();
@@ -1615,6 +1608,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         private Map<Color, ImageView> master;
         private ArrayList<ImageView> tower;
 
+        private ImageView currentCard;
 
 
         public DashboardView(ArrayList<ImageView> entranceStudents, Map<Color, ArrayList<ImageView>> diningRoomStudents, Map<Color, ImageView> master, ArrayList<ImageView> tower ) {
@@ -1622,6 +1616,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             this.diningRoomStudents=diningRoomStudents;
             this.master=master;
             this.tower=tower;
+        }
+
+        public void setCurrentCard(ImageView currentCard) {
+            this.currentCard = currentCard;
+        }
+
+        public ImageView getCurrentCard() {
+            return currentCard;
         }
 
         public void setEntranceStudentColor(int studentNumber, Color studentColor) {
