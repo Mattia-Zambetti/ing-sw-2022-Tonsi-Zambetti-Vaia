@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MinstrelChoice extends Choice {
+public class MinstrelChoice extends FigureCardActionChoice {
 
     int numStudentsToMove, numStudentsToMove1, studentToMove;
     public int numChoice = 0, numStudentsDr;

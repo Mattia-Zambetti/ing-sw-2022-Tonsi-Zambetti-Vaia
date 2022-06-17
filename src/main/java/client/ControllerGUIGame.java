@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -22,6 +23,7 @@ import model.exception.NoIslandException;
 import model.exception.NoTowerException;
 import model.exception.WrongColorException;
 import model.figureCards.FigureCard;
+import model.figureCards.FigureCardWithStudents;
 
 import java.io.IOException;
 import java.net.URL;
@@ -91,6 +93,47 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     @FXML
     private ImageView coinImg;
+    @FXML
+    private Label CoinNumber;
+
+    @FXML
+    private ImageView FC1Student1;
+    @FXML
+    private ImageView FC1Student2;
+    @FXML
+    private ImageView FC1Student3;
+    @FXML
+    private ImageView FC1Student4;
+    @FXML
+    private ImageView FC1Student5;
+    @FXML
+    private ImageView FC1Student6;
+
+    @FXML
+    private ImageView FC2Student1;
+    @FXML
+    private ImageView FC2Student2;
+    @FXML
+    private ImageView FC2Student3;
+    @FXML
+    private ImageView FC2Student4;
+    @FXML
+    private ImageView FC2Student5;
+    @FXML
+    private ImageView FC2Student6;
+
+    @FXML
+    private ImageView FC3Student1;
+    @FXML
+    private ImageView FC3Student2;
+    @FXML
+    private ImageView FC3Student3;
+    @FXML
+    private ImageView FC3Student4;
+    @FXML
+    private ImageView FC3Student5;
+    @FXML
+    private ImageView FC3Student6;
 
     //cards:
     @FXML
@@ -950,11 +993,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             hint.setText("You can press c to show/hide your cards or d to show/hide the enemy dashboards");
     }
 
+    public void addStudentsOnFigureCard(ImageView figureCard1){
+
+    }
 
 
     /**updates*/
     public void updateInitialMatchView() {
 
+        List<ImageView> studentsOnFigureCards;
         if (client.isMatchCompletelyCreated()) {
             MatchDataInterface match = client.getMatchView();
 
@@ -963,8 +1010,56 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 List<FigureCard> figureCards = match.showFigureCardsInGame();
 
                 figureCard1.setImage(figureCardsMap.get(figureCards.get(0).getCardId()));
+                if(figureCards.get(0) instanceof FigureCardWithStudents){
+                    studentsOnFigureCards=new ArrayList<>(){{
+                        add(FC1Student1);
+                        add(FC1Student2);
+                        add(FC1Student3);
+                        add(FC1Student4);
+                        add(FC1Student5);
+                        add(FC1Student6);
+                    }};
+                    int i=0;
+                    for (Student s: ((FigureCardWithStudents) figureCards.get(0)).getStudentsOnCard()) {
+                        studentsOnFigureCards.get(i).setImage(studentsImage.get(s.getColor()));
+                        studentsOnFigureCards.get(i).setVisible(true);
+                        i++;
+                    }
+                }
                 figureCard2.setImage(figureCardsMap.get(figureCards.get(1).getCardId()));
+                if(figureCards.get(1) instanceof FigureCardWithStudents){
+                    studentsOnFigureCards=new ArrayList<>(){{
+                        add(FC2Student1);
+                        add(FC2Student2);
+                        add(FC2Student3);
+                        add(FC2Student4);
+                        add(FC2Student5);
+                        add(FC2Student6);
+                    }};
+                    int i=0;
+                    for (Student s: ((FigureCardWithStudents) figureCards.get(0)).getStudentsOnCard()) {
+                        studentsOnFigureCards.get(i).setImage(studentsImage.get(s.getColor()));
+                        studentsOnFigureCards.get(i).setVisible(true);
+                        i++;
+                    }
+                }
                 figureCard3.setImage(figureCardsMap.get(figureCards.get(2).getCardId()));
+                if(figureCards.get(2) instanceof FigureCardWithStudents){
+                    studentsOnFigureCards=new ArrayList<>(){{
+                        add(FC3Student1);
+                        add(FC3Student2);
+                        add(FC3Student3);
+                        add(FC3Student4);
+                        add(FC3Student5);
+                        add(FC3Student6);
+                    }};
+                    int i=0;
+                    for (Student s: ((FigureCardWithStudents) figureCards.get(2)).getStudentsOnCard()) {
+                        studentsOnFigureCards.get(i).setImage(studentsImage.get(s.getColor()));
+                        studentsOnFigureCards.get(i).setVisible(true);
+                        i++;
+                    }
+                }
             }else {
                 expertMatchPane.setVisible(false);
 
@@ -1082,11 +1177,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             Choice figureCardChoice = new FigureCardPlayedChoice(client.getMatchView().showFigureCardsInGame());
             client.setActualToDoChoiceQueue(client.getActualToDoChoice());
             client.setActualToDoChoice(figureCardChoice);
-            client.setFigureCardNotPlayed(false);
 
             avatarFigureCard.setImage(((ImageView)event.getSource()).getImage());
-            avatarFigureCard.setVisible(true);
-            figureCardChoice.setChoiceParam(""+(fromFigureCardsToInteger.get(((ImageView) event.getSource()))+1));
+            figureCardChoice.setChoiceParam(""+fromFigureCardsToInteger.get(((ImageView) event.getSource())));
             synchronized (client.getOutputStreamLock()) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -1101,7 +1194,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
                     ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
                     ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
-                } else if(((ImageView)event.getSource()).getParent().equals(expertMatchPane)) {
+                } else if(((ImageView)event.getSource()).getParent().getParent().equals(expertMatchPane)) {
                     ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
                     ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
                 }
@@ -1118,7 +1211,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
                     ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
                     ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
-                } else if(((ImageView)event.getSource()).getParent().equals(expertMatchPane)) {
+                } else if(((ImageView)event.getSource()).getParent().getParent().equals(expertMatchPane)) {
                     ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
                     ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
                 }
@@ -1662,7 +1755,16 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         updateMessagePhase();
         updateIslands();
         updateClouds();
-        updateCurrentCards();
+        //updateCurrentCards(); //TODO
+
+        if(client.getPlayer().equals(client.getMatchView().showCurrentPlayer())) {
+            CoinNumber.setText(""+client.getMatchView().showCurrentPlayerDashboard().getCoinsNumber());
+            if(client.getMatchView().getChoice() instanceof FigureCardActionChoice) {
+                avatarFigureCard.setVisible(true);
+                client.setFigureCardNotPlayed(false);
+            }
+        }
+
     }
 
     private void updateClouds() {
