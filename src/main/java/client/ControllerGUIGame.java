@@ -1514,38 +1514,43 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void chooseGreenDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            System.out.println("here");
             client.getActualToDoChoice().setChoiceParam("1");
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
         }
-        synchronized ( client.getOutputStreamLock() ) {
-            client.getOutputStreamLock().notifyAll();
-        }
+
     }
 
     public void chooseRedDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
         }
-        synchronized ( client.getOutputStreamLock() ) {
-            client.getOutputStreamLock().notifyAll();
-        }
+
     }
 
     public void chooseYellowDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
         }
-        synchronized ( client.getOutputStreamLock() ) {
-            client.getOutputStreamLock().notifyAll();
-        }
+
     }
 
     public void choosePinkDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
         }
-        synchronized ( client.getOutputStreamLock() ) {
-            client.getOutputStreamLock().notifyAll();
-        }
+
     }
 
     /** Method called when the BlueDR has been clicked.
@@ -1557,10 +1562,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseBlueDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
         }
-        synchronized ( client.getOutputStreamLock() ) {
-            client.getOutputStreamLock().notifyAll();
-        }
+
     }
 
     /**Puts all ImageView of entrance of dashboard 1 students into an ArrayList
