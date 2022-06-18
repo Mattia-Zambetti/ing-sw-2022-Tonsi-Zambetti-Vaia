@@ -464,6 +464,153 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private ImageView D2BlackTower8;
 
+    //Dashboard 3 Students, master and towers
+    @FXML
+    private ImageView D3EntranceStudent1;
+    @FXML
+    private ImageView D3EntranceStudent2;
+    @FXML
+    private ImageView D3EntranceStudent3;
+    @FXML
+    private ImageView D3EntranceStudent4;
+    @FXML
+    private ImageView D3EntranceStudent5;
+    @FXML
+    private ImageView D3EntranceStudent6;
+    @FXML
+    private ImageView D3EntranceStudent7;
+    @FXML
+    private ImageView D3EntranceStudent8;
+    @FXML
+    private ImageView D3EntranceStudent9;
+    @FXML
+    private ImageView D3GreenDRStudent1;
+    @FXML
+    private ImageView D3GreenDRStudent2;
+    @FXML
+    private ImageView D3GreenDRStudent3;
+    @FXML
+    private ImageView D3GreenDRStudent4;
+    @FXML
+    private ImageView D3GreenDRStudent5;
+    @FXML
+    private ImageView D3GreenDRStudent6;
+    @FXML
+    private ImageView D3GreenDRStudent7;
+    @FXML
+    private ImageView D3GreenDRStudent8;
+    @FXML
+    private ImageView D3GreenDRStudent9;
+    @FXML
+    private ImageView D3GreenDRStudent10;
+    @FXML
+    private ImageView D3RedDRStudent1;
+    @FXML
+    private ImageView D3RedDRStudent2;
+    @FXML
+    private ImageView D3RedDRStudent3;
+    @FXML
+    private ImageView D3RedDRStudent4;
+    @FXML
+    private ImageView D3RedDRStudent5;
+    @FXML
+    private ImageView D3RedDRStudent6;
+    @FXML
+    private ImageView D3RedDRStudent7;
+    @FXML
+    private ImageView D3RedDRStudent8;
+    @FXML
+    private ImageView D3RedDRStudent9;
+    @FXML
+    private ImageView D3RedDRStudent10;
+    @FXML
+    private ImageView D3YellowDRStudent1;
+    @FXML
+    private ImageView D3YellowDRStudent2;
+    @FXML
+    private ImageView D3YellowDRStudent3;
+    @FXML
+    private ImageView D3YellowDRStudent4;
+    @FXML
+    private ImageView D3YellowDRStudent5;
+    @FXML
+    private ImageView D3YellowDRStudent6;
+    @FXML
+    private ImageView D3YellowDRStudent7;
+    @FXML
+    private ImageView D3YellowDRStudent8;
+    @FXML
+    private ImageView D3YellowDRStudent9;
+    @FXML
+    private ImageView D3YellowDRStudent10;
+    @FXML
+    private ImageView D3PinkDRStudent1;
+    @FXML
+    private ImageView D3PinkDRStudent2;
+    @FXML
+    private ImageView D3PinkDRStudent3;
+    @FXML
+    private ImageView D3PinkDRStudent4;
+    @FXML
+    private ImageView D3PinkDRStudent5;
+    @FXML
+    private ImageView D3PinkDRStudent6;
+    @FXML
+    private ImageView D3PinkDRStudent7;
+    @FXML
+    private ImageView D3PinkDRStudent8;
+    @FXML
+    private ImageView D3PinkDRStudent9;
+    @FXML
+    private ImageView D3PinkDRStudent10;
+    @FXML
+    private ImageView D3BlueDRStudent1;
+    @FXML
+    private ImageView D3BlueDRStudent2;
+    @FXML
+    private ImageView D3BlueDRStudent3;
+    @FXML
+    private ImageView D3BlueDRStudent4;
+    @FXML
+    private ImageView D3BlueDRStudent5;
+    @FXML
+    private ImageView D3BlueDRStudent6;
+    @FXML
+    private ImageView D3BlueDRStudent7;
+    @FXML
+    private ImageView D3BlueDRStudent8;
+    @FXML
+    private ImageView D3BlueDRStudent9;
+    @FXML
+    private ImageView D3BlueDRStudent10;
+    @FXML
+    private ImageView D3GreenMaster;
+    @FXML
+    private ImageView D3RedMaster;
+    @FXML
+    private ImageView D3YellowMaster;
+    @FXML
+    private ImageView D3PinkMaster;
+    @FXML
+    private ImageView D3BlueMaster;
+    @FXML
+    private ImageView D3BlackTower1;
+    @FXML
+    private ImageView D3BlackTower2;
+    @FXML
+    private ImageView D3BlackTower3;
+    @FXML
+    private ImageView D3BlackTower4;
+    @FXML
+    private ImageView D3BlackTower5;
+    @FXML
+    private ImageView D3BlackTower6;
+    @FXML
+    private ImageView D3BlackTower7;
+    @FXML
+    private ImageView D3BlackTower8;
+
+
     //Students on islands
 
     @FXML
@@ -1972,6 +2119,137 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         return towersList;
     }
 
+    /**Puts all ImageView of entrance of dashboard 3 students into an ArrayList
+     */
+    private ArrayList<ImageView> initializeEntranceStudentsD3() {
+        ArrayList<ImageView> entranceStudentsD3;
+        entranceStudentsD3 = new ArrayList<>();
+        entranceStudentsD3.add(D3EntranceStudent1);
+        entranceStudentsD3.add(D3EntranceStudent2);
+        entranceStudentsD3.add(D3EntranceStudent3);
+        entranceStudentsD3.add(D3EntranceStudent4);
+        entranceStudentsD3.add(D3EntranceStudent5);
+        entranceStudentsD3.add(D3EntranceStudent6);
+        entranceStudentsD3.add(D3EntranceStudent7);
+        entranceStudentsD3.add(D3EntranceStudent8);
+        entranceStudentsD3.add(D3EntranceStudent9);
+        return entranceStudentsD3;
+    }
+
+    /**Puts all ImageView of DR students of dashboard 3 into an ArrayList and set them invisible
+     */
+    private Map<Color, ArrayList<ImageView>> initializeDiningRoomStudentsD3() {
+        Map<Color, ArrayList<ImageView>> diningRoomStudentsD3;
+        diningRoomStudentsD3 = new HashMap<>();
+        //Green students
+        diningRoomStudentsD3.put(Color.GREEN, new ArrayList<>());
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent1);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent2);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent3);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent4);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent5);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent6);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent7);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent8);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent9);
+        diningRoomStudentsD3.get(Color.GREEN).add(D3GreenDRStudent10);
+        //Red students
+        diningRoomStudentsD3.put(Color.RED, new ArrayList<>());
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent1);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent2);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent3);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent4);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent5);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent6);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent7);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent8);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent9);
+        diningRoomStudentsD3.get(Color.RED).add(D3RedDRStudent10);
+        //Yellow students
+        diningRoomStudentsD3.put(Color.YELLOW, new ArrayList<>());
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent1);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent2);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent3);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent4);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent5);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent6);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent7);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent8);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent9);
+        diningRoomStudentsD3.get(Color.YELLOW).add(D3YellowDRStudent10);
+        //Pink students
+        diningRoomStudentsD3.put(Color.PINK, new ArrayList<>());
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent1);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent2);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent3);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent4);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent5);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent6);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent7);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent8);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent9);
+        diningRoomStudentsD3.get(Color.PINK).add(D3PinkDRStudent10);
+        //Blue students
+        diningRoomStudentsD3.put(Color.BLUE, new ArrayList<>());
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent1);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent2);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent3);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent4);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent5);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent6);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent7);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent8);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent9);
+        diningRoomStudentsD3.get(Color.BLUE).add(D3BlueDRStudent10);
+
+        for ( Color c: Color.values() ) {
+            for ( ImageView i : diningRoomStudentsD3.get(c) )
+                i.setVisible(false);
+        }
+
+        return diningRoomStudentsD3;
+    }
+
+    /**Puts all ImageView of masters of dashboard 3 into a Map and set them invisible
+     */
+    private Map<Color, ImageView> initializeMastersD3() {
+        Map<Color, ImageView> masters = new HashMap<>();
+
+        masters.put(Color.GREEN, D3GreenMaster);
+        masters.put(Color.RED, D3RedMaster);
+        masters.put(Color.YELLOW, D3YellowMaster);
+        masters.put(Color.PINK, D3PinkMaster);
+        masters.put(Color.BLUE, D3BlueMaster);
+
+        D3GreenMaster.setVisible(false);
+        D3RedMaster.setVisible(false);
+        D3YellowMaster.setVisible(false);
+        D3PinkMaster.setVisible(false);
+        D3BlueMaster.setVisible(false);
+
+        return masters;
+    }
+
+    /**Put all towers image of dashboard 3 in an ArrayList
+     */
+    private ArrayList<ImageView> initializeTowersD3( TowerColor towerColor ) {
+        ArrayList<ImageView> towersList = new ArrayList<>();
+        towersList.add(D3BlackTower1);
+        towersList.add(D3BlackTower2);
+        towersList.add(D3BlackTower3);
+        towersList.add(D3BlackTower4);
+        towersList.add(D3BlackTower5);
+        towersList.add(D3BlackTower6);
+        towersList.add(D3BlackTower7);
+        towersList.add(D3BlackTower8);
+
+        for ( ImageView tower : towersList ) {
+            tower.setImage(towersImage.get(towerColor));
+        }
+
+        return towersList;
+    }
+
     /**
      * Initializes each DashboardView with the images of its Entrance, DiningRoom, Masters and Towers.
      * Puts each one of this DashboardView into the Map playersDashboardView with the player nickname as key.
@@ -1995,6 +2273,11 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         playerDashboard = new DashboardView(initializeEntranceStudentsD2(), initializeDiningRoomStudentsD2(), initializeMastersD2(), initializeTowersD2(playerTowerColor));
         playersDashboardView.put(otherPlayers.get(0).getNickname(), playerDashboard);
 
+        if ( otherPlayers.size()>1 ) {
+            playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(1).getNickname()).getTowerColor();
+            playerDashboard = new DashboardView(initializeEntranceStudentsD3(), initializeDiningRoomStudentsD3(), initializeMastersD3(), initializeTowersD3(playerTowerColor));
+            playersDashboardView.put(otherPlayers.get(1).getNickname(), playerDashboard);
+        }
 
 
         List<ImageView> cardOthers= new ArrayList<>(){{
