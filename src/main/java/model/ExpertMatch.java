@@ -201,6 +201,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         postManValue = 2;
     }
 
+    public boolean isPostManValue(){
+        if(postManValue!=0)
+            return true;
+        return false;
+    }
+
     @Override
     public void setIsKnight() {
         currentPlayerDashboard.setKnight(true);

@@ -15,6 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -34,6 +36,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     /**choice phase:*/
     @FXML
     private Text choicePhaseMessage;
+
+    //in zoom methods:
+    private boolean zoomCard=false;
+    private boolean zoomFigureCard=false;
 
     /**messages:*/
 
@@ -95,6 +101,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private ImageView coinImg;
     @FXML
     private Label CoinNumber;
+
 
     @FXML
     private ImageView FC1Student1;
@@ -999,6 +1006,24 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
 
     /**updates*/
+    public void updateFigureCards() {
+        if (client.getPlayer().equals(client.getMatchView().showCurrentPlayer())) {
+            CoinNumber.setText("" + client.getMatchView().showCurrentPlayerDashboard().getCoinsNumber());
+            if (client.getMatchView().getChoice() instanceof FigureCardActionChoice
+                    || client.getMatchView().showCurrentPlayerDashboard().hasKnightPrivilege()
+                    || client.getMatchView().showCurrentPlayerDashboard().isFarmerEffect()
+                    || client.getMatchView().isCentaurEffect()
+                    || client.getMatchView().isPostManValue()) {
+                avatarFigureCard.setVisible(true);
+                client.setFigureCardNotPlayed(false);
+
+                Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                MediaPlayer playBeep=new MediaPlayer(media);
+                playBeep.play();
+            }
+        }
+    }
+
     public void updateInitialMatchView() {
 
         List<ImageView> studentsOnFigureCards;
@@ -1020,12 +1045,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                         add(FC1Student6);
                     }};
                     int i=0;
-                    for (Student s: ((FigureCardWithStudents) figureCards.get(0)).getStudentsOnCard()) {
+                    for (Student s: ((FigureCardWithStudents) figureCards.get(1)).getStudentsOnCard()) {
                         studentsOnFigureCards.get(i).setImage(studentsImage.get(s.getColor()));
                         studentsOnFigureCards.get(i).setVisible(true);
                         i++;
                     }
                 }
+
+
                 figureCard2.setImage(figureCardsMap.get(figureCards.get(1).getCardId()));
                 if(figureCards.get(1) instanceof FigureCardWithStudents){
                     studentsOnFigureCards=new ArrayList<>(){{
@@ -1043,6 +1070,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                         i++;
                     }
                 }
+
+
                 figureCard3.setImage(figureCardsMap.get(figureCards.get(2).getCardId()));
                 if(figureCards.get(2) instanceof FigureCardWithStudents){
                     studentsOnFigureCards=new ArrayList<>(){{
@@ -1062,7 +1091,6 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
             }else {
                 expertMatchPane.setVisible(false);
-
             }
 
         }
@@ -1150,11 +1178,16 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             public void run() {
                     if (client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()) {
                         if (fromCardsToImages.containsValue((ImageView) event.getSource())) {
+                            Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                            MediaPlayer playBeep=new MediaPlayer(media);
+                            playBeep.play();
+
                             client.getActualToDoChoice().setChoiceParam("" + fromImagesToCards.get(((ImageView) event.getSource())).getId());
                             cardDb1.setVisible(true);
                             cardDb1.setImage(((ImageView) event.getSource()).getImage());
                             ((ImageView) event.getSource()).setVisible(false);
                             setInvisibleCards();
+
                             synchronized (client.getOutputStreamLock()) {
                                 client.getOutputStreamLock().notifyAll();
                             }
@@ -1180,6 +1213,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
             avatarFigureCard.setImage(((ImageView)event.getSource()).getImage());
             figureCardChoice.setChoiceParam(""+fromFigureCardsToInteger.get(((ImageView) event.getSource())));
+
+
+
             synchronized (client.getOutputStreamLock()) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -1191,33 +1227,61 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
-                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
-                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
-                } else if(((ImageView)event.getSource()).getParent().getParent().equals(expertMatchPane)) {
-                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
-                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
+                if(client.getMatchView().showCurrentPlayer().equals(client.getPlayer())) {
+                    if (client.getMatchView().getChoice().whichChoicePhase().equals("It's the card choice phase")
+                            && ((ImageView) event.getSource()).getParent().equals(boxCards)) {
+                        ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
+                        ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
+                        zoomCard=true;
+                    }
                 }
             }
         });
     }
 
-    public void zoomCardOnExit(Event event){
-
+    public void zoomFigureCardOnEnter(Event event){
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-
-                if(((ImageView)event.getSource()).getParent().equals(boxCards)) {
-                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
-                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
-                } else if(((ImageView)event.getSource()).getParent().getParent().equals(expertMatchPane)) {
-                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
-                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
+                if(client.getMatchView().showCurrentPlayer().equals(client.getPlayer())) {
+                    if (!(client.getMatchView().getChoice() instanceof FigureCardActionChoice)
+                            && !(client.getMatchView().getChoice() instanceof CardChoice)) {
+                        ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() * 1.1);
+                        ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() * 1.1);
+                        zoomFigureCard=true;
+                    }
                 }
             }
         });
     }
+
+
+    public void zoomCardOnExit(Event event){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if(zoomCard) {
+                        ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
+                        ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
+                        zoomCard=false;
+                }
+            }
+        });
+    }
+
+    public void zoomFigureCardOnExit(Event event){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if(zoomFigureCard) {
+                    ((ImageView) event.getSource()).setFitHeight(((ImageView) event.getSource()).getFitHeight() / 1.1);
+                    ((ImageView) event.getSource()).setFitWidth(((ImageView) event.getSource()).getFitWidth() / 1.1);
+                    zoomFigureCard=false;
+                }
+            }
+        });
+    }
+
 
     @FXML
     public void keyPressedManager(KeyEvent e) {
@@ -1757,13 +1821,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         updateClouds();
         //updateCurrentCards(); //TODO
 
-        if(client.getPlayer().equals(client.getMatchView().showCurrentPlayer())) {
-            CoinNumber.setText(""+client.getMatchView().showCurrentPlayerDashboard().getCoinsNumber());
-            if(client.getMatchView().getChoice() instanceof FigureCardActionChoice) {
-                avatarFigureCard.setVisible(true);
-                client.setFigureCardNotPlayed(false);
-            }
-        }
+        updateFigureCards();
 
     }
 

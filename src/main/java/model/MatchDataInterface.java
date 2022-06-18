@@ -35,4 +35,8 @@ public interface MatchDataInterface extends Serializable {
 
     Player getPlayerByCurrentCard(Card card);
 
+    boolean isCentaurEffect();
+
+    boolean isPostManValue();
+
 }

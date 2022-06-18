@@ -281,6 +281,10 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return currentPlayerDashboard.showCards();
     }
 
+    @Override
+    public boolean isPostManValue() {
+        return false;
+    }
 
     public int getPlacePlayerInTheOrder(Player player){
         for (Dashboard d: dashboardsCollection) {
@@ -681,6 +685,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 return new Player(d.getPlayer().getNickname());
         }
         return null;
+    }
+
+    @Override
+    public boolean isCentaurEffect() {
+        return false;
     }
 
     public void setWinnerPlayerByTowerColor(TowerColor t) {

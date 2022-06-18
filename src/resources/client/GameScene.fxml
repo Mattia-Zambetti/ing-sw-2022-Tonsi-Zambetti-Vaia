@@ -1435,12 +1435,12 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
                <children>
-                  <ImageView fx:id="figureCard3" fitHeight="132.0" fitWidth="89.0" layoutX="23.0" layoutY="4.0" onMouseClicked="#submitFigureCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="figureCard3" fitHeight="132.0" fitWidth="89.0" layoutX="23.0" layoutY="4.0" onMouseClicked="#submitFigureCardValue" onMouseEntered="#zoomFigureCardOnEnter" onMouseExited="#zoomFigureCardOnExit" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/Knight.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="FC3Student3" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC3Student3" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1448,7 +1448,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3Student6" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC3Student6" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1456,7 +1456,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3Student4" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC3Student4" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1464,7 +1464,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3Student2" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC3Student2" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1472,7 +1472,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3Student5" fitHeight="25.0" fitWidth="25.0" layoutX="54.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC3Student5" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="54.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1480,7 +1480,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3Student1" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC3Student1" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1495,12 +1495,12 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
                <children>
-                  <ImageView fx:id="figureCard2" fitHeight="132.0" fitWidth="89.0" layoutX="23.0" layoutY="4.0" onMouseClicked="#submitFigureCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="figureCard2" fitHeight="132.0" fitWidth="89.0" layoutX="23.0" layoutY="4.0" onMouseClicked="#submitFigureCardValue" onMouseEntered="#zoomFigureCardOnEnter" onMouseExited="#zoomFigureCardOnExit" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/Knight.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="FC2Student5" fitHeight="25.0" fitWidth="25.0" layoutX="54.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC2Student5" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="54.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1508,7 +1508,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2Student1" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC2Student1" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1516,7 +1516,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2Student4" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC2Student4" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1524,7 +1524,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2Student6" fitHeight="25.0" fitWidth="25.0" layoutX="54.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC2Student6" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="54.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1532,7 +1532,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2Student3" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC2Student3" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1540,7 +1540,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2Student2" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC2Student2" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="85.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1555,12 +1555,12 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
                <children>
-                  <ImageView fx:id="figureCard1" fitHeight="132.0" fitWidth="89.0" layoutX="23.0" layoutY="4.0" onMouseClicked="#submitFigureCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="figureCard1" fitHeight="132.0" fitWidth="89.0" layoutX="23.0" layoutY="4.0" onMouseClicked="#submitFigureCardValue" onMouseEntered="#zoomFigureCardOnEnter" onMouseExited="#zoomFigureCardOnExit" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/Knight.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="FC1Student1" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC1Student1" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1568,7 +1568,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1Student4" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC1Student4" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1576,7 +1576,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1Student2" fitHeight="25.0" fitWidth="25.0" layoutX="87.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC1Student2" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="87.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1584,7 +1584,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1Student5" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC1Student5" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1592,7 +1592,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1Student6" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC1Student6" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1600,7 +1600,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1Student3" fitHeight="25.0" fitWidth="25.0" layoutX="87.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC1Student3" disable="true" fitHeight="25.0" fitWidth="25.0" layoutX="87.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -1638,7 +1638,6 @@
       </GridPane>
       <AnchorPane prefHeight="279.0" prefWidth="560.0" GridPane.columnSpan="4" GridPane.rowIndex="4">
          <children>
-            <Button layoutX="384.0" layoutY="47.0" mnemonicParsing="false" onKeyPressed="#keyPressedManager" text="Button" />
             <Button layoutX="374.0" layoutY="37.0" mnemonicParsing="false" onKeyPressed="#keyPressedManager" text="Button" />
             <ImageView fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                <image>

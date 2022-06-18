@@ -13,4 +13,9 @@ public abstract class FigureCardActionChoice extends Choice{
         this.figureCardPlayed = figureCardPlayed;
     }
 
+
+    @Override
+    public String whichChoicePhase() {
+        return "generic figure card";
+    }
 }
