@@ -2839,7 +2839,7 @@
                         <Image url="@Images/Plancia_DEF2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent13" fitHeight="25.0" fitWidth="25.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="49.0">
+                  <ImageView fx:id="D4EntranceStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="49.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2847,7 +2847,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent23" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.1091709136963" AnchorPane.leftAnchor="14.0">
+                  <ImageView fx:id="D4EntranceStudent2" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.1091709136963" AnchorPane.leftAnchor="14.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2855,7 +2855,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent33" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="49.0">
+                  <ImageView fx:id="D4EntranceStudent3" fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="49.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2863,7 +2863,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent43" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.10917091369629" AnchorPane.leftAnchor="14.0">
+                  <ImageView fx:id="D4EntranceStudent4" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.10917091369629" AnchorPane.leftAnchor="14.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2871,7 +2871,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent53" fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="49.0">
+                  <ImageView fx:id="D4EntranceStudent5" fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="49.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2879,7 +2879,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent63" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.10917091369629" AnchorPane.leftAnchor="14.0">
+                  <ImageView fx:id="D4EntranceStudent6" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.10917091369629" AnchorPane.leftAnchor="14.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2887,7 +2887,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent73" fitHeight="25.0" fitWidth="25.0" layoutX="49.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="49.0">
+                  <ImageView fx:id="D4EntranceStudent7" fitHeight="25.0" fitWidth="25.0" layoutX="49.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="49.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2895,7 +2895,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent83" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="206.8908290863037" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="18.218341827392578" AnchorPane.leftAnchor="14.0">
+                  <ImageView fx:id="D4EntranceStudent8" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="206.8908290863037" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="18.218341827392578" AnchorPane.leftAnchor="14.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2903,7 +2903,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1EntranceStudent93" fitHeight="25.0" fitWidth="25.0" layoutX="49.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="18.10917091369629" AnchorPane.leftAnchor="49.0">
+                  <ImageView fx:id="D4EntranceStudent9" fitHeight="25.0" fitWidth="25.0" layoutX="49.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="18.10917091369629" AnchorPane.leftAnchor="49.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -2911,7 +2911,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent13" fitHeight="25.0" fitWidth="25.0" layoutX="105.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="105.0">
+                  <ImageView fx:id="D4GreenDRStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="105.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="105.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2919,7 +2919,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent23" fitHeight="25.0" fitWidth="25.0" layoutX="134.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="134.0">
+                  <ImageView fx:id="D4GreenDRStudent2" fitHeight="25.0" fitWidth="25.0" layoutX="134.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="134.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2927,7 +2927,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent33" fitHeight="25.0" fitWidth="25.0" layoutX="163.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="163.0">
+                  <ImageView fx:id="D4GreenDRStudent3" fitHeight="25.0" fitWidth="25.0" layoutX="163.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="163.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2935,7 +2935,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent43" fitHeight="25.0" fitWidth="25.0" layoutX="192.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="192.0">
+                  <ImageView fx:id="D4GreenDRStudent4" fitHeight="25.0" fitWidth="25.0" layoutX="192.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="192.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2943,7 +2943,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent53" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="221.0">
+                  <ImageView fx:id="D4GreenDRStudent5" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="221.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2951,7 +2951,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent63" fitHeight="25.0" fitWidth="25.0" layoutX="250.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="250.0">
+                  <ImageView fx:id="D4GreenDRStudent6" fitHeight="25.0" fitWidth="25.0" layoutX="250.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="250.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2959,7 +2959,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent73" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="279.0">
+                  <ImageView fx:id="D4GreenDRStudent7" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="279.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2967,7 +2967,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent83" fitHeight="25.0" fitWidth="25.0" layoutX="308.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="308.0">
+                  <ImageView fx:id="D4GreenDRStudent8" fitHeight="25.0" fitWidth="25.0" layoutX="308.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="308.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2975,7 +2975,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent93" fitHeight="25.0" fitWidth="25.0" layoutX="337.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="337.0">
+                  <ImageView fx:id="D4GreenDRStudent9" fitHeight="25.0" fitWidth="25.0" layoutX="337.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="337.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2983,7 +2983,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenDRStudent103" fitHeight="25.0" fitWidth="25.0" layoutX="367.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="366.0">
+                  <ImageView fx:id="D4GreenDRStudent10" fitHeight="25.0" fitWidth="25.0" layoutX="367.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="190.0" AnchorPane.leftAnchor="366.0">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
                      </image>
@@ -2991,7 +2991,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent13" fitHeight="25.0" fitWidth="25.0" layoutX="107.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="105.0">
+                  <ImageView fx:id="D4BlueDRStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="107.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="105.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -2999,7 +2999,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent13" fitHeight="25.0" fitWidth="25.0" layoutX="108.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="105.0">
+                  <ImageView fx:id="D4RedDRStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="108.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="105.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3007,7 +3007,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent23" fitHeight="25.0" fitWidth="25.0" layoutX="136.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="134.0">
+                  <ImageView fx:id="D4RedDRStudent2" fitHeight="25.0" fitWidth="25.0" layoutX="136.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="134.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3015,7 +3015,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent33" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="163.0">
+                  <ImageView fx:id="D4RedDRStudent3" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="163.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3023,7 +3023,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent43" fitHeight="25.0" fitWidth="25.0" layoutX="194.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="192.0">
+                  <ImageView fx:id="D4RedDRStudent4" fitHeight="25.0" fitWidth="25.0" layoutX="194.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="192.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3031,7 +3031,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent53" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="221.0">
+                  <ImageView fx:id="D4RedDRStudent5" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="221.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3039,7 +3039,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent63" fitHeight="25.0" fitWidth="25.0" layoutX="250.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="250.0">
+                  <ImageView fx:id="D4RedDRStudent6" fitHeight="25.0" fitWidth="25.0" layoutX="250.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="250.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3047,7 +3047,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent73" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="279.0">
+                  <ImageView fx:id="D4RedDRStudent7" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="279.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3055,7 +3055,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent83" fitHeight="25.0" fitWidth="25.0" layoutX="311.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="308.0">
+                  <ImageView fx:id="D4RedDRStudent8" fitHeight="25.0" fitWidth="25.0" layoutX="311.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="308.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3063,7 +3063,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent93" fitHeight="25.0" fitWidth="25.0" layoutX="335.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="337.0">
+                  <ImageView fx:id="D4RedDRStudent9" fitHeight="25.0" fitWidth="25.0" layoutX="335.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="337.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3071,7 +3071,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedDRStudent103" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="366.0">
+                  <ImageView fx:id="D4RedDRStudent10" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="366.0">
                      <image>
                         <Image url="@Images/RedStudent.png" />
                      </image>
@@ -3079,7 +3079,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent13" fitHeight="25.0" fitWidth="25.0" layoutX="108.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="105.0">
+                  <ImageView fx:id="D4YellowDRStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="108.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="105.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3087,7 +3087,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent23" fitHeight="25.0" fitWidth="25.0" layoutX="136.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="134.0">
+                  <ImageView fx:id="D4YellowDRStudent2" fitHeight="25.0" fitWidth="25.0" layoutX="136.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="134.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3095,7 +3095,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent33" fitHeight="25.0" fitWidth="25.0" layoutX="162.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="163.0">
+                  <ImageView fx:id="D4YellowDRStudent3" fitHeight="25.0" fitWidth="25.0" layoutX="162.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="163.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3103,7 +3103,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent43" fitHeight="25.0" fitWidth="25.0" layoutX="190.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="192.0">
+                  <ImageView fx:id="D4YellowDRStudent4" fitHeight="25.0" fitWidth="25.0" layoutX="190.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="192.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3111,7 +3111,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent53" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="221.0">
+                  <ImageView fx:id="D4YellowDRStudent5" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="221.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3119,7 +3119,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent63" fitHeight="25.0" fitWidth="25.0" layoutX="249.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="250.0">
+                  <ImageView fx:id="D4YellowDRStudent6" fitHeight="25.0" fitWidth="25.0" layoutX="249.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="250.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3127,7 +3127,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent73" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="279.0">
+                  <ImageView fx:id="D4YellowDRStudent7" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="279.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3135,7 +3135,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent83" fitHeight="25.0" fitWidth="25.0" layoutX="307.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="308.0">
+                  <ImageView fx:id="D4YellowDRStudent8" fitHeight="25.0" fitWidth="25.0" layoutX="307.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="308.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3143,7 +3143,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent93" fitHeight="25.0" fitWidth="25.0" layoutX="337.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="337.0">
+                  <ImageView fx:id="D4YellowDRStudent9" fitHeight="25.0" fitWidth="25.0" layoutX="337.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="337.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3151,7 +3151,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowDRStudent103" fitHeight="25.0" fitWidth="25.0" layoutX="367.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="366.0">
+                  <ImageView fx:id="D4YellowDRStudent10" fitHeight="25.0" fitWidth="25.0" layoutX="367.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="366.0">
                      <image>
                         <Image url="@Images/YellowStudent.png" />
                      </image>
@@ -3159,7 +3159,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent13" fitHeight="25.0" fitWidth="25.0" layoutX="104.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="105.0">
+                  <ImageView fx:id="D4PinkDRStudent1" fitHeight="25.0" fitWidth="25.0" layoutX="104.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="105.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3167,7 +3167,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent23" fitHeight="25.0" fitWidth="25.0" layoutX="136.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="134.0">
+                  <ImageView fx:id="D4PinkDRStudent2" fitHeight="25.0" fitWidth="25.0" layoutX="136.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="134.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3175,7 +3175,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent33" fitHeight="25.0" fitWidth="25.0" layoutX="164.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="163.0">
+                  <ImageView fx:id="D4PinkDRStudent3" fitHeight="25.0" fitWidth="25.0" layoutX="164.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="163.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3183,7 +3183,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent43" fitHeight="25.0" fitWidth="25.0" layoutX="192.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="192.0">
+                  <ImageView fx:id="D4PinkDRStudent4" fitHeight="25.0" fitWidth="25.0" layoutX="192.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="192.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3191,7 +3191,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent53" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="221.0">
+                  <ImageView fx:id="D4PinkDRStudent5" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="221.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3199,7 +3199,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent63" fitHeight="25.0" fitWidth="25.0" layoutX="250.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="250.0">
+                  <ImageView fx:id="D4PinkDRStudent6" fitHeight="25.0" fitWidth="25.0" layoutX="250.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="250.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3207,7 +3207,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent73" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="279.0">
+                  <ImageView fx:id="D4PinkDRStudent7" fitHeight="25.0" fitWidth="25.0" layoutX="279.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="279.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3215,7 +3215,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent83" fitHeight="25.0" fitWidth="25.0" layoutX="309.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="308.0">
+                  <ImageView fx:id="D4PinkDRStudent8" fitHeight="25.0" fitWidth="25.0" layoutX="309.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="308.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3223,7 +3223,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent93" fitHeight="25.0" fitWidth="25.0" layoutX="338.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="337.0">
+                  <ImageView fx:id="D4PinkDRStudent9" fitHeight="25.0" fitWidth="25.0" layoutX="338.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="337.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3231,7 +3231,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkDRStudent103" fitHeight="25.0" fitWidth="25.0" layoutX="368.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="366.0">
+                  <ImageView fx:id="D4PinkDRStudent10" fitHeight="25.0" fitWidth="25.0" layoutX="368.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="366.0">
                      <image>
                         <Image url="@Images/PinkStudent.png" />
                      </image>
@@ -3239,7 +3239,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent23" fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="134.0">
+                  <ImageView fx:id="D4BlueDRStudent2" fitHeight="25.0" fitWidth="25.0" layoutX="133.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="134.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3247,7 +3247,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent33" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="163.0">
+                  <ImageView fx:id="D4BlueDRStudent3" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="163.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3255,7 +3255,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent43" fitHeight="25.0" fitWidth="25.0" layoutX="193.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="192.0">
+                  <ImageView fx:id="D4BlueDRStudent4" fitHeight="25.0" fitWidth="25.0" layoutX="193.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="192.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3263,7 +3263,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent53" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="221.0">
+                  <ImageView fx:id="D4BlueDRStudent5" fitHeight="25.0" fitWidth="25.0" layoutX="221.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="221.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3271,7 +3271,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent63" fitHeight="25.0" fitWidth="25.0" layoutX="251.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="250.0">
+                  <ImageView fx:id="D4BlueDRStudent6" fitHeight="25.0" fitWidth="25.0" layoutX="251.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="250.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3279,7 +3279,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent73" fitHeight="25.0" fitWidth="25.0" layoutX="278.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="279.0">
+                  <ImageView fx:id="D4BlueDRStudent7" fitHeight="25.0" fitWidth="25.0" layoutX="278.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="279.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3287,7 +3287,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent83" fitHeight="25.0" fitWidth="25.0" layoutX="307.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="308.0">
+                  <ImageView fx:id="D4BlueDRStudent8" fitHeight="25.0" fitWidth="25.0" layoutX="307.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="308.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3295,7 +3295,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent93" fitHeight="25.0" fitWidth="25.0" layoutX="336.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="337.0">
+                  <ImageView fx:id="D4BlueDRStudent9" fitHeight="25.0" fitWidth="25.0" layoutX="336.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="337.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3303,7 +3303,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueDRStudent103" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="366.0">
+                  <ImageView fx:id="D4BlueDRStudent10" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="366.0">
                      <image>
                         <Image url="@Images/BlueStudent.png" />
                      </image>
@@ -3319,7 +3319,7 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1GreenMaster3" fitHeight="28.0" fitWidth="30.0" layoutX="419.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="189.0" AnchorPane.leftAnchor="419.0">
+                  <ImageView fx:id="D4GreenMaster" fitHeight="28.0" fitWidth="30.0" layoutX="419.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="189.0" AnchorPane.leftAnchor="419.0">
                      <image>
                         <Image url="@Images/GreenMaster.png" />
                      </image>
@@ -3327,7 +3327,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1RedMaster3" fitHeight="28.0" fitWidth="30.0" layoutX="425.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="419.0">
+                  <ImageView fx:id="D4RedMaster" fitHeight="28.0" fitWidth="30.0" layoutX="425.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="419.0">
                      <image>
                         <Image url="@Images/RedMaster.png" />
                      </image>
@@ -3335,7 +3335,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1YellowMaster3" fitHeight="28.0" fitWidth="30.0" layoutX="419.0" layoutY="119.885498046875" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="419.0">
+                  <ImageView fx:id="D4YellowMaster" fitHeight="28.0" fitWidth="30.0" layoutX="419.0" layoutY="119.885498046875" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="104.0" AnchorPane.leftAnchor="419.0">
                      <image>
                         <Image url="@Images/YellowMaster.png" />
                      </image>
@@ -3343,7 +3343,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1PinkMaster3" fitHeight="28.0" fitWidth="30.0" layoutX="418.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="419.0">
+                  <ImageView fx:id="D4PinkMaster" fitHeight="28.0" fitWidth="30.0" layoutX="418.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="419.0">
                      <image>
                         <Image url="@Images/PinkMaster.png" />
                      </image>
@@ -3351,7 +3351,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlueMaster2" fitHeight="28.0" fitWidth="30.0" layoutX="428.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="419.0">
+                  <ImageView fx:id="D4BlueMaster" fitHeight="28.0" fitWidth="30.0" layoutX="428.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="419.0">
                      <image>
                         <Image url="@Images/BlueMaster.png" />
                      </image>
@@ -3359,42 +3359,42 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower13" fitHeight="35.0" fitWidth="52.0" layoutX="480.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="482.0">
+                  <ImageView fx:id="D4BlackTower1" fitHeight="35.0" fitWidth="52.0" layoutX="480.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower23" fitHeight="35.0" fitWidth="52.0" layoutX="527.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="529.0">
+                  <ImageView fx:id="D4BlackTower2" fitHeight="35.0" fitWidth="52.0" layoutX="527.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower33" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="482.0">
+                  <ImageView fx:id="D4BlackTower3" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower43" fitHeight="35.0" fitWidth="52.0" layoutX="520.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="529.0">
+                  <ImageView fx:id="D4BlackTower4" fitHeight="35.0" fitWidth="52.0" layoutX="520.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower53" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="482.0">
+                  <ImageView fx:id="D4BlackTower5" fitHeight="35.0" fitWidth="52.0" layoutX="482.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower63" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="529.0">
+                  <ImageView fx:id="D4BlackTower6" fitHeight="35.0" fitWidth="52.0" layoutX="530.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower73" fitHeight="35.0" fitWidth="52.0" layoutX="481.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="482.0">
+                  <ImageView fx:id="D4BlackTower7" fitHeight="35.0" fitWidth="52.0" layoutX="481.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="482.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="D1BlackTower83" fitHeight="35.0" fitWidth="52.0" layoutX="531.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="529.0">
+                  <ImageView fx:id="D4BlackTower8" fitHeight="35.0" fitWidth="52.0" layoutX="531.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="529.0">
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
