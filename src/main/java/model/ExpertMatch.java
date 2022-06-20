@@ -19,13 +19,18 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     private static final int FIGURECARDSTOTALNUM=12;
     private static final int FIGURECARDSINGAME=3;
 
-    public ExpertMatch(int totalPlayersNum) {
+    public ExpertMatch(int totalPlayersNum)  {
         super(totalPlayersNum);
         centaurEffect =false;
 
         figureCards=new ArrayList<>();
 
-        figureCards.add(new GrannyGrass());
+
+        try {
+            figureCards.add(new Jester());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {

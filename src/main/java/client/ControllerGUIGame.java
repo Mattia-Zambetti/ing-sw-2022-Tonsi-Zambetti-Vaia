@@ -953,6 +953,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private Map<Color, Text> island12NumStudents;
 
+    private int numChoice = 0;
+
+    private List<Integer> studentsIdsToMoveFromCard = new ArrayList<>();
+
+    private List<Integer> studentsIdsToMoveFromEntrance = new ArrayList<>();
+
+    private int jesterCounter = 0;
+
     private List<Map<Color, Text>> numStudentsOnIsland;
 
     private List<ImageView> towerOnIslands;
@@ -1365,6 +1373,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 submitStudentOnPrincess(event);
                 break;
             }
+            case ("Jester played from the current player"):
+                submitStudentOnJester(event);
+                break;
         }
     }
 
@@ -1402,6 +1413,46 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard3.indexOf(((ImageView) event.getSource()))+1));
             ((ImageView)event.getSource()).setOpacity(0.5);
         }
+    }
+
+    public void submitStudentOnJester(Event event){
+        if(numChoice == 0){
+    if(studentsOnFigureCard1.contains((ImageView)event.getSource()) && figureCardsMap.get(2).equals(figureCard1.getImage())){
+        // client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard1.indexOf(((ImageView) event.getSource()))+1));
+        if(((ImageView)event.getSource()).getOpacity() != 0.5 && studentsIdsToMoveFromCard.size()!=3){
+            ((ImageView)event.getSource()).setOpacity(0.5);
+            studentsIdsToMoveFromCard.add(studentsOnFigureCard1.indexOf(((ImageView) event.getSource()))+1);
+        }
+        else {
+            ((ImageView)event.getSource()).setOpacity(1.0);
+            studentsIdsToMoveFromCard.remove(Integer.valueOf(studentsOnFigureCard1.indexOf(((ImageView) event.getSource()))+1));
+        }
+
+    }
+    else if(studentsOnFigureCard2.contains((ImageView)event.getSource()) && figureCardsMap.get(2).equals(figureCard2.getImage())){
+        if(((ImageView)event.getSource()).getOpacity() != 0.5 && studentsIdsToMoveFromCard.size()!=3){
+            ((ImageView)event.getSource()).setOpacity(0.5);
+            studentsIdsToMoveFromCard.add(studentsOnFigureCard2.indexOf(((ImageView) event.getSource()))+1);
+        }
+        else {
+            ((ImageView)event.getSource()).setOpacity(1.0);
+            studentsIdsToMoveFromCard.remove(Integer.valueOf(studentsOnFigureCard2.indexOf(((ImageView) event.getSource()))+1));
+        }
+
+    }
+    else if(studentsOnFigureCard3.contains((ImageView)event.getSource()) && figureCardsMap.get(2).equals(figureCard3.getImage())){
+        if(((ImageView)event.getSource()).getOpacity() != 0.5 && studentsIdsToMoveFromCard.size()!=3){
+            ((ImageView)event.getSource()).setOpacity(0.5);
+            studentsIdsToMoveFromCard.add(studentsOnFigureCard3.indexOf(((ImageView) event.getSource()))+1);
+        }
+        else {
+            ((ImageView)event.getSource()).setOpacity(1.0);
+            studentsIdsToMoveFromCard.remove(Integer.valueOf(studentsOnFigureCard3.indexOf(((ImageView) event.getSource()))+1));
+        }
+
+    }
+}
+
     }
 
     public void submitIslandForMerchant(Event event){
@@ -1816,6 +1867,30 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
                 client.getActualToDoChoice().setChoiceParam(String.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
             }
+            else if(client.getActualToDoChoice() instanceof JesterChoice){
+                if(numChoice == 0 && studentsIdsToMoveFromCard.size()!=0){
+                    numChoice=1;}
+                if(numChoice == 1){
+                    studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1);
+                    if(studentsIdsToMoveFromEntrance.size() == studentsIdsToMoveFromCard.size()){
+                        numChoice = 0;
+                        client.getActualToDoChoice().setChoiceParam(""+studentsIdsToMoveFromEntrance.size());
+                        for(Integer i : studentsIdsToMoveFromCard){
+                            client.getActualToDoChoice().setChoiceParam(""+i);
+                        }
+                        ((JesterChoice)client.getActualToDoChoice()).setStudentsInEntrance(client.getMatchView().showCurrentPlayerDashboard().showEntrance().stream().toList());
+                        for(Integer i : studentsIdsToMoveFromEntrance){
+                            client.getActualToDoChoice().setChoiceParam(""+i);
+                        }
+                        synchronized ( client.getOutputStreamLock() ) {
+                            client.getOutputStreamLock().notifyAll();
+                        }
+                        studentsIdsToMoveFromCard = new ArrayList<>();
+                        studentsIdsToMoveFromEntrance = new ArrayList<>();
+                    }
+                }
+
+            }
         }else
             throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
     }
@@ -1939,7 +2014,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
             }else if(client.getActualToDoChoice() instanceof GrannyGrassChoice){
                 submitBlockOnIsland(event);
-            }else
+            }else if(client.getActualToDoChoice() instanceof MerchantChoice)
             {
                 submitIslandForMerchant(event);
             }

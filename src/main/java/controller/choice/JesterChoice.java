@@ -8,6 +8,7 @@ import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 import model.figureCards.FigureCardWithStudents;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
     int numStudentsToMove, numStudentsToMove1, studentToMove;
     public int numChoice = 0;
 
-    List<Student> studentsInEntrance;
+    List<Student> studentsInEntrance = new ArrayList<>();
     private Set<Student> studentsFromEntrance;
 
     public JesterChoice(FigureCardWithStudents figureCardWithStudents) {
@@ -33,6 +34,9 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
         this.studentsFromEntrance = new HashSet<>(studentsFromEntrance);
     }
 
+    public int getNumChoice() {
+        return numChoice;
+    }
 
     @Override
     public boolean setChoiceParam(String input)
@@ -102,9 +106,13 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
         ((ExpertMatch)match).takeStudentsOnFigureCard( this.getChosenStudent(), this.getStudentsFromEntrance());
     }
 
+    public void setStudentsInEntrance(List<Student> studentsInEntrance) {
+        this.studentsInEntrance = studentsInEntrance;
+    }
+
     public String toString(MatchDataInterface match){
         StringBuilder tmp = new StringBuilder();
-        this.studentsInEntrance = match.showCurrentPlayerDashboard().showEntrance().stream().toList();
+        this.studentsInEntrance.addAll(match.showCurrentPlayerDashboard().showEntrance());
         int counter = 1;
         switch (numChoice){
             case 0:
