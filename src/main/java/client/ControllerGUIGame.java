@@ -26,6 +26,7 @@ import model.exception.NoTowerException;
 import model.exception.WrongColorException;
 import model.figureCards.FigureCard;
 import model.figureCards.FigureCardWithStudents;
+import model.figureCards.GrannyGrass;
 
 import java.io.IOException;
 import java.net.URL;
@@ -85,13 +86,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private  ImageView cardDb4;
 
-    //Figure cards:
-    @FXML
-    private ImageView figureCard1;
-    @FXML
-    private ImageView figureCard2;
-    @FXML
-    private ImageView figureCard3;
+
+
     @FXML
     private GridPane expertMatchPane;
 
@@ -103,6 +99,23 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private Label CoinNumber;
 
 
+    //Figure cards:
+
+    @FXML
+    private ImageView figureCard1;
+    @FXML
+    private ImageView figureCard2;
+    @FXML
+    private ImageView figureCard3;
+
+    private List<ImageView> figureCardsImageViewList;
+
+
+
+
+    /**Figure card 1:*/
+
+        /**Students:*/
     @FXML
     private ImageView FC1Student1;
     @FXML
@@ -116,6 +129,24 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private ImageView FC1Student6;
 
+    private List<ImageView> studentsOnFigureCard1;
+
+        /**Block cards:*/
+    @FXML
+    private ImageView FC1blockCard1;
+    @FXML
+    private ImageView FC1blockCard2;
+    @FXML
+    private ImageView FC1blockCard3;
+    @FXML
+    private ImageView FC1blockCard4;
+
+    private List<ImageView> blockCardsOnFigureCard1;
+
+
+    /**Figure card 2:*/
+
+        /**Students:*/
     @FXML
     private ImageView FC2Student1;
     @FXML
@@ -129,6 +160,23 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private ImageView FC2Student6;
 
+    List<ImageView> studentsOnFigureCard2;
+        /**Block cards:*/
+
+    @FXML
+    private ImageView FC2blockCard1;
+    @FXML
+    private ImageView FC2blockCard2;
+    @FXML
+    private ImageView FC2blockCard3;
+    @FXML
+    private ImageView FC2blockCard4;
+
+    private List<ImageView> blockCardsOnFigureCard2;
+
+    /**Figure card 3:*/
+
+        /**Students:*/
     @FXML
     private ImageView FC3Student1;
     @FXML
@@ -141,6 +189,26 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private ImageView FC3Student5;
     @FXML
     private ImageView FC3Student6;
+
+    List<ImageView> studentsOnFigureCard3;
+
+        /**Block cards:*/
+    @FXML
+    private ImageView FC3blockCard1;
+    @FXML
+    private ImageView FC3blockCard2;
+    @FXML
+    private ImageView FC3blockCard3;
+    @FXML
+    private ImageView FC3blockCard4;
+
+    private List<ImageView> blockCardsOnFigureCard3;
+
+
+    private List<List<ImageView>> studentsOnFigureCardsList;
+
+    private List<List<ImageView>> blockCardsOnFigureCardsList;
+
 
     //cards:
     @FXML
@@ -971,6 +1039,69 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             put(figureCard3,3);
         }};
 
+        figureCardsImageViewList=new ArrayList<>(){{
+            add(figureCard1);
+            add(figureCard2);
+            add(figureCard3);
+        }};
+
+
+
+
+
+        studentsOnFigureCard3=new ArrayList<>(){{
+            add(FC3Student1);
+            add(FC3Student2);
+            add(FC3Student3);
+            add(FC3Student4);
+            add(FC3Student5);
+            add(FC3Student6);
+        }};
+
+        studentsOnFigureCard1=new ArrayList<>(){{
+            add(FC1Student1);
+            add(FC1Student2);
+            add(FC1Student3);
+            add(FC1Student4);
+            add(FC1Student5);
+            add(FC1Student6);
+        }};
+
+        blockCardsOnFigureCard1=new ArrayList<>(){{
+            add(FC1blockCard1);
+            add(FC1blockCard2);
+            add(FC1blockCard3);
+            add(FC1blockCard4);
+        }};
+
+        studentsOnFigureCard2=new ArrayList<>(){{
+            add(FC2Student1);
+            add(FC2Student2);
+            add(FC2Student3);
+            add(FC2Student4);
+            add(FC2Student5);
+            add(FC2Student6);
+        }};
+
+        blockCardsOnFigureCard2=new ArrayList<>(){{
+            add(FC2blockCard1);
+            add(FC2blockCard2);
+            add(FC2blockCard3);
+            add(FC2blockCard4);
+        }};
+
+        blockCardsOnFigureCard3=new ArrayList<>(){{
+            add(FC3blockCard1);
+            add(FC3blockCard2);
+            add(FC3blockCard3);
+            add(FC3blockCard4);
+        }};
+
+        blockCardsOnFigureCardsList=new ArrayList<>(){{
+            add(blockCardsOnFigureCard1);
+            add(blockCardsOnFigureCard2);
+            add(blockCardsOnFigureCard3);
+        }};
 
         initializeIsland();
 
@@ -1146,13 +1277,187 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             hint.setText("You can press c to show/hide your cards or d to show/hide the enemy dashboards");
     }
 
-    public void addStudentsOnFigureCard(ImageView figureCard1){
+    public void submitBlockOnIsland(Event event){
+        ((GrannyGrassChoice)client.getActualToDoChoice()).setIslandPositionTmp(client.getMatchView().getIslandPositions());
+        String islandID = ((Region) event.getSource()).getId();
+        switch(islandID) {
+            case ("island1"):
+                client.getActualToDoChoice().setChoiceParam("0");
+                break;
+            case ("island2"):
+                client.getActualToDoChoice().setChoiceParam("1");
+                break;
+            case ("island3"):
+                client.getActualToDoChoice().setChoiceParam("2");
+                break;
+            case ("island4"):
+                client.getActualToDoChoice().setChoiceParam("3");
+                break;
+            case ("island5"):
+                client.getActualToDoChoice().setChoiceParam("4");
+                break;
+            case ("island6"):
+                client.getActualToDoChoice().setChoiceParam("5");
+                break;
+            case ("island7"):
+                client.getActualToDoChoice().setChoiceParam("6");
+                break;
+            case ("island8"):
+                client.getActualToDoChoice().setChoiceParam("7");
+                break;
+            case ("island9"):
+                client.getActualToDoChoice().setChoiceParam("8");
+                break;
+            case ("island10"):
+                client.getActualToDoChoice().setChoiceParam("9");
+                break;
+            case ("island11"):
+                client.getActualToDoChoice().setChoiceParam("10");
+                break;
+            case ("island12"):
+                client.getActualToDoChoice().setChoiceParam("11");
+                break;
+        }
+        for (int i=0; i<figureCardsImageViewList.size(); i++) {
+            for (int j = 3; j >= 0; j--) {
+                if (blockCardsOnFigureCardsList.get(i).get(j).isVisible()) {
+                    blockCardsOnFigureCardsList.get(i).get(j).setVisible(false);
+                    break;
+                }
+            }
+        }
+        synchronized (client.getOutputStreamLock()) {
+            client.getOutputStreamLock().notifyAll();
+        }
+    }
+    public void submitStudentsOnFigureCard(Event event){
+        switch (client.getMatchView().getChoice().whichChoicePhase()){
+            case("Merchant played from the current player"):{
+                submitStudentOnMerchant(event);
+                break;
+            }
+            case("Princess played from the current player"):{
+                submitStudentOnPrincess(event);
+                break;
+            }
+        }
+    }
 
+    public void submitStudentOnPrincess(Event event){
+        if(studentsOnFigureCard1.contains((ImageView)event.getSource()) && figureCardsMap.get(7).equals(figureCard1.getImage())){
+            client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard1.indexOf(((ImageView) event.getSource()))+1));
+        }
+        else if(studentsOnFigureCard2.contains((ImageView)event.getSource()) && figureCardsMap.get(7).equals(figureCard2.getImage())){
+            client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard2.indexOf(((ImageView) event.getSource()))+1));
+        }
+        else if(studentsOnFigureCard3.contains((ImageView)event.getSource()) && figureCardsMap.get(7).equals(figureCard3.getImage())){
+            client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard3.indexOf((ImageView) event.getSource())+1));
+        }
+        synchronized (client.getOutputStreamLock()) {
+            client.getOutputStreamLock().notifyAll();
+        }
+    }
+
+
+
+    public void submitStudentOnMerchant(Event event){
+
+        if(studentsOnFigureCard1.contains((ImageView)event.getSource()) && figureCardsMap.get(4).equals(figureCard1.getImage())
+                && ((MerchantChoice) client.getMatchView().getChoice()).getNumChoice()==0){
+            client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard1.indexOf(((ImageView) event.getSource()))+1));
+            ((ImageView)event.getSource()).setOpacity(0.5);
+        }
+        else if(studentsOnFigureCard2.contains((ImageView)event.getSource()) && figureCardsMap.get(4).equals(figureCard2.getImage())
+                && ((MerchantChoice) client.getMatchView().getChoice()).getNumChoice()==0){
+            client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard2.indexOf(((ImageView) event.getSource()))+1));
+            ((ImageView)event.getSource()).setOpacity(0.5);
+        }
+        else if(studentsOnFigureCard3.contains((ImageView)event.getSource()) && figureCardsMap.get(4).equals(figureCard3.getImage())
+                && ((MerchantChoice) client.getMatchView().getChoice()).getNumChoice()==0){
+            client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard3.indexOf(((ImageView) event.getSource()))+1));
+            ((ImageView)event.getSource()).setOpacity(0.5);
+        }
+    }
+
+    public void submitIslandForMerchant(Event event){
+        ((MerchantChoice)client.getActualToDoChoice()).setIslandPositionSize(client.getMatchView().getIslandPositions().size());
+        if(client.getMatchView().getChoice() instanceof MerchantChoice
+                && ((MerchantChoice) client.getMatchView().getChoice()).getNumChoice()==1){
+            String islandID = ((Region) event.getSource()).getId();
+
+            switch(islandID) {
+                case ("island1"):
+                    client.getActualToDoChoice().setChoiceParam("0");
+                    break;
+                case ("island2"):
+                    client.getActualToDoChoice().setChoiceParam("1");
+                    break;
+                case ("island3"):
+                    client.getActualToDoChoice().setChoiceParam("2");
+                    break;
+                case ("island4"):
+                    client.getActualToDoChoice().setChoiceParam("3");
+                    break;
+                case ("island5"):
+                    client.getActualToDoChoice().setChoiceParam("4");
+                    break;
+                case ("island6"):
+                    client.getActualToDoChoice().setChoiceParam("5");
+                    break;
+                case ("island7"):
+                    client.getActualToDoChoice().setChoiceParam("6");
+                    break;
+                case ("island8"):
+                    client.getActualToDoChoice().setChoiceParam("7");
+                    break;
+                case ("island9"):
+                    client.getActualToDoChoice().setChoiceParam("8");
+                    break;
+                case ("island10"):
+                    client.getActualToDoChoice().setChoiceParam("9");
+                    break;
+                case ("island11"):
+                    client.getActualToDoChoice().setChoiceParam("10");
+                    break;
+                case ("island12"):
+                    client.getActualToDoChoice().setChoiceParam("11");
+                    break;
+            }
+
+            synchronized (client.getOutputStreamLock()) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }
     }
 
 
     /**updates*/
     public void updateFigureCards() {
+        List<FigureCard> figureCards=client.getMatchView().showFigureCardsInGame();
+
+
+        int j=0;
+        for(FigureCard f: figureCards) {
+            if(f instanceof FigureCardWithStudents) {
+                int i = 0;
+                for (Student s : ((FigureCardWithStudents) f).getStudentsOnCard()) {
+                    studentsOnFigureCardsList.get(j).get(i).setImage(studentsImage.get(s.getColor()));
+                    studentsOnFigureCardsList.get(j).get(i).setVisible(true);
+                    studentsOnFigureCardsList.get(j).get(i).setOpacity(1);
+                    studentsOnFigureCardsList.get(j).get(i).setDisable(true);
+                    i++;
+                }
+            }else if(f instanceof GrannyGrass){
+                int k=0;
+                for(ImageView i: blockCardsOnFigureCardsList.get(figureCards.indexOf(f))){
+                    if(k>=GrannyGrass.getBlockCard())
+                        i.setVisible(false);
+                    k++;
+                }
+            }
+            j++;
+        }
+
         if (client.getPlayer().equals(client.getMatchView().showCurrentPlayer())) {
             CoinNumber.setText("" + client.getMatchView().showCurrentPlayerDashboard().getCoinsNumber());
             if (client.getMatchView().getChoice() instanceof FigureCardActionChoice
@@ -1166,74 +1471,53 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
                 MediaPlayer playBeep=new MediaPlayer(media);
                 playBeep.play();
+
+                for(ImageView i:studentsOnFigureCard1) {
+                    i.setDisable(false);
+                }
+                for(ImageView i:studentsOnFigureCard2) {
+                    i.setDisable(false);
+                }
+                for(ImageView i:studentsOnFigureCard3) {
+                    i.setDisable(false);
+                }
+
             }
         }
     }
 
     public void updateInitialMatchView() {
 
-        List<ImageView> studentsOnFigureCards;
+
         if (client.isMatchCompletelyCreated()) {
             MatchDataInterface match = client.getMatchView();
 
             //figure cards management and coins management:
             if(match instanceof ExpertMatch) {
                 List<FigureCard> figureCards = match.showFigureCardsInGame();
+                studentsOnFigureCardsList=new ArrayList<>(){{
+                    add(studentsOnFigureCard1);
+                    add(studentsOnFigureCard2);
+                    add(studentsOnFigureCard3);
+                }};
 
-                figureCard1.setImage(figureCardsMap.get(figureCards.get(0).getCardId()));
-                if(figureCards.get(0) instanceof FigureCardWithStudents){
-                    studentsOnFigureCards=new ArrayList<>(){{
-                        add(FC1Student1);
-                        add(FC1Student2);
-                        add(FC1Student3);
-                        add(FC1Student4);
-                        add(FC1Student5);
-                        add(FC1Student6);
-                    }};
-                    int i=0;
-                    for (Student s: ((FigureCardWithStudents) figureCards.get(1)).getStudentsOnCard()) {
-                        studentsOnFigureCards.get(i).setImage(studentsImage.get(s.getColor()));
-                        studentsOnFigureCards.get(i).setVisible(true);
-                        i++;
+                for(int i=0; i< figureCards.size();i++) {
+                    figureCardsImageViewList.get(i).setImage(figureCardsMap.get(figureCards.get(i).getCardId()));
+                    if (figureCards.get(i) instanceof FigureCardWithStudents) {
+
+                        int j = 0;
+                        for (Student s : ((FigureCardWithStudents) figureCards.get(i)).getStudentsOnCard()) {
+                            studentsOnFigureCardsList.get(i).get(j).setImage(studentsImage.get(s.getColor()));
+                            studentsOnFigureCardsList.get(i).get(j).setVisible(true);
+                            j++;
+                        }
+                    } else if (figureCards.get(i) instanceof GrannyGrass) {
+                        for (int j = 0; j < blockCardsOnFigureCardsList.get(i).size(); j++) {
+                            blockCardsOnFigureCardsList.get(i).get(j).setVisible(true);
+                            blockCardsOnFigureCardsList.get(i).get(j).setDisable(true);
+                        }
                     }
-                }
 
-
-                figureCard2.setImage(figureCardsMap.get(figureCards.get(1).getCardId()));
-                if(figureCards.get(1) instanceof FigureCardWithStudents){
-                    studentsOnFigureCards=new ArrayList<>(){{
-                        add(FC2Student1);
-                        add(FC2Student2);
-                        add(FC2Student3);
-                        add(FC2Student4);
-                        add(FC2Student5);
-                        add(FC2Student6);
-                    }};
-                    int i=0;
-                    for (Student s: ((FigureCardWithStudents) figureCards.get(0)).getStudentsOnCard()) {
-                        studentsOnFigureCards.get(i).setImage(studentsImage.get(s.getColor()));
-                        studentsOnFigureCards.get(i).setVisible(true);
-                        i++;
-                    }
-                }
-
-
-                figureCard3.setImage(figureCardsMap.get(figureCards.get(2).getCardId()));
-                if(figureCards.get(2) instanceof FigureCardWithStudents){
-                    studentsOnFigureCards=new ArrayList<>(){{
-                        add(FC3Student1);
-                        add(FC3Student2);
-                        add(FC3Student3);
-                        add(FC3Student4);
-                        add(FC3Student5);
-                        add(FC3Student6);
-                    }};
-                    int i=0;
-                    for (Student s: ((FigureCardWithStudents) figureCards.get(2)).getStudentsOnCard()) {
-                        studentsOnFigureCards.get(i).setImage(studentsImage.get(s.getColor()));
-                        studentsOnFigureCards.get(i).setVisible(true);
-                        i++;
-                    }
                 }
             }else {
                 expertMatchPane.setVisible(false);
@@ -1357,10 +1641,21 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             client.setActualToDoChoiceQueue(client.getActualToDoChoice());
             client.setActualToDoChoice(figureCardChoice);
 
+
+            client.getActualToDoChoiceQueue().setSendingPlayer(client.getPlayer());
+            try {
+                client.getOutputStream().writeObject(client.getActualToDoChoiceQueue());
+                client.getOutputStream().flush();
+                client.getOutputStream().reset();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+
             avatarFigureCard.setImage(((ImageView)event.getSource()).getImage());
             figureCardChoice.setChoiceParam(""+fromFigureCardsToInteger.get(((ImageView) event.getSource())));
-
-
 
             synchronized (client.getOutputStreamLock()) {
                 client.getOutputStreamLock().notifyAll();
@@ -1489,8 +1784,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseIsland(MouseEvent event) throws NoIslandException {
         if ( event.getSource() instanceof Region ) {
             String islandID = ((Region) event.getSource()).getId();
-            if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
-                System.out.println("qui");
+            if ( client.getActualToDoChoice() instanceof MoveStudentChoice
+                    && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
                 client.getActualToDoChoice().setChoiceParam("2");
                 switch(islandID) {
                     case("island1"):
@@ -1535,74 +1830,78 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
             }
             else if ( client.getActualToDoChoice() instanceof MoveMotherNatureChoice ) {
-                int chosenIsland = 0,numToMove;
-                switch(islandID) {
-                    case("island1"):
+                int chosenIsland = 0, numToMove;
+                switch (islandID) {
+                    case ("island1"):
                         chosenIsland = 0;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island2"):
+                    case ("island2"):
                         chosenIsland = 1;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island3"):
+                    case ("island3"):
                         chosenIsland = 2;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island4"):
+                    case ("island4"):
                         chosenIsland = 3;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island5"):
+                    case ("island5"):
                         chosenIsland = 4;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island6"):
+                    case ("island6"):
                         chosenIsland = 5;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island7"):
+                    case ("island7"):
                         chosenIsland = 6;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island8"):
+                    case ("island8"):
                         chosenIsland = 7;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island9"):
+                    case ("island9"):
                         chosenIsland = 8;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island10"):
+                    case ("island10"):
                         chosenIsland = 9;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island11"):
+                    case ("island11"):
                         chosenIsland = 10;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
-                    case("island12"):
+                    case ("island12"):
                         chosenIsland = 11;
                         numToMove = getNumMovementsBasedOnChosenIsland(chosenIsland);
-                        client.getActualToDoChoice().setChoiceParam(""+numToMove);
+                        client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
                 }
-                synchronized ( client.getOutputStreamLock() ) {
+                synchronized (client.getOutputStreamLock()) {
                     client.getOutputStreamLock().notifyAll();
                 }
+            }else if(client.getActualToDoChoice() instanceof GrannyGrassChoice){
+                submitBlockOnIsland(event);
+            }else
+            {
+                submitIslandForMerchant(event);
             }
-
         }else
             throw new IllegalArgumentException("chooseIsland method called by an Object that is not an ImageView");
     }
@@ -2118,7 +2417,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         updateClouds();
         //updateCurrentCards(); //TODO
 
-        updateFigureCards();
+        if(client.getMatchView() instanceof ExpertMatch) {
+            updateFigureCards();
+        }
 
     }
 

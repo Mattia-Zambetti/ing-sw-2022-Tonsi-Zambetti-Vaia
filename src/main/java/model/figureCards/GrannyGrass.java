@@ -40,5 +40,7 @@ public class GrannyGrass extends FigureCard  implements Serializable {
     }
 
 
-
+    public static int getBlockCard() {
+        return blockCard;
+    }
 }

@@ -85,4 +85,12 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
     public String whichChoicePhase(){
         return "Merchant played from the current player";
     }
+
+    public int getNumChoice() {
+        return numChoice;
+    }
+
+    public void setIslandPositionSize(int islandPositionSize) {
+        this.islandPositionSize = islandPositionSize;
+    }
 }

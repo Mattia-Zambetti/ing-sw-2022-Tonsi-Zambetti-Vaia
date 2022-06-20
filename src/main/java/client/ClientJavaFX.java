@@ -282,7 +282,9 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
 
 
-                            if(!(matchView.getChoice() instanceof DataPlayerChoice) ||(matchView.getChoice() instanceof DataPlayerChoice && ((DataPlayerChoice) matchView.getChoice()).getPossessor()==idThis)) {
+                            if(!(matchView.getChoice() instanceof DataPlayerChoice)
+                                    ||(matchView.getChoice() instanceof DataPlayerChoice
+                                    && ((DataPlayerChoice) matchView.getChoice()).getPossessor()==idThis)) {
                                 actualToDoChoice = matchView.getChoice();
                                 isChanged=true; //Used to check if the player who has to set his data is te correct one
                             }

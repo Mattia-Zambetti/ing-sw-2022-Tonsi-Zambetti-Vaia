@@ -45,7 +45,7 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
 
     public String toString(MatchDataInterface match){
         StringBuilder tmp = new StringBuilder();
-        islandPositionTmp = match.getIslandPositions();
+        islandPositionTmp = new ArrayList<>(match.getIslandPositions());
         tmp.append("Choose the Island you want to block: ");
         for(int i = 0;i < match.getIslandPositions().size(); i++){
             tmp.append("\n"+ match.getIslandPositions().get(i) + ") island");
@@ -56,6 +56,9 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
 
     public String whichChoicePhase(){
         return "Granny grass played from the current player";
+    }
+    public void setIslandPositionTmp(List<Integer> islandPositionTmp) {
+        this.islandPositionTmp = islandPositionTmp;
     }
 }
 
