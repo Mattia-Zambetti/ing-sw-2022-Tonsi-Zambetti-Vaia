@@ -692,6 +692,14 @@
                </image>
             </ImageView>
             <Region fx:id="island9" layoutX="15.0" layoutY="39.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl9" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="59.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="376.0" layoutY="220.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
@@ -758,6 +766,14 @@
                </image>
             </ImageView>
             <Region fx:id="island11" layoutX="17.0" layoutY="39.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl11" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="60.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="552.0" layoutY="476.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
@@ -823,7 +839,15 @@
                   <Image url="@Images/madreNatura.png" />
                </image>
             </ImageView>
-            <Region fx:id="island5" layoutX="15.0" layoutY="12.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <Region fx:id="island5" layoutX="16.0" layoutY="-1.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl5" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="58.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="386.0" layoutY="230.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
@@ -890,6 +914,14 @@
                </image>
             </ImageView>
             <Region fx:id="island8" layoutX="16.0" layoutY="-2.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl8" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="58.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -956,16 +988,24 @@
                </image>
             </ImageView>
             <Region fx:id="island1" layoutX="12.0" layoutY="11.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl1" disable="true" fitHeight="98.0" fitWidth="52.0" layoutX="53.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+      <AnchorPane prefHeight="150.0" prefWidth="169.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
          <children>
-            <ImageView fitHeight="128.0" fitWidth="175.0" layoutX="8.0" layoutY="47.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="128.0" fitWidth="175.0" layoutX="12.0" layoutY="102.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/Isola1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="yellowStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="33.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="yellowStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="37.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/YellowStudent.png" />
                </image>
@@ -973,8 +1013,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numYStudentIsl10" layoutX="43.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="blueStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="114.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numYStudentIsl10" layoutX="47.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="blueStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="118.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/BlueStudent.png" />
                </image>
@@ -982,8 +1022,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numBStudentIsl10" layoutX="124.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="pinkStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="46.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numBStudentIsl10" layoutX="128.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="pinkStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="50.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/PinkStudent.png" />
                </image>
@@ -991,8 +1031,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numPStudentIsl10" layoutX="55.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="redStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="101.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numPStudentIsl10" layoutX="59.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="redStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="105.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/RedStudent.png" />
                </image>
@@ -1000,8 +1040,8 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numRStudentIsl10" layoutX="111.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="greenStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="46.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numRStudentIsl10" layoutX="115.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="greenStudentIsl10" fitHeight="26.0" fitWidth="35.0" layoutX="50.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/GreenStudent.png" />
                </image>
@@ -1009,20 +1049,28 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <Text fx:id="numGStudentIsl10" layoutX="56.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="BlackTower10" fitHeight="35.0" fitWidth="52.0" layoutX="83.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="numGStudentIsl10" layoutX="60.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="BlackTower10" fitHeight="35.0" fitWidth="52.0" layoutX="87.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/BlackTower.png" />
                </image>
             </ImageView>
-            <Text fx:id="towerNum10" layoutX="97.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <ImageView fx:id="motherNature10" fitHeight="35.0" fitWidth="35.0" layoutX="71.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true">
+            <Text fx:id="towerNum10" layoutX="101.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <ImageView fx:id="motherNature10" fitHeight="35.0" fitWidth="35.0" layoutX="75.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/madreNatura.png" />
                </image>
             </ImageView>
-            <Region fx:id="island10" layoutX="16.0" layoutY="39.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-3.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
+            <Region fx:id="island10" layoutX="20.0" layoutY="94.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fitHeight="138.0" fitWidth="140.0" layoutX="17.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="blockCardIsl10" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="62.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
@@ -1089,6 +1137,14 @@
                </image>
             </ImageView>
             <Region fx:id="island7" layoutX="8.0" layoutY="9.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl7" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="50.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
@@ -1155,6 +1211,14 @@
                </image>
             </ImageView>
             <Region fx:id="island4" layoutX="15.0" layoutY="-1.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl4" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="59.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
@@ -1221,6 +1285,14 @@
                </image>
             </ImageView>
             <Region fx:id="island6" layoutX="23.0" layoutY="23.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl6" disable="true" fitHeight="52.0" fitWidth="52.0" layoutX="65.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
@@ -1287,6 +1359,14 @@
                </image>
             </ImageView>
             <Region fx:id="island3" layoutX="15.0" layoutY="-1.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl3" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="59.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
@@ -1353,6 +1433,14 @@
                </image>
             </ImageView>
             <Region fx:id="island12" layoutX="16.0" layoutY="-2.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl12" disable="true" fitHeight="98.0" fitWidth="52.0" layoutX="59.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -1418,6 +1506,14 @@
                   <Image url="@Images/madreNatura.png" />
                </image></ImageView>
             <Region fx:id="island2" layoutX="11.0" layoutY="17.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
+            <ImageView fx:id="blockCardIsl2" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="54.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@Images/divieto.png" />
+               </image>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
       <GridPane fx:id="expertMatchPane" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4">

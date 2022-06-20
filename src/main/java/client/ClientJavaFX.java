@@ -109,7 +109,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
     @Override
     public void start(Stage primaryStage) {
         try {
-
             ControllerGUIInterface.setStage(primaryStage);
             fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("StartingTitle.fxml"));

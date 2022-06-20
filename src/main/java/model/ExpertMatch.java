@@ -3,8 +3,8 @@ package model;
 import controller.Controller;
 import controller.choice.*;
 import graphicAssets.CLIgraphicsResources;
-import model.figureCards.*;
 import model.exception.*;
+import model.figureCards.*;
 
 import java.io.Serializable;
 import java.util.*;
@@ -25,7 +25,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         figureCards=new ArrayList<>();
 
-        //figureCards.add(new Thief());
+        figureCards.add(new GrannyGrass());
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
@@ -383,10 +383,12 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             islands.get(islandToSetForbidden).setForbidden(true);
             GrannyGrass.removeBlockCard();
             setChoicePhase(Controller.getTmpChoice());
+            choicePhase.setBlockCardsNum(GrannyGrass.getBlockCard());
             notifyMatchObservers();
         }
         else throw new NoIslandException("Insert an island that exists");
     }
+
 
     public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         int tmp = currentIsland;

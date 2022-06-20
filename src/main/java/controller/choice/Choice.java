@@ -6,6 +6,7 @@ import model.MatchDataInterface;
 import model.Player;
 import model.exception.*;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
+import model.figureCards.GrannyGrass;
 import model.figureCards.NoMoreBlockCardsException;
 
 import java.io.Serial;
@@ -16,9 +17,15 @@ public abstract class Choice implements Serializable {
     @Serial
     private static final long serialVersionUID =445345454;
 
+    private int blockCardsNum;
+
     private Player sendingPlayer;
 
     public boolean completed = false;
+
+    public Choice(){
+        blockCardsNum= GrannyGrass.getBlockCard();
+    }
 
     public void setSendingPlayer(Player sendingPlayer) {
         this.sendingPlayer = new Player(sendingPlayer.getNickname());
@@ -62,4 +69,11 @@ public abstract class Choice implements Serializable {
         return res.toString();
     }
 
+    public void setBlockCardsNum(int blockCardsNum) {
+        this.blockCardsNum = blockCardsNum;
+    }
+
+    public int getBlockCardsNum() {
+        return blockCardsNum;
+    }
 }

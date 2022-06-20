@@ -12,6 +12,7 @@ import java.util.List;
 
 public class GrannyGrassChoice extends FigureCardActionChoice{
     private int blockedIslanID;
+
     private List<Integer> islandPositionTmp = new ArrayList<>();
 
     public int getBlockedIslanID() {
@@ -60,5 +61,7 @@ public class GrannyGrassChoice extends FigureCardActionChoice{
     public void setIslandPositionTmp(List<Integer> islandPositionTmp) {
         this.islandPositionTmp = islandPositionTmp;
     }
+
+
 }
 

@@ -209,6 +209,33 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private List<List<ImageView>> blockCardsOnFigureCardsList;
 
+    @FXML
+    private ImageView blockCardIsl1;
+    @FXML
+    private ImageView blockCardIsl2;
+    @FXML
+    private ImageView blockCardIsl3;
+    @FXML
+    private ImageView blockCardIsl4;
+    @FXML
+    private ImageView blockCardIsl5;
+    @FXML
+    private ImageView blockCardIsl6;
+    @FXML
+    private ImageView blockCardIsl7;
+    @FXML
+    private ImageView blockCardIsl8;
+    @FXML
+    private ImageView blockCardIsl9;
+    @FXML
+    private ImageView blockCardIsl10;
+    @FXML
+    private ImageView blockCardIsl11;
+    @FXML
+    private ImageView blockCardIsl12;
+
+    private List<ImageView> blockCardIslList;
+
 
     //cards:
     @FXML
@@ -940,6 +967,23 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private Map<Integer,List<ImageView>> studentsOcClouds;
 
+    private Map<String, Integer> fromIslandToInt=new HashMap<>(){{
+        put("island1",0);
+        put("island2",1);
+        put("island3",2);
+        put("island4",3);
+        put("island5",4);
+        put("island6",5);
+        put("island7",6);
+        put("island8",7);
+        put("island9",8);
+        put("island10",9);
+        put("island11",10);
+        put("island12",11);
+
+
+    }};
+
 
     private static Map<Integer,Image> figureCardsMap=new HashMap<>(){{
         put(1, new Image(getClass().getResourceAsStream("/client/Images/Centaur.jpg" )));
@@ -1101,6 +1145,21 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             add(blockCardsOnFigureCard1);
             add(blockCardsOnFigureCard2);
             add(blockCardsOnFigureCard3);
+        }};
+
+        blockCardIslList=new ArrayList<>(){{
+            add(blockCardIsl1);
+            add(blockCardIsl2);
+            add(blockCardIsl3);
+            add(blockCardIsl4);
+            add(blockCardIsl5);
+            add(blockCardIsl6);
+            add(blockCardIsl7);
+            add(blockCardIsl8);
+            add(blockCardIsl9);
+            add(blockCardIsl10);
+            add(blockCardIsl11);
+            add(blockCardIsl12);
         }};
 
         initializeIsland();
@@ -1280,44 +1339,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void submitBlockOnIsland(Event event){
         ((GrannyGrassChoice)client.getActualToDoChoice()).setIslandPositionTmp(client.getMatchView().getIslandPositions());
         String islandID = ((Region) event.getSource()).getId();
-        switch(islandID) {
-            case ("island1"):
-                client.getActualToDoChoice().setChoiceParam("0");
-                break;
-            case ("island2"):
-                client.getActualToDoChoice().setChoiceParam("1");
-                break;
-            case ("island3"):
-                client.getActualToDoChoice().setChoiceParam("2");
-                break;
-            case ("island4"):
-                client.getActualToDoChoice().setChoiceParam("3");
-                break;
-            case ("island5"):
-                client.getActualToDoChoice().setChoiceParam("4");
-                break;
-            case ("island6"):
-                client.getActualToDoChoice().setChoiceParam("5");
-                break;
-            case ("island7"):
-                client.getActualToDoChoice().setChoiceParam("6");
-                break;
-            case ("island8"):
-                client.getActualToDoChoice().setChoiceParam("7");
-                break;
-            case ("island9"):
-                client.getActualToDoChoice().setChoiceParam("8");
-                break;
-            case ("island10"):
-                client.getActualToDoChoice().setChoiceParam("9");
-                break;
-            case ("island11"):
-                client.getActualToDoChoice().setChoiceParam("10");
-                break;
-            case ("island12"):
-                client.getActualToDoChoice().setChoiceParam("11");
-                break;
-        }
+
+        client.getActualToDoChoice().setChoiceParam(""+fromIslandToInt.get(islandID));
+
+
         for (int i=0; i<figureCardsImageViewList.size(); i++) {
             for (int j = 3; j >= 0; j--) {
                 if (blockCardsOnFigureCardsList.get(i).get(j).isVisible()) {
@@ -1385,7 +1410,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 && ((MerchantChoice) client.getMatchView().getChoice()).getNumChoice()==1){
             String islandID = ((Region) event.getSource()).getId();
 
-            switch(islandID) {
+
+            client.getActualToDoChoice().setChoiceParam(""+fromIslandToInt.get(islandID));
+
+            /*switch(islandID) {
                 case ("island1"):
                     client.getActualToDoChoice().setChoiceParam("0");
                     break;
@@ -1423,7 +1451,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     client.getActualToDoChoice().setChoiceParam("11");
                     break;
             }
-
+*/
             synchronized (client.getOutputStreamLock()) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -1450,8 +1478,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             }else if(f instanceof GrannyGrass){
                 int k=0;
                 for(ImageView i: blockCardsOnFigureCardsList.get(figureCards.indexOf(f))){
-                    if(k>=GrannyGrass.getBlockCard())
+                    if(k>=client.getMatchView().getChoice().getBlockCardsNum())
                         i.setVisible(false);
+                    else
+                        i.setVisible(true);
                     k++;
                 }
             }
@@ -1483,6 +1513,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
 
             }
+        }
+        for (int i=0;i<client.getMatchView().getIslands().size(); i++) {
+            if(client.getMatchView().getIslands().get(i).checkForbidden()){
+                blockCardIslList.get(i).setVisible(true);
+            }else
+                blockCardIslList.get(i).setVisible(false);
+
         }
     }
 
@@ -1559,6 +1596,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         boxCards.setVisible(true);
         hintBox.setVisible(false);
         if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
+            avatarFigureCard.setVisible(false);
+            client.setFigureCardNotPlayed(true);
             for (Card c:client.getMatchView().showCurrentPlayerDashboard().showCards()){
                 if(fromCardsToImages.containsKey(c)){
                     fromCardsToImages.get(c).setVisible(true);
@@ -1787,7 +1826,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             if ( client.getActualToDoChoice() instanceof MoveStudentChoice
                     && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
                 client.getActualToDoChoice().setChoiceParam("2");
-                switch(islandID) {
+
+                client.getActualToDoChoice().setChoiceParam(""+fromIslandToInt.get(islandID));
+                /*switch(islandID) {
                     case("island1"):
                         client.getActualToDoChoice().setChoiceParam("0");
                         break;
@@ -1824,7 +1865,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     case("island12"):
                         client.getActualToDoChoice().setChoiceParam("11");
                         break;
-                }
+                }*/
                 synchronized ( client.getOutputStreamLock() ) {
                     client.getOutputStreamLock().notifyAll();
                 }

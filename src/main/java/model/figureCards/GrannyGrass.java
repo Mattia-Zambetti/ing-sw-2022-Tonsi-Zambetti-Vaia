@@ -7,13 +7,14 @@ import java.io.Serializable;
 
 public class GrannyGrass extends FigureCard  implements Serializable {
     private static final int PRICECARD = 2;
-    private static int blockCard = 4;
+    private static int blockCard ;
 
 
     public GrannyGrass() {
         setPrice(PRICECARD);
         cardId=8;
         actualChoice = new GrannyGrassChoice();
+        blockCard=4;
     }
 
 
@@ -22,16 +23,23 @@ public class GrannyGrass extends FigureCard  implements Serializable {
     }
 
     public static void removeBlockCard() throws NoMoreBlockCardsException{
-        if(GrannyGrass.blockCard > 0)
+        if(GrannyGrass.blockCard > 0) {
             GrannyGrass.blockCard--;
+        }
+
         else throw new NoMoreBlockCardsException("Block Cards finished");
     }
 
     //TODO DA TESTARE
     public static void addBlockCard() throws NoMoreBlockCardsException{
-        if(GrannyGrass.blockCard < 4)
+        if(GrannyGrass.blockCard < 4) {
             GrannyGrass.blockCard++;
+        }
         else throw new NoMoreBlockCardsException("Too many block cards");
+    }
+
+    public static int getBlockCard() {
+        return blockCard;
     }
 
     @Override
@@ -40,7 +48,4 @@ public class GrannyGrass extends FigureCard  implements Serializable {
     }
 
 
-    public static int getBlockCard() {
-        return blockCard;
-    }
 }
