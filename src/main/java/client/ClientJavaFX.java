@@ -251,7 +251,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
 
                         if(obj instanceof Message){
-                            ((Message)obj).manageMessage(ClientJavaFX.this);
+                            ((Message)obj).manageMessageGUI(ClientJavaFX.this);
                         }
 
                         if ( obj instanceof StartingMatchChoice s) {
@@ -385,6 +385,10 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ControllerGUIInterface getControllerGUI() {
+        return controllerGUI;
     }
 
 }

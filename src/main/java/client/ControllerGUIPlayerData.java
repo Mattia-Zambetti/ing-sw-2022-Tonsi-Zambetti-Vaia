@@ -112,6 +112,8 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
         System.out.println(s);
     }
 
+
+
     @FXML
     public void submitValues(ActionEvent e){
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();

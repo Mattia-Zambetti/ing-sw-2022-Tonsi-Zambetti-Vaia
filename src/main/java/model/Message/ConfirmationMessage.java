@@ -1,6 +1,7 @@
 package model.Message;
 
 import client.Client;
+import client.ClientJavaFX;
 
 import java.io.Serializable;
 
@@ -16,4 +17,6 @@ public abstract class ConfirmationMessage extends Message implements Serializabl
     }
 
     public abstract void manageMessage(Client client);
+
+    public abstract void manageMessageGUI(ClientJavaFX client);
 }

@@ -75,6 +75,7 @@ public class ControllerGUI extends ControllerGUIInterface implements Initializab
         textBox.setText(s);
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Font font=Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),12);

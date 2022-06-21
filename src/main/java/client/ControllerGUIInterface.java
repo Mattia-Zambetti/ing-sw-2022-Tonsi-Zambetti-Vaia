@@ -39,4 +39,6 @@ public abstract class ControllerGUIInterface {
     public static void setStage(Stage stage) {
         ControllerGUIInterface.stage = stage;
     }
+
+
 }

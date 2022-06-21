@@ -52,6 +52,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     @FXML
     private Text hint;
 
+    @FXML
+    private GridPane messagePane;
+
+    @FXML
+    private Label messageLabel;
+
     /**DataPlayer:*/
     @FXML
     private ImageView avatarTower;
@@ -2673,6 +2679,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             tower.get(towerNumber).setVisible(visible);
         }
 
+    }
+
+    public void showMessage(String message) {
+        messagePane.setVisible(true);
+        messageLabel.setText(message);
+    }
+
+    public void closeMessageBox() {
+        messagePane.setVisible(false);
     }
     //ZAMBO END
 

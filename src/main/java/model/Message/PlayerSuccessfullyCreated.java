@@ -1,6 +1,7 @@
 package model.Message;
 
 import client.Client;
+import client.ClientJavaFX;
 import graphicAssets.CLIgraphicsResources;
 import model.Player;
 
@@ -12,6 +13,15 @@ public class PlayerSuccessfullyCreated extends ConfirmationMessage {
     }
 
     public void manageMessage(Client client){
+        if(client.getIdThis()== getId()) {
+            client.setPlayer(player);
+            System.out.println(CLIgraphicsResources.getStringColor("Player confirmed, get ready for the match",CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_GREEN));
+        }
+
+    }
+
+    //TODO DA CAMBIARE
+    public void manageMessageGUI(ClientJavaFX client){
         if(client.getIdThis()== getId()) {
             client.setPlayer(player);
             System.out.println(CLIgraphicsResources.getStringColor("Player confirmed, get ready for the match",CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_GREEN));
