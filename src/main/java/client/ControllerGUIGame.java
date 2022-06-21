@@ -953,6 +953,226 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private Map<Color, Text> island12NumStudents;
 
+    //islands
+
+    @FXML
+    private ImageView islandImage1;
+
+    @FXML
+    private ImageView islandImage10;
+
+    @FXML
+    private ImageView islandImage11;
+
+    @FXML
+    private ImageView islandImage12;
+
+    @FXML
+    private ImageView islandImage2;
+
+    @FXML
+    private ImageView islandImage3;
+
+    @FXML
+    private ImageView islandImage4;
+
+    @FXML
+    private ImageView islandImage5;
+
+    @FXML
+    private ImageView islandImage6;
+
+    @FXML
+    private ImageView islandImage7;
+
+    @FXML
+    private ImageView islandImage8;
+
+    @FXML
+    private ImageView islandImage9;
+
+    //students on islands
+
+    @FXML
+    private ImageView pinkStudentIsl10;
+
+    @FXML
+    private ImageView pinkStudentIsl11;
+
+    @FXML
+    private ImageView pinkStudentIsl12;
+
+    @FXML
+    private ImageView pinkStudentIsl2;
+
+    @FXML
+    private ImageView pinkStudentIsl3;
+
+    @FXML
+    private ImageView pinkStudentIsl4;
+
+    @FXML
+    private ImageView pinkStudentIsl5;
+
+    @FXML
+    private ImageView pinkStudentIsl6;
+
+    @FXML
+    private ImageView pinkStudentIsl7;
+
+    @FXML
+    private ImageView pinkStudentIsl8;
+
+    @FXML
+    private ImageView pinkStudentIsl9;
+
+    @FXML
+    private ImageView redStudentIsl1;
+
+    @FXML
+    private ImageView redStudentIsl10;
+
+    @FXML
+    private ImageView redStudentIsl11;
+
+    @FXML
+    private ImageView redStudentIsl12;
+
+    @FXML
+    private ImageView redStudentIsl2;
+
+    @FXML
+    private ImageView redStudentIsl3;
+
+    @FXML
+    private ImageView redStudentIsl4;
+
+    @FXML
+    private ImageView redStudentIsl5;
+
+    @FXML
+    private ImageView redStudentIsl6;
+
+    @FXML
+    private ImageView redStudentIsl7;
+
+    @FXML
+    private ImageView redStudentIsl8;
+
+    @FXML
+    private ImageView redStudentIsl9;
+
+    @FXML
+    private ImageView yellowStudentIsl1;
+
+    @FXML
+    private ImageView yellowStudentIsl10;
+
+    @FXML
+    private ImageView yellowStudentIsl11;
+
+    @FXML
+    private ImageView yellowStudentIsl12;
+
+    @FXML
+    private ImageView yellowStudentIsl2;
+
+    @FXML
+    private ImageView yellowStudentIsl3;
+
+    @FXML
+    private ImageView yellowStudentIsl4;
+
+    @FXML
+    private ImageView yellowStudentIsl5;
+
+    @FXML
+    private ImageView yellowStudentIsl6;
+
+    @FXML
+    private ImageView yellowStudentIsl7;
+
+    @FXML
+    private ImageView yellowStudentIsl8;
+
+    @FXML
+    private ImageView yellowStudentIsl9;
+
+    @FXML
+    private ImageView blueStudentIsl1;
+
+    @FXML
+    private ImageView blueStudentIsl10;
+
+    @FXML
+    private ImageView blueStudentIsl11;
+
+    @FXML
+    private ImageView blueStudentIsl12;
+
+    @FXML
+    private ImageView blueStudentIsl2;
+
+    @FXML
+    private ImageView blueStudentIsl3;
+
+    @FXML
+    private ImageView blueStudentIsl4;
+
+    @FXML
+    private ImageView blueStudentIsl5;
+
+    @FXML
+    private ImageView blueStudentIsl6;
+
+    @FXML
+    private ImageView blueStudentIsl7;
+
+    @FXML
+    private ImageView blueStudentIsl8;
+
+    @FXML
+    private ImageView blueStudentIsl9;
+
+    @FXML
+    private ImageView greenStudentIsl1;
+
+    @FXML
+    private ImageView greenStudentIsl10;
+
+    @FXML
+    private ImageView greenStudentIsl11;
+
+    @FXML
+    private ImageView greenStudentIsl12;
+
+    @FXML
+    private ImageView greenStudentIsl2;
+
+    @FXML
+    private ImageView greenStudentIsl3;
+
+    @FXML
+    private ImageView greenStudentIsl4;
+
+    @FXML
+    private ImageView greenStudentIsl5;
+
+    @FXML
+    private ImageView greenStudentIsl6;
+
+    @FXML
+    private ImageView greenStudentIsl7;
+
+    @FXML
+    private ImageView greenStudentIsl8;
+
+    @FXML
+    private ImageView greenStudentIsl9;
+
+    @FXML
+    private ImageView pinkStudentIsl1;
+
     private int numChoice = 0;
 
     private List<Integer> studentsIdsToMoveFromCard = new ArrayList<>();
@@ -974,6 +1194,34 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private List<ImageView> clouds;
 
     private Map<Integer,List<ImageView>> studentsOcClouds;
+
+    private Map<Integer,Map<Color,ImageView>> studentImagesOnIslands;
+
+    private List<ImageView> islandsImages;
+
+    private Map<Color,ImageView> studentsImagesIsland1;
+
+    private Map<Color,ImageView> studentsImagesIsland2;
+
+    private Map<Color,ImageView> studentsImagesIsland3;
+
+    private Map<Color,ImageView> studentsImagesIsland4;
+
+    private Map<Color,ImageView> studentsImagesIsland5;
+
+    private Map<Color,ImageView> studentsImagesIsland6;
+
+    private Map<Color,ImageView> studentsImagesIsland7;
+
+    private Map<Color,ImageView> studentsImagesIsland8;
+
+    private Map<Color,ImageView> studentsImagesIsland9;
+
+    private Map<Color,ImageView> studentsImagesIsland10;
+
+    private Map<Color,ImageView> studentsImagesIsland11;
+
+    private Map<Color,ImageView> studentsImagesIsland12;
 
     private Map<String, Integer> fromIslandToInt=new HashMap<>(){{
         put("island1",0);
@@ -1276,6 +1524,132 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             add(island4NumStudents);add(island5NumStudents);add(island6NumStudents);
             add(island7NumStudents);add(island8NumStudents);add(island9NumStudents);add(island10NumStudents);
             add(island11NumStudents);add(island12NumStudents);
+        }};
+
+        islandsImages = new ArrayList<>(){{
+            add(islandImage1);
+            add(islandImage2);
+            add(islandImage3);
+            add(islandImage4);
+            add(islandImage5);
+            add(islandImage6);
+            add(islandImage7);
+            add(islandImage8);
+            add(islandImage9);
+            add(islandImage10);
+            add(islandImage11);
+            add(islandImage12);
+        }};
+
+        studentsImagesIsland1 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl1);
+            put(Color.BLUE,blueStudentIsl1);
+            put(Color.YELLOW,yellowStudentIsl1);
+            put(Color.GREEN,greenStudentIsl1);
+            put(Color.PINK,pinkStudentIsl1);
+        }};
+
+        studentsImagesIsland2 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl2);
+            put(Color.BLUE,blueStudentIsl2);
+            put(Color.YELLOW,yellowStudentIsl2);
+            put(Color.GREEN,greenStudentIsl2);
+            put(Color.PINK,pinkStudentIsl2);
+        }};
+
+        studentsImagesIsland3 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl3);
+            put(Color.BLUE,blueStudentIsl3);
+            put(Color.YELLOW,yellowStudentIsl3);
+            put(Color.GREEN,greenStudentIsl3);
+            put(Color.PINK,pinkStudentIsl3 );
+        }};
+
+        studentsImagesIsland4 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl4);
+            put(Color.BLUE,blueStudentIsl4);
+            put(Color.YELLOW,yellowStudentIsl4);
+            put(Color.GREEN,greenStudentIsl4);
+            put(Color.PINK,pinkStudentIsl4);
+        }};
+
+        studentsImagesIsland5 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl5);
+            put(Color.BLUE,blueStudentIsl5);
+            put(Color.YELLOW,yellowStudentIsl5);
+            put(Color.GREEN,greenStudentIsl5);
+            put(Color.PINK,pinkStudentIsl5);
+        }};
+
+        studentsImagesIsland6 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl6);
+            put(Color.BLUE,blueStudentIsl6);
+            put(Color.YELLOW,yellowStudentIsl6);
+            put(Color.GREEN,greenStudentIsl6);
+            put(Color.PINK,pinkStudentIsl6);
+        }};
+
+        studentsImagesIsland7 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl7);
+            put(Color.BLUE,blueStudentIsl7);
+            put(Color.YELLOW,yellowStudentIsl7);
+            put(Color.GREEN,greenStudentIsl7);
+            put(Color.PINK,pinkStudentIsl7);
+        }};
+
+        studentsImagesIsland8 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl8);
+            put(Color.BLUE,blueStudentIsl8);
+            put(Color.YELLOW,yellowStudentIsl8);
+            put(Color.GREEN,greenStudentIsl8);
+            put(Color.PINK,pinkStudentIsl8);
+        }};
+
+        studentsImagesIsland9 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl9);
+            put(Color.BLUE,blueStudentIsl9);
+            put(Color.YELLOW,yellowStudentIsl9);
+            put(Color.GREEN,greenStudentIsl9);
+            put(Color.PINK,pinkStudentIsl9);
+        }};
+
+        studentsImagesIsland10 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl10);
+            put(Color.BLUE,blueStudentIsl10);
+            put(Color.YELLOW,yellowStudentIsl10);
+            put(Color.GREEN,greenStudentIsl10);
+            put(Color.PINK,pinkStudentIsl10);
+        }};
+
+        studentsImagesIsland11 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl11);
+            put(Color.BLUE,blueStudentIsl11);
+            put(Color.YELLOW,yellowStudentIsl11);
+            put(Color.GREEN,greenStudentIsl11);
+            put(Color.PINK,pinkStudentIsl11);
+        }};
+
+        studentsImagesIsland12 = new HashMap<>(){{
+            put(Color.RED,redStudentIsl12);
+            put(Color.BLUE,blueStudentIsl12);
+            put(Color.YELLOW,yellowStudentIsl12);
+            put(Color.GREEN,greenStudentIsl12);
+            put(Color.PINK,pinkStudentIsl12);
+        }};
+
+        studentImagesOnIslands = new HashMap<>(){{
+            put(0,studentsImagesIsland1);
+            put(1,studentsImagesIsland2);
+            put(2,studentsImagesIsland3);
+            put(3,studentsImagesIsland4);
+            put(4,studentsImagesIsland5);
+            put(5,studentsImagesIsland6);
+            put(6,studentsImagesIsland7);
+            put(7,studentsImagesIsland8);
+            put(8,studentsImagesIsland9);
+            put(9,studentsImagesIsland10);
+            put(10,studentsImagesIsland11);
+            put(11,studentsImagesIsland12);
         }};
 
         towerOnIslands = new ArrayList<>(){{
@@ -1833,7 +2207,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 if(numChoice == 0 && studentsIdsToMoveFromCard.size()!=0){
                     numChoice=1;}
                 if(numChoice == 1){
-                    studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1);
+                    if(((ImageView)event.getSource()).getOpacity() == 1.0){
+                        studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1);
+                        ((ImageView)event.getSource()).setOpacity(0.5);
+                    }
+                    else{
+                        ((ImageView)event.getSource()).setOpacity(1.0);
+                        studentsIdsToMoveFromEntrance.remove(Integer.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
+                    }
                     if(studentsIdsToMoveFromEntrance.size() == studentsIdsToMoveFromCard.size()){
                         numChoice = 0;
                         client.getActualToDoChoice().setChoiceParam(""+studentsIdsToMoveFromEntrance.size());
@@ -2499,20 +2880,30 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             else{
                 motherNatureList.get(island.getPosition()).setVisible(false);
             }
-            for (Color c : Color.values()){
-                //System.out.println(numStudentsOnIsland.get(island.getPosition()).get(c).getText());
-                numStudentsOnIsland.get(island.getPosition()).get(c).setText(""+island.getStudentsNumByColor(c));
-            }
-            try {
-                towerOnIslands.get(island.getPosition()).setVisible(true);
-                towerNumOnIslands.get(island.getPosition()).setVisible(true);
-                towerOnIslands.get(island.getPosition()).setImage(towersImage.get(island.getTowerColor()));
-                towerNumOnIslands.get(island.getPosition()).setText(""+island.getTowerNum());
-            } catch (NoTowerException e) {
+            if(!client.getMatchView().getIslandPositions().contains(Integer.valueOf(island.getPosition()))){
+                islandsImages.get(island.getPosition()).setVisible(false);
+                for(Color c : Color.values()){
+                    studentImagesOnIslands.get(island.getPosition()).get(c).setVisible(false);
+                    numStudentsOnIsland.get(island.getPosition()).get(c).setVisible(false);
+                }
                 towerOnIslands.get(island.getPosition()).setVisible(false);
                 towerNumOnIslands.get(island.getPosition()).setVisible(false);
             }
-
+            else{
+                for (Color c : Color.values()){
+                    //System.out.println(numStudentsOnIsland.get(island.getPosition()).get(c).getText());
+                    numStudentsOnIsland.get(island.getPosition()).get(c).setText(""+island.getStudentsNumByColor(c));
+                }
+                try {
+                    towerOnIslands.get(island.getPosition()).setVisible(true);
+                    towerNumOnIslands.get(island.getPosition()).setVisible(true);
+                    towerOnIslands.get(island.getPosition()).setImage(towersImage.get(island.getTowerColor()));
+                    towerNumOnIslands.get(island.getPosition()).setText(""+island.getTowerNum());
+                } catch (NoTowerException e) {
+                    towerOnIslands.get(island.getPosition()).setVisible(false);
+                    towerNumOnIslands.get(island.getPosition()).setVisible(false);
+                }
+            }
         }
     }
 
