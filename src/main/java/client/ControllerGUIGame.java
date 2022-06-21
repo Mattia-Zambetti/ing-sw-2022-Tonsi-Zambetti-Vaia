@@ -1793,6 +1793,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
         if (client.getPlayer().equals(client.getMatchView().showCurrentPlayer())) {
             CoinNumber.setText("" + client.getMatchView().showCurrentPlayerDashboard().getCoinsNumber());
+
             if (client.getMatchView().getChoice() instanceof FigureCardActionChoice
                     || client.getMatchView().showCurrentPlayerDashboard().hasKnightPrivilege()
                     || client.getMatchView().showCurrentPlayerDashboard().isFarmerEffect()
@@ -1800,7 +1801,6 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     || client.getMatchView().isPostManValue()) {
                 avatarFigureCard.setVisible(true);
                 client.setFigureCardNotPlayed(false);
-
                 Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
                 MediaPlayer playBeep=new MediaPlayer(media);
                 playBeep.play();
@@ -1919,7 +1919,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         for (Card c: client.getMatchView().showAllCurrentCards()) {
             if(!c.equals(new Card(0,0,0))){
                 playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setImage(fromCardsToImages.get(c).getImage());
-                playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setVisible(true);
+                if(playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().equals(cardDb2))
+                    playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setVisible(true);
+                else
+                    playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setVisible(Dashboard3.isVisible());
             }
         }
 
@@ -2082,8 +2085,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                                 rectangleMessage.setVisible(!rectangleMessage.isVisible());
                                 hint.setVisible(!hint.isVisible());
                                 playerTurnMessage.setVisible(!playerTurnMessage.isVisible());
-                                if (client.getMatchView().showAllCurrentCards().size() < 3)
-                                    cardDb3.setVisible(!cardDb3.isVisible());
+                                if (client.getMatchView().getSizeCurrentCards() >= 3)
+                                    cardDb3.setVisible(Dashboard3.isVisible());
                                 break;
                             }
                             case (4): {
@@ -2093,10 +2096,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                                 playerTurnMessage.setVisible(!playerTurnMessage.isVisible());
                                 Dashboard4.setVisible(!Dashboard4.isVisible());
                                 avatarPane.setVisible(!avatarPane.isVisible());
-                                if (client.getMatchView().showAllCurrentCards().size() < 4)
-                                    cardDb4.setVisible(!cardDb4.isVisible());
-                                if (client.getMatchView().showAllCurrentCards().size() < 3)
-                                    cardDb3.setVisible(!cardDb3.isVisible());
+                                if (client.getMatchView().getSizeCurrentCards()>= 4)
+                                    cardDb4.setVisible(Dashboard4.isVisible());
+                                if (client.getMatchView().getSizeCurrentCards()>= 3)
+                                    cardDb3.setVisible(Dashboard3.isVisible());
                                 break;
 
                             }
@@ -2226,6 +2229,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                         client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
                 }
+                Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                MediaPlayer playBeep=new MediaPlayer(media);
+                playBeep.play();
                 synchronized (client.getOutputStreamLock()) {
                     client.getOutputStreamLock().notifyAll();
                 }
@@ -2903,26 +2909,24 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(0).getNickname()).getTowerColor();
         playerDashboard = new DashboardView(initializeEntranceStudentsD2(), initializeDiningRoomStudentsD2(), initializeMastersD2(), initializeTowersD2(playerTowerColor));
         playersDashboardView.put(otherPlayers.get(0).getNickname(), playerDashboard);
+        playersDashboardView.get(otherPlayers.get(0).getNickname()).setCurrentCard(cardDb2);
 
         if ( client.getMatchView().showAllPlayers().size()>=3 ) {
             playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(1).getNickname()).getTowerColor();
             playerDashboard = new DashboardView(initializeEntranceStudentsD3(), initializeDiningRoomStudentsD3(), initializeMastersD3(), initializeTowersD3(playerTowerColor));
             playersDashboardView.put(otherPlayers.get(1).getNickname(), playerDashboard);
+            playersDashboardView.get(otherPlayers.get(1).getNickname()).setCurrentCard(cardDb3);
         }
 
         if ( client.getMatchView().showAllPlayers().size()==4 ) {
             playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(2).getNickname()).getTowerColor();
             playerDashboard = new DashboardView(initializeEntranceStudentsD4(), initializeDiningRoomStudentsD4(), initializeMastersD4(), initializeTowersD4(playerTowerColor));
             playersDashboardView.put(otherPlayers.get(2).getNickname(), playerDashboard);
+            playersDashboardView.get(otherPlayers.get(2).getNickname()).setCurrentCard(cardDb4);
         }
 
-        List<ImageView> cardOthers= new ArrayList<>(){{
-            add(cardDb2);
-            add(cardDb3);
-            add(cardDb4);
-        }};
 
-        //TODO altre dashboard, master e torri della prima
+
     }
 
     /**Update all dashboards in the GUI
@@ -2998,6 +3002,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
         public ImageView getCurrentCard() {
             return currentCard;
+
         }
 
         public void setEntranceStudentColor(int studentNumber, Color studentColor) {
@@ -3046,7 +3051,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         updateMessagePhase();
         updateIslands();
         updateClouds();
-        //updateCurrentCards(); //TODO
+        updateCurrentCards();
 
         if(client.getMatchView() instanceof ExpertMatch) {
             updateFigureCards();

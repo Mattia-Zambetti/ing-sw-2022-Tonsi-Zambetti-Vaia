@@ -33,6 +33,8 @@ public interface MatchDataInterface extends Serializable {
 
     List<Card> showAllCurrentCards();
 
+    int getSizeCurrentCards();
+
     Player getPlayerByCurrentCard(Card card);
 
     boolean isCentaurEffect();

@@ -257,6 +257,16 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
+    public int getSizeCurrentCards(){
+        int counter=0;
+        for(Card c: showAllCurrentCards()){
+            if(c.getId()!=0){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
     /** TESTED
     *it returns the string version of the clouds content*/
     public String toStringStudentsOnCloud() {
