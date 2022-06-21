@@ -1766,7 +1766,6 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         });
     }
 
-
     @FXML
     public void keyPressedManager(KeyEvent e) {
         Task task=new Task() {
@@ -1857,6 +1856,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
                 client.getActualToDoChoice().setChoiceParam("2");
                 client.getActualToDoChoice().setChoiceParam(""+fromIslandToInt.get(islandID));
+                Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                MediaPlayer playBeep=new MediaPlayer(media);
+                playBeep.play();
                 synchronized ( client.getOutputStreamLock() ) {
                     client.getOutputStreamLock().notifyAll();
                 }
@@ -1988,6 +1990,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseGreenDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+            MediaPlayer playBeep=new MediaPlayer(media);
+            playBeep.play();
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -1998,6 +2003,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseRedDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+            MediaPlayer playBeep=new MediaPlayer(media);
+            playBeep.play();
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -2008,6 +2016,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseYellowDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+            MediaPlayer playBeep=new MediaPlayer(media);
+            playBeep.play();
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -2018,6 +2029,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void choosePinkDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+            MediaPlayer playBeep=new MediaPlayer(media);
+            playBeep.play();
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -2034,6 +2048,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseBlueDR(MouseEvent event) {
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
+            Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+            MediaPlayer playBeep=new MediaPlayer(media);
+            playBeep.play();
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();
             }

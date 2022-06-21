@@ -1061,7 +1061,6 @@
                   <Image url="@Images/madreNatura.png" />
                </image>
             </ImageView>
-            <Region fx:id="island10" layoutX="20.0" layoutY="94.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fitHeight="138.0" fitWidth="140.0" layoutX="17.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="blockCardIsl10" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="62.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
@@ -1071,6 +1070,7 @@
                   <InnerShadow />
                </effect>
             </ImageView>
+            <Region fx:id="island10" layoutX="20.0" layoutY="94.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" AnchorPane.bottomAnchor="0.4000000000000057" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="12.800000000000011" AnchorPane.topAnchor="94.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
