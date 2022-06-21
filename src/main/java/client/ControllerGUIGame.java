@@ -1398,6 +1398,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void submitStudentOnMerchant(Event event){
 
+
         if(studentsOnFigureCard1.contains((ImageView)event.getSource()) && figureCardsMap.get(4).equals(figureCard1.getImage())
                 && ((MerchantChoice) client.getMatchView().getChoice()).getNumChoice()==0){
             client.getMatchView().getChoice().setChoiceParam(""+(studentsOnFigureCard1.indexOf(((ImageView) event.getSource()))+1));
@@ -1461,48 +1462,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 && ((MerchantChoice) client.getMatchView().getChoice()).getNumChoice()==1){
             String islandID = ((Region) event.getSource()).getId();
 
-
             client.getActualToDoChoice().setChoiceParam(""+fromIslandToInt.get(islandID));
-
-            /*switch(islandID) {
-                case ("island1"):
-                    client.getActualToDoChoice().setChoiceParam("0");
-                    break;
-                case ("island2"):
-                    client.getActualToDoChoice().setChoiceParam("1");
-                    break;
-                case ("island3"):
-                    client.getActualToDoChoice().setChoiceParam("2");
-                    break;
-                case ("island4"):
-                    client.getActualToDoChoice().setChoiceParam("3");
-                    break;
-                case ("island5"):
-                    client.getActualToDoChoice().setChoiceParam("4");
-                    break;
-                case ("island6"):
-                    client.getActualToDoChoice().setChoiceParam("5");
-                    break;
-                case ("island7"):
-                    client.getActualToDoChoice().setChoiceParam("6");
-                    break;
-                case ("island8"):
-                    client.getActualToDoChoice().setChoiceParam("7");
-                    break;
-                case ("island9"):
-                    client.getActualToDoChoice().setChoiceParam("8");
-                    break;
-                case ("island10"):
-                    client.getActualToDoChoice().setChoiceParam("9");
-                    break;
-                case ("island11"):
-                    client.getActualToDoChoice().setChoiceParam("10");
-                    break;
-                case ("island12"):
-                    client.getActualToDoChoice().setChoiceParam("11");
-                    break;
-            }
-*/
             synchronized (client.getOutputStreamLock()) {
                 client.getOutputStreamLock().notifyAll();
             }
@@ -1865,7 +1825,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         if ( event.getSource() instanceof ImageView ) {
             ImageView chosenStudent = (ImageView) event.getSource();
             if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
+                ((MoveStudentChoice) client.getActualToDoChoice()).setStudentsOnEntrance(client.getMatchView().showCurrentPlayerDashboard().showEntrance());
                 client.getActualToDoChoice().setChoiceParam(String.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
+                ((ImageView)event.getSource()).setOpacity(0.5);
             }
             else if(client.getActualToDoChoice() instanceof JesterChoice){
                 if(numChoice == 0 && studentsIdsToMoveFromCard.size()!=0){
@@ -1901,46 +1863,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             if ( client.getActualToDoChoice() instanceof MoveStudentChoice
                     && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
                 client.getActualToDoChoice().setChoiceParam("2");
-
                 client.getActualToDoChoice().setChoiceParam(""+fromIslandToInt.get(islandID));
-                /*switch(islandID) {
-                    case("island1"):
-                        client.getActualToDoChoice().setChoiceParam("0");
-                        break;
-                    case("island2"):
-                        client.getActualToDoChoice().setChoiceParam("1");
-                        break;
-                    case("island3"):
-                        client.getActualToDoChoice().setChoiceParam("2");
-                        break;
-                    case("island4"):
-                        client.getActualToDoChoice().setChoiceParam("3");
-                        break;
-                    case("island5"):
-                        client.getActualToDoChoice().setChoiceParam("4");
-                        break;
-                    case("island6"):
-                        client.getActualToDoChoice().setChoiceParam("5");
-                        break;
-                    case("island7"):
-                        client.getActualToDoChoice().setChoiceParam("6");
-                        break;
-                    case("island8"):
-                        client.getActualToDoChoice().setChoiceParam("7");
-                        break;
-                    case("island9"):
-                        client.getActualToDoChoice().setChoiceParam("8");
-                        break;
-                    case("island10"):
-                        client.getActualToDoChoice().setChoiceParam("9");
-                        break;
-                    case("island11"):
-                        client.getActualToDoChoice().setChoiceParam("10");
-                        break;
-                    case("island12"):
-                        client.getActualToDoChoice().setChoiceParam("11");
-                        break;
-                }*/
                 synchronized ( client.getOutputStreamLock() ) {
                     client.getOutputStreamLock().notifyAll();
                 }
@@ -2501,6 +2424,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
         public void setEntranceStudentVisible(int studentNumber, boolean visible) {
             entranceStudents.get(studentNumber).setVisible(visible);
+            entranceStudents.get(studentNumber).setOpacity(1);
         }
 
         public void setDRStudentsNumber(int studentsNumber, Color drColor) {

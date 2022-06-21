@@ -140,5 +140,10 @@ public class JesterChoice extends FigureCardWithStudentsChoice {
     public String whichChoicePhase(){
         return "Jester played from the current player";
     }
+
+    @Override
+    public void setChosenStudent() {
+        super.setChosenStudent();
+    }
 }
 
