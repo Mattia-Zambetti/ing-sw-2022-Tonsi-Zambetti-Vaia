@@ -1,6 +1,9 @@
 package model.Message;
 
 import client.Client;
+import client.ClientJavaFX;
+import client.ControllerGUIGame;
+import javafx.application.Platform;
 import model.Player;
 
 import java.io.Serializable;
@@ -30,6 +33,29 @@ public class MatchEndedMessage extends Message implements Serializable {
         }
 
         client.printToScreen(outputString);
+        client.closeConnection();
+    }
+
+    @Override
+    public void manageMessageGUI(ClientJavaFX client) {
+
+        String outputString = "";
+        if ( winners.contains(client.getPlayer()) )
+            outputString = "YOU WON!";
+        else {
+            for ( Player p : winners )
+                outputString = outputString.concat(p.getNickname() + " ");
+            outputString = outputString.concat(" WON THE GAME!");
+        }
+
+        String finalOutputString = outputString;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ((ControllerGUIGame)client.getControllerGUI()).showMessage(finalOutputString);
+            }
+        });
+
         client.closeConnection();
     }
 }
