@@ -39,4 +39,6 @@ public interface MatchDataInterface extends Serializable {
 
     boolean isPostManValue();
 
+    int getBlockCards() ;
+
 }

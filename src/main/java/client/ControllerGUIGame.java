@@ -1345,22 +1345,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void submitBlockOnIsland(Event event){
-        ((GrannyGrassChoice)client.getActualToDoChoice()).setIslandPositionTmp(client.getMatchView().getIslandPositions());
+        ((GrannyGrassChoice)client.getActualToDoChoice()).setIslandPositionTmp(client.getMatchView().getIslandPositions(), client.getMatchView());
         String islandID = ((Region) event.getSource()).getId();
 
         client.getActualToDoChoice().setChoiceParam(""+fromIslandToInt.get(islandID));
 
-
-        for (int i=0; i<figureCardsImageViewList.size(); i++) {
-            for (int j = 3; j >= 0; j--) {
-                if (blockCardsOnFigureCardsList.get(i).get(j).isVisible()) {
-                    blockCardsOnFigureCardsList.get(i).get(j).setVisible(false);
-                    break;
-                }
+        if(client.getActualToDoChoice().completed) {
+            synchronized (client.getOutputStreamLock()) {
+                client.getOutputStreamLock().notifyAll();
             }
-        }
-        synchronized (client.getOutputStreamLock()) {
-            client.getOutputStreamLock().notifyAll();
         }
     }
     public void submitStudentsOnFigureCard(Event event){
@@ -1489,7 +1482,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             }else if(f instanceof GrannyGrass){
                 int k=0;
                 for(ImageView i: blockCardsOnFigureCardsList.get(figureCards.indexOf(f))){
-                    if(k>=client.getMatchView().getChoice().getBlockCardsNum())
+                    if(k>=client.getMatchView().getBlockCards())
                         i.setVisible(false);
                     else
                         i.setVisible(true);
@@ -1588,7 +1581,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    playerTurnMessage.setText("It's not your turn, ");
+                    playerTurnMessage.setText("It's "+ client.getMatchView().showCurrentPlayer().getNickname()+" turn");
 
                 }
             });

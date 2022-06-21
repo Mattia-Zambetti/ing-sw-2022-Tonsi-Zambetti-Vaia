@@ -16,6 +16,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     private int postManValue = 0;
     private int colorBlocked = -1;
 
+    private int blockCards;
     private static final int FIGURECARDSTOTALNUM=12;
     private static final int FIGURECARDSINGAME=3;
 
@@ -23,11 +24,13 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         super(totalPlayersNum);
         centaurEffect =false;
 
+
         figureCards=new ArrayList<>();
 
 
         try {
             figureCards.add(new GrannyGrass());
+            figureCards.add(new Jester());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -65,6 +68,10 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+
+        if(figureCards.contains(new GrannyGrass())){
+            blockCards=GrannyGrass.getBLOCKCARDS();
+        }
     }
 
     //OVERRIDED FROM MATCH
@@ -78,8 +85,18 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         StringBuilder res2=new StringBuilder();
 
         res2.append("\nCharacter cards in this game:\n");
-        for(FigureCard f: figureCards)
-            res2.append(i++).append(".").append(f).append("\n");
+        for(FigureCard f: figureCards) {
+            res2.append("\n").append(i++).append(".").append(f).append("\n");
+            if (f instanceof FigureCardWithStudents) {
+                res2.append("Students on this card:\n");
+                for (int j = 0; j < ((FigureCardWithStudents) f).getStudentsOnCard().size(); j++) {
+                    res2.append((j + 1)).append(".").append(((FigureCardWithStudents) f).getStudentsOnCard().get(j)).append("\n");
+                }
+            } else if (f instanceof GrannyGrass) {
+                res2.append("Number of block cards: ").append(blockCards).append("\n");
+            }
+        }
+
 
         res2.append(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_YELLOW);
         if(!(choicePhase instanceof FigureCardActionChoice)
@@ -120,6 +137,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
                     changeTowerColorOnIsland();
                 else {
                     GrannyGrass.addBlockCard();
+                    blockCards++;
                     islands.get(currentIsland).setForbidden(false);
                 }
 
@@ -151,13 +169,24 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     public void playFigureCard(FigureCard card) throws CardNotFoundException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
         if(figureCards.contains(card)){
             card = figureCards.get(figureCards.indexOf(card));
-            currentPlayerDashboard.removeCoin(card.getPrice());
-            figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).playCard(this);
-            figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).pricePlusPlus();
-            notifyMatchObservers();
+            if(card instanceof GrannyGrass && blockCards==0){
+                setErrorMessage("You can't play this figure card now, please try later");
+                setChoicePhase(Controller.getTmpChoice());
+                notifyMatchObservers();
+            }
+            else {
+                currentPlayerDashboard.removeCoin(card.getPrice());
+                figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).playCard(this);
+                figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).pricePlusPlus();
+                notifyMatchObservers();
+            }
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
 
+
+    public int getBlockCards() {
+        return blockCards;
+    }
 
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
         Dashboard maxStudentDashboard = null; //TODO NULL NONONONONONO
@@ -387,8 +416,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         if(islandPositions.contains((Integer) islandToSetForbidden)){
             islands.get(islandToSetForbidden).setForbidden(true);
             GrannyGrass.removeBlockCard();
+            blockCards--;
             setChoicePhase(Controller.getTmpChoice());
-            choicePhase.setBlockCardsNum(GrannyGrass.getBlockCard());
             notifyMatchObservers();
         }
         else throw new NoIslandException("Insert an island that exists");

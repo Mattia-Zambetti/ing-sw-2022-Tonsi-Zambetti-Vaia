@@ -282,6 +282,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
     @Override
+    public int getBlockCards() {
+        return 0;
+    }
+
+    @Override
     public boolean isPostManValue() {
         return false;
     }

@@ -7,16 +7,22 @@ import java.io.Serializable;
 
 public class GrannyGrass extends FigureCard  implements Serializable {
     private static final int PRICECARD = 2;
-    private static int blockCard ;
+    private static final int BLOCKCARDS=4;
+    private static int blockCard = BLOCKCARDS;
+
+
+
 
 
     public GrannyGrass() {
         setPrice(PRICECARD);
         cardId=8;
         actualChoice = new GrannyGrassChoice();
-        blockCard=4;
     }
 
+    public static int getBLOCKCARDS() {
+        return BLOCKCARDS;
+    }
 
     public void playCard(ExpertMatchInterface expertMatchInterface) {
         expertMatchInterface.notifyFigureCard(this);
