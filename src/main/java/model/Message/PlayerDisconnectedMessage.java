@@ -19,7 +19,7 @@ public class PlayerDisconnectedMessage extends Message{
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    ((ControllerGUIGame)client.getControllerGUI()).showMessage("Connection closed by the server/nAnother player quit the game.");
+                    ((ControllerGUIGame)client.getControllerGUI()).showMessage("Connection closed by the server. Another player quit the game.");
                 }
             });
         }
