@@ -24,9 +24,7 @@ import model.*;
 import model.exception.NoIslandException;
 import model.exception.NoTowerException;
 import model.exception.WrongColorException;
-import model.figureCards.FigureCard;
-import model.figureCards.FigureCardWithStudents;
-import model.figureCards.GrannyGrass;
+import model.figureCards.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -1824,11 +1822,25 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     || client.getMatchView().showCurrentPlayerDashboard().isFarmerEffect()
                     || client.getMatchView().isCentaurEffect()
                     || client.getMatchView().isPostManValue()) {
+
+                if(client.getMatchView().showCurrentPlayerDashboard().hasKnightPrivilege())
+                    Knight.hintMessage(hint);
+                else if(client.getMatchView().showCurrentPlayerDashboard().isFarmerEffect())
+                    Farmer.hintMessage(hint);
+                else if(client.getMatchView().isCentaurEffect())
+                    Centaur.hintMessage(hint);
+                else if (client.getMatchView().isPostManValue())
+                    Postman.hintMessage(hint);
+
+                if(client.isFigureCardNotPlayed()){
+                    Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                    MediaPlayer playBeep=new MediaPlayer(media);
+                    playBeep.play();
+                }
+
                 avatarFigureCard.setVisible(true);
                 client.setFigureCardNotPlayed(false);
-                Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
-                MediaPlayer playBeep=new MediaPlayer(media);
-                playBeep.play();
+
 
                 for(ImageView i:studentsOnFigureCard1) {
                     i.setDisable(false);
@@ -1926,6 +1938,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
             avatarFigureCard.setVisible(false);
             client.setFigureCardNotPlayed(true);
+            showAllowedCommandKey();
             for (Card c:client.getMatchView().showCurrentPlayerDashboard().showCards()){
                 if(fromCardsToImages.containsKey(c)){
                     fromCardsToImages.get(c).setVisible(true);
@@ -2011,9 +2024,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             Choice figureCardChoice = new FigureCardPlayedChoice(client.getMatchView().showFigureCardsInGame());
             client.setActualToDoChoiceQueue(client.getActualToDoChoice());
             client.setActualToDoChoice(figureCardChoice);
-
-
             client.getActualToDoChoiceQueue().setSendingPlayer(client.getPlayer());
+
+
             try {
                 client.getOutputStream().writeObject(client.getActualToDoChoiceQueue());
                 client.getOutputStream().flush();
@@ -3116,7 +3129,6 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         for (Island island : client.getMatchView().getIslands()){
             if(island.checkIsMotherNature()){
                 motherNatureList.get(island.getPosition()).setVisible(true);
-                hint.setText("Mother nature on island" +island.getPosition());
             }
             else{
                 motherNatureList.get(island.getPosition()).setVisible(false);

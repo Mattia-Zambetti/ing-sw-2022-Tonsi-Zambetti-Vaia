@@ -1,5 +1,6 @@
 package model.figureCards;
 
+import javafx.scene.text.Text;
 import model.ExpertMatchInterface;
 
 import java.io.Serializable;
@@ -29,4 +30,10 @@ public class Centaur extends FigureCard implements Serializable {
     public int getPRICECARD() {
         return PRICECARD;
     }
+
+
+    public static void hintMessage(Text text) {
+        text.setText("Towers are non calculated for influence on islands during this turn!");
+    }
 }
+

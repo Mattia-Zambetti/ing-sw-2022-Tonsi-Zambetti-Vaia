@@ -1,5 +1,6 @@
 package model.figureCards;
 
+import javafx.scene.text.Text;
 import model.ExpertMatchInterface;
 
 import java.io.Serializable;
@@ -23,5 +24,10 @@ public class Postman extends FigureCard implements Serializable {
 
     public int getPRICECARD() {
         return PRICECARD;
+    }
+
+
+    public static void hintMessage(Text text) {
+        text.setText("+2 to the the mother nature maximum moves in this turn!");
     }
 }

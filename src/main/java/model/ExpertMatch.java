@@ -12,7 +12,7 @@ import java.util.*;
 public class ExpertMatch extends Match implements ExpertMatchInterface, Serializable {
     private final List<FigureCard> figureCards;
 
-    private static boolean centaurEffect;
+    private boolean centaurEffect;
     private int postManValue = 0;
     private int colorBlocked = -1;
 
@@ -29,8 +29,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
 
         try {
-            figureCards.add(new GrannyGrass());
-            figureCards.add(new Jester());
+            figureCards.add(new Centaur());
+            figureCards.add(new Knight());
+            figureCards.add(new Postman());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,5 +1,6 @@
 package model.figureCards;
 
+import javafx.scene.text.Text;
 import model.ExpertMatchInterface;
 
 import java.io.Serializable;
@@ -23,5 +24,10 @@ public class Farmer extends FigureCard implements Serializable {
 
     public int getPRICECARD() {
         return PRICECARD;
+    }
+
+
+    public static void hintMessage(Text text) {
+        text.setText("You can take the other players masters also if you have the same students number of your opponent for 1 turn!");
     }
 }
