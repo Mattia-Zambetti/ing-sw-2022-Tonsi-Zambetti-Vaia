@@ -1919,7 +1919,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         for (Card c: client.getMatchView().showAllCurrentCards()) {
             if(!c.equals(new Card(0,0,0))){
                 playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setImage(fromCardsToImages.get(c).getImage());
-                if(playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().equals(cardDb2))
+                if(playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().equals(cardDb2)
+                        || playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().equals(cardDb1))
                     playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setVisible(true);
                 else
                     playersDashboardView.get(client.getMatchView().getPlayerByCurrentCard(c).getNickname()).getCurrentCard().setVisible(Dashboard3.isVisible());
