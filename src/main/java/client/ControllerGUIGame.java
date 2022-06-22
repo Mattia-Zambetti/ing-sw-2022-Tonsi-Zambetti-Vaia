@@ -120,6 +120,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
 
     /**Figure card 1:*/
+    @FXML
+    private Text FC1coins;
 
         /**Students:*/
     @FXML
@@ -151,6 +153,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
 
     /**Figure card 2:*/
+    @FXML
+    private Text FC2coins;
 
         /**Students:*/
     @FXML
@@ -181,6 +185,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private List<ImageView> blockCardsOnFigureCard2;
 
     /**Figure card 3:*/
+
+    @FXML
+    private Text FC3coins;
 
         /**Students:*/
     @FXML
@@ -241,6 +248,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private ImageView blockCardIsl12;
 
     private List<ImageView> blockCardIslList;
+
+    List<Text> coins;
 
 
     //cards:
@@ -1469,6 +1478,16 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             add(blockCardIsl12);
         }};
 
+        coins=new ArrayList<>(){{
+            add(FC1coins);
+            add(FC2coins);
+            add(FC3coins);
+        }};
+
+        for (Text t:coins) {
+            t.setFont(Font.loadFont(getClass().getResourceAsStream("/Supercell.ttf"),24));
+        }
+
         initializeIsland();
 
     }
@@ -1766,6 +1785,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void updateFigureCards() {
         List<FigureCard> figureCards=client.getMatchView().showFigureCardsInGame();
 
+
+        for(int i=0; i<coins.size();i++){
+            int numberMoreCoins=((ExpertMatch)client.getMatchView()).showFigureCardsInGame().get(i).getPrice()
+                    -((ExpertMatch)client.getMatchView()).showFigureCardsInGame().get(i).getPRICECARD();
+            coins.get(i).setText("+"+numberMoreCoins);
+        }
 
         int j=0;
         for(FigureCard f: figureCards) {

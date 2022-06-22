@@ -23,6 +23,7 @@ public class MushroomCollector extends FigureCard  implements Serializable {
         return "Mushroom collector card"+ super.toString();
     }
 
-
-
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

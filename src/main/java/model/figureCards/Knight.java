@@ -21,4 +21,8 @@ public class Knight extends FigureCard  implements Serializable {
         return "Knight card"+super.toString();
     }
 
+
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

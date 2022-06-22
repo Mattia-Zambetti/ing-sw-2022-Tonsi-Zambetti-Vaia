@@ -55,4 +55,6 @@ public abstract class FigureCard implements Serializable {
         }else
             return "(price: " + getPrice() + " coins)";
     }
+
+    public abstract int getPRICECARD();
 }

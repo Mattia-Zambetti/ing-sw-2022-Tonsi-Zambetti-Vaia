@@ -1,6 +1,5 @@
 package model.figureCards;
 
-import controller.choice.HeraldChoice;
 import controller.choice.ThiefChoice;
 import model.ExpertMatchInterface;
 
@@ -27,4 +26,7 @@ public class Thief extends FigureCard implements Serializable {
         return "Thief card"+ super.toString();
     }
 
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

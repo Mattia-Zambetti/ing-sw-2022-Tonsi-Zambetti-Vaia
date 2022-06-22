@@ -27,6 +27,7 @@ public class Merchant extends FigureCardWithStudents  implements Serializable {
         return "Merchant card"+super.toString();
     }
 
-
-
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

@@ -24,6 +24,7 @@ public class Princess extends FigureCardWithStudents  implements Serializable {
         return "Princess card"+super.toString();
     }
 
-
-
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

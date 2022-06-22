@@ -21,4 +21,7 @@ public class Farmer extends FigureCard implements Serializable {
         return "Farmer card"+ super.toString();
     }
 
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

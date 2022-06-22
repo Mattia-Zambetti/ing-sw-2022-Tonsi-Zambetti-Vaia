@@ -26,4 +26,8 @@ public class Herald extends FigureCard implements Serializable {
         return "Herald card"+ super.toString();
     }
 
+
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

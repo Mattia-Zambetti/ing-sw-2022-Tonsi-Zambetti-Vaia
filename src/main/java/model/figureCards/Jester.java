@@ -46,6 +46,9 @@ public class Jester extends FigureCardWithStudents implements Serializable {
         return "Jester card"+super.toString();
     }
 
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }
 
 

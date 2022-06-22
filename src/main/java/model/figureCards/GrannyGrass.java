@@ -53,5 +53,7 @@ public class GrannyGrass extends FigureCard  implements Serializable {
         return "Granny grass card" + super.toString();
     }
 
-
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

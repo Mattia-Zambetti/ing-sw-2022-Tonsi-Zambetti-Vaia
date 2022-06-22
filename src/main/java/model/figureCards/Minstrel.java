@@ -26,6 +26,7 @@ public class Minstrel extends FigureCard  implements Serializable {
         return "Minstrel card"+super.toString();
     }
 
-
-
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

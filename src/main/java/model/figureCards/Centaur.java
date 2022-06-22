@@ -26,4 +26,7 @@ public class Centaur extends FigureCard implements Serializable {
         return "Centaur card"+ super.toString();
     }
 
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

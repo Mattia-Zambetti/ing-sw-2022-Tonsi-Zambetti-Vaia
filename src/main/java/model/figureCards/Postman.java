@@ -20,4 +20,8 @@ public class Postman extends FigureCard implements Serializable {
     public String toString() {
         return "Postman card"+super.toString();
     }
+
+    public int getPRICECARD() {
+        return PRICECARD;
+    }
 }

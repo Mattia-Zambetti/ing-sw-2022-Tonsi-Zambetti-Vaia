@@ -57,15 +57,7 @@
             <RowConstraints maxHeight="641.6" minHeight="0.0" prefHeight="505.99998779296885" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ImageView fx:id="cardDb2" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" rotate="90.0" scaleX="-1.0" visible="false" GridPane.halignment="CENTER">
-               <image>
-                  <Image url="@Images/Assistente(1).png" />
-               </image>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </ImageView>
-            <AnchorPane fx:id="Dashboard2" prefHeight="233.0" prefWidth="475.0" rotate="90.0" scaleX="0.75" scaleY="0.75" translateX="100.0" translateY="-40.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
+            <AnchorPane fx:id="Dashboard2" prefHeight="493.0" prefWidth="535.0" rotate="90.0" scaleX="0.75" scaleY="0.75" translateX="100.0" translateY="-40.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
                <children>
                   <ImageView fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                      <image>
@@ -623,6 +615,14 @@
                      <image>
                         <Image url="@Images/BlackTower.png" />
                      </image>
+                  </ImageView>
+                  <ImageView fx:id="cardDb2" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
+                     <image>
+                        <Image url="@Images/Assistente(1).png" />
+                     </image>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </ImageView>
                </children>
             </AnchorPane>
@@ -1516,7 +1516,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <GridPane fx:id="expertMatchPane" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="4">
+      <GridPane fx:id="expertMatchPane" GridPane.columnIndex="5" GridPane.columnSpan="5" GridPane.rowIndex="4">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -1586,7 +1586,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3blockCard1" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC3blockCard1" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1594,7 +1594,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3blockCard2" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="15.0" visible="false">
+                  <ImageView fx:id="FC3blockCard2" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="15.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1602,7 +1602,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3blockCard3" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="28.0" visible="false">
+                  <ImageView fx:id="FC3blockCard3" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="28.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1610,7 +1610,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC3blockCard4" disable="true" fitHeight="58.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="40.0" visible="false">
+                  <ImageView fx:id="FC3blockCard4" disable="true" fitHeight="58.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="40.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1618,6 +1618,16 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
+                  <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="89.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Moneta_base.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="FC3coins" fill="WHITE" layoutX="95.0" layoutY="49.0" stroke="BLACK" strokeType="OUTSIDE" text="+0" AnchorPane.bottomAnchor="84.17656249999999" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="54.2265625" AnchorPane.topAnchor="23.1015625">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
             <AnchorPane GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -1678,7 +1688,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2blockCard1" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC2blockCard1" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1686,7 +1696,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2blockCard2" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="15.0" visible="false">
+                  <ImageView fx:id="FC2blockCard2" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="15.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1694,7 +1704,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2blockCard3" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="27.0" visible="false">
+                  <ImageView fx:id="FC2blockCard3" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="27.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1702,7 +1712,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC2blockCard4" disable="true" fitHeight="58.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="40.0" visible="false">
+                  <ImageView fx:id="FC2blockCard4" disable="true" fitHeight="58.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="40.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1710,6 +1720,16 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
+                  <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="89.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="80.25022430419921" AnchorPane.leftAnchor="88.8" AnchorPane.rightAnchor="46.400000000000006" AnchorPane.topAnchor="17.1015625">
+                     <image>
+                        <Image url="@Images/Moneta_base.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="FC2coins" fill="WHITE" layoutX="95.0" layoutY="47.0" stroke="BLACK" strokeType="OUTSIDE" text="+0" AnchorPane.bottomAnchor="86.17656249999999" AnchorPane.leftAnchor="94.75546875" AnchorPane.rightAnchor="54.044531250000006" AnchorPane.topAnchor="21.1015625">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
             <AnchorPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -1770,7 +1790,7 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1blockCard1" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="FC1blockCard1" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="31.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1778,7 +1798,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1blockCard2" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="49.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0" visible="false">
+                  <ImageView fx:id="FC1blockCard2" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="49.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1786,7 +1806,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1blockCard3" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="63.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0" visible="false">
+                  <ImageView fx:id="FC1blockCard3" disable="true" fitHeight="44.0" fitWidth="35.0" layoutX="63.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1794,7 +1814,7 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
-                  <ImageView fx:id="FC1blockCard4" disable="true" fitHeight="58.0" fitWidth="35.0" layoutX="81.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0" visible="false">
+                  <ImageView fx:id="FC1blockCard4" disable="true" fitHeight="58.0" fitWidth="35.0" layoutX="81.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0" visible="false" AnchorPane.bottomAnchor="20.0">
                      <image>
                         <Image url="@Images/divieto.png" />
                      </image>
@@ -1802,6 +1822,16 @@
                         <InnerShadow />
                      </effect>
                   </ImageView>
+                  <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="89.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="83.35178680419921" AnchorPane.leftAnchor="88.8" AnchorPane.rightAnchor="46.400000000000006" AnchorPane.topAnchor="13.448213195800783">
+                     <image>
+                        <Image url="@Images/Moneta_base.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="FC1coins" fill="WHITE" layoutX="95.0" layoutY="44.0" stroke="BLACK" strokeType="OUTSIDE" text="+0" AnchorPane.bottomAnchor="89.17656249999999" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="54.2265625" AnchorPane.topAnchor="18.1015625">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
             <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ffbe19" height="77.0" stroke="#806444" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="3.0" width="130.0" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -1832,7 +1862,7 @@
       </GridPane>
       <AnchorPane prefHeight="279.0" prefWidth="560.0" GridPane.columnSpan="4" GridPane.rowIndex="4">
          <children>
-            <Button layoutX="374.0" layoutY="37.0" mnemonicParsing="false" onKeyPressed="#keyPressedManager" text="Button" />
+            <Button layoutX="374.0" layoutY="37.0" mnemonicParsing="false" onKeyPressed="#keyPressedManager" text="Button" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="374.0" AnchorPane.rightAnchor="274.0" AnchorPane.topAnchor="37.0" />
             <ImageView fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                <image>
                   <Image url="@Images/Plancia_DEF2.png" />
@@ -2310,7 +2340,7 @@
                   <DropShadow height="10.0" radius="4.5" width="10.0" />
                </effect>
             </ImageView>
-            <ImageView fx:id="cardDb1" fitHeight="132.0" fitWidth="89.0" layoutX="598.0" layoutY="80.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="cardDb1" fitHeight="132.0" fitWidth="89.0" layoutX="598.0" layoutY="80.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="35.19999999999999" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
                <image>
                   <Image url="@Images/Assistente(1).png" />
                </image>
