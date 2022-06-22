@@ -871,6 +871,18 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     private ImageView student1OnCloud1;
 
     @FXML
+    private ImageView student4OnCloud2;
+
+    @FXML
+    private ImageView student4OnCloud1;
+
+    @FXML
+    private ImageView student4OnCloud3;
+
+    @FXML
+    private ImageView student4OnCloud4;
+
+    @FXML
     private ImageView student1OnCloud2;
 
     @FXML
@@ -1705,10 +1717,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         }};
 
         studentsOcClouds = new HashMap<>(){{
-            put(0,new ArrayList<>(){{add(student1OnCloud1);add(student2OnCloud1);add(student3OnCloud1);}});
-            put(1,new ArrayList<>(){{add(student1OnCloud2);add(student2OnCloud2);add(student3OnCloud2);}});
-            put(2,new ArrayList<>(){{add(student1OnCloud3);add(student2OnCloud3);add(student3OnCloud3);}});
-            put(3,new ArrayList<>(){{add(student1OnCloud4);add(student2OnCloud4);add(student3OnCloud4);}});
+            put(0,new ArrayList<>(){{add(student1OnCloud1);add(student2OnCloud1);add(student3OnCloud1);add(student4OnCloud1);}});
+            put(1,new ArrayList<>(){{add(student1OnCloud2);add(student2OnCloud2);add(student3OnCloud2);add(student4OnCloud2);}});
+            put(2,new ArrayList<>(){{add(student1OnCloud3);add(student2OnCloud3);add(student3OnCloud3);add(student4OnCloud3);}});
+            put(3,new ArrayList<>(){{add(student1OnCloud4);add(student2OnCloud4);add(student3OnCloud4);add(student4OnCloud4);}});
         }};
     }
 
@@ -2854,21 +2866,24 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 j++;
             }
             if(c.getStudentsOnCloud().size() == 0){
-                for(int z = 0; z<3; z++){
+                for(int z = 0; z<4; z++){
                     studentsOcClouds.get(i).get(z).setVisible(false);
                 }
             }
             j=0;
             i++;
         }
-        if(i!=3){
-            for(int z = client.getMatchView().getClouds().size(); z < clouds.size();z++){
-                clouds.get(z).setVisible(false);
-                for(int p = 0; p<3; p++){
-                    studentsOcClouds.get(z).get(p).setVisible(false);
-                }
+        for(int z = client.getMatchView().getClouds().size(); z < clouds.size();z++){
+            clouds.get(z).setVisible(false);
+            for(int p = 0; p<studentsOcClouds.get(z).size(); p++){
+                studentsOcClouds.get(z).get(p).setVisible(false);
             }
         }
+            if(client.getMatchView().getClouds().size() == 2 || client.getMatchView().getClouds().size() == 4){
+                for(int z = 0; z < clouds.size();z++){
+                        studentsOcClouds.get(z).get(3).setVisible(false);
+                }
+            }
     }
 
     private void updateIslands() {
