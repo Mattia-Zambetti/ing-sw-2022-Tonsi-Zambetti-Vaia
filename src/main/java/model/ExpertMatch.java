@@ -185,7 +185,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
 
-    public int getBlockCards() {
+    public int getRemainingBlockCards() {
         return blockCards;
     }
 
@@ -455,7 +455,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
 
-    //ONLY FOR TESTING
+    /**It's used to add a coin to the current player*/
     public void addCoinToCurrPlayer(){
         currentPlayerDashboard.addCoin();
     }

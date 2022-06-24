@@ -1,4 +1,3 @@
-//Tonsi, TESTED
 package model;
 
 import model.exception.MaxNumberException;
@@ -19,8 +18,8 @@ public class Bag  implements Serializable {
 
     private Bag(){}
 
-    //it creates the unique object bag, and when it's created, it returns the Bag object
-    //to the caller(IT CREATES ALSO THE STUDENTS TO INITIALIZE THE ISLANDS)
+    /**It creates the unique object bag, and when it's created, it returns the Bag object
+    *to the caller(it creates also the students to initialize the islands)*/
     public static void initialInstance(){
         studentsInBag=new HashSet<>();
         counter=0;
@@ -35,7 +34,8 @@ public class Bag  implements Serializable {
         }
     }
 
-    //it creates the students into the bag to start the real match(after the initialization)
+    /**It creates the students into the bag to start the real match(after the initialization). It throws MaxNumberException
+     * if the students for the initialization of the match haven't been removed*/
     public static void createAllStudents() throws MaxNumberException {
         if (studentsInBag.size()==0){
             for (Color c : Color.values()) {
@@ -51,8 +51,7 @@ public class Bag  implements Serializable {
         return INITIALSTUDENTS;
     }
 
-    //it allows to remove only a student from the bag, it's not so important,
-    //but I leave it because it's confortable
+    /**it allows to remove only a student from the bag. It throws NoMoreStudentsException if the bag is empty*/
     public static Student removeStudent() throws NoMoreStudentsException {
         Optional<Student> student;
         if(studentsInBag.size()!=0)
@@ -66,7 +65,7 @@ public class Bag  implements Serializable {
          else throw new NoMoreStudentsException("Bag limit reached, no more students in the bag...");
     }
 
-    //it allows to remove "numStudents" students from the bag
+    /*it allows to remove "numStudents" students from the bag; it throws NoMoreStudentsException if the bag is empty*/
     public static Set<Student> removeStudents(int numStudents) throws NoMoreStudentsException {
         Set<Student> studentstmp= new HashSet<>();
         for(int i=0; i<numStudents; i++){
@@ -85,22 +84,24 @@ public class Bag  implements Serializable {
         return new HashSet<>(studentstmp);
     }
 
-    //it is the getter for the static final variable that contain the students number
-    //of every color at the start of a match
+    /**it is the getter for the static final variable that contain the students number
+    *of every color at the start of a match*/
     public static int getSTUDENTSNUMCOLOR() {
         return STUDENTSNUMCOLOR;
     }
 
-    //it returns the students number in the bag
+    /**it returns the students number in the bag*/
     public static int getStudentsNum(){
         return studentsInBag.size();
     }
 
-    //it recreates the bag from the start. Used for tests and to create new matches
+    /**it recreates the bag from the start. Used for tests and to create new matches*/
     public static void restoreBag(){
         bag=null;
         Bag.initialInstance();
     }
+
+    //TODO test vaia
     public static void addStudents(Set<Student> students){
         studentsInBag.addAll(students);
     }

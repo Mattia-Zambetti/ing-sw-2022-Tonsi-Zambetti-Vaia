@@ -1,14 +1,16 @@
 //Zambo
 package model;
 
+import graphicAssets.CLIgraphicsResources;
 import model.exception.MaxNumberException;
 import model.exception.StudentIDAlreadyExistingException;
 import model.exception.WrongColorException;
-import graphicAssets.*;
 
 import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class DiningRoom implements Serializable {
     private static final int DINING_ROOM_DIM = 10;
@@ -21,6 +23,7 @@ public class DiningRoom implements Serializable {
         students = new HashSet<>(0);
     }
 
+    /** It creates a copy of the dining room*/
     public DiningRoom(DiningRoom dr){
         this.roomColor=dr.roomColor;
         this.students=new HashSet<>(dr.students);

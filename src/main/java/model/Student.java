@@ -1,4 +1,3 @@
-// Zambo
 package model;
 
 import graphicAssets.CLIgraphicsResources;
@@ -14,21 +13,24 @@ public final class Student implements Serializable {
         this.ID = studentID;
     }
 
+    /**It clones the student s in this student*/
     public Student( Student s ){
         this.color = s.color;
         this.ID = s.ID;
     }
 
+    /**It returns the color of this student*/
     public Color getColor() {
         return this.color;
     }
 
+    /**It returns the id of this student*/
     public int getID() {
         return ID;
     }
 
-    //UPDATE: you can't insert students with same id in the same set, simply the second isn't added
-    //UPDATE: added specific Exception in both DR and Entrance, need to check for other Classes
+    /** It returns true only if the Object o is a student and if the Student o
+    *has the same color and the same id of this student */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -37,16 +39,16 @@ public final class Student implements Serializable {
     }
 
 
+    /**It allows to recognize the students in a set with their id*/
     @Override
     public int hashCode() {
         return ID;
     }
 
+    /**It returns a string colored with the right color*/
     @Override
     public String toString(){
         return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(color) + color.toString() + " student" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR;
     }
-
-
 
 }

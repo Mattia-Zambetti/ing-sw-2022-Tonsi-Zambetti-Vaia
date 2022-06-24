@@ -1,4 +1,3 @@
-//Tonsi
 package model;
 
 import java.io.Serializable;
@@ -10,10 +9,12 @@ public class Master implements Serializable {
         this.color=color;
     }
 
+    /**it returns the color of this master*/
     public Color getColor(){
         return color;
     }
 
+    /**It returns true only if the Object o is a master and then the Master o has the same color of this Master*/
     @Override
     public boolean equals(Object o){
         if ( o instanceof Master m) {

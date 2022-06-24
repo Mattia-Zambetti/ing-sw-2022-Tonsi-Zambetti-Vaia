@@ -1804,7 +1804,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             }else if(f instanceof GrannyGrass){
                 int k=0;
                 for(ImageView i: blockCardsOnFigureCardsList.get(figureCards.indexOf(f))){
-                    if(k>=client.getMatchView().getBlockCards())
+                    if(k>=client.getMatchView().getRemainingBlockCards())
                         i.setVisible(false);
                     else
                         i.setVisible(true);

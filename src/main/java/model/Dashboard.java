@@ -206,7 +206,6 @@ public class Dashboard implements Serializable {
     }
 
     public void insertMaster( Master m ) {
-        //TODO valutare se può causare un'eccezione in qualche caso (se il master esiste già)
         mastersList.put(m.getColor(),m);
     }
 
@@ -248,8 +247,8 @@ public class Dashboard implements Serializable {
         return isKnight;
     }
 
+    /**it set the isKnight boolean true while the player has played the knight figure card*/
     public void setKnight( boolean setValue ) {
-        //TODO controllare possibile eccezione in caso non venga cambiato il valore
         isKnight = setValue;
     }
 

@@ -1,4 +1,3 @@
-//Tonsi
 package model;
 
 
@@ -25,20 +24,18 @@ public class Deck implements Serializable {
         currentCard=new Card(0,0,0);
     }
 
-    //TESTED
-    //Useful for a clone
+    /**Used to create a clone of the deck*/
     public Deck(Deck deck){
         this.cards=new HashSet<>(deck.getCards());
         this.wizard=deck.wizard;
         this.currentCard = new Card(deck.getCurrentCard());
-
         this.jsonImport=new JsonImport(stringName);
     }
 
 
-    //TESTED
-    //It allows to set the card played from the current player, it returns an exception
-    //with the absence of the card in the deck. You can give a cloned card as the param
+
+    /**It allows to set the card played from the current player; it throws a CardNotFoundException
+    *if the card isn't in the deck. it can take a cloned card as param*/
     public void playCard(Card card) throws CardNotFoundException {
         if(cards.contains(card)) {
             currentCard=new Card(card);
@@ -46,18 +43,17 @@ public class Deck implements Serializable {
         }else throw new CardNotFoundException("Card not found in the deck");
     }
 
-    //TESTED
-    //it returns the current card copy to the caller
+    /**it returns the current card copy to the caller*/
     public Card getCurrentCard() {
             return new Card(currentCard);
     }
 
-    //It returns the string version of the wizard (from the enum Wizard) of the deck
+    /**It returns the string version of the wizard (from the enum Wizard) of the deck*/
     public Wizard getWizard() {
         return wizard;
     }
 
-    //It returns a copy of the cards in the deck to show them in the view
+    /**It returns a copy of the cards in the deck to show them in the view*/
     public Set<Card> getCards(){
         Set<Card> res=new HashSet<Card>();
         for (Card c:cards) {
@@ -66,8 +62,7 @@ public class Deck implements Serializable {
         return res;
     }
 
-    //TESTED
-    //it returns a string with a short description for every card in the deck
+    /**it returns a string with a short description for every card in the deck*/
     @Override
     public String toString(){
         StringBuilder res= new StringBuilder();
@@ -77,7 +72,7 @@ public class Deck implements Serializable {
         return res.toString();
     }
 
-    //TESTED
+    /**it returns true if the object o is a Deck and if o and this have the same cards, the same wizard and the same current card*/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

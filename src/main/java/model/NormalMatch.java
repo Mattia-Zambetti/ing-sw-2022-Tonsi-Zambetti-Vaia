@@ -1,6 +1,5 @@
 package model;
 
-//POTREBBE NON SERVIRE
 
 import java.io.Serializable;
 

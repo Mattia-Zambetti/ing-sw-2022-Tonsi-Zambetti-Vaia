@@ -11,11 +11,6 @@ public class Tower  implements Serializable {
         this.id = id;
     }
 
-    public Tower(Tower t){
-        this.color = t.color;
-        this.id = t.id;
-    }
-
     public TowerColor getColor() {
         return color;
     }

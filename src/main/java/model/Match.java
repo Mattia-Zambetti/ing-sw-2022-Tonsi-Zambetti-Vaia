@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.*;
 public class Match extends Observable implements MatchDataInterface, Serializable {
     protected List<Island> islands;
-    private List<Cloud> clouds;
+    protected List<Cloud> clouds;
     protected List<Dashboard> dashboardsCollection; //The order of the player during the actual round is the same of the dashboard in this List
     protected Dashboard currentPlayerDashboard;
     protected HashMap<Color, Master> mastersMap;
@@ -91,12 +91,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //TONSI
 
-    /**it allows to set the actual phase in the turn by setting the choice(different choice= different phase)*/
+    /**it allows to set the actual phase in the turn
+     * by setting the choice(different choice= different phase)*/
     public void setChoicePhase(Choice choicePhase) {
         this.choicePhase = choicePhase;
     }
 
-    /**it returns a copy of the player in this turn (current player)*/
+    /**it returns a copy of the player in this turn (current player). If there isn't a current player it returns a player with name "error"*/
     public Player showCurrentPlayer() {
         try{
             return showCurrentPlayerDashboard().getPlayer();
@@ -273,7 +274,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     /**it returns 0 if it's a match without figure cars(without granny grass)*/
     @Override
-    public int getBlockCards() {
+    public int getRemainingBlockCards() {
         return 0;
     }
 

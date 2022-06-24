@@ -27,29 +27,6 @@ public class Island implements Serializable {
             students[i] = new ArrayList<Student>(0);
     }
 
-    //TODO da testare
-    public Island(Island island) {
-        this.isMotherNature=island.isMotherNature;
-        this.position=island.position;
-        this.numOfTowers= island.numOfTowers;
-
-        this.students = new ArrayList[5];
-        for(int i=0; i< island.students.length; i++){
-            for (Student s:island.students[i]) {
-                this.students[i].add(new Student(s));
-            }
-        }
-
-        this.towerColor=island.towerColor;
-
-        this.towerList = new ArrayList<>(0);
-        for (Tower tower : island.towerList) {
-            this.towerList.add(new Tower(tower));
-        }
-
-
-    }
-
     public ArrayList<Tower> getTower() throws NoTowerException {
         if ( towerList.size() == 0 )
             throw new NoTowerException("No tower in this island");

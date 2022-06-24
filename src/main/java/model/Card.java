@@ -1,4 +1,3 @@
-//Tonsi, TESTED
 package model;
 
 import java.io.Serializable;

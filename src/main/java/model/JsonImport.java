@@ -15,10 +15,11 @@ public class JsonImport implements Serializable {
     private final String filename;
 
     public JsonImport(String filename){
-
         this.filename=filename;
     }
 
+    /**It allows to import and create cards from a file json. It throws FileNotFoundException if there's no file with "filename" name
+     * in the project*/
     public Set<Card> createCards() {
         HashSet<Card> res = new HashSet<>();
         Card tmpCard;

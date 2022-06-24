@@ -138,7 +138,9 @@ public class ExpertMatchTest implements Observer {
     void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, NoIslandException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, SameInfluenceException, FinishedGameIslandException, NoMoreStudentsException, CardAlreadyPlayedException, FinishedGameEndTurnException {
         creationOfTheRightCard(new Postman());
 
+        assertFalse(expertMatch.isPostManValue());
         ((ExpertMatch)expertMatch).playFigureCard(new Postman());
+        assertTrue(expertMatch.isPostManValue());
 
         expertMatch.chooseCard(new Card(6,3,6));
         expertMatch.chooseCard(new Card(10,5,10));
@@ -386,7 +388,10 @@ public class ExpertMatchTest implements Observer {
             expertMatch.setDashboardMaster(0,masterP);
 
             expertMatch.setIslandsStudents(0,students);
+
+
             ((ExpertMatch) expertMatch).placeForbiddenCards(0);
+
             ArrayList<Tower> tmpTowers = new ArrayList<>(expertMatch.removeTowersFromDashboard(0,1));
             expertMatch.chooseCard(new Card(5,5,2));
             expertMatch.addIslandsTowers(0,tmpTowers);
@@ -400,8 +405,10 @@ public class ExpertMatchTest implements Observer {
             ((ExpertMatch) expertMatch).placeForbiddenCards(0);
             ((ExpertMatch) expertMatch).placeForbiddenCards(1);
             ((ExpertMatch) expertMatch).placeForbiddenCards(2);
+
             ((ExpertMatch) expertMatch).placeForbiddenCards(3);
             assertThrows(NoMoreBlockCardsException.class, ()-> ((ExpertMatch) expertMatch).placeForbiddenCards(4));
+            assertEquals(0,expertMatch.getRemainingBlockCards());
             }
             catch (Exception e){ e.printStackTrace();}
         }

@@ -26,7 +26,6 @@ public class Entrance implements Serializable {
     public void insertStudents(Set<Student> studentsToBeAdded) throws MaxNumberException, StudentIDAlreadyExistingException, NullPointerException {
         int initialSize=students.size();
 
-        //TODO valutare sia qui che in DR se è il caso di lanciare eccezioni (null) quando viene passato un set nullo o studenti null
         if ( studentsToBeAdded == null )
             throw new NullPointerException("Tried to add null Set instead of a Set of students in your Entrance");
         for (Student s: studentsToBeAdded){
@@ -53,10 +52,10 @@ public class Entrance implements Serializable {
         this.students.add(studentToBeAdded);
     }
 
-    //This method verify that an object is exactly the same, and not a clone, pay attention.
-    //It's perfect for us because we can pass students, they are immutable object, but
-    //if we use a clone of the Student, it doesn't work(watch
-    // the insertStudentsWithoutException() test)
+    /**This method verify that an object is exactly the same, and not a clone, pay attention.
+    *It's perfect for us because we can pass students, they are immutable object, but
+    *if we use a clone of the Student, it doesn't work(watch
+    * the insertStudentsWithoutException() test)*/
     public Student removeStudent(Student student) throws InexistentStudentException, NullPointerException{
         if ( student == null )
             throw new NullPointerException("Tried to remove null Student from your Entrance");

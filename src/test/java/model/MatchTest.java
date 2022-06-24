@@ -21,6 +21,9 @@ public class MatchTest {
         assertEquals(PLAYERSNUM, match.getTotalPlayersNum());
         match.addPlayer("Vaia", "BLACK", "WIZARD1",1);
         assertEquals(1, match.getCurrentPlayersNum());
+        assertEquals(0,match.getRemainingBlockCards());
+        assertEquals(match.showCurrentPlayerDashboard().getPlayer(), match.showCurrentPlayer());
+        assertEquals(false,match.isPostManValue());
         this.students = new ArrayList[5];
 
         for(int i = 0; i < this.students.length; ++i) {
@@ -146,6 +149,7 @@ public class MatchTest {
         }
     }
 
+    /** It tests if the cards are set correctly and if the number of current cards is always correctely returned */
     @Test
     void chooseCardMethod() throws CardNotFoundException, NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, CardAlreadyPlayedException {
         Card tmp=new Card(1,1,1);
@@ -153,9 +157,15 @@ public class MatchTest {
 
         match.addPlayer("Tonsi", "WHITE", "WIZARD2",1);
 
+        assertEquals(match.getSizeCurrentCards(),0);
+
         assertTrue(match.showCards().contains(tmp));
         match.chooseCard(tmp);
+
+        assertEquals(match.getSizeCurrentCards(),1);
         match.chooseCard(tmp2);
+
+        assertEquals(match.getSizeCurrentCards(),2);
 
         assertEquals(tmp, match.showCurrentPlayerDashboard().getCurrentCard());
         System.out.println(match.showCurrentPlayerDashboard().getCurrentCard().toString());
@@ -257,6 +267,11 @@ public class MatchTest {
         Master masterY = new Master(Color.YELLOW);
         Master masterP = new Master(Color.PINK);
         Master masterG = new Master(Color.GREEN);
+
+        Master masterR2= new Master(Color.RED);
+
+        assertFalse(masterR.equals(masterB));
+        assertTrue(masterR2.equals(masterR));
 
         match.setDashboardMaster(0,masterB); // 2
         match.setDashboardMaster(1,masterG);
@@ -676,6 +691,8 @@ public class MatchTest {
         match.addPlayer("Island", "BLACK", "WIZARD1",1);
         match.addPlayer("Tower", "WHITE", "WIZARD2",3);
         match.refillClouds();
+
+        assertEquals(match.getClouds(),match.clouds);
 
         System.out.println(match);
 

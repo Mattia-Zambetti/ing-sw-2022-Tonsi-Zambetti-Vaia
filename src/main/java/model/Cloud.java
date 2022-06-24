@@ -1,4 +1,3 @@
-//Tonsi
 package model;
 
 import graphicAssets.CLIgraphicsResources;
