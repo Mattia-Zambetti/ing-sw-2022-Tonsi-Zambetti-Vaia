@@ -3752,7 +3752,6 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
-                  <Region fx:id="cloudRegion1" layoutX="5.0" layoutY="-1.0" onMouseClicked="#chooseCloud" prefHeight="130.0" prefWidth="126.0" />
                   <ImageView fx:id="student4OnCloud1" fitHeight="23.0" fitWidth="25.0" layoutX="56.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
@@ -3761,6 +3760,7 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
+                  <Region fx:id="cloudRegion1" layoutX="5.0" layoutY="-1.0" onMouseClicked="#chooseCloud" prefHeight="130.0" prefWidth="126.0" />
                </children>
             </AnchorPane>
             <ImageView fx:id="cloud2" fitHeight="128.0" fitWidth="175.0" layoutX="144.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
@@ -3804,7 +3804,6 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
-                  <Region fx:id="cloudRegion2" layoutX="11.0" onMouseClicked="#chooseCloud" prefHeight="110.0" prefWidth="115.0" />
                   <ImageView fx:id="student4OnCloud2" fitHeight="23.0" fitWidth="25.0" layoutX="57.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
@@ -3813,6 +3812,7 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
+                  <Region fx:id="cloudRegion2" layoutX="11.0" onMouseClicked="#chooseCloud" prefHeight="110.0" prefWidth="115.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="295.0" layoutY="19.0" prefHeight="110.0" prefWidth="126.0">
@@ -3841,7 +3841,6 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
-                  <Region fx:id="cloudRegion3" layoutX="6.0" layoutY="-5.0" onMouseClicked="#chooseCloud" prefHeight="110.0" prefWidth="115.0" />
                   <ImageView fx:id="student4OnCloud3" fitHeight="23.0" fitWidth="25.0" layoutX="56.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
@@ -3850,6 +3849,7 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
+                  <Region fx:id="cloudRegion3" layoutX="6.0" layoutY="-5.0" onMouseClicked="#chooseCloud" prefHeight="110.0" prefWidth="115.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="438.0" layoutY="18.0" prefHeight="110.0" prefWidth="126.0">
@@ -3878,7 +3878,6 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
-                  <Region fx:id="cloudRegion4" layoutX="4.0" layoutY="-3.0" onMouseClicked="#chooseCloud" prefHeight="110.0" prefWidth="136.0" />
                   <ImageView fx:id="student4OnCloud4" fitHeight="23.0" fitWidth="25.0" layoutX="60.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/GreenStudent.png" />
@@ -3887,6 +3886,7 @@
                         <DropShadow />
                      </effect>
                   </ImageView>
+                  <Region fx:id="cloudRegion4" layoutX="4.0" layoutY="-3.0" onMouseClicked="#chooseCloud" prefHeight="110.0" prefWidth="136.0" />
                </children>
             </AnchorPane>
          </children>

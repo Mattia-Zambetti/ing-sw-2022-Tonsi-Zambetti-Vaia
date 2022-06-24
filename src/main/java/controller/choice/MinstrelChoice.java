@@ -26,6 +26,15 @@ public class MinstrelChoice extends FigureCardActionChoice {
         return new HashSet<>(studentsFromEntrance);
     }
 
+    public void setStudentsFromDr(List<Student> studentsFromDr) {
+        this.studentsFromDr = studentsFromDr;
+    }
+
+    public void setStudentsFromEntrance(List<Student> studentsFromEntrance) {
+        completed = true;
+        this.studentsFromEntrance = studentsFromEntrance;
+    }
+
     @Override
     public boolean setChoiceParam(String input)
     {
@@ -89,6 +98,10 @@ public class MinstrelChoice extends FigureCardActionChoice {
         }
         completed = true;
         return false;
+    }
+
+    public void setCompleted(boolean flag){
+        completed = flag;
     }
 
 

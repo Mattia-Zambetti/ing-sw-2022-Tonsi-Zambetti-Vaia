@@ -1191,7 +1191,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private List<Integer> studentsIdsToMoveFromEntrance = new ArrayList<>();
 
-    private int jesterCounter = 0;
+    private List<Integer> studentsIdsToMoveFromDiningRoom = new ArrayList<>();
+
+    private int jesterCounter = 0,maxNumMinistrelStudents = 0;
 
     private List<Map<Color, Text>> numStudentsOnIsland;
 
@@ -2246,6 +2248,19 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
 
             }
+            else if(client.getActualToDoChoice() instanceof MinstrelChoice){
+                if(numChoice == 0){
+                    if(((ImageView)event.getSource()).getOpacity() == 1.0 && studentsIdsToMoveFromEntrance.size() < maxNumMinistrelStudents){
+                        studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent));
+                        ((ImageView)event.getSource()).setOpacity(0.5);
+                    }
+                    else{
+                        ((ImageView)event.getSource()).setOpacity(1.0);
+                        studentsIdsToMoveFromEntrance.remove(Integer.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)));
+                    }
+                }
+
+            }
         }else
             throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
     }
@@ -2325,6 +2340,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                         client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
                 }
+
                 synchronized (client.getOutputStreamLock()) {
                     client.getOutputStreamLock().notifyAll();
                 }
@@ -2333,6 +2349,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             }else if(client.getActualToDoChoice() instanceof MerchantChoice)
             {
                 submitIslandForMerchant(event);
+            }
+            else if(client.getActualToDoChoice() instanceof HeraldChoice){
+                ((HeraldChoice) client.getActualToDoChoice()).setIslandPositionTmp(client.getMatchView().getIslandPositions());
+                ((HeraldChoice) client.getActualToDoChoice()).setChoiceParam(String.valueOf(fromIslandToInt.get(islandID)));
+                synchronized (client.getOutputStreamLock()) {
+                    client.getOutputStreamLock().notifyAll();
+                }
             }
         }else
             throw new IllegalArgumentException("chooseIsland method called by an Object that is not an ImageView");
@@ -2392,6 +2415,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 client.getOutputStreamLock().notifyAll();
             }
         }
+        else if(client.getActualToDoChoice() instanceof ThiefChoice || client.getActualToDoChoice() instanceof MushroomCollectorChoice){
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(Color.GREEN.ordinal()+1));
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }
+        else if (client.getActualToDoChoice() instanceof MinstrelChoice) {
+            submitMinistrelParams(Color.GREEN);
+        }
 
     }
 
@@ -2401,6 +2433,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();
             }
+        }
+        else if(client.getActualToDoChoice() instanceof ThiefChoice || client.getActualToDoChoice() instanceof MushroomCollectorChoice){
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(Color.RED.ordinal()+1));
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }
+        else if (client.getActualToDoChoice() instanceof MinstrelChoice) {
+            submitMinistrelParams(Color.RED);
         }
 
     }
@@ -2412,6 +2453,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 client.getOutputStreamLock().notifyAll();
             }
         }
+        else if(client.getActualToDoChoice() instanceof ThiefChoice || client.getActualToDoChoice() instanceof MushroomCollectorChoice){
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(Color.YELLOW.ordinal()+1));
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }
+        else if (client.getActualToDoChoice() instanceof MinstrelChoice) {
+            submitMinistrelParams(Color.YELLOW);
+        }
 
     }
 
@@ -2422,6 +2472,15 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 client.getOutputStreamLock().notifyAll();
             }
         }
+        else if(client.getActualToDoChoice() instanceof ThiefChoice || client.getActualToDoChoice() instanceof MushroomCollectorChoice){
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(Color.PINK.ordinal()+1));
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }
+        else if (client.getActualToDoChoice() instanceof MinstrelChoice) {
+            submitMinistrelParams(Color.PINK);
+        }
 
     }
 
@@ -2431,14 +2490,95 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
      *
      * @param event
      */
-    public void chooseBlueDR(MouseEvent event) {
+    public void chooseBlueDR(MouseEvent event){
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();
             }
         }
+        else if(client.getActualToDoChoice() instanceof ThiefChoice || client.getActualToDoChoice() instanceof MushroomCollectorChoice){
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(Color.BLUE.ordinal()+1));
+            synchronized ( client.getOutputStreamLock() ) {
+                client.getOutputStreamLock().notifyAll();
+            }
+        }
 
+        else if (client.getActualToDoChoice() instanceof MinstrelChoice) {
+            submitMinistrelParams(Color.BLUE);
+        }
+
+    }
+
+    public void submitMinistrelParams(Color color) {
+        int counter = 0;
+        if(studentsIdsToMoveFromEntrance.size() != 0){
+            if(numChoice == 0)
+                numChoice =1;
+        }
+        if(numChoice == 1){
+            int tmp = 0;
+            boolean flag = false;
+            for(Student s : client.getMatchView().showCurrentPlayerDashboard().showDiningRoom()){
+                if(s.getColor() == color){
+                    if(!studentsIdsToMoveFromDiningRoom.contains(tmp)){
+                        studentsIdsToMoveFromDiningRoom.add(tmp);
+                        if(playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(0).getOpacity() == 1.0){
+                            playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(0).setOpacity(0.5);
+                        }
+                        else if (playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(1).getOpacity() == 1.0){
+                            playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(1).setOpacity(0.5);
+                        }
+                        flag = true;
+                        break;
+                    }
+                }
+                tmp++;
+            }
+            if(flag == false){
+                try {
+                    if(client.getMatchView().showCurrentPlayerDashboard().getStudentsNumInDR(color) > 0){
+                        tmp = 0;
+                        for(Student s : client.getMatchView().showCurrentPlayerDashboard().showDiningRoom()){
+                            if(s.getColor() == color){
+                                if(studentsIdsToMoveFromDiningRoom.contains(tmp)){
+                                    studentsIdsToMoveFromDiningRoom.remove(Integer.valueOf(tmp));
+                                    if(playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(1).getOpacity() == 0.5){
+                                        playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(1).setOpacity(1.0);
+                                    }
+                                    else if(playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(0).getOpacity() == 0.5){
+                                        playersDashboardView.get(client.getPlayer().getNickname()).diningRoomStudents.get(color).get(0).setOpacity(1.0);
+                                    }
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            tmp++;
+                        }
+                    }
+                } catch (WrongColorException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(studentsIdsToMoveFromDiningRoom.size() == studentsIdsToMoveFromEntrance.size()){
+                List<Student> tmpList = new ArrayList<>();
+                for(int i = 0; i < studentsIdsToMoveFromDiningRoom.size();i++){
+                    tmpList.add(client.getMatchView().showCurrentPlayerDashboard().showDiningRoom().get(studentsIdsToMoveFromDiningRoom.get(i)));
+                }
+                ((MinstrelChoice) client.getActualToDoChoice()).setStudentsFromDr(tmpList);
+                tmpList = new ArrayList<>();
+                for(int i = 0; i < studentsIdsToMoveFromDiningRoom.size();i++){
+                    tmpList.add(client.getMatchView().showCurrentPlayerDashboard().showEntrance().stream().toList().get(studentsIdsToMoveFromEntrance.get(i)));
+                }
+                ((MinstrelChoice) client.getActualToDoChoice()).setStudentsFromEntrance(tmpList);
+                numChoice = 0;
+                synchronized ( client.getOutputStreamLock() ) {
+                    client.getOutputStreamLock().notifyAll();
+                }
+                studentsIdsToMoveFromDiningRoom = new ArrayList<>();
+                studentsIdsToMoveFromEntrance = new ArrayList<>();
+            }
+        }
     }
 
     /**Puts all ImageView of entrance of dashboard 1 students into an ArrayList
@@ -2824,8 +2964,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             int i;
             for ( i=0; i<studentsNumber; i++ ) {
                 diningRoomStudents.get(drColor).get(i).setVisible(true);
+                diningRoomStudents.get(drColor).get(i).setOpacity(1);
             }
             while (i<10) {
+                diningRoomStudents.get(drColor).get(i).setOpacity(1);
                 diningRoomStudents.get(drColor).get(i).setVisible(false);
                 i++;
             }
@@ -2852,6 +2994,28 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
         if(client.getMatchView() instanceof ExpertMatch) {
             updateFigureCards();
+            if(client.getActualToDoChoice() instanceof MinstrelChoice && client.getMatchView().showCurrentPlayer().equals(client.getPlayer())){
+                int countStudentsDr = 0;
+                for(Color c : Color.values()){
+                    try {
+                        countStudentsDr += client.getMatchView().showCurrentPlayerDashboard().getStudentsNumInDR(c);
+                    } catch (WrongColorException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if(countStudentsDr == 0){
+                    ((MinstrelChoice)client.getActualToDoChoice()).setCompleted(true);
+                    synchronized (client.getOutputStreamLock()) {
+                        client.getOutputStreamLock().notifyAll();
+                    }
+                }
+                else {
+                    if(countStudentsDr == 1)
+                        maxNumMinistrelStudents = countStudentsDr;
+                    else
+                        maxNumMinistrelStudents = 2;
+                }
+            }
         }
 
     }
