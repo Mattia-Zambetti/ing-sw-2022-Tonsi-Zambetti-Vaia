@@ -27,7 +27,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         figureCards=new ArrayList<>();
 
-
+        /*
         try {
             figureCards.add(new Centaur());
             figureCards.add(new Knight());
@@ -35,7 +35,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+        */
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
                 int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM + 1);
@@ -173,13 +173,13 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             if(card instanceof GrannyGrass && blockCards==0){
                 setErrorMessage("You can't play this figure card now, please try later");
                 setChoicePhase(Controller.getTmpChoice());
-                notifyMatchObservers();
+                notifyFigureCard(card);
             }
             else {
                 currentPlayerDashboard.removeCoin(card.getPrice());
                 figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).playCard(this);
                 figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).pricePlusPlus();
-                notifyMatchObservers();
+                notifyFigureCard(card);
             }
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
@@ -345,7 +345,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
     public void notifyFigureCard(FigureCard figureCard){
         choicePhase = figureCard.getActualChoice();
-        notifyMatchObservers();
+        setChanged();
+        notifyObservers(figureCard);
     }
 
 

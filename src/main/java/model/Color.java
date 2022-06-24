@@ -8,18 +8,20 @@ public enum Color implements Serializable {
 
     private boolean isColorBlocked=false;
 
-    //AGGIUNTA DA ZAMBO PER OTTENERE LA DIMENSIONE DELL'ENUM (inutile nel nostro caso ma utile in caso di ampliamento dell'enum se venissero aggiunte altre istanze)
+    /** it returns the dimension of the enum*/
     public static int getDim(){ return YELLOW.ordinal()+1; }
 
+    /**It locks a color by setting true "isColorBlocked"; used by the mushroom collector*/
     public void lockColor(){
         isColorBlocked=true;
     }
 
+    /**It unlocks a color by setting false "isColorBlocked"; used by the mushroom collector*/
     public void unlockColor(){
         isColorBlocked=false;
     }
 
-
+    /**It returns if the color is blocked; used by the mushroom collector*/
     public boolean isColorBlocked(){
         return isColorBlocked;
     }

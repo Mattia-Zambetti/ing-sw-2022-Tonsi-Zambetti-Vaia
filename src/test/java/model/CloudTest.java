@@ -12,15 +12,11 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//Classe di test in quanto estende TestCase, i test possono essere eseguiti in blocco grazie al
-// play verde in parte alla classe(schiacciando col destro sui test è possibile far partire tutti i test
-// di tutte le classi), oppure far partire singolarmente ogni test sempre nello stesso modo
 class CloudTest {
-    //si possono definire variabili che poi verranno utilizzate nei test
+
     Cloud cloudTest;
 
 
-    //Questo metodo viene eseguito prima di ogni test, usato per inizializzare solitamente gli oggetti
     @BeforeEach
     void init() throws MaxNumberException, AlreadyFilledCloudException {
         Set<Student> students=new HashSet<>();
@@ -35,35 +31,24 @@ class CloudTest {
 
     }
 
-    //Da mettere sempre prima di un test
-    //Test removed because toString is changed
-    //@Test
-    /*void createToStringCloud(){
-        //Indica se il test è fallito(false) oppure è riuscito all'esecuzione
-        assertTrue(cloudTest.toString().equals("YELLOW student\nYELLOW student\nRED student\n") ||
-                    cloudTest.toString().equals("YELLOW student\nRED student\nYELLOW student\n") ||
-                    cloudTest.toString().equals("RED student\nYELLOW student\nYELLOW student\n"));
-    }*/
-
+    /**It tests if the students on the cloud has taken correctly; after this operation the students list on the cloud is empty */
     @Test
     void checkIsEmptyAfterTakeStudents() throws WrongCloudNumberException {
-        Set<Student> tmp=new HashSet<>();
         cloudTest.takeStudents();
-        //test riuscito sse i due oggetti sono uguali
+
         assertThrows(WrongCloudNumberException.class,()->cloudTest.takeStudents());
-
-
         assertEquals(cloudTest, new Cloud(1));
     }
 
+    /** It tests if, by inserting a students empty set, the method work correctly
+     * (the student list has to be empty at the end) */
     @Test
-    void takeAndRefillCloudNullSet(){
+    void takeAndRefillCloudEmptySet(){
         Set<Student> tmp=new HashSet<>();
         try {
             cloudTest.takeStudents();
             cloudTest.refillCloud(tmp);
         }catch (WrongCloudNumberException | MaxNumberException e){
-            //probabilmente esiste una assert per le exception, consiglio di cercare
             System.out.println(e.getMessage());
         } catch (AlreadyFilledCloudException e) {
             e.printStackTrace();
@@ -72,6 +57,8 @@ class CloudTest {
         }
     }
 
+    /** It tests if, by inserting a set of 3 students, the method work correctly(the student list has to be of the same 3 students
+     * at the end) */
     @Test
     void takeAndRefillCloudRealSet() throws WrongCloudNumberException {
         Set<Student> tmp=new HashSet<>();
@@ -94,6 +81,8 @@ class CloudTest {
         assertTrue(cloudTest.takeStudents().containsAll(tmp));
     }
 
+    /** It tests if, by inserting a set of 3 students with a student null, the method work correctly( it throws MaxNumberException and the
+     * students set is empty at the end)*/
     @Test
     void refillCloudWithStudentNull(){
         Set<Student> tmp=new HashSet<>();
@@ -112,10 +101,12 @@ class CloudTest {
         }
     }
 
+    /** It tests if the cloud is correctly copied with the cloud copy constructor*/
     @Test
     void cloudCopyTest() throws WrongCloudNumberException {
         Cloud copyTest=new Cloud(cloudTest);
         assertEquals(copyTest,cloudTest);
+        assertEquals(copyTest.getStudentsOnCloud(), cloudTest.getStudentsOnCloud());
         cloudTest.takeStudents();
         assertNotEquals(cloudTest,copyTest);
     }

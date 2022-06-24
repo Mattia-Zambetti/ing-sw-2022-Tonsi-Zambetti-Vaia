@@ -89,37 +89,6 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
-    //TODO da testare
-    public Match(Match match){
-
-        this.islands = new ArrayList<>();
-        for (Island island: match.islands) {
-            this.islands.add(new Island(island));
-        }
-
-        this.clouds = new ArrayList<>();
-        for (Cloud cloud: match.clouds) {
-            this.clouds.add(new Cloud(cloud));
-        }
-
-        this.dashboardsCollection=new ArrayList<>();
-        for (Dashboard dashboard: match.dashboardsCollection) {
-            this.dashboardsCollection.add(new Dashboard(dashboard));
-        }
-
-        this.currentPlayerDashboard=new Dashboard(match.currentPlayerDashboard);
-
-        this.mastersMap=new HashMap<>(match.mastersMap);
-
-        this.totalPlayersNum=match.totalPlayersNum;
-
-        this.currentIsland=match.currentIsland;
-
-        this.islandPositions.addAll(match.islandPositions);
-
-        this.towersNum=match.towersNum;
-    }
-
     //TONSI
 
     /**it allows to set the actual phase in the turn by setting the choice(different choice= different phase)*/
@@ -197,6 +166,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         throw new WrongCloudNumberException("wrong cloud's number");
     }
 
+    /**It returns the IDth cloud
+     * It throws WrongCloudNumberException if the id doesn't exist
+     */
     private Cloud getCloudByID(int ID) throws WrongCloudNumberException {
         for ( Cloud c: clouds ) {
             if ( c.getID() == ID )
@@ -205,8 +177,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         throw new WrongCloudNumberException("Wrong cloud's number");
     }
 
+    /** It returns a copy of the clouds list*/
     public List<Cloud> getClouds() {
-        return clouds;
+        List<Cloud> cloudsCopy=new ArrayList<>();
+        for (Cloud c: clouds){
+            cloudsCopy.add(new Cloud(c));
+        }
+        return cloudsCopy;
     }
 
     /**TESTED
@@ -257,6 +234,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
+    /** It returns the current cards number, the current cards are initialized with every attribute to 0, so it count the card only
+     * if its id is 0*/
     public int getSizeCurrentCards(){
         int counter=0;
         for(Card c: showAllCurrentCards()){
@@ -277,40 +256,40 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return res.toString();
     }
 
-    // TODO mai usato
+   /*
     public List<Cloud> showClouds(){
         List<Cloud> res=new ArrayList<>();
         for (Cloud c:clouds) {
             res.add(new Cloud(c));
         }
         return res;
-    }
+    }*/
 
     /** it returns a copy of the cards in the current player's deck*/
     public Set<Card> showCards(){
         return currentPlayerDashboard.showCards();
     }
 
+
+    /**it returns 0 if it's a match without figure cars(without granny grass)*/
     @Override
     public int getBlockCards() {
         return 0;
     }
 
+    /**it returns false if it's a match without figure cars(without postman)*/
     @Override
     public boolean isPostManValue() {
         return false;
     }
 
-    public int getPlacePlayerInTheOrder(Player player){
-        for (Dashboard d: dashboardsCollection) {
-            if(d.getPlayer().equals(player))
-                return dashboardsCollection.indexOf(d)+1;
-        }
-        return -1;
-    }
 
+    /**It sets the chosen card param as a current card if no one has played this card in this or if it has no possibility to do
+     * another choose. it throws CardAlreadyPlayedException if it can't be setted as the current card*/
     public void chooseCard(Card chosenCard) throws CardNotFoundException, CardAlreadyPlayedException {
         boolean isAlreadyPlayed=false;
+
+        /*It checks if the card has already played from one of the player before the current one*/
         for (Dashboard d: dashboardsCollection) {
             if ( dashboardsCollection.indexOf(d) < dashboardsCollection.indexOf(currentPlayerDashboard) ) {
                 if ( chosenCard.equals(d.getCurrentCard())) {
@@ -319,17 +298,22 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 }
             }
         }
+
         if(isAlreadyPlayed && isThereAnotherCard()){
             throw new CardAlreadyPlayedException("This card has already been chosen by another player");
         }
 
+
         currentPlayerDashboard.playChosenCard(chosenCard);
 
+        //if the deck is empty it set that is the last round
         if(currentPlayerDashboard.showCards().size()==0 && currentPlayerDashboard.equals(dashboardsCollection.get(0))){
             setMatchFinishedAtEndOfRound();
         }
 
 
+        //it chooses the next phase in the match, it can be cardChoice for the next player or the moveStudentChoice for the first
+        //player in the order
         if(!setNextCurrDashboard()){
             setDashboardOrder();
             choicePhase=new MoveStudentChoice(showCurrentPlayerDashboard().showEntrance());
@@ -340,6 +324,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     }
 
+    /**it return true if the player could choose a different card from the other player's current cards. It check only the current
+    *card of the players before the current player*/
     public boolean isThereAnotherCard(){
         boolean isFree=true;
         for (Card c: currentPlayerDashboard.showCards()) {
@@ -354,17 +340,23 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return false;
     }
 
-
+    /**this method takes the players data and set them into the match. It checks if they are correct and if the player could
+    *choose these data. If data are wrong, it throws WrongDataplayerException/WrongColorException. it finally create the player dashboard
+     *in the match and notify the change to the players in the lobby */
     public void addPlayer(String nickname, String towerColor, String wizard, int id) throws WrongColorException, WrongDataplayerException, NoMoreStudentsException, MaxNumberException {
+
         if(choicePhase instanceof DataPlayerChoice)
             ((DataPlayerChoice)choicePhase).setPossessor(id);
+
+
         if (dashboardsCollection.size() < totalPlayersNum) {
 
+            //It checks if the players choose the grey tower color in a different match than the match with 3 players
             if ((totalPlayersNum == 2 || totalPlayersNum == 4) && towerColor.toString().equals("GREY")) {
                 throw new WrongColorException("You can't choose this color...");
             }
 
-
+            //it checks for each player in the lobby if it has the same nickname or wizard(params of the method)
             for (Dashboard player : dashboardsCollection) {
                 if (player.getPlayer().getNickname().equals(nickname))
                     throw new WrongDataplayerException("This nickname has been already chosen");
@@ -372,6 +364,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                     throw new WrongDataplayerException("This wizard has already chosen");
             }
 
+
+            //it checks for each player in the lobby if it has the same tower color; in the match with 4 players, it checks
+            //if there's already two players with this tower color param
             if (totalPlayersNum < MAXPLAYERSNUM) {
                 for (Dashboard player : dashboardsCollection) {
                     if (player.getTowerColor().toString().equals(towerColor))
@@ -384,7 +379,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 }
             }
 
-
+            //it creates the new dashboard with che correct number of tower by watching the number of players
             if (totalPlayersNum < MAXPLAYERSNUM) {
                 dashboardsCollection.add(new Dashboard(towersNum, TowerColor.valueOf(towerColor), Wizard.valueOf(wizard), nickname, dashboardsCollection.size()));
                 setChanged();
@@ -411,6 +406,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 notifyObservers(new PlayerSuccessfullyCreated(new Player(nickname), id));
             }
 
+            //it starts the match when every player in the match has already chosen his data
             if (totalPlayersNum == dashboardsCollection.size()) {
                 initializeAllEntrance();
                 choicePhase = new CardChoice(currentPlayerDashboard.showCards());
@@ -418,7 +414,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                 notifyMatchObservers();
             }
 
-
+            //it sets the current player
             if (dashboardsCollection.size() == 1) {
                 currentPlayerDashboard = dashboardsCollection.get(0);
             }
@@ -426,6 +422,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     }
 
+    /**it sets the towers number in the match by choosing using the players number for this match*/
     private void setTowersNum() {
         if (totalPlayersNum == 2) {
             towersNum = 8;
@@ -436,7 +433,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     }
 
-
+    /**it returns a copy of the current player dashboard*/
     public Dashboard showCurrentPlayerDashboard() throws NullPointerException {
         return new Dashboard(currentPlayerDashboard);
     }

@@ -1,14 +1,13 @@
 package model;
 
-import model.figureCards.*;
 import model.exception.*;
+import model.figureCards.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExpertMatchTest implements Observer {
     Match expertMatch;
