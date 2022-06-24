@@ -2166,7 +2166,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 if(numChoice == 0 && studentsIdsToMoveFromCard.size()!=0){
                     numChoice=1;}
                 if(numChoice == 1){
-                    studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1);
+                    if(((ImageView)event.getSource()).getOpacity()== 1) {
+                        studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent) + 1);
+                        ((ImageView) event.getSource()).setOpacity(0.5);
+                    }else if(((ImageView)event.getSource()).getOpacity()== 0.5){
+                        studentsIdsToMoveFromEntrance.remove(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent) + 1);
+                        ((ImageView) event.getSource()).setOpacity(1);
+                    }
                     if(studentsIdsToMoveFromEntrance.size() == studentsIdsToMoveFromCard.size()){
                         numChoice = 0;
                         client.getActualToDoChoice().setChoiceParam(""+studentsIdsToMoveFromEntrance.size());

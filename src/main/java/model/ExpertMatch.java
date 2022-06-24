@@ -27,15 +27,13 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         figureCards=new ArrayList<>();
 
-        /*
+
         try {
-            figureCards.add(new Centaur());
-            figureCards.add(new Knight());
-            figureCards.add(new Postman());
+            figureCards.add(new Jester());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        */
+
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
                 int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM + 1);

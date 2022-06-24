@@ -3,10 +3,12 @@ package client;
 import controller.choice.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.MatchDataInterface;
 import model.Message.Message;
 import model.Player;
@@ -123,6 +125,13 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             primaryStage.setScene(scene);
             primaryStage.show();
 
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent windowEvent) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
