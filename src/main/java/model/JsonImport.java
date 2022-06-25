@@ -21,7 +21,7 @@ public class JsonImport implements Serializable {
     /**It allows to import and create cards from a file json. It throws FileNotFoundException if there's no file with "filename" name
      * in the project*/
     public Set<Card> createCards() {
-        HashSet<Card> res = new HashSet<>();
+       /* HashSet<Card> res = new HashSet<>();
         Card tmpCard;
         int value, movementValue, id;
         try {
@@ -36,8 +36,8 @@ public class JsonImport implements Serializable {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        return res;
+        }*/
+        return null;
     }
 
 }

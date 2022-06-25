@@ -1,6 +1,7 @@
 import client.ClientCLI;
 import client.ClientJavaFX;
 import javafx.application.Application;
+import model.JsonImport;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -25,6 +26,7 @@ public class ClientApp {
         readUser.reset();
         ip = readUser1.nextLine();
 
+        //JsonImport.setFilename(args[0]);
         switch ( clientType ) {
             case 1:
                 ClientCLI clientCLI =new ClientCLI(ip , 50001);

@@ -12,14 +12,26 @@ public class Deck implements Serializable {
     private final Set<Card> cards;
     private Card currentCard;
     private final Wizard wizard;
-    private final JsonImport jsonImport;
+    //private final JsonImport jsonImport;
     private final static int CARDSNUMBER=10;
     private final static String stringName="./Carte.json";
     private int counter=0;
 
     public Deck(Wizard wizard){
-        jsonImport=new JsonImport(stringName);
-        cards = new HashSet<>(jsonImport.createCards());
+        //jsonImport=new JsonImport(stringName);
+        cards = new HashSet<>(){{
+            add(new Card(1,1,1));
+            add(new Card(2,1,2));
+            add(new Card(3,2,3));
+            add(new Card(4,2,4));
+            add(new Card(5,3,5));
+            add(new Card(6,3,6));
+            add(new Card(7,4,7));
+            add(new Card(8,4,8));
+            add(new Card(9,5,9));
+            add(new Card(10,5,10));
+        }};
+
         this.wizard=wizard;
         currentCard=new Card(0,0,0);
     }
@@ -29,7 +41,6 @@ public class Deck implements Serializable {
         this.cards=new HashSet<>(deck.getCards());
         this.wizard=deck.wizard;
         this.currentCard = new Card(deck.getCurrentCard());
-        this.jsonImport=new JsonImport(stringName);
     }
 
 
