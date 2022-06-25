@@ -32,7 +32,7 @@ public class ControllerGUI extends ControllerGUIInterface implements Initializab
         ExecutorService executor = Executors.newFixedThreadPool(4);
         stage = (Stage)((Node) e.getSource()).getScene().getWindow();
         if ( !client.isConnected() ) {
-            client.setParam("127.0.0.1", 12345);
+            client.setParam();
             executor.submit(client);
         }
     }

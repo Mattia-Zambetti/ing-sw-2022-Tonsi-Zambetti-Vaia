@@ -14,7 +14,7 @@ public class Deck implements Serializable {
     private final Wizard wizard;
     private final JsonImport jsonImport;
     private final static int CARDSNUMBER=10;
-    private final static String stringName="Carte.json";
+    private final static String stringName="./Carte.json";
     private int counter=0;
 
     public Deck(Wizard wizard){

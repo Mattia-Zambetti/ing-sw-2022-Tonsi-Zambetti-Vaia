@@ -31,8 +31,8 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     private final Object outputStreamLock = new Object();
     private int idThis;
-    private int port;
-    private String ip;
+    private static int port;
+    private static String ip;
     private Choice actualToDoChoice;
 
     private MatchDataInterface matchView;
@@ -72,6 +72,14 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
     public void setActualToDoChoiceQueue(Choice actualToDoChoiceQueue) {
         this.actualToDoChoiceQueue = actualToDoChoiceQueue;
+    }
+
+    public static void setIp(String ip) {
+        ClientJavaFX.ip = ip;
+    }
+
+    public static void setPort(int port) {
+        ClientJavaFX.port = port;
     }
 
     public Choice getActualToDoChoiceQueue() {
@@ -164,9 +172,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
 
 
-    public void setParam(String ip, int port){
-        this.port=port;
-        this.ip=ip;
+    public void setParam(){
         isChoiceTime=false;
     }
 
