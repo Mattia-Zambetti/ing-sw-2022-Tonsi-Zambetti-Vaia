@@ -9,7 +9,7 @@
 }
 
 .cardBackground {
-    -fx-background-image: url('Client/Images/WoodTexture.jpg');
+    -fx-background-image: url('/client/Images/WoodTexture.jpg');
     -fx-background-size: 100% 100%;
     -fx-border-color: #4b1f07;
 }
