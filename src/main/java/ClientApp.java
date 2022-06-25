@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class ClientApp {
 
     private static int clientType;
+
+    private static String ip;
     private static Scanner readUser= new Scanner(System.in);
 
     public static void main(String[] args){
@@ -18,7 +20,9 @@ public class ClientApp {
 
         switch ( clientType ) {
             case 1:
-                ClientCLI clientCLI =new ClientCLI("127.0.0.1", 12345);
+                System.out.println("insert the ip of your server:");
+                ip = readUser.nextLine();
+                ClientCLI clientCLI =new ClientCLI(ip , 50001);
                 clientCLI.run();
                 break;
             case 2:

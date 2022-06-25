@@ -14,6 +14,10 @@ public class HeraldChoice extends FigureCardActionChoice{
     private int chosenIsland;
     private List<Integer> islandPositionTmp = new ArrayList<>();
 
+    public void setIslandPositionTmp(List<Integer> islandPositionTmp) {
+        this.islandPositionTmp = islandPositionTmp;
+    }
+
     @Override
     public boolean setChoiceParam(String input) {
         if(isItAnInt(input)) {

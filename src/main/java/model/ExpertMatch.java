@@ -29,7 +29,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
 
         try {
-            figureCards.add(new Jester());
+            figureCards.add(new Minstrel());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
