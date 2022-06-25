@@ -345,9 +345,7 @@ public class ControllerTest {
         FigureCardPlayedChoice choice;
         int coins;
 
-        figureCards.add(new GrannyGrass());
-        figureCards.add(new Centaur());
-        figureCards.add(new Postman());
+        figureCards.addAll(match.showFigureCardsInGame());
 
         choice = new FigureCardPlayedChoice(figureCards);
 
@@ -358,6 +356,13 @@ public class ControllerTest {
         choice.setChoiceParam("1");
         assertEquals(figureCards.get(0), choice.getChosenFigureCard());
 
+        match.showCurrentPlayerDashboard().addCoin();
+        match.showCurrentPlayerDashboard().addCoin();
+        match.showCurrentPlayerDashboard().addCoin();
+        match.showCurrentPlayerDashboard().addCoin();
+        match.showCurrentPlayerDashboard().addCoin();
+        match.showCurrentPlayerDashboard().addCoin();
+        match.showCurrentPlayerDashboard().addCoin();
         coins = match.showCurrentPlayerDashboard().getCoinsNumber();
         coins -= choice.getChosenFigureCard().getPrice();
         choice.manageUpdate(match);
