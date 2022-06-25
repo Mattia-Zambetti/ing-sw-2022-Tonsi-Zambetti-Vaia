@@ -1,6 +1,9 @@
 package client;
 
-import controller.choice.*;
+import controller.choice.CardChoice;
+import controller.choice.Choice;
+import controller.choice.DataPlayerChoice;
+import controller.choice.StartingMatchChoice;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -118,12 +121,13 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             Scene scene = new Scene(root);
 
             controllerGUI = fxmlLoader.getController();
-            controllerGUI.setClient(this);
+            ControllerGUIInterface.setClient(this);
 
 
             primaryStage.setMaximized(true);
             primaryStage.setScene(scene);
             primaryStage.show();
+
 
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
@@ -209,7 +213,13 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                         synchronized ( outputStreamLock ) {
                             outputStreamLock.wait();
                         }
-
+                        if( actualToDoChoiceQueue!=null)
+                        {
+                            outputStream.writeObject(actualToDoChoiceQueue);
+                            outputStream.flush();
+                            outputStream.reset();
+                            actualToDoChoiceQueue=null;
+                        }
                         if ( isChoiceTime ) {
                             actualToDoChoice.setSendingPlayer(player);
                             isChoiceTime=false;
@@ -249,7 +259,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             @Override
             public void run() {
 
-                controllerGUI.setClient(ClientJavaFX.this);
 
 
                 try {

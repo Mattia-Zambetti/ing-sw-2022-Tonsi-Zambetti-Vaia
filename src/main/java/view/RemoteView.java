@@ -2,6 +2,7 @@ package view;
 
 import model.MatchDataInterface;
 import model.Message.MatchEndedMessage;
+import model.figureCards.FigureCard;
 import server.Connection;
 
 import java.io.IOException;
@@ -27,7 +28,10 @@ public class RemoteView extends Observable implements Observer {
                 connection.sendAndClose(arg);
             else {
                 try {
-                    connection.send(arg);
+                    if(arg instanceof FigureCard)
+                        connection.send(o);
+                    else
+                        connection.send(arg);
                 } catch (IOException e) {
                     System.out.println("Tried to send a MatchInferface object from remoteView to a closed connection");
                 }

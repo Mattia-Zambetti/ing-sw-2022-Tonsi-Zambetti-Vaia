@@ -2017,35 +2017,30 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void submitFigureCardValue(Event event){
-        if(client.getMatchView() instanceof ExpertMatch
-                && !(client.getActualToDoChoice() instanceof FigureCardActionChoice)
-                && !(client.getActualToDoChoice() instanceof CardChoice)
-                && !(client.getActualToDoChoice() instanceof DataPlayerChoice) && client.isFigureCardNotPlayed()) {
-            Choice figureCardChoice = new FigureCardPlayedChoice(client.getMatchView().showFigureCardsInGame());
-            client.setActualToDoChoiceQueue(client.getActualToDoChoice());
-            client.setActualToDoChoice(figureCardChoice);
-            client.getActualToDoChoiceQueue().setSendingPlayer(client.getPlayer());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (client.getMatchView() instanceof ExpertMatch
+                        && !(client.getActualToDoChoice() instanceof FigureCardActionChoice)
+                        && !(client.getActualToDoChoice() instanceof CardChoice)
+                        && !(client.getActualToDoChoice() instanceof DataPlayerChoice) && client.isFigureCardNotPlayed()) {
+                    Choice figureCardChoice = new FigureCardPlayedChoice(client.getMatchView().showFigureCardsInGame());
+                    client.setActualToDoChoiceQueue(client.getActualToDoChoice());
+                    client.setActualToDoChoice(figureCardChoice);
+                    client.getActualToDoChoiceQueue().setSendingPlayer(client.getPlayer());
+
+                    avatarFigureCard.setImage(((ImageView) event.getSource()).getImage());
+                    figureCardChoice.setChoiceParam("" + fromFigureCardsToInteger.get(((ImageView) event.getSource())));
+
+                    synchronized (client.getOutputStreamLock()) {
+                        client.getOutputStreamLock().notifyAll();
+                    }
 
 
-            try {
-                client.getOutputStream().writeObject(client.getActualToDoChoiceQueue());
-                client.getOutputStream().flush();
-                client.getOutputStream().reset();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+
+                }
             }
-
-
-
-
-            avatarFigureCard.setImage(((ImageView)event.getSource()).getImage());
-            figureCardChoice.setChoiceParam(""+fromFigureCardsToInteger.get(((ImageView) event.getSource())));
-
-            synchronized (client.getOutputStreamLock()) {
-                client.getOutputStreamLock().notifyAll();
-            }
-
-        }
+        });
     }
 
     public void zoomCardOnEnter(Event event){
@@ -2155,45 +2150,51 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     //ZAMBO
 
     public void chooseStudent(MouseEvent event) {
-        if ( event.getSource() instanceof ImageView ) {
-            ImageView chosenStudent = (ImageView) event.getSource();
-            if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
-                ((MoveStudentChoice) client.getActualToDoChoice()).setStudentsOnEntrance(client.getMatchView().showCurrentPlayerDashboard().showEntrance());
-                client.getActualToDoChoice().setChoiceParam(String.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
-                ((ImageView)event.getSource()).setOpacity(0.5);
-            }
-            else if(client.getActualToDoChoice() instanceof JesterChoice){
-                if(numChoice == 0 && studentsIdsToMoveFromCard.size()!=0){
-                    numChoice=1;}
-                if(numChoice == 1){
-                    if(((ImageView)event.getSource()).getOpacity()== 1) {
-                        studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent) + 1);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if ( event.getSource() instanceof ImageView ) {
+                    ImageView chosenStudent = (ImageView) event.getSource();
+                    if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
+                        ((MoveStudentChoice) client.getActualToDoChoice()).setStudentsOnEntrance(client.getMatchView().showCurrentPlayerDashboard().showEntrance());
+                        client.getActualToDoChoice().setChoiceParam(String.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent) + 1));
                         ((ImageView) event.getSource()).setOpacity(0.5);
-                    }else if(((ImageView)event.getSource()).getOpacity()== 0.5){
-                        studentsIdsToMoveFromEntrance.remove(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent) + 1);
-                        ((ImageView) event.getSource()).setOpacity(1);
+                    } else if (client.getActualToDoChoice() instanceof JesterChoice) {
+                        if (numChoice == 0 && studentsIdsToMoveFromCard.size() != 0) {
+                            numChoice = 1;
+                        }
+                        if (numChoice == 1) {
+                            if (((ImageView) event.getSource()).getOpacity() == 1) {
+                                studentsIdsToMoveFromEntrance.add(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent) + 1);
+                                ((ImageView) event.getSource()).setOpacity(0.5);
+                            } else if (((ImageView) event.getSource()).getOpacity() == 0.5) {
+                                studentsIdsToMoveFromEntrance.remove(studentsIdsToMoveFromEntrance.indexOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
+                                ((ImageView) event.getSource()).setOpacity(1);
+                            }
+                            if (studentsIdsToMoveFromEntrance.size() == studentsIdsToMoveFromCard.size()) {
+                                numChoice = 0;
+                                client.getActualToDoChoice().setChoiceParam("" + studentsIdsToMoveFromEntrance.size());
+                                for (Integer i : studentsIdsToMoveFromCard) {
+                                    client.getActualToDoChoice().setChoiceParam("" + i);
+                                }
+                                ((JesterChoice) client.getActualToDoChoice()).setStudentsInEntrance(client.getMatchView().showCurrentPlayerDashboard().showEntrance().stream().toList());
+                                for (Integer i : studentsIdsToMoveFromEntrance) {
+                                    client.getActualToDoChoice().setChoiceParam("" + i);
+                                }
+                                synchronized (client.getOutputStreamLock()) {
+                                    client.getOutputStreamLock().notifyAll();
+                                }
+                                studentsIdsToMoveFromCard = new ArrayList<>();
+                                studentsIdsToMoveFromEntrance = new ArrayList<>();
+                            }
+                        }
                     }
-                    if(studentsIdsToMoveFromEntrance.size() == studentsIdsToMoveFromCard.size()){
-                        numChoice = 0;
-                        client.getActualToDoChoice().setChoiceParam(""+studentsIdsToMoveFromEntrance.size());
-                        for(Integer i : studentsIdsToMoveFromCard){
-                            client.getActualToDoChoice().setChoiceParam(""+i);
-                        }
-                        ((JesterChoice)client.getActualToDoChoice()).setStudentsInEntrance(client.getMatchView().showCurrentPlayerDashboard().showEntrance().stream().toList());
-                        for(Integer i : studentsIdsToMoveFromEntrance){
-                            client.getActualToDoChoice().setChoiceParam(""+i);
-                        }
-                        synchronized ( client.getOutputStreamLock() ) {
-                            client.getOutputStreamLock().notifyAll();
-                        }
-                        studentsIdsToMoveFromCard = new ArrayList<>();
-                        studentsIdsToMoveFromEntrance = new ArrayList<>();
-                    }
-                }
+                }else
+                    throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
 
             }
-        }else
-            throw new IllegalArgumentException("chooseStudent method called by an Object that is not an ImageView");
+        });
+
     }
 
     public void chooseIsland(MouseEvent event) throws NoIslandException {

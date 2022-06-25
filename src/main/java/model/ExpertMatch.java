@@ -171,13 +171,15 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
             if(card instanceof GrannyGrass && blockCards==0){
                 setErrorMessage("You can't play this figure card now, please try later");
                 setChoicePhase(Controller.getTmpChoice());
-                notifyFigureCard(card);
+                setChanged();
+                notifyObservers(card);
             }
             else {
                 currentPlayerDashboard.removeCoin(card.getPrice());
                 figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).playCard(this);
                 figureCards.stream().toList().get(figureCards.stream().toList().indexOf(card)).pricePlusPlus();
-                notifyFigureCard(card);
+                setChanged();
+                notifyObservers(card);
             }
         }else throw new CardNotFoundException("This figure card isn't playable in this match...");
     }
@@ -188,7 +190,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
-        Dashboard maxStudentDashboard = null; //TODO NULL NONONONONONO
+        Dashboard maxStudentDashboard = null;
         Dashboard dashboardWithMaster = null;
         Dashboard dashboardWithSameNum = null;
         int maxStudents;
