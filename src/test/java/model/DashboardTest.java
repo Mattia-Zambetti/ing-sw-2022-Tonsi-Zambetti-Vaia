@@ -30,7 +30,7 @@ public class DashboardTest{
         students.add(new Student(5,Color.PINK));
     }
 
-    //Test the exceptions thrown by the constructor of dashboard
+    /**Test the exceptions thrown by the constructor of dashboard*/
     @Test
     void ConstructorExceptionsTest () {
         Dashboard wrongDashboard2 = null;
@@ -40,7 +40,7 @@ public class DashboardTest{
 
     }
 
-    //This test checks all methods used to add, remove and get information about towers in the dashboard without exception
+    /**This test checks all methods used to add, remove and get information about towers in the dashboard without exception*/
     @Test
     void BasicTowersMethodTest () throws NoMoreTowerException, MaxNumberOfTowerPassedException, TowerIDAlreadyExistingException {
 
@@ -59,7 +59,7 @@ public class DashboardTest{
 
     }
 
-    //This test checks that exceptions are thrown by addTowers method in dashboard
+    /**This test checks that exceptions are thrown by addTowers method in dashboard*/
     @Test
     void AddTowersMethodExceptionsTest () throws NoMoreTowerException {
 
@@ -91,7 +91,7 @@ public class DashboardTest{
 
     }
 
-    //This test checks that exceptions are thrown by removeTowers method in dashboard
+    /**This test checks that exceptions are thrown by removeTowers method in dashboard*/
     @Test
     void RemoveTowersMethodExceptionsTest () {
 
@@ -99,7 +99,7 @@ public class DashboardTest{
 
     }
 
-    //This test checks that moveToEntrance(..), showEntrance() and removeStudentFromEntrance(..) methods work
+    /**This test checks that moveToEntrance(..), showEntrance() and removeStudentFromEntrance(..) methods work*/
     @Test
     void InsertAndRemoveFromEntranceTest() throws MaxNumberException, StudentIDAlreadyExistingException, InexistentStudentException {
 
@@ -132,7 +132,7 @@ public class DashboardTest{
 
     }
 
-    //This test is used to check that students can be correctly moved from entrance to DR using methods of dashboard
+    /**This test is used to check that students can be correctly moved from entrance to DR using methods of dashboard*/
     @Test
     void MoveFromEntranceTODRTest () throws MaxNumberException, StudentIDAlreadyExistingException, WrongColorException, InexistentStudentException {
 
@@ -165,7 +165,7 @@ public class DashboardTest{
 
     }
 
-    //This test checks that card can be correctly played using methods of dashboard
+    /**This test checks that card can be correctly played using methods of dashboard*/
     @Test
     void CardTest () throws CardNotFoundException {
         HashSet<Card> cards;
@@ -190,8 +190,8 @@ public class DashboardTest{
         assertEquals(chosenCard, dashboard.getCurrentCard());
     }
 
-    //This test is used to check that Masters are correctly managed by dashboard, and check that all operation about them
-    // can be done using insertMaster(..), haveMaster(..) and removeMaster(..) methods.
+    /**This test is used to check that Masters are correctly managed by dashboard, and check that all operation about them
+    *can be done using insertMaster(..), haveMaster(..) and removeMaster(..) methods.*/
     @Test
     void MasterTest () throws NoMasterException {
         boolean check = true;
@@ -228,13 +228,13 @@ public class DashboardTest{
         assertTrue(check);
     }
 
-    //This test checks that NoMasterException is thrown when trying to remove a master that is not present in the dashboard
+    /**This test checks that NoMasterException is thrown when trying to remove a master that is not present in the dashboard*/
     @Test
     void masterTestException () {
         assertThrows(NoMasterException.class, ()->dashboard.removeMaster(Color.BLUE));
     }
 
-    //This test checks that coin management works correctly
+    /**This test checks that coin management works correctly*/
     @Test
     void coinTest () throws InsufficientCoinException {
 
@@ -246,7 +246,7 @@ public class DashboardTest{
         assertThrows(InsufficientCoinException.class, ()->dashboard.removeCoin(1));
     }
 
-    //This test check that knightPrivilege can be applied to the dashboard
+    /**This test checks that knightPrivilege can be applied to the dashboard*/
     @Test
     void knightTest () {
         assertFalse(dashboard.hasKnightPrivilege());

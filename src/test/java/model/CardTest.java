@@ -17,7 +17,7 @@ public class CardTest  {
         cardTest=new Card(1,1,1);
     }
 
-    //it tests getter methods and to String method
+    /**it tests getter methods and to String method*/
     @Test
     void getTest(){
         assertEquals(1,cardTest.getId());
@@ -28,7 +28,7 @@ public class CardTest  {
                 " - Movement " + 1),cardTest.toString());
     }
 
-    //it tests how the overrided method equals work
+    /**it tests how the overrided method equals work*/
     @Test
     void overridedEqualsTest(){
         Card equalsCard=new Card(1,1,1);
@@ -44,8 +44,8 @@ public class CardTest  {
         assertNotSame(deckTest,cardTest);
     }
 
-    //It tests if it's possible insert into a set two cards with the same id and
-    // if it find a Card starting from a copy
+    /**It tests if it's possible insert into a set two cards with the same id and
+    * if it find a Card starting from a copy*/
     @Test
     void hashCodeTest(){
         HashSet<Card> cardsTestHash=new HashSet<>();

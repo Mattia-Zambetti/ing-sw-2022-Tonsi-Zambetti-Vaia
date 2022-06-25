@@ -1,7 +1,6 @@
 package model;
 
 
-
 import model.exception.MaxNumberException;
 import model.exception.NoMoreStudentsException;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +17,9 @@ public class BagTest {
         Bag.restoreBag();
     }
 
-    //it tests if there's the right number of the students in the bag, and if it throws
-    // the MaxNumberException by removing more students than the total. At the end of the
-    // operation, there won't be no more students in the bag
+    /**it tests if there's the right number of the students in the bag, and if it throws
+    *the MaxNumberException by removing more students than the total. At the end of the
+    * operation, there won't be no more students in the bag*/
     @Test
     void removeMoreStudentsThanTheTotal(){
         assertEquals(Bag.getStudentsNum(),Bag.getINITIALSTUDENTS()*5);
@@ -29,8 +28,8 @@ public class BagTest {
         assertEquals(0, Bag.getStudentsNum());
     }
 
-    //it tests if the method removeStudents and the method removeStudent return the right number of
-    // students to the caller
+    /**it tests if the method removeStudents and the method removeStudent return the right number of
+    * students to the caller*/
     @Test
     void removeStudentsWithoutException() throws NoMoreStudentsException {
         assertThrows(MaxNumberException.class, Bag::createAllStudents);
@@ -48,7 +47,7 @@ public class BagTest {
                 tmp.getColor().equals(Color.GREEN));
     }
 
-    //It tests the excepition return in the removeStudent's method
+    /**It tests the excepition return in the removeStudent's method*/
     @Test
     void removeStudentWithException() throws NoMoreStudentsException {
         Bag.restoreBag();
