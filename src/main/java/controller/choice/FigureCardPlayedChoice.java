@@ -60,6 +60,7 @@ public class FigureCardPlayedChoice extends Choice{
 
     @Override
     public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
+        //Control on type of match needed
         ((ExpertMatch)match).playFigureCard(this.getChosenFigureCard());
     }
 

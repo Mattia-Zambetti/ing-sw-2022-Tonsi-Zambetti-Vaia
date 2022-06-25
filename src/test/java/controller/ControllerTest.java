@@ -2,14 +2,16 @@ package controller;
 
 import controller.choice.*;
 import graphicAssets.CLIgraphicsResources;
-import model.ExpertMatch;
-import model.Match;
-import model.NormalMatch;
+import model.*;
 import model.exception.*;
-import model.figureCards.FigureCard;
+import model.figureCards.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import view.TestRemoteView;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -252,6 +254,132 @@ public class ControllerTest {
 
         match.addPlayer("Zambo", "WHITE", "WIZARD2",2);
     }
+
+    /**Tests that the CardChoice toString is correct     */
+    @Test
+    void cardChoiceStringTest() {
+        Choice choice;
+        Set<Card> cardSet = new HashSet<>();
+        String cardListString = "Choose a card id from your deck:\n";
+        Card card;
+        for ( int i=0; i<5; i++ ) {
+            card = new Card(i,i,i);
+            cardSet.add(card);
+            cardListString = cardListString.concat(card+"\n");
+        }
+        choice = new CardChoice(cardSet);
+
+        assertEquals(choice.toString(match),cardListString);
+        assertEquals(choice.whichChoicePhase(),"It's the card choice phase");
+    }
+
+     /**This test checks that methods about players in choice abstract class work correctly */
+    @Test
+    void choicePlayerTest() {
+        Choice choice = new DataPlayerChoice(2,1);
+
+        choice.setSendingPlayer(new Player("Giovanni"));
+
+        assertEquals(new Player("Giovanni"), choice.getSendingPlayer());
+    }
+
+    /**Test the completed attribute of choice*/
+    @Test
+    void completedChoiceTest() {
+        Choice choice = new DataPlayerChoice(2,1);
+
+        assertFalse(choice.getChoiceCompleted());
+
+        choice.setChoiceParam("1");
+        choice.setChoiceParam("1");
+        choice.setChoiceParam("1");
+
+        assertTrue(choice.getChoiceCompleted());
+    }
+
+    /**Tests that the CloudChoice toString is correct     */
+    @Test
+    void cloudChoiceStringTest() {
+        Choice choice = new CloudChoice();
+
+        assertEquals(choice.toString(match),"Insert cloud number you want to take: ");
+        assertEquals(choice.whichChoicePhase(),"It's the cloud choice phase");
+    }
+
+    /**Tests DataPlayerChoice playerNumber method
+     */
+    @Test
+    void dataPlayerChoicePlayerNumberTest() {
+        DataPlayerChoice dataPlayerChoice = new DataPlayerChoice(2, 1);
+
+        assertEquals(2, dataPlayerChoice.getPlayerNum());
+
+    }
+
+    /**This test checks toString method of DataPlayerChoice */
+    @Test
+    void dataPlayerChoiceToStringTest() {
+        DataPlayerChoice dataPlayerChoice = new DataPlayerChoice(2, 1);
+
+        assertEquals(dataPlayerChoice.whichChoicePhase(), "It's the data player choice phase");
+        assertEquals(dataPlayerChoice.toString(match), "Insert your name:");
+    }
+
+    /**This test check all methods of FigureCardActionChoice, doesn't work as well as */
+    /*@Test
+    void figureCardActionChoiceTest() {
+        FigureCardActionChoice choice = new MushroomCollectorChoice();
+
+        assertEquals(choice.whichChoicePhase(), "generic figure card");
+    }*/
+
+    /**This test checks that all FigureCardPlayedChoice methods works correctly */
+    @Test
+    void figureCardPlayedChoiceTest() throws WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreStudentsException, WrongDataplayerException, WrongColorException {
+
+        match = new ExpertMatch(2);
+        match.addPlayer("Giovanni","BLACK","WIZARD1",1);
+        match.addPlayer("Giorgio","WHITE","WIZARD2",2);
+
+        ArrayList<FigureCard> figureCards = new ArrayList<>();
+        FigureCardPlayedChoice choice;
+        int coins;
+
+        figureCards.add(new GrannyGrass());
+        figureCards.add(new Centaur());
+        figureCards.add(new Postman());
+
+        choice = new FigureCardPlayedChoice(figureCards);
+
+        choice.setChosenFigureCard(1);
+        assertEquals(figureCards.get(1), choice.getChosenFigureCard());
+
+        choice.toString(match);
+        choice.setChoiceParam("1");
+        assertEquals(figureCards.get(0), choice.getChosenFigureCard());
+
+        coins = match.showCurrentPlayerDashboard().getCoinsNumber();
+        coins -= choice.getChosenFigureCard().getPrice();
+        choice.manageUpdate(match);
+
+        assertEquals(coins, match.showCurrentPlayerDashboard().getCoinsNumber());
+
+        assertEquals("It's the figure card played choice phase", choice.whichChoicePhase());
+
+    }
+
+    /*@Test
+    void figureCardWithStudentsTest() throws Exception {
+        ExpertMatch match2 = new ExpertMatch(2);
+        FigureCardWithStudents figureCard = new Jester();
+        FigureCardWithStudentsChoice choice = new JesterChoice(figureCard);
+
+        match2.addPlayer("Giovanni","BLACK","WIZARD1",1);
+        match2.addPlayer("Giorgio","WHITE","WIZARD2",2);
+
+        figureCard.getStudentsOnCard().get(0)
+
+    }*/
 
 
 }
