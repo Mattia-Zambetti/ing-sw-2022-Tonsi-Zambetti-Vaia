@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server implements Runnable {
-    private static final int PORT = 12345;
+    private static final int PORT = 50001;
 
 
     private static int idClient=0;
