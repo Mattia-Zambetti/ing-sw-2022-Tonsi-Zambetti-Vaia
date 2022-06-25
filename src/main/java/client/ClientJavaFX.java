@@ -10,6 +10,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.MatchDataInterface;
@@ -136,6 +138,7 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             primaryStage.setScene(scene);
             primaryStage.show();
 
+            playMusicBackground();
 
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
@@ -147,6 +150,14 @@ public class ClientJavaFX extends Application implements Runnable,Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void playMusicBackground() {
+
+        Media media = new Media(getClass().getResource("/client/backgroundMusic.mp3").toExternalForm());
+        MediaPlayer playBackground = new MediaPlayer(media);
+        playBackground.play();
     }
 
     public boolean isConnected() {

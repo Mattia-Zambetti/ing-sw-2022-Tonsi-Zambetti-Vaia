@@ -3609,6 +3609,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void closeMessageBox() {
         messagePane.setVisible(false);
+        Platform.exit();
     }
     //ZAMBO END
 
