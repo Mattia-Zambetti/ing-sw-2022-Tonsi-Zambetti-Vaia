@@ -3940,8 +3940,8 @@
          <children>
             <AnchorPane maxHeight="253.0" maxWidth="423.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <children>
-                  <Rectangle arcHeight="15.0" arcWidth="15.0" fill="DODGERBLUE" height="253.0" stroke="#010a75" strokeType="INSIDE" strokeWidth="3.0" width="423.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <Label fx:id="messageLabel" layoutX="13.0" layoutY="30.0" prefHeight="206.0" prefWidth="395.0" text="Message text" textAlignment="CENTER" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="40.0">
+                  <Rectangle arcHeight="15.0" arcWidth="15.0" fill="DODGERBLUE" height="253.0" layoutX="-6.0" layoutY="14.0" stroke="#010a75" strokeType="INSIDE" strokeWidth="3.0" width="423.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="messageLabel" alignment="CENTER" layoutX="13.0" layoutY="10.0" prefHeight="230.0" prefWidth="400.0" text="Message textaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="10.0">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
