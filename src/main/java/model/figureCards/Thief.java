@@ -9,7 +9,6 @@ public class Thief extends FigureCard implements Serializable {
     private static final int PRICECARD=3;
 
 
-
     public Thief(){
         setPrice(PRICECARD);
         cardId=9;

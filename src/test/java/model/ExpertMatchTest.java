@@ -71,8 +71,8 @@ public class ExpertMatchTest implements Observer {
         figureCardTest = new Centaur();
 
         creationOfTheRightCard(figureCardTest);
-
-
+        assertEquals(3, new Centaur().getPRICECARD());
+        assertEquals("Centaur card(price: 3 coins)", new Centaur().toString());
 
         assertEquals(3,figureCardTest.getPrice());
 
@@ -137,6 +137,8 @@ public class ExpertMatchTest implements Observer {
     @Test
     void testPostmanFigureCard() throws MaxNumberException, WrongDataplayerException, WrongColorException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreBlockCardsException, NoIslandException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException, SameInfluenceException, FinishedGameIslandException, NoMoreStudentsException, CardAlreadyPlayedException, FinishedGameEndTurnException {
         creationOfTheRightCard(new Postman());
+        assertEquals(1, new Postman().getPRICECARD());
+        assertEquals("Postman card(price: 1 coin)", new Postman().toString());
 
         assertFalse(expertMatch.isPostManValue());
         ((ExpertMatch)expertMatch).playFigureCard(new Postman());
@@ -231,7 +233,8 @@ public class ExpertMatchTest implements Observer {
 
         //Knight call:
         ((ExpertMatch)expertMatch).playFigureCard(new Knight());
-
+        assertEquals(2,new Knight().getPRICECARD());
+        assertEquals("Knight card(price: 2 coins)", new Knight().toString());
 
         Master masterR = new Master(Color.RED);
         Master masterB = new Master(Color.BLUE);
@@ -268,6 +271,7 @@ public class ExpertMatchTest implements Observer {
 
         if(o instanceof ExpertMatch && arg instanceof Merchant) {
             System.out.println(arg);
+            assertEquals(1,((Merchant) arg).getPRICECARD());
 
             Set<Student> extractionTest = new HashSet<>();
             extractionTest.add(((Merchant)arg).getStudentsOnCard().stream().toList().get(0));
@@ -291,6 +295,7 @@ public class ExpertMatchTest implements Observer {
         }
         else if(o instanceof ExpertMatch && arg instanceof Jester) {
             System.out.println(arg);
+            assertEquals(1,((Jester) arg).getPRICECARD());
 
             Set<Student> extractionTest = new HashSet<>();
             Set<Student> studentFromEntranceTest=new HashSet<>();
@@ -348,6 +353,7 @@ public class ExpertMatchTest implements Observer {
 
         else if(o instanceof ExpertMatch && arg instanceof Princess) {
             System.out.println(arg);
+            assertEquals(2,((Princess) arg).getPRICECARD());
 
             Set<Student> extractionTest = new HashSet<>();
             extractionTest.add(((Princess) arg).getStudentsOnCard().stream().toList().get(0));
@@ -374,6 +380,8 @@ public class ExpertMatchTest implements Observer {
 
         else if(o instanceof ExpertMatch && arg instanceof GrannyGrass){
             System.out.println(arg);
+            assertEquals(2,((GrannyGrass) arg).getPRICECARD());
+
             try{
             Master masterR = new Master(Color.RED);
             Master masterB = new Master(Color.BLUE);
@@ -415,6 +423,7 @@ public class ExpertMatchTest implements Observer {
 
         else if(o instanceof ExpertMatch && arg instanceof MushroomCollector){
             System.out.println(arg);
+            assertEquals(3,((MushroomCollector) arg).getPRICECARD());
 
             ((ExpertMatch) expertMatch).blockColorForInfluence(Color.RED);
 

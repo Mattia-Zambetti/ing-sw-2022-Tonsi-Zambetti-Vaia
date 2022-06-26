@@ -1,9 +1,7 @@
 import client.ClientCLI;
 import client.ClientJavaFX;
 import javafx.application.Application;
-import model.JsonImport;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class ClientApp {
