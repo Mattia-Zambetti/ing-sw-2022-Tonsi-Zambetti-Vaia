@@ -1499,7 +1499,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     private List<Integer> studentsIdsToMoveFromDiningRoom = new ArrayList<>();
 
-    private int jesterCounter = 0,maxNumMinistrelStudents = 0;
+    private int jesterCounter = 0,maxNumMinistrelStudents = 0,chosenStudentFromEntrance = -1;
 
     private List<Map<Color, Text>> numStudentsOnIsland;
 
@@ -2542,8 +2542,21 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             ImageView chosenStudent = (ImageView) event.getSource();
             if (client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 0) {
                 ((MoveStudentChoice) client.getActualToDoChoice()).setStudentsOnEntrance(client.getMatchView().showCurrentPlayerDashboard().showEntrance());
-                client.getActualToDoChoice().setChoiceParam(String.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
-                ((ImageView)event.getSource()).setOpacity(0.5);
+                if(chosenStudentFromEntrance != -1)
+                    playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.get(chosenStudentFromEntrance).setOpacity(1.0);
+                chosenStudentFromEntrance = playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1;
+                //client.getActualToDoChoice().setChoiceParam(String.valueOf(playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents.indexOf(chosenStudent)+1));
+
+                for(ImageView i : playersDashboardView.get(client.getPlayer().getNickname()).entranceStudents){
+                        i.setOpacity(1);
+                }
+                if(((ImageView)event.getSource()).getOpacity() == 1)
+                    ((ImageView)event.getSource()).setOpacity(0.5);
+                else{
+                    ((ImageView)event.getSource()).setOpacity(1);
+                    chosenStudentFromEntrance = -1;
+                }
+
             }
             else if(client.getActualToDoChoice() instanceof JesterChoice){
                 if(numChoice == 0 && studentsIdsToMoveFromCard.size()!=0){
@@ -2596,6 +2609,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseIsland(MouseEvent event) throws NoIslandException {
         if ( event.getSource() instanceof Region ) {
             String islandID = ((Region) event.getSource()).getId();
+            if(client.getActualToDoChoice() instanceof MoveStudentChoice){
+                if(chosenStudentFromEntrance != -1)
+                    client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+            }
             if ( client.getActualToDoChoice() instanceof MoveStudentChoice
                     && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
                 client.getActualToDoChoice().setChoiceParam("2");
@@ -2742,7 +2759,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void chooseGreenDR(MouseEvent event) {
+        if(client.getActualToDoChoice() instanceof MoveStudentChoice){
+            if(chosenStudentFromEntrance != -1)
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+        }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
             client.getActualToDoChoice().setChoiceParam("1");
             Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
             MediaPlayer playBeep=new MediaPlayer(media);
@@ -2764,7 +2786,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void chooseRedDR(MouseEvent event) {
+        if(client.getActualToDoChoice() instanceof MoveStudentChoice){
+            if(chosenStudentFromEntrance != -1)
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+        }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
             client.getActualToDoChoice().setChoiceParam("1");
             Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
             MediaPlayer playBeep=new MediaPlayer(media);
@@ -2786,7 +2813,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void chooseYellowDR(MouseEvent event) {
+        if(client.getActualToDoChoice() instanceof MoveStudentChoice){
+            if(chosenStudentFromEntrance != -1)
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+        }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
             client.getActualToDoChoice().setChoiceParam("1");
             Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
             MediaPlayer playBeep=new MediaPlayer(media);
@@ -2808,7 +2840,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     }
 
     public void choosePinkDR(MouseEvent event) {
+        if(client.getActualToDoChoice() instanceof MoveStudentChoice){
+            if(chosenStudentFromEntrance != -1)
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+        }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
+            client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
             client.getActualToDoChoice().setChoiceParam("1");
             Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
             MediaPlayer playBeep=new MediaPlayer(media);
@@ -2836,6 +2873,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
      * @param event
      */
     public void chooseBlueDR(MouseEvent event){
+        if(client.getActualToDoChoice() instanceof MoveStudentChoice){
+            if(chosenStudentFromEntrance != -1)
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+        }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
             Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
