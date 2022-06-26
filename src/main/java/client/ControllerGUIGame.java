@@ -2671,9 +2671,12 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                         client.getActualToDoChoice().setChoiceParam("" + numToMove);
                         break;
                 }
-                Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
-                MediaPlayer playBeep=new MediaPlayer(media);
-                playBeep.play();
+                if(client.getMatchView().showCurrentPlayerDashboard().getCurrentCard().getMovementValue()
+                        >=getNumMovementsBasedOnChosenIsland(chosenIsland)) {
+                    Media media = new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                    MediaPlayer playBeep = new MediaPlayer(media);
+                    playBeep.play();
+                }
                 synchronized (client.getOutputStreamLock()) {
                     client.getOutputStreamLock().notifyAll();
                 }
@@ -2697,21 +2700,19 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void chooseCloud(MouseEvent event){
         String cloudID = ((Region) event.getSource()).getId();
-        System.out.println("" + cloudID);
+        Map<String, Integer> fromCloudToInteger=new HashMap<>(){{
+            put("cloudRegion1", 0);
+            put("cloudRegion2", 1);
+            put("cloudRegion3", 2);
+            put("cloudRegion4", 3);
+        }};
         if(client.getActualToDoChoice() instanceof CloudChoice){
-            switch(cloudID){
-                case ("cloudRegion1"):
-                    client.getActualToDoChoice().setChoiceParam("0");
-                    break;
-                case ("cloudRegion2"):
-                    client.getActualToDoChoice().setChoiceParam("1");
-                    break;
-                case ("cloudRegion3"):
-                    client.getActualToDoChoice().setChoiceParam("2");
-                    break;
-                case ("cloudRegion4"):
-                    client.getActualToDoChoice().setChoiceParam("3");
-                    break;
+            client.getActualToDoChoice().setChoiceParam(""+fromCloudToInteger.get(cloudID));
+
+            if(client.getMatchView().getClouds().get(fromCloudToInteger.get(cloudID)).getStudentsOnCloud().size()>0){
+                Media media = new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                MediaPlayer playBeep = new MediaPlayer(media);
+                playBeep.play();
             }
             synchronized ( client.getOutputStreamLock() ) {
                 client.getOutputStreamLock().notifyAll();

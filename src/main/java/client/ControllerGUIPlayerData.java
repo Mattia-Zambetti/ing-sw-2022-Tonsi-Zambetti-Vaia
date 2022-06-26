@@ -98,8 +98,7 @@ public class ControllerGUIPlayerData extends ControllerGUIInterface implements I
             scene = new Scene(root);
             stage.setScene(scene);
 
-            //TODO rimettere a true
-            stage.setFullScreen(false);
+            stage.setFullScreen(true);
             stage.setMaximized(true);
 
             stage.show();
