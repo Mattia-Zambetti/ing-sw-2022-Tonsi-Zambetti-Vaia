@@ -4,9 +4,10 @@ import client.Client;
 import client.ClientJavaFX;
 import client.ControllerGUIGame;
 import javafx.application.Platform;
-import javafx.application.Platform;
 
 public class PlayerDisconnectedMessage extends Message {
+
+
     @Override
     public void manageMessage(Client client) {
         client.printToScreen("Connection closed by the server, another player has quit the game.\nPress any key to quit.");

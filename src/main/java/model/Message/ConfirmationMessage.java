@@ -12,6 +12,7 @@ public abstract class ConfirmationMessage extends Message implements Serializabl
         this.id=id;
     }
 
+    /**It returns the id */
     public int getId() {
         return id;
     }
