@@ -6,12 +6,14 @@ import controller.choice.DataPlayerChoice;
 import controller.choice.StartingMatchChoice;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.MatchDataInterface;
@@ -137,6 +139,8 @@ public class ClientJavaFX extends Application implements Runnable,Client {
             primaryStage.setMaximized(true);
             primaryStage.setScene(scene);
             primaryStage.show();
+            primaryStage.getIcons().add(new Image("/client/Images/logo.jpg"));
+            primaryStage.setTitle("ERYANTIS");
 
             playMusicBackground();
 
@@ -154,11 +158,34 @@ public class ClientJavaFX extends Application implements Runnable,Client {
 
 
     public void playMusicBackground() {
+        String music="/client/backgroundMusic.mp3";
+        int infinite=100;
 
-        Media media = new Media(getClass().getResource("/client/backgroundMusic.mp3").toExternalForm());
-        MediaPlayer playBackground = new MediaPlayer(media);
-        playBackground.play();
+        Task task=new Task() {
+            @Override
+            protected Object call() throws Exception {
+                Media media = new Media(getClass().getResource(music).toExternalForm());
+                AudioClip playBackground = new AudioClip(media.getSource());
+                playBackground.setVolume(0.03);
+                playBackground.setCycleCount(infinite);
+                playBackground.play();
+
+
+                return null;
+            }
+        };
+        new Thread(task).start();
+
+        /**playBackground.(new Runnable() {
+            @Override
+            public void run() {
+                playBackground.stop();
+                playBackground.setVolume(0.03);
+                playBackground.play();
+            }
+        });*/
     }
+
 
     public boolean isConnected() {
         if ( clientSocket == null )
@@ -270,7 +297,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
     public Thread readingFromSocket() throws IOException {
         PrintWriter writeUser=new PrintWriter(System.out);
         ObjectInputStream readSocket=new ObjectInputStream(clientSocket.getInputStream());
-        //ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 
         Thread t= new Thread(new Runnable() {
             @Override

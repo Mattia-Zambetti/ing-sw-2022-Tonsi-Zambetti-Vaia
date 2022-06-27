@@ -54,7 +54,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
                     c.resetCounter();
                 }
 
-                this.totalNumIslands=ISLANDSNUM; //TODO
+                this.totalNumIslands=ISLANDSNUM;
 
                 Bag.restoreBag();
 
@@ -594,7 +594,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
     }
 
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
-        Dashboard maxStudentDashboard = null; //TODO NULL NONONONONONO
+        Dashboard maxStudentDashboard = null;
         Dashboard dashboardWithMaster = null;
         int maxStudents;
         for ( Color c: Color.values() ) {
