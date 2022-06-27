@@ -26,7 +26,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
 
         figureCards=new ArrayList<>();
-        figureCards.add(new Centaur());
 
         try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
