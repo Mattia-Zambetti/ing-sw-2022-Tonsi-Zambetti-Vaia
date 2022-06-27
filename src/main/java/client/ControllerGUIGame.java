@@ -2609,9 +2609,9 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     public void chooseIsland(MouseEvent event) throws NoIslandException {
         if ( event.getSource() instanceof Region ) {
             String islandID = ((Region) event.getSource()).getId();
-            if(client.getActualToDoChoice() instanceof MoveStudentChoice){
-                if(chosenStudentFromEntrance != -1)
-                    client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+            if(chosenStudentFromEntrance != -1){
+                client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+                chosenStudentFromEntrance = -1;
             }
             if ( client.getActualToDoChoice() instanceof MoveStudentChoice
                     && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {

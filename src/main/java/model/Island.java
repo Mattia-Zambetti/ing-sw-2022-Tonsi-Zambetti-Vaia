@@ -27,12 +27,14 @@ public class Island implements Serializable {
             students[i] = new ArrayList<Student>(0);
     }
 
+    //return a copy of the towers on this island
     public ArrayList<Tower> getTower() throws NoTowerException {
         if ( towerList.size() == 0 )
             throw new NoTowerException("No tower in this island");
         return new ArrayList<Tower>(towerList);
     }
 
+    //return the total number of students on the island
     public int getTotalStudentsNum() {
         int studentsCount=0;
         for ( int i=0; i<5; i++) {
@@ -41,10 +43,12 @@ public class Island implements Serializable {
         return studentsCount;
     }
 
+    //return the total number of students on the island based on the color
     public int getStudentsNumByColor( Color color ) {
         return students[color.ordinal()].size();
     }
 
+    //it calculates the influence of a specific dashboard based on the students on this island
     public int getInfluenceByDashboard ( Dashboard dashboard ) {
         int influence=0;
         List<Master> tmp = (List<Master>) dashboard.getMastersList();
@@ -54,7 +58,6 @@ public class Island implements Serializable {
                 influence += students[tmp.get(i).getColor().ordinal()].size();
         }
 
-        //Bisognerà aggiungere il controllo su modalità esperto e su VaiaEffect, o forse fare due metodi diversi, uno in modalità esperto e un oin modalità normale
         if(!centaurEffect){
             if (towerList.size() != 0)
                 if(towerList.get(0).getColor() == dashboard.getBuddyWithTowers().getTowerColor())
@@ -63,6 +66,7 @@ public class Island implements Serializable {
         return influence;
     }
 
+    //removes and returns the towers that were on this island
     public ArrayList<Tower> removeTowers() throws InvalidNumberOfTowers{
         if(towerList.size() != 0){
             ArrayList<Tower> tmpTowers = new ArrayList<Tower>(towerList);
