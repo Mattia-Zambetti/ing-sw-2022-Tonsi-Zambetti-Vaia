@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
@@ -39,6 +40,8 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
     //in zoom methods:
     private boolean zoomCard=false;
     private boolean zoomFigureCard=false;
+
+    private boolean firstTime=false;
 
     /**messages:*/
 
@@ -2212,17 +2215,17 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                     || client.getMatchView().isPostManValue()) {
 
                 if(client.getMatchView().showCurrentPlayerDashboard().hasKnightPrivilege())
-                    Knight.hintMessage(hint);
+                    Knight.hintMessage(hint, true);
                 else if(client.getMatchView().showCurrentPlayerDashboard().isFarmerEffect())
-                    Farmer.hintMessage(hint);
+                    Farmer.hintMessage(hint, true);
                 else if(client.getMatchView().isCentaurEffect())
-                    Centaur.hintMessage(hint);
+                    Centaur.hintMessage(hint, true);
                 else if (client.getMatchView().isPostManValue())
-                    Postman.hintMessage(hint);
+                    Postman.hintMessage(hint, true);
 
                 if(client.isFigureCardNotPlayed()){
                     Media media=new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
-                    MediaPlayer playBeep=new MediaPlayer(media);
+                    AudioClip playBeep=new AudioClip(media.getSource());
                     playBeep.play();
                 }
 
@@ -2241,6 +2244,33 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 }
 
             }
+        }else {
+            if (firstTime) {
+                if (client.getMatchView().getChoice() instanceof FigureCardActionChoice
+                        || client.getMatchView().showCurrentPlayerDashboard().hasKnightPrivilege()
+                        || client.getMatchView().showCurrentPlayerDashboard().isFarmerEffect()
+                        || client.getMatchView().isCentaurEffect()
+                        || client.getMatchView().isPostManValue()) {
+
+
+                    hint.setText(client.getMatchView().getChoice().whichChoicePhase());
+
+                    if(client.getMatchView().showCurrentPlayerDashboard().hasKnightPrivilege())
+                        Knight.hintMessage(hint, false);
+                    else if(client.getMatchView().showCurrentPlayerDashboard().isFarmerEffect())
+                        Farmer.hintMessage(hint, false);
+                    else if(client.getMatchView().isCentaurEffect())
+                        Centaur.hintMessage(hint, false);
+                    else if (client.getMatchView().isPostManValue())
+                        Postman.hintMessage(hint, false);
+
+                    Media media = new Media(getClass().getResource("/client/beep.mp3").toExternalForm());
+                    MediaPlayer playBeep = new MediaPlayer(media);
+                    playBeep.play();
+
+                }
+            }
+
         }
         for (int i=0;i<client.getMatchView().getIslands().size(); i++) {
             if(client.getMatchView().getIslands().get(i).checkForbidden()){
@@ -2324,6 +2354,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         boxCards.setVisible(true);
         hintBox.setVisible(false);
         if(client.getActualToDoChoice() instanceof CardChoice && client.isChoiceTime()){
+            firstTime=true;
             avatarFigureCard.setVisible(false);
             client.setFigureCardNotPlayed(true);
             showAllowedCommandKey();

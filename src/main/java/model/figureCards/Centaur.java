@@ -32,8 +32,11 @@ public class Centaur extends FigureCard implements Serializable {
     }
 
 
-    public static void hintMessage(Text text) {
-        text.setText("Towers are non calculated for influence on islands during this turn!");
+    public static void hintMessage(Text text, boolean isCurrentPlayer) {
+        if(isCurrentPlayer)
+            text.setText("Towers are non calculated for influence on islands during this turn!");
+        else
+            text.setText("It's been played centaur, Towers are non calculated for influence on islands during this turn!");
     }
 }
 

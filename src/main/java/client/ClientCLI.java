@@ -20,6 +20,7 @@ import java.util.Scanner;
 
 public class ClientCLI implements Runnable, Client{
 
+    private int currentCoins;
     private int idThis;
     private final int port;
     private final String ip;
@@ -35,13 +36,15 @@ public class ClientCLI implements Runnable, Client{
     private volatile boolean isChoiceTime;
     private boolean figureCardNotPlayed = true;
 
+    private boolean figureCardPlayedNow=false;
+
     private boolean matchCompletelyCreated = false;
 
     Choice actualToDoChoiceQueue;
 
     private boolean isChanged=false;
 
-    private List<String> allowedCommands = new ArrayList<>(){{add("f");add("x");}};
+    private List<String> allowedCommands = new ArrayList<>(){{add("f");}};
 
 
     public ClientCLI(String ip, int port){
@@ -116,6 +119,8 @@ public class ClientCLI implements Runnable, Client{
                                 actualToDoChoiceQueue = actualToDoChoice;
                                 actualToDoChoice = figureCardChoice;
                                 figureCardNotPlayed = false;
+                                figureCardPlayedNow=true;
+                                currentCoins=matchView.showCurrentPlayerDashboard().getCoinsNumber();
                                 actualToDoChoiceQueue.setSendingPlayer(player);
                                 outputStream.writeObject(actualToDoChoiceQueue);
                                 outputStream.flush();
@@ -190,6 +195,12 @@ public class ClientCLI implements Runnable, Client{
                                 isChanged=true;
                             }
 
+                            if(figureCardPlayedNow) {
+                                if ((currentCoins == matchView.showCurrentPlayerDashboard().getCoinsNumber())) {
+                                    figureCardNotPlayed = true;
+                                }
+                                figureCardPlayedNow = false;
+                            }
 
                             if (actualToDoChoice instanceof CardChoice)
                                 matchCompletelyCreated = true;

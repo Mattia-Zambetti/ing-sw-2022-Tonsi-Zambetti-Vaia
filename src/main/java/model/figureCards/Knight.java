@@ -23,8 +23,11 @@ public class Knight extends FigureCard implements Serializable {
     }
 
 
-    public static void hintMessage(Text text) {
-        text.setText("+2 additional point in influence calculation in this turn!");
+    public static void hintMessage(Text text, boolean isCurrentPlayer) {
+        if(isCurrentPlayer)
+            text.setText("+2 additional point in influence calculation in this turn!");
+        else
+            text.setText("It's been played the knight, +2 additional point in influence calculation in this turn to the current player!");
     }
 
     public int getPRICECARD() {

@@ -27,7 +27,10 @@ public class Postman extends FigureCard implements Serializable {
     }
 
 
-    public static void hintMessage(Text text) {
-        text.setText("+2 to the the mother nature maximum moves in this turn!");
+    public static void hintMessage(Text text, boolean isCurrentPlayer) {
+        if(isCurrentPlayer) {
+            text.setText("+2 to the the mother nature maximum moves in this turn!");
+        }else
+            text.setText("It's been played the postman, +2 to the the mother nature maximum moves in this turn!");
     }
 }

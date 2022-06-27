@@ -29,7 +29,10 @@ public class Farmer extends FigureCard implements Serializable {
     }
 
 
-    public static void hintMessage(Text text) {
-        text.setText("You can take the other players masters also if you have the same students number of your opponent for 1 turn!");
+    public static void hintMessage(Text text, boolean isCurrentPlayer) {
+        if(isCurrentPlayer)
+            text.setText("You can take the other players masters also if you have the same students number of your opponent for 1 turn!");
+        else
+            text.setText("It's been played farmer, the current player can take the other players masters also if it have the same students number for 1 turn!");
     }
 }

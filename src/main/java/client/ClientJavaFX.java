@@ -341,7 +341,6 @@ public class ClientJavaFX extends Application implements Runnable,Client {
                             matchView=(MatchDataInterface) obj;
 
 
-
                             if(!(matchView.getChoice() instanceof DataPlayerChoice)
                                     ||(matchView.getChoice() instanceof DataPlayerChoice
                                     && ((DataPlayerChoice) matchView.getChoice()).getPossessor()==idThis)) {
