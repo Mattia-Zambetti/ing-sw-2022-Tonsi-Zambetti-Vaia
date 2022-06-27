@@ -78,6 +78,7 @@ public class Island implements Serializable {
         else throw new InvalidNumberOfTowers("Prima bisogna inserire delle torri");
     }
 
+    //it adds the towers that are given through paramater to the island,and it controls if the number of towers passed is the same as the old number of towers
     public void addTowers (ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers{
         final TowerColor tmpColor = towers.get(0).getColor();
         if(!expectingTowers){
@@ -114,6 +115,7 @@ public class Island implements Serializable {
 
     public int getTowerNum(){ return towerList.size(); }
 
+    //it the return the color of the first tower, and if there is no tower it throws an exception
     public TowerColor getTowerColor() throws NoTowerException{
         if(towerList.size() != 0)
             return towerList.get(0).getColor();
@@ -124,6 +126,7 @@ public class Island implements Serializable {
         return position;
     }
 
+    //it adds the student and it put it with the students with the same color
     public void addStudent(Student student){
         students[student.getColor().ordinal()].add(student);
     }

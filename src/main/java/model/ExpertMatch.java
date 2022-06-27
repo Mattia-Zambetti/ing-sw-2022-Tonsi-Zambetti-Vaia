@@ -187,6 +187,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         return blockCards;
     }
 
+   //same method as the overwritten one, but it also checks if the farmer is played and on what color
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
         Dashboard maxStudentDashboard = null;
         Dashboard dashboardWithMaster = null;
@@ -258,6 +259,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         notifyMatchObservers();
     }
 
+
+    //it is same method as the overridden one, but it also checks if the knight card has been played
     @Override
     public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException {
         ArrayList<Dashboard> dashboardListTmp = new ArrayList<>(dashboardsCollection);
@@ -317,6 +320,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
         return dashboardsCollection.get(dasboardInfluencer);
     }
+
 
 
     @Override
@@ -399,6 +403,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
 
+    //it takes the student chosen from the played princess card and it moves it to the current player dining room
     public void takeStudentsOnFigureCard(Set<Student> chosenStudents) throws MaxNumberException, InexistentStudentException, StudentIDAlreadyExistingException, WrongColorException, NoMoreStudentsException, NoMasterException {
        for (FigureCard f : figureCards) {
            if (f instanceof Princess){
@@ -412,6 +417,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         notifyMatchObservers();
     }
 
+    //it is the method called from the minstrelChoice, what it does is to switch the chosen students from your entrance,
+    // with the chosen students in your dining room
     public void switchStudents(List<Student> fromEntrance, List<Student> fromDr) throws InexistentStudentException, MaxNumberException, StudentIDAlreadyExistingException, WrongColorException, NoMasterException {
         for(int i = 0; i < fromEntrance.size(); i++){
             currentPlayerDashboard.removeStudentFromEntrance(fromEntrance.get(i));
@@ -441,7 +448,8 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         else throw new NoIslandException("Insert an island that exists");
     }
 
-
+    //it is called when the herald is used, it calculates the influence on a specific island by setting the specific island as the current one
+    //and then switch back again to the real current one
     public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         int tmp = currentIsland;
         currentIsland = chosenIsland;
@@ -460,6 +468,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
         notifyMatchObservers();
     }
 
+    //it removes in every player dashboard n students of c color, for now it is only used by the thiefChoice
     public void removeStudentsPerColor(Color color,int numStudentToRemove) throws WrongColorException, MaxNumberException, StudentIDAlreadyExistingException, NoMasterException {
         Set<Student> tmp = new HashSet<>();
         for(Dashboard d : dashboardsCollection){

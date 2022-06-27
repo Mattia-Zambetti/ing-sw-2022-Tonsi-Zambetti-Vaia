@@ -794,6 +794,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return currentIsland;
     }
 
+    //it moves mother nature from the current location to the next location based on the parameter passed
     public void moveMotherNature(int posizioni) throws NoIslandException, SameInfluenceException, NoMoreBlockCardsException, MaxNumberException, NoMoreTowerException, TowerIDAlreadyExistingException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
         //try {
             if (posizioni <= currentPlayerDashboard.getCurrentCard().getMovementValue() && posizioni > 0) {
@@ -815,6 +816,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }*/
     }
 
+    //it unifies the current island with the given island, it moves all the students and the towers of the island to be merged to the current one
     public void mergeIsland(int islandToBeMerged) throws NoMoreTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         ArrayList<Student>[] studentsToBeMergedTmp;
         ArrayList<Student>[] studentsTmp;
@@ -829,11 +831,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         totalNumIslands--;
         islands.get(currentIsland).addTowers(islands.get(islandToBeMerged).removeTowers());
     }
+
     //solo per testare
     public void addIslandsTowers(int islandToSet, ArrayList<Tower> towers) throws InvalidNumberOfTowers, NoListOfSameColoredTowers {
         islands.get(islandToSet).addTowers(towers);
     }
 
+    //testing purpose only
     public void setIslandsStudents(int islandToSet, ArrayList<Student>[] students) {
         islands.get(islandToSet).setStudents(students);
     }
@@ -860,6 +864,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return islands;
     }
 
+    //it checks the islands near the current one and if it finds an island with the same Towercolor it calls the merge function, if an island doesn't have towers on it it cathches it and does nothing
     public void checkNearbyIslands() throws NoTowerException, NoIslandException, NoMoreTowerException, InvalidNumberOfTowers, NoListOfSameColoredTowers {
         int nextIslandTmp, previousIslandTmp;
         nextIslandTmp = nextIsland(currentIsland);
@@ -877,7 +882,8 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
             //((NoTowerException) e).printStackTrace();
         }
     }
-//
+
+//it returns the next island of the given island
     public int nextIsland(int position) throws NoIslandException { //metodo che ritorna l'indice della posizione della prosiima isola
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
@@ -887,6 +893,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         else throw new NoIslandException("Island not found");
     }
 
+    //it returns the previous island of the given island
     public int previousIsland(int position) throws NoIslandException{ //metodo che ritorna l'indice della posizione della isola precedente
         int tmp = islandPositions.indexOf(position);
         if(tmp > -1){
@@ -896,19 +903,25 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         else throw new NoIslandException("Island not found");
     }
 
+    //testing purpose only
     public void setDashboardMaster(int dashboardToSet, Master master)
     {
         dashboardsCollection.get(dashboardToSet).insertMaster(master);
     }
 
+    //testing purpose only
     public TowerColor getTowerColorFromIsland(int island) throws NoTowerException {
         return islands.get(island).getTowerColor();
     }
 
+    //testing purpose only
     public void initializeDashboardsForTesting(Dashboard dashboard){
         dashboardsCollection.add(dashboard);
     }
 
+    //it returns the dashboard that the most influence on the current island, it uses the function getInfluenceByDashboard from the island class,
+    // and if the influence is even on two or multiple dashboards it throws an exception, it calculates the influence differently for 4 players,
+    // because it adds the results of the 2 players in the same team
     public Dashboard checkDashboardWithMoreInfluence() throws SameInfluenceException, CardNotFoundException {
         ArrayList<Dashboard> dashboardListTmp = new ArrayList<Dashboard> (dashboardsCollection);
         int dasboardInfluencer = 0;
@@ -947,10 +960,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return dashboardsCollection.get(dasboardInfluencer);
     }
 
+    //testing purpose only
     public ArrayList<Tower> removeTowersFromDashboard(int dashboard, int towersToRemove) throws NoMoreTowerException {
         return dashboardsCollection.get(dashboard).removeTowers(towersToRemove);
     }
 
+    //this method changes the towers on the current island, it checks whichever dashboard has the most influence and then it takes the towers from it and put them on the island
+    //only if the tower color is different
     public void changeTowerColorOnIsland() throws SameInfluenceException, CardNotFoundException, NoMoreTowerException, NoTowerException, InvalidNumberOfTowers, TowerIDAlreadyExistingException, MaxNumberOfTowerPassedException, NoListOfSameColoredTowers, FinishedGameIslandException {
         //try{
         try{Dashboard dashboardTmp = checkDashboardWithMoreInfluence();
