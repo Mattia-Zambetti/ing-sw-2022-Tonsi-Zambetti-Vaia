@@ -1,5 +1,7 @@
 package model;
 
+import model.exception.NoMasterException;
+import model.exception.WrongColorException;
 import model.figureCards.FigureCard;
 
 import java.io.Serializable;
@@ -8,7 +10,7 @@ public interface ExpertMatchInterface extends Serializable {
 
     void setPostManValue();
 
-    void setIsFarmer();
+    void setIsFarmer() throws NoMasterException, WrongColorException;
 
     void setIsKnight();
 

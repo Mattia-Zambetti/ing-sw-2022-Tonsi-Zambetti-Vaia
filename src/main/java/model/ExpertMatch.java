@@ -257,8 +257,9 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
     }
 
     /**It sets true the farmer effect in the current player dashboard, then it sets the old choice phase, and it notifies the players*/
-    public void setIsFarmer() {
+    public void setIsFarmer() throws NoMasterException, WrongColorException {
         currentPlayerDashboard.setFarmerEffect(true);
+        checkAndMoveMasters();
         setChoicePhase(Controller.getTmpChoice());
         notifyMatchObservers();
     }
