@@ -2761,8 +2761,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void chooseGreenDR(MouseEvent event) {
         if(client.getActualToDoChoice() instanceof MoveStudentChoice){
-            if(chosenStudentFromEntrance != -1)
+            if(chosenStudentFromEntrance != -1){
                 client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+                chosenStudentFromEntrance = -1;
+            }
         }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
@@ -2788,8 +2790,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void chooseRedDR(MouseEvent event) {
         if(client.getActualToDoChoice() instanceof MoveStudentChoice){
-            if(chosenStudentFromEntrance != -1)
+            if(chosenStudentFromEntrance != -1){
                 client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+                chosenStudentFromEntrance = -1;
+            }
         }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
@@ -2815,8 +2819,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void chooseYellowDR(MouseEvent event) {
         if(client.getActualToDoChoice() instanceof MoveStudentChoice){
-            if(chosenStudentFromEntrance != -1)
+            if(chosenStudentFromEntrance != -1){
                 client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+                chosenStudentFromEntrance = -1;
+            }
         }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
@@ -2842,8 +2848,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
     public void choosePinkDR(MouseEvent event) {
         if(client.getActualToDoChoice() instanceof MoveStudentChoice){
-            if(chosenStudentFromEntrance != -1)
+            if(chosenStudentFromEntrance != -1){
                 client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+                chosenStudentFromEntrance = -1;
+            }
         }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
@@ -2875,8 +2883,10 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
      */
     public void chooseBlueDR(MouseEvent event){
         if(client.getActualToDoChoice() instanceof MoveStudentChoice){
-            if(chosenStudentFromEntrance != -1)
+            if(chosenStudentFromEntrance != -1){
                 client.getActualToDoChoice().setChoiceParam(String.valueOf(chosenStudentFromEntrance));
+                chosenStudentFromEntrance = -1;
+            }
         }
         if ( client.getActualToDoChoice() instanceof MoveStudentChoice && ((MoveStudentChoice) client.getActualToDoChoice()).getChoisePhase() == 1 ) {
             client.getActualToDoChoice().setChoiceParam("1");
