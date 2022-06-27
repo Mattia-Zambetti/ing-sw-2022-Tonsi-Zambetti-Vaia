@@ -22,9 +22,9 @@ public class MinstrelChoice extends FigureCardActionChoice {
     private List<Student> studentsinDr;
     private List<Student> studentsInEntrance;
 
-    public Set<Student> getStudentsFromEntrance() {
+    /*public Set<Student> getStudentsFromEntrance() {
         return new HashSet<>(studentsFromEntrance);
-    }
+    }*/ //NEVER USED
 
     public void setStudentsFromDr(List<Student> studentsFromDr) {
         this.studentsFromDr = studentsFromDr;
