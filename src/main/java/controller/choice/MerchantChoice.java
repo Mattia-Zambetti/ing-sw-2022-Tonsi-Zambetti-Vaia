@@ -19,9 +19,9 @@ public class MerchantChoice extends FigureCardWithStudentsChoice {
         return chosenIslandID;
     }
 
-    public void setChosenIslandID(int chosenIslandID) {
+    /*public void setChosenIslandID(int chosenIslandID) {
         this.chosenIslandID = chosenIslandID;
-    }
+    }*/ //NEVER USED
 
     @Override
     public boolean setChoiceParam(String input) {

@@ -7,12 +7,11 @@ public abstract class FigureCardActionChoice extends Choice{
 
     /*public FigureCard getFigureCardPlayed() {
         return figureCardPlayed;
-    }*/
+    }*/ //NEVER USED
 
     /*public void setFigureCardPlayed(FigureCard figureCardPlayed) {
         this.figureCardPlayed = figureCardPlayed;
-    }*/
-
+    }*/ //NEVER USED
 
     @Override
     public String whichChoicePhase() {

@@ -11,6 +11,7 @@ import view.TestRemoteView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -373,7 +374,8 @@ public class ControllerTest {
 
     }
 
-    /*@Test
+    /** This test checks that students are correctly chosen through FigureCardWithStudentsChoice methods */
+    @Test
     void figureCardWithStudentsTest() throws Exception {
         ExpertMatch match2 = new ExpertMatch(2);
         FigureCardWithStudents figureCard = new Jester();
@@ -382,9 +384,288 @@ public class ControllerTest {
         match2.addPlayer("Giovanni","BLACK","WIZARD1",1);
         match2.addPlayer("Giorgio","WHITE","WIZARD2",2);
 
-        figureCard.getStudentsOnCard().get(0)
+        choice.setChosenStudent();
 
-    }*/
+        for ( Student s : choice.getChosenStudent() )
+            System.out.println(s);
+
+    }
+
+    /** This test checks that GrannyGrassChoice works correctly, blocking island through its methods, getting list of island in the toString method */
+    @Test
+    void grannyGrassChoiceTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreBlockCardsException, WrongCloudNumberException, NoIslandException, StudentIDAlreadyExistingException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, InexistentStudentException, CardNotFoundException {
+        FigureCard figureCard = new GrannyGrass();
+        GrannyGrassChoice choice = new GrannyGrassChoice();
+
+        creationOfTheRightCard(figureCard);
+
+        choice.toString(match);
+
+        choice.setChoiceParam("1");
+        choice.manageUpdate(match);
+
+        assertTrue(match.getIslands().get(1).checkForbidden());
+
+        assertEquals("Granny grass played from the current player",choice.whichChoicePhase());
+    }
+
+    /** This test checks that GrannyGrassChoice works correctly, blocking island through its methods, getting list of island in the setIslandPositionTmp method */
+    @Test
+    void grannyGrassChoiceIslandPosTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMoreBlockCardsException, WrongCloudNumberException, NoIslandException, StudentIDAlreadyExistingException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, InexistentStudentException, CardNotFoundException {
+        FigureCard figureCard = new GrannyGrass();
+        GrannyGrassChoice choice = new GrannyGrassChoice();
+
+        creationOfTheRightCard(figureCard);
+
+        choice.setIslandPositionTmp(match.getIslandPositions(), match);
+
+        choice.setChoiceParam("1");
+        choice.manageUpdate(match);
+
+        assertTrue(match.getIslands().get(1).checkForbidden());
+    }
+
+    /** This test checks that the HeraldChoice works correctly activating the herald effect, islandPositions updated in toString(match)
+     */
+    @Test
+    void heraldChoiceTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, SameInfluenceException, CardNotFoundException, FinishedGameEndTurnException, WrongCloudNumberException, NoMoreBlockCardsException, NoMoreTowerException, InvalidNumberOfTowers, NoTowerException, StudentIDAlreadyExistingException, FigureCardAlreadyPlayedInThisTurnException, InexistentStudentException, FinishedGameIslandException, TowerIDAlreadyExistingException, NoIslandException, InsufficientCoinException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException {
+        FigureCard figureCard = new Herald();
+        HeraldChoice choice = new HeraldChoice();
+        int i=0,j=0;
+
+        creationOfTheRightCard(figureCard);
+
+        do {
+            j=0;
+            i++;
+            for (Player p : match.showAllPlayers()) {
+                for (Student s : match.showCurrentPlayerDashboard().showEntrance()) {
+                    match.moveStudentFromEntranceToDR(s);
+                }
+                match.moveStudentsFromCloudToEntrance(j);
+                j++;
+            }
+        }while (i<10);
+        match.checkAndMoveMasters();
+
+        choice.toString(match);
+        choice.setChoiceParam("3");
+        choice.manageUpdate(match);
+
+        for ( Integer position: match.getIslandPositions() ) {
+            if (position!=3)
+                assertTrue(match.getIslands().get(position).getTowerNum()==0);
+            else
+                assertTrue(match.getIslands().get(position).getTowerNum()==1);
+
+        }
+
+    }
+
+    /** This test checks that the HeraldChoice works correctly activating the herald effect, islandPositions updated in setIslandPositionTmp
+     */
+    @Test
+    void heraldChoiceIslandPosTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, NoMasterException, SameInfluenceException, CardNotFoundException, FinishedGameEndTurnException, WrongCloudNumberException, NoMoreBlockCardsException, NoMoreTowerException, InvalidNumberOfTowers, NoTowerException, StudentIDAlreadyExistingException, FigureCardAlreadyPlayedInThisTurnException, InexistentStudentException, FinishedGameIslandException, TowerIDAlreadyExistingException, NoIslandException, InsufficientCoinException, NoListOfSameColoredTowers, MaxNumberOfTowerPassedException {
+        FigureCard figureCard = new Herald();
+        HeraldChoice choice = new HeraldChoice();
+        int i=0,j=0;
+
+        creationOfTheRightCard(figureCard);
+
+        do {
+            j=0;
+            i++;
+            for (Player p : match.showAllPlayers()) {
+                for (Student s : match.showCurrentPlayerDashboard().showEntrance()) {
+                    match.moveStudentFromEntranceToDR(s);
+                }
+                match.moveStudentsFromCloudToEntrance(j);
+                j++;
+            }
+        }while (i<10);
+        match.checkAndMoveMasters();
+
+        choice.setIslandPositionTmp(match.getIslandPositions());
+        choice.setChoiceParam("4");
+        choice.manageUpdate(match);
+
+        for ( Integer position: match.getIslandPositions() ) {
+            if (position!=4)
+                assertTrue(match.getIslands().get(position).getTowerNum()==0);
+            else
+                assertTrue(match.getIslands().get(position).getTowerNum()==1);
+
+        }
+
+        assertEquals("Herald played from the current player", choice.whichChoicePhase());
+    }
+
+    /** This test checks that JesterChoice works correctly by swapping two students from the entrance with two from the figure card*/
+    @Test
+    void jesterChoiceTest() throws Exception {
+        FigureCardWithStudents figureCard = new Jester();
+        JesterChoice choice;
+        Set<Student> entrance;
+
+        creationOfTheRightCard(figureCard);
+
+        for ( FigureCard f : match.showFigureCardsInGame() ) {
+            if (f instanceof Jester)
+                figureCard = (FigureCardWithStudents) f;
+        }
+
+        choice = new JesterChoice(figureCard);
+
+        choice.toString(match);
+
+        //Set num of students to move
+        choice.setChoiceParam("2");
+
+        entrance=match.showCurrentPlayerDashboard().showEntrance();
+        Student figureCardS1=  ((Jester)figureCard).getStudentsOnCard().get(0);
+        Student figureCardS2=  ((Jester)figureCard).getStudentsOnCard().get(1);
+        Student entranceS1 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0);
+        Student entranceS2 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(1);
+        //choose student from figureCard
+        choice.setChoiceParam("1");
+        //System.out.println(choice.toString(match));
+        choice.setChoiceParam("2");
+        choice.setStudentsInEntrance(match.showCurrentPlayerDashboard().showEntrance().stream().toList());
+        choice.setChoiceParam("1");
+        choice.setChoiceParam("2");
+
+        choice.manageUpdate(match);
+
+        assertFalse(((Jester)figureCard).getStudentsOnCard().contains(figureCardS1));
+        assertFalse(((Jester)figureCard).getStudentsOnCard().contains(figureCardS2));
+        assertTrue(((Jester)figureCard).getStudentsOnCard().contains(entranceS1));
+        assertTrue(((Jester)figureCard).getStudentsOnCard().contains(entranceS2));
+        assertFalse(match.showCurrentPlayerDashboard().showEntrance().contains(entranceS1));
+        assertFalse(match.showCurrentPlayerDashboard().showEntrance().contains(entranceS2));
+        assertTrue(match.showCurrentPlayerDashboard().showEntrance().contains(figureCardS1));
+        assertTrue(match.showCurrentPlayerDashboard().showEntrance().contains(figureCardS2));
+
+        assertEquals("Jester played from the current player", choice.whichChoicePhase());
+
+    }
+
+    /** This test checks that MerchantChoice activates correctly the merchant effect */
+    @Test
+    void merchantChoiceTest() throws Exception {
+        FigureCardWithStudents figureCard = new Merchant();
+        MerchantChoice choice;
+
+        creationOfTheRightCard(figureCard);
+
+        for ( FigureCard f : match.showFigureCardsInGame() ) {
+            if (f instanceof Merchant)
+                figureCard = (FigureCardWithStudents) f;
+        }
+        choice = new MerchantChoice(figureCard);
+
+        Student figureCardStudent = figureCard.getStudentsOnCardByInt(0);
+        //System.out.println(figureCardStudent);
+        //System.out.println(figureCardStudent.getID());
+        assertFalse(match.getIslands().get(1).getStudents()[figureCardStudent.getColor().ordinal()].contains(figureCardStudent));
+
+        choice.toString(match);
+        choice.setChoiceParam("1");
+        choice.setChoiceParam("1");
+
+        choice.manageUpdate(match);
+
+        /*System.out.println(match.getIslands().get(1).getStudents()[figureCardStudent.getColor().ordinal()]);
+        for ( Student s : match.getIslands().get(1).getStudents()[figureCardStudent.getColor().ordinal()] ) {
+            System.out.println(s);
+            System.out.println(s.getID());
+        }*/
+
+        assertTrue(match.getIslands().get(1).getStudents()[figureCardStudent.getColor().ordinal()].contains(figureCardStudent));
+    }
+
+    /** This test check that side methods of MerchantChoice work */
+    @Test
+    void merchantChoiceSideMethodsTest() throws Exception {
+        FigureCardWithStudents figureCard = new Merchant();
+        MerchantChoice choice;
+
+        creationOfTheRightCard(figureCard);
+
+        for ( FigureCard f : match.showFigureCardsInGame() ) {
+            if (f instanceof Merchant)
+                figureCard = (FigureCardWithStudents) f;
+        }
+        choice = new MerchantChoice(figureCard);
+
+        assertEquals("Merchant played from the current player", choice.whichChoicePhase());
+        assertEquals(0, choice.getNumChoice());
+        choice.toString(match);
+        choice.setChoiceParam("1");
+        assertEquals(1, choice.getNumChoice());
+        choice.setIslandPositionSize(match.getIslands().size());
+        assertEquals("",choice.toString());
+    }
+
+    /** This test checks that minstrelChoice works correctly and effectively activates the minstrel effect */
+    @Test
+    void minstrelChoiceTest() throws Exception {
+        FigureCard figureCard = new Minstrel();
+        MinstrelChoice choice = new MinstrelChoice();
+
+        creationOfTheRightCard(figureCard);
+
+        Student studentDR1 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0);
+        //Student studentDR2 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(1);
+        match.moveStudentFromEntranceToDR(studentDR1);
+        //match.moveStudentFromEntranceToDR(studentDR2);
+        Student studentEntrance1 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0);
+        //Student studentEntrance2 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(1);
+
+        choice.toString(match);
+        choice.setChoiceParam("1");
+        choice.setChoiceParam("1");
+        choice.setChoiceParam("1");
+
+        choice.manageUpdate(match);
+
+        assertTrue(match.showCurrentPlayerDashboard().showEntrance().contains(studentDR1));
+        assertFalse(match.showCurrentPlayerDashboard().showEntrance().contains(studentEntrance1));
+        assertTrue(match.showCurrentPlayerDashboard().showDiningRoom().contains(studentEntrance1));
+        assertFalse(match.showCurrentPlayerDashboard().showDiningRoom().contains(studentDR1));
+    }
+
+    /** This test checks side methods of minstrelChoice */
+    @Test
+    void minstrelChoiceSideMethodsTest() throws Exception {
+        FigureCard figureCard = new Minstrel();
+        MinstrelChoice choice = new MinstrelChoice();
+
+        creationOfTheRightCard(figureCard);
+
+        Student studentDR1 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0);
+        match.moveStudentFromEntranceToDR(studentDR1);
+        Student studentEntrance1 = match.showCurrentPlayerDashboard().showEntrance().stream().toList().get(0);
+
+        choice.toString(match);
+        choice.setChoiceParam("1");
+        List<Student> studentDR = new ArrayList<>();
+        studentDR.add(studentDR1);
+        List<Student> studentEntrance = new ArrayList<>();
+        studentEntrance.add(studentEntrance1);
+        choice.setStudentsFromEntrance(studentEntrance);
+        choice.setStudentsFromDr(studentDR);
+
+        choice.manageUpdate(match);
+        choice.setCompleted(true);
+
+        assertTrue(match.showCurrentPlayerDashboard().showEntrance().contains(studentDR1));
+        assertFalse(match.showCurrentPlayerDashboard().showEntrance().contains(studentEntrance1));
+        assertTrue(match.showCurrentPlayerDashboard().showDiningRoom().contains(studentEntrance1));
+        assertFalse(match.showCurrentPlayerDashboard().showDiningRoom().contains(studentDR1));
+
+        assertEquals("Minstrel played from the current player",choice.whichChoicePhase());
+    }
+
 
 
 }
