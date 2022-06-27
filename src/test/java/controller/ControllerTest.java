@@ -336,7 +336,7 @@ public class ControllerTest {
 
     /**This test checks that all FigureCardPlayedChoice methods works correctly */
     @Test
-    void figureCardPlayedChoiceTest() throws WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreStudentsException, WrongDataplayerException, WrongColorException {
+    void figureCardPlayedChoiceTest() throws WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, CardNotFoundException, NoMoreStudentsException, WrongDataplayerException, WrongColorException, NoMasterException {
 
         match = new ExpertMatch(2);
         match.addPlayer("Giovanni","BLACK","WIZARD1",1);

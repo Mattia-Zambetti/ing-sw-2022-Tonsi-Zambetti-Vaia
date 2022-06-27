@@ -2,6 +2,8 @@ package model.figureCards;
 
 import javafx.scene.text.Text;
 import model.ExpertMatchInterface;
+import model.exception.NoMasterException;
+import model.exception.WrongColorException;
 
 import java.io.Serializable;
 
@@ -13,7 +15,7 @@ public class Farmer extends FigureCard implements Serializable {
         cardId=10;
     }
 
-    public void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException {
+    public void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException, NoMasterException, WrongColorException {
         expertMatchInterface.setIsFarmer();
     }
 

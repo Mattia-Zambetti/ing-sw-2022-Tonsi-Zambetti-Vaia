@@ -3,10 +3,7 @@ package controller.choice;
 import model.ExpertMatch;
 import model.Match;
 import model.MatchDataInterface;
-import model.exception.CardNotFoundException;
-import model.exception.InsufficientCoinException;
-import model.exception.MaxNumberException;
-import model.exception.WrongCloudNumberException;
+import model.exception.*;
 import model.figureCards.FigureCard;
 import model.figureCards.FigureCardAlreadyPlayedInThisTurnException;
 
@@ -59,7 +56,7 @@ public class FigureCardPlayedChoice extends Choice{
     }
 
     @Override
-    public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
+    public void manageUpdate(Match match) throws CardNotFoundException, WrongCloudNumberException, MaxNumberException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMasterException, WrongColorException {
         //Control on type of match needed
         ((ExpertMatch)match).playFigureCard(this.getChosenFigureCard());
     }

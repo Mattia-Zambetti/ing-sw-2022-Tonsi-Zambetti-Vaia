@@ -29,12 +29,6 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
 
         try {
-            figureCards.add(new Minstrel());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
             while(figureCards.size()!=FIGURECARDSINGAME) {
                 int randomInt = new Random().nextInt(FIGURECARDSTOTALNUM + 1);
                 //figureCards.add(figureCardsAvaiable.remove(randomInt-1));
@@ -169,7 +163,7 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
      * there are others block cards(it sends to the current player an error in this case). In the end it calls the correct play card method
      * within the figure cards(strategy pattern) and it removes coins from the players and add 1 coin to the price of the chosen figure card.
      * If the card hasn't been found, it throws CardNotFoundException*/
-    public void playFigureCard(FigureCard card) throws CardNotFoundException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException {
+    public void playFigureCard(FigureCard card) throws CardNotFoundException, FigureCardAlreadyPlayedInThisTurnException, InsufficientCoinException, NoMasterException, WrongColorException {
         if(figureCards.contains(card)){
             card = figureCards.get(figureCards.indexOf(card));
             if(card instanceof GrannyGrass && blockCards==0){

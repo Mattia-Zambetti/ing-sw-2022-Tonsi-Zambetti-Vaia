@@ -3,6 +3,8 @@ package model.figureCards;
 
 import controller.choice.Choice;
 import model.ExpertMatchInterface;
+import model.exception.NoMasterException;
+import model.exception.WrongColorException;
 
 import java.io.Serializable;
 
@@ -32,7 +34,7 @@ public abstract class FigureCard implements Serializable {
         this.price = price;
     }
 
-    public abstract void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException;
+    public abstract void playCard(ExpertMatchInterface expertMatchInterface) throws FigureCardAlreadyPlayedInThisTurnException, NoMasterException, WrongColorException;
 
     @Override
     public boolean equals(Object o) {
