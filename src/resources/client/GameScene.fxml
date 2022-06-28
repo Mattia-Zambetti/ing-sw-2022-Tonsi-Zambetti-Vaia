@@ -694,7 +694,7 @@
             <Region fx:id="island9" layoutX="15.0" layoutY="39.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl9" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="59.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -768,7 +768,7 @@
             <Region fx:id="island11" layoutX="17.0" layoutY="39.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl11" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="60.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -842,7 +842,7 @@
             <Region fx:id="island5" layoutX="16.0" layoutY="-1.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl5" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="58.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -916,7 +916,7 @@
             <Region fx:id="island8" layoutX="16.0" layoutY="-2.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl8" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="58.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -990,7 +990,7 @@
             <Region fx:id="island1" layoutX="12.0" layoutY="11.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl1" disable="true" fitHeight="98.0" fitWidth="52.0" layoutX="53.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -1064,7 +1064,7 @@
             <ImageView fitHeight="138.0" fitWidth="140.0" layoutX="17.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="blockCardIsl10" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="62.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -1139,7 +1139,7 @@
             <Region fx:id="island7" layoutX="8.0" layoutY="9.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl7" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="50.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -1213,7 +1213,7 @@
             <Region fx:id="island4" layoutX="15.0" layoutY="-1.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl4" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="59.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -1287,7 +1287,7 @@
             <Region fx:id="island6" layoutX="23.0" layoutY="23.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl6" disable="true" fitHeight="52.0" fitWidth="52.0" layoutX="65.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -1361,7 +1361,7 @@
             <Region fx:id="island3" layoutX="15.0" layoutY="-1.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl3" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="59.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -1435,7 +1435,7 @@
             <Region fx:id="island12" layoutX="16.0" layoutY="-2.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl12" disable="true" fitHeight="98.0" fitWidth="52.0" layoutX="59.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
@@ -1508,7 +1508,7 @@
             <Region fx:id="island2" layoutX="11.0" layoutY="17.0" onMouseClicked="#chooseIsland" prefHeight="142.0" prefWidth="136.0" />
             <ImageView fx:id="blockCardIsl2" disable="true" fitHeight="58.0" fitWidth="52.0" layoutX="54.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@Images/divieto.png" />
+                  <Image url="@Images/divieto1.png" />
                </image>
                <effect>
                   <InnerShadow />
