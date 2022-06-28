@@ -29,7 +29,7 @@ public class Connection extends Observable implements Runnable{
         this.id=id;
     }
 
-
+    /** Each connection has a unique ID */
     public int getId() {
         return id;
     }
@@ -58,6 +58,9 @@ public class Connection extends Observable implements Runnable{
         }
     }
 
+    /** Close this connection when a Server routine happen (for example after a player has disconnected).
+     * Send to the relative client a PlayerDisconnectedMessage, so the Client could close his own connection (socket)
+     * with the server and reports the problem to the User */
     public synchronized void closeConnection() {
         isActive = false;
         try{
@@ -72,6 +75,7 @@ public class Connection extends Observable implements Runnable{
         }
     }
 
+    /** Close this connection after the Client has disconnected (no need to notify the Client, it has closed the connection) */
     public synchronized void closeThisConnection() throws IOException, ClassNotFoundException {
         isActive=false;
         try{
@@ -93,6 +97,8 @@ public class Connection extends Observable implements Runnable{
         return isActive;
     }
 
+    /** Thread routine for the connection. Tries to connect to the lobby, when the connection (and so the player) has entered the lobby, wait for
+     * a new Object from the input stream of the socket (that is always a Choice) and notifies the Observers (RemoteView) that a new Choice has arrived.*/
     public void run (){
         Object o;
         Choice choice;
@@ -116,7 +122,7 @@ public class Connection extends Observable implements Runnable{
                 }
             }
         } catch (IOException e) {
-            System.out.println("Connection "+getId()+" closed from ClientCLI");
+            System.out.println("Connection "+getId()+" closed from Client");
             try {
                 if ( isActive() ) {
                     closeThisConnection();

@@ -33,7 +33,7 @@ public class RemoteView extends Observable implements Observer {
                     else
                         connection.send(arg);
                 } catch (IOException e) {
-                    System.out.println("Tried to send a MatchInferface object from remoteView to a closed connection");
+                    System.out.println("Tried to send a MatchInterface object from remoteView to a closed connection");
                 }
             }
         }
