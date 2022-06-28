@@ -3047,13 +3047,13 @@
             </ImageView>
          </children>
       </GridPane>
-      <GridPane prefHeight="570.0" prefWidth="190.0" GridPane.columnIndex="9" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <GridPane prefHeight="414.0" prefWidth="210.0" GridPane.columnIndex="9" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="569.2000244140625" minHeight="10.0" prefHeight="159.99999389648437" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="539.400033569336" minHeight="10.0" prefHeight="241.60000610351565" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="569.2000244140625" minHeight="10.0" prefHeight="222.2" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="539.400033569336" minHeight="10.0" prefHeight="143.8" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <AnchorPane fx:id="Dashboard4" rotate="-90.0" scaleX="0.75" scaleY="0.75" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
@@ -3624,6 +3624,9 @@
                      </image>
                   </ImageView>
                </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </AnchorPane>
             <ImageView fx:id="cardDb4" fitHeight="115.0" fitWidth="111.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" rotate="-90.0" visible="false" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
