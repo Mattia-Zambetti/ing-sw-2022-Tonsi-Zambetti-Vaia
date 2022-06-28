@@ -2,6 +2,7 @@ import client.ClientCLI;
 import client.ClientJavaFX;
 import javafx.application.Application;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ClientApp {
@@ -15,10 +16,17 @@ public class ClientApp {
 
     public static void main(String[] args){
 
+        do{
+            System.out.println("Choose between CLI (1) and GUI (2):");
+            try {
+                clientType = Integer.parseInt(readUser.nextLine());
+            }
+            catch (NumberFormatException e){
+                clientType = -1;
+            }
+            readUser.reset();
+        }while(clientType < 1 || clientType > 2);
 
-        System.out.println("Choose between CLI (1) and GUI (2):");
-        clientType = readUser.nextInt();
-        readUser.reset();
 
         System.out.println("insert the ip of your server:");
         readUser.reset();
