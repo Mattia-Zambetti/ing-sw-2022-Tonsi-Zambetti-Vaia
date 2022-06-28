@@ -12,13 +12,6 @@ import view.RemoteView;
 import java.util.Observable;
 import java.util.Observer;
 
-//TODO ERRORI DA RIMUOVERE:
-/*
-    -Il metodo checkNearByIsland lancia eccezione se non ci sono torri
-    -Se si collegano altri due giocatori dopo che si sono collegati i primi due viene creato un nuovo match e iniziato, quello prima termina
-    -La choice per inserire i Dati del giocatore puó essere inviata due volte dallo stesso ClientCLI (problema a riga 139 ClientCLI)
-*/
-
 
 public class Controller implements Observer {
     private final Match match;
