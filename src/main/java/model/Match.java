@@ -443,7 +443,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     //ZAMBO
 
-    /** Returns a copy of all dashboards linked with the player nickname
+    /** Returns a copy of all dashboards as a Map where the player nickname is the key
      */
     public Map<String, Dashboard> showAllDashboards() {
         Map<String, Dashboard> dashboardsMap = new HashMap<>();
@@ -453,6 +453,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return dashboardsMap;
     }
 
+    /** Notify all observers */
     public void notifyMatchObservers() {
         setChanged();
         notifyObservers(this);
@@ -462,6 +463,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return ISLANDSNUM;
     }
 
+    /** Initialize all masters in the mastersMap, ready to be taken by a player */
     private void initializeMasters() {
         mastersMap=new HashMap<>();
         for (Color c : Color.values()) {
@@ -469,7 +471,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
-    //il metodo muove gli studenti scelti dall'ingresso alla dining room, non serve passare dashboard perché si basa su CurrentDashboard
+    /** Moves the chosen students (identified by the ID) automatically into the correct DR of the current player and calls the checkANdMoveMasters method to check if the currentPlayer has earned the master */
     public void moveStudentFromEntranceToDR( Student studentToBeMoved ) throws NoMasterException, WrongColorException {
         Student tmpStudent;
 
@@ -496,23 +498,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         notifyMatchObservers();
     }
 
-    //Useless, we use only indexes to chose Island
-    /*public void moveStudentFromEntranceToIsland( Student chosenStudent, Island chosenIsland ) throws NoIslandException {
-        try {
-            Student tmpStudent = this.currentPlayerDashboard.removeStudentFromEntrance(chosenStudent);
-            for ( Island isl : islands) {
-                if (isl.equals(chosenIsland)) {
-                    isl.addStudent(tmpStudent);
-                    return;
-                }
-            }
-            throw new NoIslandException("Island not found, moveStudentFromEntranceToIsland failed");
-        }
-        catch ( InexistentStudentException | NullPointerException e ) {
-            System.out.println(e.getMessage());
-        }
-    }*/
-
+    /** Moves the chosen student (identified by the ID) into the chosen Island, where island is recognized by its position */
     public void moveStudentFromEntranceToIsland( Student chosenStudent, int chosenIslandPosition ) throws NoIslandException {
         try {
             if ( !islandPositions.contains(chosenIslandPosition) )
@@ -540,8 +526,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     }
 
-    //This method set the next dashboard (and so the player) that has to play, if there is a next player it notifies the player and after return true, if there are no more player
-    //it returns false without notifying any player, in the planning phase if it's returned false the controller has to call the setDashboardOrder method
+    /** This method set the next dashboard (and so the player) that has to play, if there is a next player it notifies the player and after return true,
+     * if there are no more player it returns false without notifying any player, in the planning phase if it's returned false the setDashboardOrder
+     * method has to be called */
     public boolean setNextCurrDashboard() {
         if ( ! (dashboardsCollection instanceof ArrayList<Dashboard>) )
             throw new IllegalArgumentException("DashboardCollection is not an ArrayList");
@@ -562,6 +549,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
+    /** Calculates and sets (as the position into the dashboardCOllection list) the dashboards order, based on the card player (parameter current card) */
     public void setDashboardOrder() {
         Dashboard tmp;
         for (int i = 0; i< totalPlayersNum -1; i++ ) {
@@ -579,6 +567,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         //notifyObservers(this.toString());
     }
 
+    /** Initializes the entrance of each dashboard in game by adding all the students */
     public void initializeAllEntrance(){
         try {
             for (Dashboard d : dashboardsCollection) {
@@ -593,6 +582,11 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
+    /** Checks the number of students for each color in every dashboard, if a player has more students than the one with the master, it takes it.
+     * If nobody has the master it takes it from the masterMap attribute.
+     * @throws WrongColorException
+     * @throws NoMasterException
+     */
     public void checkAndMoveMasters() throws WrongColorException, NoMasterException {
         Dashboard maxStudentDashboard = null;
         Dashboard dashboardWithMaster = null;
@@ -622,6 +616,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         }
     }
 
+    /** Returns a string that represents the whole match (DR, islands, cloud ecc). */
     @Override
     public String toString() {
         String outputString = "";
@@ -646,6 +641,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return outputString;
     }
 
+    /** Set the error message that has to be printed to screen. The message is taken from the exception that was thrown. */
     public void setErrorMessage(String errorMessage) {
         StringBuilder res=new StringBuilder(CLIgraphicsResources.ColorCLIgraphicsResources.ANSI_RED);
         res.append(errorMessage).append(CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR);
@@ -657,16 +653,21 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return errorMessage;
     }
 
+    /** Returns the actrual choice in the match. */
     @Override
     public Choice getChoice() {
         return choicePhase;
     }
 
-    //Only for test
+    /** Returns a copy of the masters that aren't be taken yeet */
     public HashMap<Color, Master> getMasters () {
         return new HashMap<Color, Master>(mastersMap);
     }
 
+    /** Returns a List with all players nicknames
+     *
+     * @return
+     */
     public List<Player> showAllPlayers() {
         ArrayList<Player> NicknamesList = new ArrayList<>(0);
 
@@ -677,11 +678,15 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return NicknamesList;
     }
 
+    /** Returns an empty list if the match is not an expert match
+     */
     @Override
     public List<FigureCard> showFigureCardsInGame() {
-        return null;
+        return new ArrayList<>(0);
     }
 
+    /** Returns a List with cards played by every player
+     */
     @Override
     public List<Card> showAllCurrentCards() {
         List<Card> currentCards=new ArrayList<>();
@@ -691,6 +696,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return currentCards;
     }
 
+    /** Returns the player who has played the {@code card} */
     @Override
     public Player getPlayerByCurrentCard(Card card){
         for (Dashboard d: dashboardsCollection) {
@@ -705,6 +711,9 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return false;
     }
 
+    /**Set in the winnerPlayers list all the players with the same towerColor of t
+     * @param t The towerColor of winner(s)
+     */
     public void setWinnerPlayerByTowerColor(TowerColor t) {
         for ( Dashboard d : dashboardsCollection ) {
             if ( d.getTowerColor().equals(t))
@@ -716,11 +725,13 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
         return winnerPlayers;
     }
 
+    /** Notifies all observers that the match is ended, and pass as parameter of the message the list of players who have won */
     public void notifyEndMatch() {
         setChanged();
         notifyObservers( new MatchEndedMessage(getWinnerPlayers()));
     }
 
+    /** Set the attribute {@code matchFinishedAtEndOfRound} to true, so when all players have ended their turn the match ends calculating the winners and notifying all observers */
     public void setMatchFinishedAtEndOfRound() {
         matchFinishedAtEndOfRound = true;
     }
@@ -728,7 +739,7 @@ public class Match extends Observable implements MatchDataInterface, Serializabl
 
     /**
      * This method calculates which {@code Player} is the winner (based on the number of towers on islands)
-     * and save it in {@code winnerPlayer} list.
+     * and save it in {@code winnerPlayer} list. If two players has the same number of towers on islands, the winner is calculated as the one who has the major number of masters.
      */
     public void calculateWinner(){
         int maxTowerOnIslands = 0;
