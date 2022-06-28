@@ -29,10 +29,12 @@ public class DiningRoom implements Serializable {
         this.students=new HashSet<>(dr.students);
     }
 
+    /** Return the number of students contained in this DR */
     public int getStudentsNumber () {
         return students.size();
     }
 
+    /** Inserts the newStudent into this DR */
     public void insertStudent ( Student newStudent ) throws MaxNumberException, NullPointerException, WrongColorException, StudentIDAlreadyExistingException {
         if ( newStudent == null)
             throw new NullPointerException("Passed a null reference for newStudent in DR insertStudent()");
@@ -47,12 +49,14 @@ public class DiningRoom implements Serializable {
         students.add( newStudent );
     }
 
+    /** Removes the specified student from this DR */
     public void removeStudent(Student student) throws StudentIDAlreadyExistingException{
         if(students.contains(student))
             students.remove(student);
         else throw new StudentIDAlreadyExistingException("error");
     }
 
+    /** Removes and returns a student from this DR */
     public Student removeStudentByColor() throws StudentIDAlreadyExistingException{
         List<Student> studentstmp= new ArrayList<>();
         studentstmp = students.stream().toList();
@@ -71,6 +75,7 @@ public class DiningRoom implements Serializable {
         return DINING_ROOM_DIM;
     }
 
+    /** Checks if a student with the requested ID is contained in this DR */
     private boolean CheckForIDPresence( int ID ) {
         for ( Student s: this.students ) {
             if ( s.getID() == ID )
@@ -79,6 +84,7 @@ public class DiningRoom implements Serializable {
         return false;
     }
 
+    /** toString of this DR used directly for the CLI version of the Game */
     @Override
     public String toString() {
         return CLIgraphicsResources.ColorCLIgraphicsResources.getTextColor(roomColor) + roomColor.toString() + " DR:\t" + students.size() + " students" + CLIgraphicsResources.ColorCLIgraphicsResources.TEXT_COLOR;

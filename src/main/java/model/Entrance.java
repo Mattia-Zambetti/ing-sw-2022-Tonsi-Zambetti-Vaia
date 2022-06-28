@@ -23,6 +23,7 @@ public class Entrance implements Serializable {
         return MAXSTUDENTS;
     }
 
+    /** Inserts more than one student into the Entrance */
     public void insertStudents(Set<Student> studentsToBeAdded) throws MaxNumberException, StudentIDAlreadyExistingException, NullPointerException {
         int initialSize=students.size();
 
@@ -41,6 +42,7 @@ public class Entrance implements Serializable {
         }
     }
 
+    /** Inserts more one student into the Entrance */
     public void insertStudent(Student studentToBeAdded) throws MaxNumberException, StudentIDAlreadyExistingException, NullPointerException {
         if ( studentToBeAdded == null )
             throw new NullPointerException("Tried to add null Student in your Entrance");
@@ -52,7 +54,7 @@ public class Entrance implements Serializable {
         this.students.add(studentToBeAdded);
     }
 
-    /**This method verify that an object is exactly the same, and not a clone, pay attention.
+    /**This method verifies that an object is exactly the same, and not a clone, pay attention.
     *It's perfect for us because we can pass students, they are immutable object, but
     *if we use a clone of the Student, it doesn't work(watch
     * the insertStudentsWithoutException() test)*/
@@ -67,10 +69,12 @@ public class Entrance implements Serializable {
             throw new InexistentStudentException("Chosen student is not available");
     }
 
+    /** Returns a copy of students contained in the Entrance */
     public Set<Student> getStudents(){
         return new HashSet<>(students);
     }
 
+    /** Checks if a student with the requested ID is contained in the Entrance */
     private boolean CheckForIDPresence( int ID ) {
         for ( Student s: this.students ) {
             if ( s.getID() == ID )
@@ -79,6 +83,7 @@ public class Entrance implements Serializable {
         return false;
     }
 
+    /** toString of the entrance used for the CLI version of the Game */
     @Override
     public String toString() {
         String outputString = "";
