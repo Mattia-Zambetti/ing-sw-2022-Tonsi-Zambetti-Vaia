@@ -74,11 +74,13 @@ public class ControllerTest {
         assertTrue( match.getChoice() instanceof CardChoice );
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        toDoChoice.setSendingPlayer(match.showAllPlayers().get(0));
         System.out.println(toDoChoice);
         assertFalse(toDoChoice.setChoiceParam("1"));
         testRemoteView1.setChangedForObservers();
         testRemoteView1.notifyObservers(toDoChoice);
         toDoChoice = testRemoteView2.getCurrentMatch().getChoice();
+        toDoChoice.setSendingPlayer(match.showAllPlayers().get(1));
         System.out.println(toDoChoice);
         assertFalse(toDoChoice.setChoiceParam("1"));
         testRemoteView2.setChangedForObservers();
@@ -95,6 +97,7 @@ public class ControllerTest {
 
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        toDoChoice.setSendingPlayer(match.showCurrentPlayer());
         System.out.println(toDoChoice);
         assertTrue(toDoChoice.setChoiceParam("1"));
         System.out.println(toDoChoice);
@@ -102,6 +105,7 @@ public class ControllerTest {
         testRemoteView1.setChangedForObservers();
         testRemoteView1.notifyObservers(toDoChoice);
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        toDoChoice.setSendingPlayer(match.showCurrentPlayer());
         System.out.println(toDoChoice);
         assertTrue(toDoChoice.setChoiceParam("1"));
         System.out.println(toDoChoice);
@@ -109,6 +113,7 @@ public class ControllerTest {
         testRemoteView1.setChangedForObservers();
         testRemoteView1.notifyObservers(toDoChoice);
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        toDoChoice.setSendingPlayer(match.showCurrentPlayer());
         System.out.println(toDoChoice);
         assertTrue(toDoChoice.setChoiceParam("1"));
         System.out.println(toDoChoice);
@@ -124,6 +129,7 @@ public class ControllerTest {
         assertTrue( match.getChoice() instanceof MoveMotherNatureChoice);
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        toDoChoice.setSendingPlayer(match.showCurrentPlayer());
         System.out.println(toDoChoice);
         assertFalse(toDoChoice.setChoiceParam("75"));
         testRemoteView1.setChangedForObservers();
@@ -138,6 +144,7 @@ public class ControllerTest {
         toDoChoice.toString();
 
         toDoChoice = testRemoteView1.getCurrentMatch().getChoice();
+        toDoChoice.setSendingPlayer(match.showCurrentPlayer());
         System.out.println(toDoChoice);
         assertTrue(toDoChoice.setChoiceParam("aa"));
         assertFalse(toDoChoice.setChoiceParam("1")); //VIENE LANCIATA ECCEZIONE SUL FATTO CHE NON CI SIANO TORI SULL'ISOLA, ERRATO
@@ -349,6 +356,7 @@ public class ControllerTest {
         figureCards.addAll(match.showFigureCardsInGame());
 
         choice = new FigureCardPlayedChoice(figureCards);
+        choice.setSendingPlayer(match.showCurrentPlayer());
 
         choice.setChosenFigureCard(1);
         assertEquals(figureCards.get(1), choice.getChosenFigureCard());
