@@ -448,11 +448,25 @@ public class ExpertMatch extends Match implements ExpertMatchInterface, Serializ
 
     //it is called when the herald is used, it calculates the influence on a specific island by setting the specific island as the current one
     //and then switch back again to the real current one
-    public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException {
-        int tmp = currentIsland;
+    public void calculateInfluenceOnChosenIsland(int chosenIsland) throws NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, FinishedGameIslandException, NoIslandException {
+        int tmp = currentIsland, tmpNext = nextIsland(currentIsland),tmpPrevious = previousIsland(currentIsland);
+        int tmpNumTowersNext;
+        tmpNumTowersNext = islands.get(tmpNext).getTowerNum();
         currentIsland = chosenIsland;
         changeTowerColorOnIsland();
-        currentIsland = tmp;
+        if(islandPositions.contains(tmp))
+            currentIsland = tmp;
+        else if(islands.get(tmpNext).getTowerNum() > tmpNumTowersNext){
+            currentIsland = tmpNext;
+            islands.get(tmpNext).setMotherNature(true);
+            islands.get(tmp).setMotherNature(false);
+        }
+        else{
+            currentIsland = tmpPrevious;
+            islands.get(tmpPrevious).setMotherNature(true);
+            islands.get(tmp).setMotherNature(false);
+        }
+
         setChoicePhase(Controller.getTmpChoice());
         notifyMatchObservers();
     }

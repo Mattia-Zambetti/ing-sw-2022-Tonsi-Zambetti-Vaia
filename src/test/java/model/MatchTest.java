@@ -257,10 +257,10 @@ public class MatchTest {
     void fourPlayersMatchTest() throws NoMoreStudentsException, MaxNumberException, WrongDataplayerException, WrongColorException, FinishedGameIslandException, NoMoreBlockCardsException, NoMoreTowerException, TowerIDAlreadyExistingException, SameInfluenceException, InvalidNumberOfTowers, NoIslandException, NoTowerException, NoListOfSameColoredTowers, CardNotFoundException, MaxNumberOfTowerPassedException, CardAlreadyPlayedException, WrongCloudNumberException, NoMasterException {
         match = new Match(4);
 
-        match.addPlayer("1", "BLACK", "WIZARD1", 1);
-        match.addPlayer("2", "BLACK", "WIZARD2", 2);
-        match.addPlayer("3", "WHITE", "WIZARD3", 3);
-        match.addPlayer("4", "WHITE", "WIZARD4", 4);
+        match.addPlayer("1", "BLACK", "WIZARD1", 0);
+        match.addPlayer("2", "BLACK", "WIZARD2", 1);
+        match.addPlayer("3", "WHITE", "WIZARD3", 2);
+        match.addPlayer("4", "WHITE", "WIZARD4", 3);
 
         Master masterR = new Master(Color.RED);
         Master masterB = new Master(Color.BLUE);
@@ -273,8 +273,8 @@ public class MatchTest {
         assertFalse(masterR.equals(masterB));
         assertTrue(masterR2.equals(masterR));
 
-        match.setDashboardMaster(0,masterB); // 2
-        match.setDashboardMaster(1,masterG);
+        match.setDashboardMaster(0,masterB); // 4
+        match.setDashboardMaster(0,masterG); // 0
         match.setDashboardMaster(1,masterR); // 1
         match.setDashboardMaster(2,masterY); // 2
         match.setDashboardMaster(3,masterP); // 2
