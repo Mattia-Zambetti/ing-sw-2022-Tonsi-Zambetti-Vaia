@@ -59,6 +59,10 @@
          <children>
             <AnchorPane fx:id="Dashboard2" prefHeight="493.0" prefWidth="535.0" rotate="90.0" scaleX="0.75" scaleY="0.75" translateX="100.0" translateY="-40.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
                <children>
+                  <Text fx:id="nicknameDB2" layoutX="204.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname2" AnchorPane.bottomAnchor="273.78828125" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="463.46328125" AnchorPane.topAnchor="203.05078125">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
                   <ImageView fitHeight="279.0" fitWidth="560.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                      <image>
                         <Image url="@Images/Plancia_DEF2.png" />
@@ -3035,6 +3039,11 @@
                         <DropShadow height="10.0" radius="4.5" width="10.0" />
                      </effect>
                   </ImageView>
+                  <Text fx:id="nicknameDB3" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname3" AnchorPane.rightAnchor="305.0" AnchorPane.topAnchor="-40.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
             <ImageView fx:id="cardDb3" fitHeight="132.0" fitWidth="89.0" onMouseClicked="#submitCardValue" onMouseEntered="#zoomCardOnEnter" onMouseExited="#zoomCardOnExit" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.halignment="RIGHT">
@@ -3623,6 +3632,11 @@
                         <Image url="@Images/BlackTower.png" />
                      </image>
                   </ImageView>
+                  <Text fx:id="nicknameDB4" strokeType="OUTSIDE" strokeWidth="0.0" text="Nickname4" AnchorPane.bottomAnchor="260.0" AnchorPane.rightAnchor="350.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
                </children>
                <opaqueInsets>
                   <Insets />

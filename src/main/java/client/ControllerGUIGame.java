@@ -33,6 +33,17 @@ import java.util.*;
 
 public class ControllerGUIGame extends ControllerGUIInterface implements Initializable {
 
+    @FXML
+    private Text nicknameDB2;
+
+    @FXML
+    private Text nicknameDB3;
+
+    @FXML
+    private Text nicknameDB4;
+
+
+
     /**choice phase:*/
     @FXML
     private Text choicePhaseMessage;
@@ -2286,6 +2297,20 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
         if (client.isMatchCompletelyCreated()) {
             MatchDataInterface match = client.getMatchView();
+
+            List<Text> nicknames=new ArrayList<>(){{
+                add(nicknameDB2);
+                add(nicknameDB3);
+                add(nicknameDB4);
+            }};
+
+            int k=1;
+            for (int i=1; i< match.showAllPlayers().size(); i++) {
+                if(match.showAllPlayers().get(i).equals(client.getPlayer()))
+                    k=i+1;
+                nicknames.get(i).setText(match.showAllPlayers().get(k).getNickname());
+            }
+
 
             //figure cards management and coins management:
             if(match instanceof ExpertMatch) {
