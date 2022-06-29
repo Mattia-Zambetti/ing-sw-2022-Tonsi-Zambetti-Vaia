@@ -2304,12 +2304,13 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
                 add(nicknameDB4);
             }};
 
-            int k=1;
+            /*int k=1;
             for (int i=1; i< match.showAllPlayers().size(); i++) {
                 if(match.showAllPlayers().get(i).equals(client.getPlayer()))
                     k=i+1;
-                nicknames.get(i).setText(match.showAllPlayers().get(k).getNickname());
-            }
+                else
+                    nicknames.get(i).setText(match.showAllPlayers().get(k).getNickname());
+            }*/
 
 
             //figure cards management and coins management:
@@ -3576,27 +3577,33 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
 
         playerTowerColor = client.getMatchView().showAllDashboards().get(clientPlayer.getNickname()).getTowerColor();
         playerDashboard = new DashboardView(initializeEntranceStudentsD1(), initializeDiningRoomStudentsD1(), initializeMastersD1(), initializeTowersD1(playerTowerColor));
-        playersDashboardView.put(clientPlayer.getNickname(), playerDashboard);
+       playersDashboardView.put(clientPlayer.getNickname(), playerDashboard);
         playersDashboardView.get(clientPlayer.getNickname()).setCurrentCard(cardDb1);
 
 
         playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(0).getNickname()).getTowerColor();
         playerDashboard = new DashboardView(initializeEntranceStudentsD2(), initializeDiningRoomStudentsD2(), initializeMastersD2(), initializeTowersD2(playerTowerColor));
         playersDashboardView.put(otherPlayers.get(0).getNickname(), playerDashboard);
+        playersDashboardView.get(otherPlayers.get(0).getNickname()).setNicknameText(nicknameDB2);
         playersDashboardView.get(otherPlayers.get(0).getNickname()).setCurrentCard(cardDb2);
+        playersDashboardView.get(otherPlayers.get(0).getNickname()).setNickname(otherPlayers.get(0).getNickname());
 
         if ( client.getMatchView().showAllPlayers().size()>=3 ) {
             playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(1).getNickname()).getTowerColor();
             playerDashboard = new DashboardView(initializeEntranceStudentsD3(), initializeDiningRoomStudentsD3(), initializeMastersD3(), initializeTowersD3(playerTowerColor));
             playersDashboardView.put(otherPlayers.get(1).getNickname(), playerDashboard);
+            playersDashboardView.get(otherPlayers.get(1).getNickname()).setNicknameText(nicknameDB3);
             playersDashboardView.get(otherPlayers.get(1).getNickname()).setCurrentCard(cardDb3);
+            playersDashboardView.get(otherPlayers.get(1).getNickname()).setNickname(otherPlayers.get(1).getNickname());
         }
 
         if ( client.getMatchView().showAllPlayers().size()==4 ) {
             playerTowerColor = client.getMatchView().showAllDashboards().get(otherPlayers.get(2).getNickname()).getTowerColor();
             playerDashboard = new DashboardView(initializeEntranceStudentsD4(), initializeDiningRoomStudentsD4(), initializeMastersD4(), initializeTowersD4(playerTowerColor));
             playersDashboardView.put(otherPlayers.get(2).getNickname(), playerDashboard);
+            playersDashboardView.get(otherPlayers.get(2).getNickname()).setNicknameText(nicknameDB4);
             playersDashboardView.get(otherPlayers.get(2).getNickname()).setCurrentCard(cardDb4);
+            playersDashboardView.get(otherPlayers.get(2).getNickname()).setNickname(otherPlayers.get(2).getNickname());
         }
 
 
@@ -3658,6 +3665,7 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
         private Map<Color, ArrayList<ImageView>> diningRoomStudents;
         private Map<Color, ImageView> master;
         private ArrayList<ImageView> tower;
+        private Text nickname;
 
         private ImageView currentCard;
 
@@ -3667,6 +3675,14 @@ public class ControllerGUIGame extends ControllerGUIInterface implements Initial
             this.diningRoomStudents=diningRoomStudents;
             this.master=master;
             this.tower=tower;
+        }
+
+        public void setNicknameText(Text nicknameBox) {
+            this.nickname=nicknameBox;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname.setText(nickname);
         }
 
         public void setCurrentCard(ImageView currentCard) {
